@@ -26,25 +26,23 @@
     </div>
   </div>
 
- <!-- 2. MANDATORY APP LAUNCH INITIAL ENTRY LOCK OVERLAY (PERFECTLY CENTERED) -->
+<!-- 2. MANDATORY APP LAUNCH INITIAL ENTRY LOCK OVERLAY (PERFECTLY CENTERED) -->
   <div class="app-launch-overlay" id="app-launch-overlay">
     <div class="launch-pin-box">
       <img src="piko_mascot.jpg" alt="Piko Mascot" class="brand-avatar" style="width: 72px; height: 72px; margin-bottom: 0.75rem;">
       <h3 style="font-family: var(--font-heading); color: var(--piko-fox-dark); margin-bottom: 0.25rem; text-align: center;">Ebeveyn Güvenlik Doğrulaması</h3>
       <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.75rem; text-align: center;">
-        Uygulamaya güvenli giriş için lütfen ebeveyninizden yardım isteyin ve kodu tuşlayın:
+        Uygulamaya güvenli giriş için lütfen ebeveyninizden yardım isteyin ve sorunun yanıtını tuşlayın:
       </p>
 
-      <!-- GÜVENLİK AÇIĞI KAPATILDI: Kod artık ekranda açıkça yazmıyor -->
-      <div class="dynamic-pin-badge" id="launch-pin-display" style="font-size: 0.9rem; color: var(--piko-fox-dark);">
-        🔒 Ebeveyn Onay Kodu Bekleniyor...
+      <!-- Dinamik Matematik Sorusu -->
+      <div class="dynamic-pin-badge" id="launch-pin-display" style="font-size: 1rem; color: var(--piko-fox-dark); font-weight: bold; margin-bottom: 0.5rem;">
+        Soru yükleniyor...
       </div>
 
-      <div style="display: flex; justify-content: center; gap: 0.5rem; margin-bottom: 0.75rem;">
-        <div style="width: 14px; height: 14px; border-radius: 50%; background: #DDD;" id="l-dot-1"></div>
-        <div style="width: 14px; height: 14px; border-radius: 50%; background: #DDD;" id="l-dot-2"></div>
-        <div style="width: 14px; height: 14px; border-radius: 50%; background: #DDD;" id="l-dot-3"></div>
-        <div style="width: 14px; height: 14px; border-radius: 50%; background: #DDD;" id="l-dot-4"></div>
+      <!-- Kullanıcının tuşladığı cevabın görüneceği alan (Noktalar yerine burası geldi) -->
+      <div id="math-input-display" style="font-size: 1.2rem; font-weight: bold; color: #FF7043; background: #FFF3E0; padding: 6px 15px; border-radius: 8px; display: inline-block; margin-bottom: 0.75rem; min-width: 60px; text-align: center;">
+        _
       </div>
 
       <div class="keypad-grid">
