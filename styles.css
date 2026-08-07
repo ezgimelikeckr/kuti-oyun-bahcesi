@@ -96,6 +96,32 @@ body {
   }
 }
 
+/* Mobilde Yatay Kaydırılabilir Alanlar */
+@media screen and (max-width: 768px) {
+  #duygu-mirror-options, 
+  #mevsim-options, 
+  #dress-options-grid, 
+  .scrollable-horizontal {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    gap: 10px !important;
+    padding-bottom: 8px !important;
+    -webkit-overflow-scrolling: touch !important;
+    width: 100% !important;
+    justify-content: flex-start !important;
+  }
+
+  /* İçindeki butonların daralmasını engelle, yan yana rahat dizilsin */
+  #duygu-mirror-options button, 
+  #mevsim-options button, 
+  #dress-options-grid button {
+    flex: 0 0 auto !important;
+    white-space: nowrap !important;
+  }
+}
+
 /* 1. INITIAL WELCOME OVERLAY ("Oyun bahçeme hoş geldin!") */
 .piko-welcome-overlay {
   position: fixed;
