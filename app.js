@@ -406,7 +406,7 @@ document.addEventListener('DOMContentLoaded', () => {
       piece.className = 'puzzle-cut-piece drag-source';
       piece.draggable = true;
       piece.dataset.targetSlot = idx;
-      piece.style.backgroundImage = "url('assets/piko_mascot.jpg')";
+      piece.style.backgroundImage = "url('piko_mascot.jpg')";
       piece.style.backgroundPosition = `${posX}% ${posY}%`;
       piece.title = "Parçayı Tahtaya Sürükle veya Tıkla";
 
