@@ -773,19 +773,36 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Parent Dashboard Tabs Switcher
+// --- EBEVEYN PANELİ SEKMELERİNİN ÜST ÜSTE BİNMESİNİ ÖNLEYEN KESİN ÇÖZÜM ---
   const tabBtns = document.querySelectorAll('.tab-btn');
   const tabPanes = document.querySelectorAll('.tab-pane');
 
   tabBtns.forEach(btn => {
     btn.addEventListener('click', () => {
+      // Tüm butonlardan ve panellerden active sınıfını kaldır, stilleri sıfırla
       tabBtns.forEach(b => b.classList.remove('active'));
-      tabPanes.forEach(p => p.classList.remove('active'));
+      tabPanes.forEach(p => {
+        p.classList.remove('active');
+        p.style.display = 'none'; // Diğer panelleri tamamen gizle
+      });
+
+      // Tıklanan sekmeyi aktif yap ve sadece ilgili hedef paneli göster
       btn.classList.add('active');
       const target = document.getElementById(btn.dataset.tab);
-      if (target) target.classList.add('active');
+      if (target) {
+        target.classList.add('active');
+        target.style.display = 'block'; // Sadece seçilen sekme görünür olsun
+      }
+      
       if (soundEnabled) AudioEngine.playTone(550);
     });
+  });
+
+  // Sayfa açıldığında aktif olmayan panellerin gizli olduğundan emin olalım
+  tabPanes.forEach(pane => {
+    if (!pane.classList.contains('active')) {
+      pane.style.display = 'none';
+    }
   });
 
   // Force Sleep Test Button in Parent Panel
