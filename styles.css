@@ -1,0 +1,867 @@
+/* ==========================================================================
+   PIKO DESIGN SYSTEM & UI KIT - REFINED STYLES & LAYOUT FIXES
+   - Perfectly Centered PIN & Launch Security Lock Overlay
+   - Fixed Full-Screen No-Scroll Parent Dashboard Tabs
+   - Instant Rendering for 4 Corner Mini-Games (Sırala Bul, Yapboz, Duygu, Doğa)
+   - Real Lush Landscape Garden Atmosphere (assets/piko_garden_bg.jpg)
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap');
+
+:root {
+  /* Core UI Kit Palette */
+  --bg-cream: #FFF8E1;
+  --bg-cream-accent: #FFF3C4;
+  --card-bg: #FFFFFF;
+
+  /* Typography Colors */
+  --text-dark: #4A3E3D;
+  --text-muted: #8C7A78;
+  --text-light: #6E5E5C;
+
+  /* Category Pastel Colors */
+  --pastel-red-bg: #FFEDEC;
+  --pastel-red-main: #FF5252;
+  --pastel-red-dark: #E53935;
+
+  --pastel-green-bg: #E8F5E9;
+  --pastel-green-main: #4CAF50;
+  --pastel-green-dark: #388E3C;
+
+  --pastel-orange-bg: #FFF3E0;
+  --pastel-orange-main: #FF9800;
+  --pastel-orange-dark: #F57C00;
+
+  --pastel-purple-bg: #F3E5F5;
+  --pastel-purple-main: #AB47BC;
+  --pastel-purple-dark: #8E24AA;
+
+  --pastel-teal-bg: #E0F2F1;
+  --pastel-teal-main: #009688;
+  --pastel-teal-dark: #00796B;
+
+  /* Accent Colors */
+  --piko-fox-orange: #FF7043;
+  --piko-fox-dark: #E64A19;
+  --night-bg: #5E35B1; /* Deep Purple Night Theme */
+  --night-card: #4527A0;
+
+  /* Borders & Shadows */
+  --radius-xl: 20px;
+  --radius-lg: 14px;
+  --radius-pill: 9999px;
+  --shadow-soft: 0px 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-hover: 0px 6px 18px rgba(230, 150, 50, 0.15);
+
+  /* Fonts */
+  --font-heading: 'Fredoka', 'Nunito', sans-serif;
+  --font-body: 'Nunito', sans-serif;
+}
+
+/* RESET & ABSOLUTE ZERO NO-SCROLL LAYOUT (100VH EXACT FIT) */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  width: 100vw;
+  height: 100vh;
+  max-width: 100vw;
+  max-height: 100vh;
+  overflow: hidden !important; /* STRICT ABSOLUTE ZERO NO-SCROLL */
+}
+
+body {
+  background-color: var(--bg-cream);
+  background: 
+    linear-gradient(to bottom, rgba(255, 248, 225, 0.88) 0%, rgba(255, 253, 231, 0.75) 40%, rgba(241, 248, 233, 0.85) 100%),
+    url('assets/piko_garden_bg.jpg') no-repeat center center / cover;
+  color: var(--text-dark);
+  font-family: var(--font-body);
+  padding: 0.6rem 1rem;
+  line-height: 1.3;
+}
+
+/* 1. INITIAL WELCOME OVERLAY ("Oyun bahçeme hoş geldin!") */
+.piko-welcome-overlay {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(135deg, #FFF8E1 0%, #E8F5E9 100%), url('assets/piko_garden_bg.jpg') no-repeat center center / cover;
+  z-index: 4000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+.piko-welcome-overlay.hidden-welcome {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.welcome-card-box {
+  background: var(--card-bg);
+  border-radius: var(--radius-xl);
+  padding: 2rem 1.75rem;
+  max-width: 480px;
+  width: 100%;
+  text-align: center;
+  border: 4px solid #FFE082;
+  box-shadow: 0 16px 40px rgba(255, 160, 0, 0.25);
+  animation: welcomePop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@keyframes welcomePop {
+  0% { transform: scale(0.8); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.welcome-mascot-img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 4px solid #FFE082;
+  box-shadow: 0 8px 24px rgba(255, 143, 0, 0.3);
+  margin-bottom: 1rem;
+  animation: floatBounce 4s ease-in-out infinite;
+}
+
+/* 2. PERFECTLY CENTERED PIN & APP LAUNCH SECURITY LOCK OVERLAY */
+.app-launch-overlay {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(135deg, #FFF8E1 0%, #E8F5E9 100%), url('assets/piko_garden_bg.jpg') no-repeat center center / cover;
+  z-index: 3000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+.app-launch-overlay.unlocked {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* PERFECTLY CENTERED MODAL CONTENT BOX FOR LAUNCH PIN & PARENT PIN */
+.launch-pin-box {
+  background: var(--card-bg);
+  border-radius: var(--radius-xl);
+  padding: 1.75rem;
+  max-width: 440px;
+  width: 100%;
+  text-align: center;
+  border: 3px solid #FFE082;
+  box-shadow: 0 16px 36px rgba(0,0,0,0.18);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.dynamic-pin-badge {
+  background: #FFF3E0;
+  border: 2px dashed #FF9800;
+  border-radius: 14px;
+  padding: 0.5rem 1rem;
+  text-align: center;
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #E65100;
+  margin: 0.6rem 0;
+  width: 100%;
+  max-width: 320px;
+}
+
+/* KEYPAD GRID PERFECT CENTERING */
+.keypad-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.6rem;
+  width: 100%;
+  max-width: 250px;
+  margin: 0.6rem auto 0;
+  justify-items: center;
+  align-items: center;
+}
+
+.keypad-btn {
+  background: #F5F5F5;
+  border: 2px solid #E0E0E0;
+  border-radius: 14px;
+  width: 100%;
+  padding: 0.65rem 0;
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 700;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.keypad-btn:hover { background: #FFF3C4; border-color: #FFE082; transform: translateY(-2px); }
+
+/* APP CONTAINER - EXACT 100% HEIGHT FLEXBOX BUDGETING */
+.app-container {
+  max-width: 1200px;
+  height: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  overflow: hidden;
+}
+
+/* TOP NAVIGATION & SUN TRACK HEADER */
+.top-header {
+  background: var(--card-bg);
+  border-radius: var(--radius-xl);
+  padding: 0.55rem 1rem;
+  box-shadow: var(--shadow-soft);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+.brand-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+}
+
+.brand-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #FFE082;
+  box-shadow: 0 2px 6px rgba(255, 160, 0, 0.2);
+}
+
+.brand-text h1 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--piko-fox-dark);
+  line-height: 1;
+}
+
+.brand-text span {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+/* SUN TRACK (GÜNEŞİN ÇİZGİLİ YOLU) MECHANIC */
+.sun-track-wrapper {
+  flex: 1;
+  max-width: 380px;
+  background: #FFFDE7;
+  border: 2px dashed #FBC02D;
+  border-radius: var(--radius-pill);
+  padding: 0.3rem 0.75rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.sun-track-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #F57F17;
+  font-family: var(--font-heading);
+}
+
+.sun-path-line {
+  width: 100%;
+  height: 8px;
+  background: #FFF9C4;
+  border-radius: var(--radius-pill);
+  position: relative;
+  overflow: visible;
+}
+
+.sun-path-progress {
+  height: 100%;
+  background: linear-gradient(90deg, #FFE082 0%, #FFB300 100%);
+  border-radius: var(--radius-pill);
+  width: 10%;
+  transition: width 1s linear;
+}
+
+.sun-moving-icon {
+  position: absolute;
+  top: 50%;
+  left: 10%;
+  transform: translate(-50%, -50%);
+  font-size: 1.25rem;
+  transition: left 1s linear;
+  filter: drop-shadow(0 2px 4px rgba(255, 179, 0, 0.4));
+  animation: sunPulse 2s ease-in-out infinite;
+}
+
+@keyframes sunPulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); }
+  50% { transform: translate(-50%, -50%) scale(1.15); }
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-icon-pill {
+  background: var(--bg-cream);
+  border: 2px solid #FFE082;
+  border-radius: var(--radius-pill);
+  padding: 0.35rem 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 0.8rem;
+  color: var(--text-dark);
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.04);
+  transition: all 0.2s ease;
+}
+
+.btn-icon-pill:hover {
+  background: #FFF3C4;
+  transform: translateY(-2px);
+}
+
+.btn-parent {
+  background: #EDE7F6;
+  color: #5E35B1;
+  border: 2px solid #D1C4E9;
+}
+
+.btn-parent:hover {
+  background: #D1C4E9;
+  color: #311B92;
+}
+
+/* AGE LEVEL BADGE BAR */
+.age-filter-bar {
+  background: #FFFFFF;
+  border-radius: var(--radius-pill);
+  padding: 0.35rem 1rem;
+  box-shadow: var(--shadow-soft);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+.age-badge {
+  background: #E8F5E9;
+  color: #2E7D32;
+  padding: 0.2rem 0.75rem;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-heading);
+  font-size: 0.78rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  border: 1px solid #A5D6A7;
+}
+
+/* MAIN CONTENT & HERO BANNER */
+.main-content {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.piko-card {
+  background-color: var(--card-bg);
+  border-radius: var(--radius-xl);
+  padding: 0.85rem 1.15rem;
+  box-shadow: var(--shadow-soft);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.hero-banner {
+  background: linear-gradient(135deg, #FFF9C4 0%, #FFE082 100%);
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.65rem 1rem;
+  border: 2px solid #FFF59D;
+  flex-shrink: 0;
+}
+
+.mascot-img {
+  width: 85px;
+  height: 85px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid #FFFFFF;
+  box-shadow: 0 4px 12px rgba(255, 143, 0, 0.25);
+  animation: floatBounce 4s ease-in-out infinite;
+}
+
+@keyframes floatBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+.speech-bubble {
+  background: #FFFFFF;
+  border-radius: 14px;
+  padding: 0.45rem 0.85rem;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.06);
+  display: inline-block;
+  font-family: var(--font-heading);
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #5D4037;
+  margin-bottom: 0.4rem;
+}
+
+/* 2X2 CATEGORY GRID */
+.category-2x2-grid {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 0.55rem;
+}
+
+.category-card {
+  background: var(--card-bg);
+  border-radius: var(--radius-xl);
+  padding: 0.75rem 1rem;
+  box-shadow: var(--shadow-soft);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 2px solid transparent;
+  transition: all 0.25s ease;
+  cursor: pointer;
+  height: 100%;
+}
+
+.category-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-hover);
+}
+
+.card-header-row {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.pastel-icon-box {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.04);
+}
+
+.category-card.duygu { border-color: #FFCDD2; }
+.category-card.duygu .pastel-icon-box { background: var(--pastel-red-bg); color: var(--pastel-red-main); }
+.category-card.duygu .btn-play { background: var(--pastel-red-main); }
+
+.category-card.beceri { border-color: #C8E6C9; }
+.category-card.beceri .pastel-icon-box { background: var(--pastel-green-bg); color: var(--pastel-green-main); }
+.category-card.beceri .btn-play { background: var(--pastel-green-main); }
+
+.category-card.ozbakim { border-color: #FFE0B2; }
+.category-card.ozbakim .pastel-icon-box { background: var(--pastel-orange-bg); color: var(--pastel-orange-main); }
+.category-card.ozbakim .btn-play { background: var(--pastel-orange-main); }
+
+.category-card.doga { border-color: #B2DFDB; }
+.category-card.doga .pastel-icon-box { background: var(--pastel-teal-bg); color: var(--pastel-teal-main); }
+.category-card.doga .btn-play { background: var(--pastel-teal-main); }
+
+.card-title-group h3 { font-size: 1.05rem; font-weight: 700; }
+.card-title-group p { font-size: 0.72rem; color: var(--text-muted); font-weight: 600; }
+
+.btn-play {
+  border: none;
+  color: #FFFFFF;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.8rem;
+  padding: 0.4rem 0.95rem;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.25rem;
+  align-self: flex-start;
+  transition: transform 0.2s ease;
+}
+
+.btn-play:hover { transform: scale(1.05); }
+
+/* UYKU MODU OVERLAY EKRANI */
+.sleep-mode-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--night-bg);
+  z-index: 2000;
+  color: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+  overflow: hidden;
+}
+
+.sleep-mode-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.sleep-hero-img {
+  width: 140px;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 4px solid #7E57C2;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  margin-bottom: 0.6rem;
+  animation: floatBounce 5s ease-in-out infinite;
+}
+
+.sleep-title {
+  font-size: 1.6rem;
+  color: #FFE082;
+  margin-bottom: 0.2rem;
+}
+
+.sleep-subtitle {
+  font-size: 0.88rem;
+  color: #D1C4E9;
+  max-width: 480px;
+  margin-bottom: 1.25rem;
+}
+
+/* SURPRISE FLIP CARDS (3D FLIP MECHANIC) */
+.surprise-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  max-width: 780px;
+  width: 100%;
+}
+
+.flip-card {
+  background-color: transparent;
+  width: 100%;
+  height: 140px;
+  perspective: 1000px;
+  cursor: pointer;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform-style: preserve-3d;
+}
+
+.flip-card.flipped .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front, .flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  border-radius: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0.85rem;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+.flip-card-front {
+  background: linear-gradient(135deg, #4527A0 0%, #311B92 100%);
+  border: 2px dashed #9FA8DA;
+  color: #FFE082;
+}
+
+.flip-card-back {
+  background: var(--night-card);
+  border: 2px solid #7E57C2;
+  color: #FFFFFF;
+  transform: rotateY(180deg);
+  text-align: left;
+}
+
+/* MODALS BASE */
+.piko-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(40, 30, 20, 0.65);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  z-index: 1500;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.piko-modal.active { opacity: 1; pointer-events: auto; }
+
+.modal-content-box {
+  background: var(--card-bg);
+  border-radius: var(--radius-xl);
+  padding: 1.25rem;
+  max-width: 640px;
+  width: 100%;
+  box-shadow: 0 16px 36px rgba(0,0,0,0.2);
+  position: relative;
+  max-height: 92vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* EBEVEYN YÖNETİM PANELİ - FIXED FULL-SCREEN NO-SCROLL WIDE ARCHITECTURE */
+.parent-modal-box {
+  background: var(--card-bg);
+  border-radius: var(--radius-xl);
+  padding: 1.25rem;
+  width: 95vw;
+  max-width: 1050px;
+  height: 88vh;
+  max-height: 650px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* STRICT NO-SCROLL RULE */
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 0.85rem;
+  right: 0.85rem;
+  background: #F5F5F5;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Parent Dashboard Tabs Navigation */
+.parent-tabs-nav {
+  display: flex;
+  gap: 0.4rem;
+  margin-bottom: 0.75rem;
+  border-bottom: 2px solid #EEEEEE;
+  padding-bottom: 0.4rem;
+  flex-shrink: 0;
+}
+
+.tab-btn {
+  background: transparent;
+  border: none;
+  padding: 0.4rem 0.85rem;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  border-radius: var(--radius-pill);
+  white-space: nowrap;
+}
+
+.tab-btn.active {
+  background: #EDE7F6;
+  color: #5E35B1;
+}
+
+.tab-pane {
+  display: none;
+  flex: 1;
+  overflow: hidden; /* STRICT NO-SCROLL */
+}
+
+.tab-pane.active {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* 1. DUYGU AYNASI VISUAL CHARACTER EXPRESSIONS */
+.emotion-mirror-frame {
+  background: linear-gradient(135deg, #FFFDE7 0%, #FFF3E0 100%);
+  border: 3px solid #FFCC80;
+  border-radius: 20px;
+  padding: 0.85rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  box-shadow: 0 4px 12px rgba(255, 152, 0, 0.15);
+}
+
+.mirror-face-img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #FFFFFF;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+  transition: transform 0.3s ease;
+}
+
+/* 2. REAL DRAG-AND-DROP MECHANICS STYLES */
+.drag-source {
+  cursor: grab;
+  user-select: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  touch-action: none;
+}
+
+.drag-source:active, .drag-source.dragging {
+  cursor: grabbing;
+  transform: scale(1.15) rotate(-5deg);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.25);
+  z-index: 100;
+}
+
+.drop-target-zone {
+  border: 3px dashed #FFB74D;
+  border-radius: 20px;
+  background: #FFF8E1;
+  transition: all 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.drop-target-zone.drag-over {
+  background: #FFE082;
+  border-color: #F57C00;
+  transform: scale(1.02);
+}
+
+/* 3. REAL IMAGE JIGSAW PUZZLE (YAPBOZ GÖRSEL BÜTÜNLÜĞÜ) */
+.puzzle-game-container {
+  display: grid;
+  grid-template-columns: 1fr 140px;
+  gap: 1rem;
+  align-items: center;
+}
+
+.puzzle-board-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 3px;
+  background: #D7CCC8;
+  border: 4px solid #8D6E63;
+  border-radius: 16px;
+  overflow: hidden;
+  aspect-ratio: 3 / 2;
+  width: 100%;
+  box-shadow: inset 0 3px 8px rgba(0,0,0,0.3);
+}
+
+.puzzle-board-slot {
+  background: #EFEBE9;
+  border: 1px dashed #A1887F;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-size: 300% 200%;
+}
+
+.puzzle-board-slot.empty {
+  background-image: none !important;
+  background-color: #D7CCC8;
+}
+
+.puzzle-piece-bank {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: center;
+  background: #FFF8E1;
+  border: 2px dashed #FFB74D;
+  border-radius: 16px;
+  padding: 0.75rem;
+  min-height: 170px;
+}
+
+.puzzle-cut-piece {
+  width: 75px;
+  height: 50px;
+  border-radius: 8px;
+  border: 2px solid #FFFFFF;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  cursor: grab;
+  background-size: 300% 200%;
+  transition: transform 0.2s ease;
+}
+
+.puzzle-cut-piece:hover {
+  transform: scale(1.08);
+}

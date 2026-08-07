@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Piko - Çocuk Eğitim & Oyun Bahçesi Dashboard</title>
+  <meta name="description" content="Piko Çocuk Eğitim ve Oyun Bahçesi Arayüzü. Duygu, Beceri, Öz Bakım ve Doğa Köşesi Keşif Alanı.">
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+
+  <!-- 1. INITIAL WELCOME OVERLAY ("Oyun bahçeme hoş geldin!") -->
+  <div class="piko-welcome-overlay" id="piko-welcome-overlay">
+    <div class="welcome-card-box">
+      <img src="assets/piko_mascot.jpg" alt="Piko Mascot" class="welcome-mascot-img">
+      <h2 style="font-family: var(--font-heading); font-size: 2rem; color: var(--piko-fox-dark); margin-bottom: 0.5rem;">
+        Piko'nun Oyun Bahçesi
+      </h2>
+      <p style="font-family: var(--font-heading); font-size: 1.3rem; color: #5D4037; font-weight: 700; margin-bottom: 1.75rem;">
+        Oyun bahçeme hoş geldin! 🌸✨
+      </p>
+      <button class="btn-play" id="btn-start-welcome" style="padding: 0.85rem 2rem; font-size: 1.1rem; width: 100%; justify-content: center; background: var(--piko-fox-orange);">
+        Bahçeye Giriş Yap 🌸
+      </button>
+    </div>
+  </div>
+
+  <!-- 2. MANDATORY APP LAUNCH INITIAL ENTRY LOCK OVERLAY (PERFECTLY CENTERED) -->
+  <div class="app-launch-overlay" id="app-launch-overlay">
+    <div class="launch-pin-box">
+      <img src="assets/piko_mascot.jpg" alt="Piko Mascot" class="brand-avatar" style="width: 72px; height: 72px; margin-bottom: 0.75rem;">
+      <h3 style="font-family: var(--font-heading); color: var(--piko-fox-dark); margin-bottom: 0.25rem; text-align: center;">Ebeveyn Güvenlik Doğrulaması</h3>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.75rem; text-align: center;">
+        Güvenli giriş için aşağıdaki dinamik güvenlik kodunu giriniz:
+      </p>
+
+      <div class="dynamic-pin-badge" id="launch-pin-display">
+        Güvenlik Kodu: 5 - 2 - 9 - 1
+      </div>
+
+      <div style="display: flex; justify-content: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+        <div style="width: 14px; height: 14px; border-radius: 50%; background: #DDD;" id="l-dot-1"></div>
+        <div style="width: 14px; height: 14px; border-radius: 50%; background: #DDD;" id="l-dot-2"></div>
+        <div style="width: 14px; height: 14px; border-radius: 50%; background: #DDD;" id="l-dot-3"></div>
+        <div style="width: 14px; height: 14px; border-radius: 50%; background: #DDD;" id="l-dot-4"></div>
+      </div>
+
+      <div class="keypad-grid">
+        <button class="keypad-btn launch-key-btn">1</button>
+        <button class="keypad-btn launch-key-btn">2</button>
+        <button class="keypad-btn launch-key-btn">3</button>
+        <button class="keypad-btn launch-key-btn">4</button>
+        <button class="keypad-btn launch-key-btn">5</button>
+        <button class="keypad-btn launch-key-btn">6</button>
+        <button class="keypad-btn launch-key-btn">7</button>
+        <button class="keypad-btn launch-key-btn">8</button>
+        <button class="keypad-btn launch-key-btn">9</button>
+        <button class="keypad-btn launch-key-btn" style="grid-column: span 3;">0</button>
+      </div>
+      <p id="launch-pin-error" style="color: #E53935; font-weight: 700; margin-top: 0.4rem; min-height: 20px; font-size: 0.82rem; text-align: center;"></p>
+    </div>
+  </div>
+
+  <div class="app-container">
+
+    <!-- TOP NAVIGATION & GÜNEŞİN ÇİZGİLİ YOLU HEADER -->
+    <header class="top-header">
+      <a href="#" class="brand-logo" id="logo-btn" title="Piko Ana Sayfa">
+        <img src="assets/piko_mascot.jpg" alt="Piko Fox Avatar" class="brand-avatar">
+        <div class="brand-text">
+          <h1>Piko</h1>
+          <span>Oyun Bahçesi</span>
+        </div>
+      </a>
+
+      <!-- GÜNEŞİN ÇİZGİLİ YOLU (SUN TRACK) MECHANIC -->
+      <div class="sun-track-wrapper" title="Güneşin Çizgili Yolu (Ekran Süresi)">
+        <div class="sun-track-label">
+          <span>☀️ Güneşin Yolu (Oyun Zamanı)</span>
+          <span id="sun-time-text">Gündüz Vakti</span>
+        </div>
+        <div class="sun-path-line">
+          <div class="sun-path-progress" id="sun-progress-bar"></div>
+          <div class="sun-moving-icon" id="sun-icon">☀️</div>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <!-- Sound FX Toggle Button -->
+        <button class="btn-icon-pill" id="sound-toggle-btn" title="Ses Efektleri">
+          <span id="sound-icon">🔊</span>
+          <span>Ses Açık</span>
+        </button>
+
+        <!-- Parent Corner Security Access -->
+        <button class="btn-icon-pill btn-parent" id="parent-corner-btn">
+          <span>🔒</span>
+          <span>Ebeveyn Köşesi</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- ACTIVE AGE LEVEL BADGE BAR -->
+    <div class="age-filter-bar">
+      <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span style="font-size: 1.1rem;">🌱</span>
+        <span style="font-family: var(--font-heading); font-weight: 700; font-size: 0.95rem;">Aktif Gelişim Seviyesi:</span>
+        <span class="age-badge" id="active-age-badge">4-5 Yaş (Meraklı Filizler)</span>
+      </div>
+      <span style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">Örnek Yaş Rehberleri</span>
+    </div>
+
+    <!-- DASHBOARD MAIN CONTENT -->
+    <main class="main-content" style="display: flex; flex-direction: column; gap: 0.5rem;">
+
+      <!-- HERO MASCOT BANNER SECTION -->
+      <section class="piko-card hero-banner" id="hero-banner-section">
+        <div style="display: flex; justify-content: center;">
+          <img src="assets/piko_mascot.jpg" alt="Sevimli Rehber Piko" class="mascot-img" id="mascot-hero-img">
+        </div>
+
+        <div>
+          <div class="speech-bubble" id="piko-speech-text">
+            Oyun bahçeme hoş geldin! Bugün ne keşfetmek istersin? ✨
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
+            <span style="font-size: 0.88rem; font-weight: 700; color: #6D4C41;">Bugün nasıl hissediyorsun?</span>
+            <div style="display: flex; gap: 0.5rem;" id="hero-mood-buttons">
+              <button class="btn-icon-pill mood-btn" data-mood="happy">😊 Mutlu</button>
+              <button class="btn-icon-pill mood-btn" data-mood="curious">🤔 Meraklı</button>
+              <button class="btn-icon-pill mood-btn" data-mood="calm">🌿 Sakin</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4 TEMEL KÖŞE (2X2 GRID LAYOUT) -->
+      <section style="flex: 1; min-height: 0; display: flex; flex-direction: column;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+          <h2 style="font-size: 1.2rem; font-weight: 700; color: var(--text-dark); display: flex; align-items: center; gap: 0.4rem;">
+            <span>🏡</span> Oyun Bahçesi Köşeleri
+          </h2>
+          <span style="font-size: 0.78rem; color: var(--text-muted); font-weight: 600;">4 Temel Gelişim Modülü (Dinamik Yaş Uyarlamalı)</span>
+        </div>
+
+        <div class="category-2x2-grid">
+
+          <!-- 1. DUYGU KÖŞESİ -->
+          <article class="category-card duygu" id="card-duygu" data-category="duygu">
+            <div class="card-header-row">
+              <div class="pastel-icon-box" title="Duygu Köşesi">❤️</div>
+              <div class="card-title-group">
+                <h3>Duygu Köşesi</h3>
+                <p>Duygu Aynası & Piko'nun Günü</p>
+              </div>
+            </div>
+            <p style="font-size: 0.85rem; color: var(--text-light);" id="duygu-desc">
+              Görsel Duygu Aynası ve Piko'nun Günü etkinlikleriyle kendi duygularını tanı, empati ve çözüm becerileri kazan!
+            </p>
+            <button class="btn-play"><span>▶</span> Keşfet & Oyna</button>
+          </article>
+
+          <!-- 2. BECERİ KÖŞESİ -->
+          <article class="category-card beceri" id="card-beceri" data-category="beceri">
+            <div class="card-header-row">
+              <div class="pastel-icon-box" title="Beceri Köşesi">🧩</div>
+              <div class="card-title-group">
+                <h3>Beceri Köşesi</h3>
+                <p>Sırala Bul & Gerçek Yapboz</p>
+              </div>
+            </div>
+            <p style="font-size: 0.85rem; color: var(--text-light);" id="beceri-desc">
+              Sırala Bul mekanikleri ve gerçek resim parçalı Piko yapboz bulmacalarıyla zihnini çalıştır!
+            </p>
+            <button class="btn-play"><span>▶</span> Oyna & Çöz</button>
+          </article>
+
+          <!-- 3. ÖZ BAKIM KÖŞESİ -->
+          <article class="category-card ozbakim" id="card-ozbakim" data-category="ozbakim">
+            <div class="card-header-row">
+              <div class="pastel-icon-box" title="Öz Bakım Köşesi">🪥</div>
+              <div class="card-title-group">
+                <h3>Öz Bakım Köşesi</h3>
+                <p>Diş Fırçalama & Piko Giyiniyor</p>
+              </div>
+            </div>
+            <p style="font-size: 0.85rem; color: var(--text-light);" id="ozbakim-desc">
+              Gerçek sürükle-bırak Diş Fırçalama ve Hava Durumuna Göre Piko'yu Giyindirme interaktif modülleri.
+            </p>
+            <button class="btn-play"><span>▶</span> Deneyimle</button>
+          </article>
+
+          <!-- 4. DOĞA KÖŞESİ -->
+          <article class="category-card doga" id="card-doga" data-category="doga">
+            <div class="card-header-row">
+              <div class="pastel-icon-box" title="Doğa Köşesi">🦋</div>
+              <div class="card-title-group">
+                <h3>Doğa Köşesi</h3>
+                <p>Hangi Mevsim? & Sürükle-Bırak Bahçe</p>
+              </div>
+            </div>
+            <p style="font-size: 0.85rem; color: var(--text-light);" id="doga-desc">
+              Mevsim ipuçları analizi ve sürükle-bırak sulama ile görsel bitki büyütme dengesi.
+            </p>
+            <button class="btn-play" style="background: var(--pastel-teal-main);"><span>▶</span> Doğa Keşfi</button>
+          </article>
+
+        </div>
+      </section>
+
+    </main>
+
+  </div>
+
+  <!-- UYKU MODU OVERLAY EKRANI -->
+  <div class="sleep-mode-overlay" id="sleep-mode-overlay">
+    <img src="assets/piko_sleep.jpg" alt="Piko Uykuya" class="sleep-hero-img">
+    <h2 class="sleep-title">Piko uykuya, haydi anne babayla oyna! 🌙</h2>
+    <p class="sleep-subtitle">
+      Güneş battı! Aşağıdaki sürpriz kapalı kartlardan birine tıkla ve bu akşamki ortak etkinliğinizi aç!
+    </p>
+
+    <!-- SURPRISE FLIP CARDS GRID -->
+    <div class="surprise-cards-grid">
+      <div class="flip-card">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <div style="font-size: 2.2rem; margin-bottom: 0.25rem;">❓</div>
+            <div style="font-family: var(--font-heading); font-weight: 700;">1. Sürpriz Kart</div>
+            <span style="font-size: 0.75rem; opacity: 0.8;">Tıkla ve Aç!</span>
+          </div>
+          <div class="flip-card-back">
+            <h4 style="color: #FFE082; font-size: 1rem; margin-bottom: 0.4rem;">✨ Yıldız Saymaca</h4>
+            <p style="font-size: 0.82rem; color: #EDE7F6;">Pencereden gökyüzüne bakıp parıldayan 5 tane yıldız bulun ve bir dilek tutun!</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="flip-card">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <div style="font-size: 2.2rem; margin-bottom: 0.25rem;">❓</div>
+            <div style="font-family: var(--font-heading); font-weight: 700;">2. Sürpriz Kart</div>
+            <span style="font-size: 0.75rem; opacity: 0.8;">Tıkla ve Aç!</span>
+          </div>
+          <div class="flip-card-back">
+            <h4 style="color: #FFE082; font-size: 1rem; margin-bottom: 0.4rem;">📖 Sessiz Masal</h4>
+            <p style="font-size: 0.82rem; color: #EDE7F6;">Sevdiğiniz bir resimli kitabı açıp masalı resimlerden birlikte yeniden hayal edin.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="flip-card">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <div style="font-size: 2.2rem; margin-bottom: 0.25rem;">❓</div>
+            <div style="font-family: var(--font-heading); font-weight: 700;">3. Sürpriz Kart</div>
+            <span style="font-size: 0.75rem; opacity: 0.8;">Tıkla ve Aç!</span>
+          </div>
+          <div class="flip-card-back">
+            <h4 style="color: #FFE082; font-size: 1rem; margin-bottom: 0.4rem;">💬 Günün En Güzel Anı</h4>
+            <p style="font-size: 0.82rem; color: #EDE7F6;">Bugün seni en çok mutlu eden olayı anne ve babanla paylaşın ve birbirinize sarılın.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn-icon-pill" id="btn-unlock-sleep" style="margin-top: 1.5rem; background: #7E57C2; color: #FFF; border: none; padding: 0.75rem 1.5rem;">
+      🔒 Ebeveyn Kilit Aç (Sıfırla)
+    </button>
+  </div>
+
+  <!-- MODAL: DUYGU KÖŞESİ (GÖRSEL DUYGU AYNASI) -->
+  <div class="piko-modal" id="modal-duygu-corner">
+    <div class="modal-content-box">
+      <button class="modal-close-btn" data-close-modal>✕</button>
+      <h3 style="color: var(--pastel-red-main); margin-bottom: 0.35rem;">❤️ Duygu Köşesi</h3>
+      <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.75rem;" id="duygu-modal-subtitle">
+        Görsel Yüz İfadesi Aynası & Empati Senaryoları
+      </p>
+
+      <!-- 1. VISUAL CHARACTER EMOTION MIRROR -->
+      <div class="emotion-mirror-frame" style="margin-bottom: 0.75rem;">
+        <h4 style="color: #D32F2F; font-size: 0.95rem;">🪞 Duygu Aynası (Piko Ne Hissediyor?)</h4>
+        <div style="position: relative;">
+          <img src="assets/piko_mascot.jpg" alt="Piko Face Expression" class="mirror-face-img" id="mirror-face-img">
+          <div id="mirror-expression-emoji" style="position: absolute; bottom: 0; right: 0; font-size: 2rem; background: #FFF; border-radius: 50%; padding: 2px; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">😊</div>
+        </div>
+        <p style="font-size: 0.85rem; font-weight: 700; color: #5D4037;" id="mirror-prompt-text">Piko'nun yüz ifadesini aşağıdaki butonlarla eşleştir!</p>
+        <div id="duygu-mirror-options" style="display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center;">
+          <!-- Dynamic emotion buttons injected by JS -->
+        </div>
+      </div>
+
+      <div style="background: #FFF; border: 2px solid #FFCDD2; padding: 0.75rem; border-radius: 16px;">
+        <h4 style="color: #D32F2F; margin-bottom: 0.35rem; font-size: 0.9rem;">📖 Piko'nun Günü (Duygusal Senaryo)</h4>
+        <p style="font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4rem;" id="duygu-scenario-text">
+          Piko dondurmasını yere düşürdü. Ne hissediyor olabilir ve ona nasıl yardım edebiliriz?
+        </p>
+        <div id="duygu-scenario-choices" style="display: flex; flex-direction: column; gap: 0.35rem;">
+          <!-- Dynamic scenario choices injected by JS -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: BECERİ KÖŞESİ (GERÇEK GÖRSEL RESİM PARÇALI YAPBOZ & SIRALA BUL) -->
+  <div class="piko-modal" id="modal-beceri-corner">
+    <div class="modal-content-box" style="max-width: 680px;">
+      <button class="modal-close-btn" data-close-modal>✕</button>
+      <h3 style="color: var(--pastel-green-main); margin-bottom: 0.35rem;">🧩 Beceri Köşesi</h3>
+      <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.75rem;" id="beceri-modal-subtitle">
+        Sırala Bul & Gerçek Görsel Yapboz
+      </p>
+
+      <div style="background: #E8F5E9; padding: 0.75rem; border-radius: 16px; margin-bottom: 0.75rem;">
+        <h4 style="color: #2E7D32; margin-bottom: 0.35rem; font-size: 0.9rem;">🔍 Sırala Bul (Kriterli Sıralama)</h4>
+        <p style="font-size: 0.82rem; margin-bottom: 0.5rem;" id="sirala-prompt">
+          Nesneleri küçükten büyüğe sırala!
+        </p>
+        <div id="sirala-grid" style="display: flex; gap: 0.75rem; justify-content: center; align-items: flex-end; min-height: 70px;">
+          <!-- Dynamic items injected by JS -->
+        </div>
+      </div>
+
+      <!-- REAL CUT IMAGE JIGSAW PUZZLE (YAPBOZ GÖRSEL BÜTÜNLÜĞÜ) -->
+      <div style="background: #FFF; border: 2px solid #C8E6C9; padding: 0.75rem; border-radius: 16px;">
+        <h4 style="color: #2E7D32; margin-bottom: 0.35rem; font-size: 0.9rem;">🧩 Piko'nun Yapbozu (Parçaları Doğru Yere Yerleştir!)</h4>
+        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">Sağdaki resim parçalarını tahtadaki boş yuvalara tıkla veya sürükle!</p>
+        
+        <div class="puzzle-game-container">
+          <div class="puzzle-board-grid" id="puzzle-board-grid">
+            <!-- Sliced background image cells injected by JS -->
+          </div>
+          <div class="puzzle-piece-bank" id="puzzle-piece-bank">
+            <!-- Real sliced puzzle piece tiles injected by JS -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: ÖZ BAKIM KÖŞESİ (GERÇEK SÜRÜKLE-BIRAK DİŞ FIRÇALAMA) -->
+  <div class="piko-modal" id="modal-ozbakim-corner">
+    <div class="modal-content-box" style="max-width: 640px;">
+      <button class="modal-close-btn" data-close-modal>✕</button>
+      <h3 style="color: var(--pastel-orange-main); margin-bottom: 0.35rem;">🪥 Öz Bakım Köşesi</h3>
+      <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.75rem;">
+        Gerçek Sürükle-Bırak (Drag & Drop) Günlük Yaşam Becerileri
+      </p>
+
+      <div style="background: #FFF3E0; padding: 0.85rem; border-radius: 16px; margin-bottom: 0.75rem; text-align: center;">
+        <h4 style="color: #E65100; font-size: 0.95rem; margin-bottom: 0.35rem;">🪥 Diş Fırçalama Zamanı (Fırçayı Ağza Sürükle!)</h4>
+        <p style="font-size: 0.82rem; color: #6D4C41; margin-bottom: 0.75rem;" id="tooth-drag-instruction">
+          Fırçayı tut ve Piko'nun dişlerinin üzerine sürükleyip bırak! 🪥 ➡️ 👄
+        </p>
+
+        <div style="display: flex; align-items: center; justify-content: space-around; background: #FFF; padding: 0.75rem; border-radius: 16px; border: 2px dashed #FFB74D;">
+          <div class="drag-source" id="draggable-brush" draggable="true" style="font-size: 3rem; background: #FFE082; padding: 0.5rem 1rem; border-radius: 16px; box-shadow: 0 4px 10px rgba(0,0,0,0.15);" title="Fırçayı Sürükle">
+            🪥
+          </div>
+          <div class="drop-target-zone" id="teeth-target-zone" style="width: 140px; height: 110px; padding: 0.5rem;">
+            <div style="font-size: 2.8rem;" id="mouth-target-emoji">👄</div>
+            <span style="font-size: 0.72rem; font-weight: 700; color: #E65100; margin-top: 0.2rem;">Fırçayı Buraya Bırak</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="background: #FFF; border: 2px solid #FFE082; padding: 0.75rem; border-radius: 16px;">
+        <h4 style="color: #E65100; margin-bottom: 0.35rem; font-size: 0.9rem;">👕 Piko Giyiniyor (Hava Durumu Eşleştirme)</h4>
+        <p style="font-size: 0.82rem; margin-bottom: 0.4rem;" id="dress-weather-text">
+          Bugün hava Yağmurlu 🌧️! Piko'ya ne giydirelim?
+        </p>
+        <div id="dress-options-grid" style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          <!-- Clothes choices -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: DOĞA KÖŞESİ (GERÇEK SÜRÜKLE-BIRAK SULAMA & GÖRSEL BİTKİ BÜYÜTME) -->
+  <div class="piko-modal" id="modal-doga-corner">
+    <div class="modal-content-box" style="max-width: 650px;">
+      <button class="modal-close-btn" data-close-modal>✕</button>
+      <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.75rem;">
+        <span style="font-size: 1.8rem;">🌿</span>
+        <div>
+          <h3 style="font-size: 1.2rem; font-weight: 700; color: #00796B;">Doğa Köşesi - Sürükle-Bırak Keşif</h3>
+          <span style="font-size: 0.78rem; color: #004D40; font-weight: 700;">Derlenen Eğitici İçerikler</span>
+        </div>
+      </div>
+
+      <div style="background: #E0F2F1; padding: 0.75rem; border-radius: 16px; margin-bottom: 0.75rem;">
+        <h4 style="color: #004D40; margin-bottom: 0.35rem; font-size: 0.9rem;">🍂 Hangi Mevsim?</h4>
+        <p style="font-size: 0.82rem; margin-bottom: 0.4rem;" id="mevsim-prompt">
+          Ağaçların yaprakları sararıp dökülüyor. Hangi mevsimdeyiz?
+        </p>
+        <div id="mevsim-options" style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          <!-- Season options -->
+        </div>
+      </div>
+
+      <div style="background: #FFF; border: 2px solid #B2DFDB; padding: 0.85rem; border-radius: 16px; text-align: center;">
+        <h4 style="color: #004D40; margin-bottom: 0.35rem; font-size: 0.92rem;">🌻 Piko'nun Bahçesi (Su Damlasını veya Güneşi Saksıya Sürükle!)</h4>
+        <p style="font-size: 0.8rem; color: #00695C; margin-bottom: 0.75rem;">
+          Damlayı 💧 veya Güneşi ☀️ tutup saksının üzerine bırak, bitkinin büyümesini izle!
+        </p>
+
+        <div style="display: flex; align-items: center; justify-content: space-around; background: #E0F2F1; padding: 0.75rem; border-radius: 16px;">
+          <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+            <div class="drag-source" id="draggable-water" draggable="true" style="font-size: 2.5rem; background: #B2EBF2; padding: 0.4rem 0.8rem; border-radius: 14px;" title="Su Damlasını Sürükle">
+              💧
+            </div>
+            <div class="drag-source" id="draggable-sun" draggable="true" style="font-size: 2.5rem; background: #FFF9C4; padding: 0.4rem 0.8rem; border-radius: 14px;" title="Güneşi Sürükle">
+              ☀️
+            </div>
+          </div>
+
+          <div class="drop-target-zone" id="plant-pot-target" style="width: 170px; height: 140px; padding: 0.5rem; background: #FFF;">
+            <div id="plant-visual-display" style="font-size: 3.8rem; transition: transform 0.4s ease;">🌱</div>
+            <span style="font-size: 0.7rem; font-weight: 700; color: #004D40; margin-top: 0.2rem;">Buraya Bırak</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EBEVEYN KÖŞESİ MODAL (PERFECTLY CENTERED PIN & NO-SCROLL TABS) -->
+  <div class="piko-modal" id="modal-parent-corner">
+    <div class="parent-modal-box">
+      <button class="modal-close-btn" data-close-modal>✕</button>
+
+      <!-- DYNAMIC PIN SECURITY CHECK VIEW (PERFECTLY CENTERED) -->
+      <div id="pin-view" style="width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+        <h3 style="text-align: center; margin-bottom: 0.4rem; color: #5E35B1;">🔒 Ebeveyn Doğrulaması</h3>
+        <p style="text-align: center; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem;">
+          Ebeveyn paneline erişmek için aşağıdaki dinamik güvenlik kodunu giriniz:
+        </p>
+
+        <div class="dynamic-pin-badge" id="dynamic-pin-display">
+          Güvenlik Kodu: 4 - 8 - 2 - 1
+        </div>
+
+        <div style="display: flex; justify-content: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+          <div style="width: 14px; height: 14px; border-radius: 50%; background: #DDD;" id="p-dot-1"></div>
+          <div style="width: 14px; height: 14px; border-radius: 50%; background: #DDD;" id="p-dot-2"></div>
+          <div style="width: 14px; height: 14px; border-radius: 50%; background: #DDD;" id="p-dot-3"></div>
+          <div style="width: 14px; height: 14px; border-radius: 50%; background: #DDD;" id="p-dot-4"></div>
+        </div>
+
+        <div class="keypad-grid">
+          <button class="keypad-btn">1</button>
+          <button class="keypad-btn">2</button>
+          <button class="keypad-btn">3</button>
+          <button class="keypad-btn">4</button>
+          <button class="keypad-btn">5</button>
+          <button class="keypad-btn">6</button>
+          <button class="keypad-btn">7</button>
+          <button class="keypad-btn">8</button>
+          <button class="keypad-btn">9</button>
+          <button class="keypad-btn" style="grid-column: span 3;">0</button>
+        </div>
+        <p id="pin-error-msg" style="text-align: center; color: #E53935; font-weight: 700; margin-top: 0.4rem; min-height: 20px; font-size: 0.82rem;"></p>
+      </div>
+
+      <!-- PARENT DASHBOARD VIEW (NO-SCROLL TABS) -->
+      <div id="parent-dashboard-view" style="display: none; height: 100%; flex-direction: column;">
+        <h3 style="margin-bottom: 0.6rem; color: #5E35B1; flex-shrink: 0;">⚙️ Ebeveyn Yönetim Paneli</h3>
+
+        <div class="parent-tabs-nav">
+          <button class="tab-btn active" data-tab="tab-time">☀️ 1. Süre Yönetimi</button>
+          <button class="tab-btn" data-tab="tab-age">🌱 2. Yaş Kategorisi</button>
+          <button class="tab-btn" data-tab="tab-articles">📚 3. Akademik Makaleler</button>
+          <button class="tab-btn" data-tab="tab-books">📖 4. Önerilen Okuma Listesi</button>
+        </div>
+
+        <!-- TAB 1: SÜRE YÖNETİMİ -->
+        <div class="tab-pane active" id="tab-time">
+          <div>
+            <h4 style="margin-bottom: 0.4rem;">Güneş Yolu (Ekran Süresi Limitleri):</h4>
+            <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.85rem;">
+              Güneşin hareket hızı seçilen süre ile birebir zaman orantılıdır. Süre bittiğinde otomatik Uyku Modu'na geçilir.
+            </p>
+            <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap;">
+              <button class="btn-icon-pill time-opt-btn" data-time="5">5 Dakika</button>
+              <button class="btn-icon-pill time-opt-btn" data-time="10">10 Dakika</button>
+              <button class="btn-icon-pill time-opt-btn" data-time="15">15 Dakika (Önerilen)</button>
+              <button class="btn-icon-pill time-opt-btn" data-time="20">20 Dakika</button>
+            </div>
+          </div>
+          <button class="btn-play" id="btn-force-sleep" style="background: #E53935; width: 100%; justify-content: center; margin-top: auto;">
+            🌙 Güneşi Şimdi Batır (Anında Uyku Modunu Test Et)
+          </button>
+        </div>
+
+        <!-- TAB 2: SEVİYE VE YAŞ KATEGORİSİ -->
+        <div class="tab-pane" id="tab-age">
+          <div>
+            <h4 style="margin-bottom: 0.4rem;">Seviye ve Yaş Grubu Seçimi:</h4>
+            <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.85rem;">
+              Tüm 4 ana köşenin oyun zorluklarını ve içeriklerini anında seçtiğiniz yaşa uyarlar.
+            </p>
+            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+              <label style="padding: 0.65rem; background: #F5F5F5; border-radius: 12px; display: flex; align-items: center; gap: 0.75rem; cursor: pointer;">
+                <input type="radio" name="age-group" value="3" id="age-3">
+                <div>
+                  <strong>3 Yaş (Minik Keşifçiler)</strong>
+                  <p style="font-size: 0.75rem; color: var(--text-muted);">3 temel duygu, tek kriterli sıralama, 4 parçalı yapboz, 3 adımlı fırçalama.</p>
+                </div>
+              </label>
+              <label style="padding: 0.65rem; background: #F5F5F5; border-radius: 12px; display: flex; align-items: center; gap: 0.75rem; cursor: pointer;">
+                <input type="radio" name="age-group" value="4-5" id="age-4-5" checked>
+                <div>
+                  <strong>4-5 Yaş (Meraklı Filizler - Önerilen)</strong>
+                  <p style="font-size: 0.75rem; color: var(--text-muted);">4 duygu, çift kriterli sıralama, 6 parçalı yapboz, 5 adımlı öz bakım.</p>
+                </div>
+              </label>
+              <label style="padding: 0.65rem; background: #F5F5F5; border-radius: 12px; display: flex; align-items: center; gap: 0.75rem; cursor: pointer;">
+                <input type="radio" name="age-group" value="6+" id="age-6-plus">
+                <div>
+                  <strong>6+ Yaş (Bilge Çiçekler)</strong>
+                  <p style="font-size: 0.75rem; color: var(--text-muted);">6 zengin duygu, çok kriterli sıralama, 9-12 parçalı yapboz, 4 mevsim kombinasyon.</p>
+                </div>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 3: AKADEMİK MAKALELER -->
+        <div class="tab-pane" id="tab-articles">
+          <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+            <h4 style="margin-bottom: 0.3rem;">Derlenen Kaynak Makaleler:</h4>
+            
+            <div style="padding: 0.65rem; background: #FAFAFA; border: 1px solid #E0E0E0; border-radius: 12px;">
+              <strong>📄 Okul Öncesi Çocuklarda Ekran Kullanımı ve Dijital Dengeli Yaşam</strong>
+              <p style="color: var(--text-muted); font-size: 0.75rem; margin: 0.15rem 0 0.3rem;">Erken çocukluk döneminde kaliteli ve etkileşimli içerik sınırları rehberi.</p>
+              <a href="https://www.aap.org" target="_blank" rel="noopener noreferrer" style="color: #5E35B1; font-weight: 700; font-size: 0.8rem; text-decoration: underline;">
+                🔗 Makaleyi Oku (Kaynak Bağlantısı) ↗
+              </a>
+            </div>
+
+            <div style="padding: 0.65rem; background: #FAFAFA; border: 1px solid #E0E0E0; border-radius: 12px;">
+              <strong>📄 Çocuk Gelişimi ve Dijital Sağlık: Uyku Hijyeni ve Melatonin Dengesi</strong>
+              <p style="color: var(--text-muted); font-size: 0.75rem; margin: 0.15rem 0 0.3rem;">Uykudan 1 saat önce ekranların kapatılmasının çocuklarda uyku kalitesine etkisi.</p>
+              <a href="https://www.turkpediatri.org.tr" target="_blank" rel="noopener noreferrer" style="color: #5E35B1; font-weight: 700; font-size: 0.8rem; text-decoration: underline;">
+                🔗 Makaleyi Oku (Kaynak Bağlantısı) ↗
+              </a>
+            </div>
+
+            <div style="padding: 0.65rem; background: #FAFAFA; border: 1px solid #E0E0E0; border-radius: 12px;">
+              <strong>📄 Erken Yaşta Duygusal Öz Düzenleme ve Empati Etkinlikleri</strong>
+              <p style="color: var(--text-muted); font-size: 0.75rem; margin: 0.15rem 0 0.3rem;">Çocuklarda duygu farkındalığı ve empati geliştirme kılavuzu.</p>
+              <a href="https://www.unicef.org" target="_blank" rel="noopener noreferrer" style="color: #5E35B1; font-weight: 700; font-size: 0.8rem; text-decoration: underline;">
+                🔗 Makaleyi Oku (Kaynak Bağlantısı) ↗
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 4: TAVSİYE KİTAPLAR -->
+        <div class="tab-pane" id="tab-books">
+          <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 0.65rem; height: 100%;">
+            <div style="padding: 0.65rem; background: #FFF8E1; border: 2px solid #FFE082; border-radius: 12px; overflow-y: auto;">
+              <h5 style="color: #E65100; font-size: 0.85rem; margin-bottom: 0.35rem;">
+                👦 Ada Bazlı Çocuk Kitapları (3-6 Yaş Referans Listesi)
+              </h5>
+              <div style="display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.72rem;">
+                <div><b>❤️ Duygu Adası:</b> <i>Unutulan Araba (Tuğba Akbey İnan)</i>, <i>Öykülerle Duygusal Zeka Eğitimi Tali Serisi</i>, <i>Eyvah Kalbim Kırıldı</i>, <i>Arkadaşım Korku</i>, <i>Kıskanç Kurbağa Eda</i>, <i>Bob Endişe Etmemeyi Öğretiyor</i>, <i>Sakin Ol ve Acele Etme</i>, <i>Hiç Hata Yapmayan Kız</i>, <i>Kendim Olmaktan Mutluyum</i>, <i>Renklerin Ötesinde</i>, <i>Kırmızı Kırmızı Öfkeliyim</i>.</div>
+                <div><b>🧩 Beceri Adası:</b> <i>Nokta (Peter H. Reynolds)</i>, <i>Bob ve Mavi Sanatı</i>, <i>Sol Sağ Kitabım</i>, <i>Minik Sayılar</i>, <i>Kitap Tamircisi Toprak</i>, <i>Kayakçı Tavşan</i>, <i>Franklin Serisi</i>, <i>Aç Tırtıl</i>, <i>Bu Bir Kutu Değil</i>, <i>Üçgen / Kare / Daire Serisi</i>.</div>
+                <div><b>🪥 Öz Bakım Adası:</b> <i>Tali Ellerini Yıkıyor</i>, <i>Diş Hekiminde</i>, <i>Sağlık Hikayeleri</i>, <i>Temiz</i>, <i>Kendi Yatağımda Uyumayacağım!</i>, <i>Çiçekler Sınıfı Serisi</i>, <i>Potty</i>.</div>
+                <div><b>🦋 Doğa Adası:</b> <i>Haydi Sayalım Serisi</i>, <i>Haydi Sayalım Elmalar</i>, <i>Çevremize Özen Göstermek</i>, <i>Şehirdeki Son Ağaç</i>, <i>Can Dostumuz Ağaçlar</i>, <i>Kelebek & Bir Kral Kelebeğinin Yolculuğu</i>, <i>Gezegenimiz Dünya</i>, <i>Su, Taş, Yaprak Dedikleri Var Ya</i>, <i>Hava Durumu Serisi</i>, <i>Minik Tohum</i>.</div>
+              </div>
+            </div>
+
+            <div style="padding: 0.65rem; background: #EDE7F6; border: 2px solid #D1C4E9; border-radius: 12px; overflow-y: auto;">
+              <h5 style="color: #5E35B1; font-size: 0.85rem; margin-bottom: 0.35rem;">
+                👨‍👩‍👧 Ebeveyn Kitapları (Kategorize)
+              </h5>
+              <div style="display: flex; flex-direction: column; gap: 0.3rem; font-size: 0.72rem;">
+                <div><b>💬 Genel & İletişim:</b> <i>Bütün Beyinli Çocuk</i>, <i>Çocuklarla İletişim Nasıl Olmalı</i>, <i>Ebeveyn-Çocuk İletişimi</i>, <i>Geliştiren Anne Baba</i>, <i>Saygılı Ebeveynlik</i>, <i>Koşulsuz Ebeveynlik</i>.</div>
+                <div><b>❤️ Duygu Uyumlu:</b> <i>Duygusal Zeka Aşılamak</i>, <i>Sakin Ebeveynlik</i>, <i>Patlamaya Hazır Çocuk</i>.</div>
+                <div><b>🧩 Beceri / Bağımsızlık:</b> <i>Aşırı Korumadan Kurtulma</i>, <i>0-6 Yaş 100 Temel Kural</i>.</div>
+                <div><b>🪥 Öz Bakım:</b> <i>Bilinçli Ebeveynlik Eserleri (Aletha J. Solter)</i>.</div>
+                <div><b>🦋 Doğa Uyumlu:</b> <i>Doğadaki Son Çocuk (Richard Louv)</i>.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
