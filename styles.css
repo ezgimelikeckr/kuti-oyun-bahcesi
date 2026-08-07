@@ -96,7 +96,7 @@ body {
   }
 }
 
-/* Mobilde Yatay Kaydırılabilir Alanlar */
+/* Mobilde Yatay Kaydırılabilir Alanlar (Kesin Çözüm) */
 @media screen and (max-width: 768px) {
   #duygu-mirror-options, 
   #mevsim-options, 
@@ -107,18 +107,23 @@ body {
     overflow-x: auto !important;
     overflow-y: hidden !important;
     gap: 10px !important;
-    padding-bottom: 8px !important;
+    padding: 5px 0 10px 0 !important;
     -webkit-overflow-scrolling: touch !important;
     width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
     justify-content: flex-start !important;
+    /* Mobilde parmakla kaydırmayı kolaylaştıran dokunmatik özellik */
+    touch-action: pan-x !important;
   }
 
-  /* İçindeki butonların daralmasını engelle, yan yana rahat dizilsin */
+  /* İçindeki butonların daralmasını ve kırılmasını kesin olarak engelle */
   #duygu-mirror-options button, 
   #mevsim-options button, 
   #dress-options-grid button {
     flex: 0 0 auto !important;
     white-space: nowrap !important;
+    min-width: max-content !important;
   }
 }
 
