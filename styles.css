@@ -113,9 +113,11 @@ body {
     max-width: 100% !important;
     box-sizing: border-box !important;
     justify-content: flex-start !important;
+    /* Mobilde parmakla kaydırmayı kolaylaştıran dokunmatik özellik */
     touch-action: pan-x !important;
   }
 
+  /* İçindeki butonların daralmasını ve kırılmasını kesin olarak engelle */
   #duygu-mirror-options button, 
   #mevsim-options button, 
   #dress-options-grid button {
@@ -135,6 +137,7 @@ body {
     overflow-y: auto !important;
   }
 
+  /* Üst header alanını (Piko yazısı, Güneş yolu, Ses ve Kilit butonunu) dikeyde alt alta ve düzgün dizelim */
   header, .header-container, .top-header-bar {
     display: flex !important;
     flex-direction: column !important;
@@ -144,6 +147,7 @@ body {
     padding: 5px 0 !important;
   }
 
+  /* Güneş Yolu (Zaman Çubuğu) üst üste binmesin, ortalansın */
   #sun-progress-bar, .sun-track-container, .sun-container {
     width: 90% !important;
     max-width: 300px !important;
@@ -153,12 +157,14 @@ body {
     right: auto !important;
   }
 
+  /* Güneş yazılarının birbirine girmesini engelleyelim */
   .sun-time-text, #sun-time-text {
     font-size: 0.8rem !important;
     text-align: center !important;
     white-space: nowrap !important;
   }
 
+  /* Sağ üstte kaybolan ebeveyn/kilit butonunu ve ses butonunu alt alta düzgün hizalayalım */
   .header-actions, .top-buttons-container, #parent-corner-btn, #sound-toggle-btn {
     display: flex !important;
     justify-content: center !important;
@@ -166,7 +172,15 @@ body {
     position: static !important;
     width: 100% !important;
     margin-top: 5px !important;
-  }  
+  }
+
+  /* 4 Temel Köşe kartlarının dikeyde tek sütun halinde kusursuz sıralanması */
+  .corners-grid, .dashboard-grid, .piko-dashboard-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 15px !important;
+    width: 100% !important;
+  }
 
   /* Ebeveyn Yönetim Paneli Sekmelerinin Mobilde Taşmasını Önleyen Yatay Kaydırma Kuralı */
   .parent-tabs, .panel-tabs-container, [id*="tab"] {
@@ -180,17 +194,10 @@ body {
     width: 100% !important;
   }
 
+  /* Ebeveyn paneli sekme butonlarının daralmasını engelle */
   .parent-tabs button, .panel-tabs-container button {
     flex: 0 0 auto !important;
     white-space: nowrap !important;
-  }
-
-  /* 4 Temel Köşe kartlarının dikeyde tek sütun halinde kusursuz sıralanması */
-  .corners-grid, .dashboard-grid, .piko-dashboard-grid {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 15px !important;
-    width: 100% !important;
   }
 }
 
