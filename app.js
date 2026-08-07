@@ -452,12 +452,18 @@ document.addEventListener('DOMContentLoaded', () => {
         teethZone.classList.remove('drag-over');
         if (soundEnabled) AudioEngine.playSuccess();
         if (mouthEmoji) mouthEmoji.textContent = '✨🪥🫧';
+        
+        // Piko'nun somut neden açıklaması (Pedagojik katman)
+        const pikoMessageEl = document.getElementById('piko-message');
+        if (pikoMessageEl) {
+          pikoMessageEl.innerHTML = "Yaşasın! Dişlerimizi fırçaladık ki minik mikroplar kaçsın, dişlerimiz pırıl pırıl parlasın! 🦷✨";
+        }
+
         setTimeout(() => {
           if (mouthEmoji) mouthEmoji.textContent = '😁';
           alert('🧼 Piko pırıl pırıl dişlerle gülümsüyor!');
         }, 600);
       });
-    }
 
     const water = document.getElementById('draggable-water');
     const sun = document.getElementById('draggable-sun');
