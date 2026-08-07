@@ -572,10 +572,10 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('ozbakim-desc').textContent = cfg.ozbakimDesc;
     document.getElementById('doga-desc').textContent = cfg.dogaDesc;
 
-   // Set Visual Emotion Mirror target
+    // Set Visual Emotion Mirror target
     setVisualEmotionMirror(cfg.emotions[0]);
 
-    // Render Duygu Aynası options
+    // Render Duygu Aynası options (Yaşa göre duygu sayısı değişir)
     const emotionBox = document.getElementById('duygu-mirror-options');
     if (emotionBox) {
       emotionBox.innerHTML = cfg.emotions.map(e => 
@@ -588,7 +588,6 @@ document.addEventListener('DOMContentLoaded', () => {
           setVisualEmotionMirror(selectedEmotion);
           if (soundEnabled) AudioEngine.playSuccess();
 
-          // Pedagojik Katman: Yoğun duygular için sakinleşme / strateji adımı
           if (selectedEmotion.label.toLowerCase().includes('kızgın') || 
               selectedEmotion.label.toLowerCase().includes('üzgün') || 
               selectedEmotion.label.toLowerCase().includes('korku')) {
@@ -617,13 +616,13 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // INITIALIZE SHUFFLED SIRALA BUL GAME
-    initSiralaBulGame();
+    // INITIALIZE SHUFFLED SIRALA BUL GAME (Yaşa göre eleman sayısı uyarlanabilir)
+    initSiralaBulGame(level);
 
     // RENDER HANGİ MEVSİM GAME OPTIONS
     const mevsimBox = document.getElementById('mevsim-options');
     if (mevsimBox) {
-      const seasons = ['🍂 Sonbahar', '❄️ Kış', '🌸 İlkbahar', '☀️ Yaz'];
+      const seasons = level === '3' ? ['🍂 Sonbahar', '☀️ Yaz'] : ['🍂 Sonbahar', '❄️ Kış', '🌸 İlkbahar', '☀️ Yaz'];
       mevsimBox.innerHTML = seasons.map(s => 
         `<button class="btn-icon-pill mevsim-opt-btn">${s}</button>`
       ).join('');
@@ -636,10 +635,10 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // Initialize Real Cut Image Puzzle
-    initRealImagePuzzle();
+    // Initialize Real Cut Image Puzzle with Age Level
+    initRealImagePuzzle(level);
 
-    // Render Hava Durumu Giydirme
+    // Render Hava Durumu Giydirme (Yaşa göre seçenek sayısı değişir)
     const dressContainer = document.getElementById('dress-options-grid');
     if (dressContainer) {
       dressContainer.innerHTML = cfg.weatherOptions.map(opt => 
