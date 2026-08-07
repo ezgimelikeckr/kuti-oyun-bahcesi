@@ -572,7 +572,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('ozbakim-desc').textContent = cfg.ozbakimDesc;
     document.getElementById('doga-desc').textContent = cfg.dogaDesc;
 
-    // Set Visual Emotion Mirror target
+   // Set Visual Emotion Mirror target
     setVisualEmotionMirror(cfg.emotions[0]);
 
     // Render Duygu Aynası options
@@ -587,7 +587,15 @@ document.addEventListener('DOMContentLoaded', () => {
           const selectedEmotion = cfg.emotions[i];
           setVisualEmotionMirror(selectedEmotion);
           if (soundEnabled) AudioEngine.playSuccess();
-          alert(`Harika! Piko da şu an ${selectedEmotion.label} hissediyor!`);
+
+          // Pedagojik Katman: Yoğun duygular için sakinleşme / strateji adımı
+          if (selectedEmotion.label.toLowerCase().includes('kızgın') || 
+              selectedEmotion.label.toLowerCase().includes('üzgün') || 
+              selectedEmotion.label.toLowerCase().includes('korku')) {
+            alert(`🌱 Piko şu an ${selectedEmotion.label} hissediyor. Gel birlikte derin bir nefes alıp çiçek koklayalım ve yavaşça üfleyelim, minik kalbimiz sakinleşsin.`);
+          } else {
+            alert(`Harika! Piko da şu an ${selectedEmotion.label} hissediyor!`);
+          }
         });
       });
     }
