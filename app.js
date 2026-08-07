@@ -104,11 +104,9 @@ document.addEventListener('DOMContentLoaded', () => {
   let sunTimerDuration = 120;
   let sunInterval = null;
   
-  // Launch Pin & Parent Pin States
-  let currentLaunchPin = '5291';
+// --- Ebeveyn Güvenlik Doğrulaması (Dinamik Matematik Sorusu Mantığı) ---
+  let currentMathAnswer = 0;
   let enteredLaunchPin = '';
-  let currentDynamicPin = '1234';
-  let enteredPin = '';
   let plantStageIndex = 0;
   const plantVisualStages = ['🌱', '🌿', '🌻', '🌳'];
 
@@ -123,18 +121,22 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('l-dot-4')
   ];
 
-  function generateLaunchPin() {
-    const d1 = Math.floor(Math.random() * 9) + 1;
-    const d2 = Math.floor(Math.random() * 9) + 1;
-    const d3 = Math.floor(Math.random() * 9) + 1;
-    const d4 = Math.floor(Math.random() * 9) + 1;
-    currentLaunchPin = `${d1}${d2}${d3}${d4}`;
+  // Her girişte rastgele matematik sorusu üreten güvenli fonksiyon
+  function generateMathSecurityProblem() {
+    const num1 = Math.floor(Math.random() * 5) + 1; // 1 ile 5 arası
+    const num2 = Math.floor(Math.random() * 4) + 1; // 1 ile 4 arası
+    
+    currentMathAnswer = num1 + num2; // Doğru sonuç
+    enteredLaunchPin = '';
+    
     if (launchPinDisplay) {
-      launchPinDisplay.textContent = `Güvenlik Kodu: ${d1} - ${d2} - ${d3} - ${d4}`;
+      // Ekranda sabit şifre yerine dinamik soru görünür
+      launchPinDisplay.textContent = `Soru: ${num1} + ${num2} = ?`;
     }
   }
 
-  generateLaunchPin();
+  // İlk açılışta soruyu üret
+  generateMathSecurityProblem();
 
   function updateLaunchDots() {
     lDots.forEach((dot, idx) => {
@@ -144,22 +146,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.querySelectorAll('.launch-key-btn').forEach(btn => {
     btn.addEventListener('click', () => {
+      const digit = btn.textContent.trim();
+      
       if (enteredLaunchPin.length < 4) {
-        enteredLaunchPin += btn.textContent.trim();
+        enteredLaunchPin += digit;
         updateLaunchDots();
         if (soundEnabled) AudioEngine.playTone(432, 0.1);
 
-        if (enteredLaunchPin.length === 4) {
-          if (enteredLaunchPin === currentLaunchPin) {
-            if (soundEnabled) AudioEngine.playSuccess();
-            if (appLaunchOverlay) appLaunchOverlay.classList.add('unlocked');
-          } else {
-            if (launchPinError) launchPinError.textContent = 'Hatalı Kod! Lütfen yukarıdaki 4 rakamı girin.';
-            setTimeout(() => {
-              enteredLaunchPin = '';
-              updateLaunchDots();
-            }, 800);
-          }
+        const userResult = parseInt(enteredLaunchPin, 10);
+
+        // Kullanıcının girdiği sonuç doğru cevapla eşleşirse
+        if (userResult === currentMathAnswer) {
+          if (soundEnabled) AudioEngine.playSuccess();
+          if (appLaunchOverlay) appLaunchOverlay.classList.add('unlocked');
+        } 
+        // Yanlış bir değer girildiyse veya basamak limiti dolduysa
+        else if (enteredLaunchPin.length >= 2 || userResult > currentMathAnswer) {
+          if (launchPinError) launchPinError.textContent = 'Hatalı sonuç! Lütfen tekrar deneyin.';
+          setTimeout(() => {
+            enteredLaunchPin = '';
+            updateLaunchDots();
+            if (launchPinError) launchPinError.textContent = '';
+          }, 800);
         }
       }
     });
