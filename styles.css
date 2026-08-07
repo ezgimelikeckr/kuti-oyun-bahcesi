@@ -78,7 +78,7 @@ body {
   background-color: var(--bg-cream);
   background: 
     linear-gradient(to bottom, rgba(255, 248, 225, 0.88) 0%, rgba(255, 253, 231, 0.75) 40%, rgba(241, 248, 233, 0.85) 100%),
-    url('assets/piko_garden_bg.jpg') no-repeat center center / cover;
+    url('piko_garden_bg.jpg') no-repeat center center / cover;
   color: var(--text-dark);
   font-family: var(--font-body);
   padding: 0.6rem 1rem;
@@ -89,7 +89,7 @@ body {
 .piko-welcome-overlay {
   position: fixed;
   inset: 0;
-  background: linear-gradient(135deg, #FFF8E1 0%, #E8F5E9 100%), url('assets/piko_garden_bg.jpg') no-repeat center center / cover;
+  background: linear-gradient(135deg, #FFF8E1 0%, #E8F5E9 100%), url('piko_garden_bg.jpg') no-repeat center center / cover;
   z-index: 4000;
   display: flex;
   align-items: center;
@@ -139,7 +139,7 @@ body {
 .app-launch-overlay {
   position: fixed;
   inset: 0;
-  background: linear-gradient(135deg, #FFF8E1 0%, #E8F5E9 100%), url('assets/piko_garden_bg.jpg') no-repeat center center / cover;
+  background: linear-gradient(135deg, #FFF8E1 0%, #E8F5E9 100%), url('piko_garden_bg.jpg') no-repeat center center / cover;
   z-index: 3000;
   display: flex;
   align-items: center;
