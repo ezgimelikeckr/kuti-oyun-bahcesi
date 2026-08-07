@@ -385,7 +385,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const posX = (c / (totalCols - 1)) * 100;
         const posY = (r / (totalRows - 1)) * 100;
-        slot.style.backgroundImage = "url('assets/piko_mascot.jpg')";
+        slot.style.backgroundImage = "url('piko_mascot.jpg')";
         slot.style.backgroundPosition = `${posX}% ${posY}%`;
 
         if (missingIndices.includes(index)) {
