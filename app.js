@@ -105,73 +105,72 @@ document.addEventListener('DOMContentLoaded', () => {
   let sunInterval = null;
   
 // --- Ebeveyn Güvenlik Doğrulaması (Dinamik Matematik Sorusu Mantığı) ---
-  let currentMathAnswer = 0;
-  let enteredLaunchPin = '';
-  let plantStageIndex = 0;
-  const plantVisualStages = ['🌱', '🌿', '🌻', '🌳'];
+  let currentMathAnswer = 0;
+  let enteredMathInput = ''; // Artık pin yerine girilen matematiksel metni tutuyoruz
+  let plantStageIndex = 0;
+  const plantVisualStages = ['🌱', '🌿', '🌻', '🌳'];
 
-  // 2. MANDATORY APP LAUNCH INITIAL ENTRY LOCK OVERLAY LOGIC
-  const appLaunchOverlay = document.getElementById('app-launch-overlay');
-  const launchPinDisplay = document.getElementById('launch-pin-display');
-  const launchPinError = document.getElementById('launch-pin-error');
-  const lDots = [
-    document.getElementById('l-dot-1'),
-    document.getElementById('l-dot-2'),
-    document.getElementById('l-dot-3'),
-    document.getElementById('l-dot-4')
-  ];
+  // 2. MANDATORY APP LAUNCH INITIAL ENTRY LOCK OVERLAY LOGIC
+  const appLaunchOverlay = document.getElementById('app-launch-overlay');
+  const launchPinDisplay = document.getElementById('launch-pin-display');
+  const launchPinError = document.getElementById('launch-pin-error');
+  const mathInputDisplay = document.getElementById('math-input-display'); // Yeni eklediğimiz ekran alanı
 
-  // Her girişte rastgele matematik sorusu üreten güvenli fonksiyon
-  function generateMathSecurityProblem() {
-    const num1 = Math.floor(Math.random() * 5) + 1; // 1 ile 5 arası
-    const num2 = Math.floor(Math.random() * 4) + 1; // 1 ile 4 arası
-    
-    currentMathAnswer = num1 + num2; // Doğru sonuç
-    enteredLaunchPin = '';
-    
-    if (launchPinDisplay) {
-      // Ekranda sabit şifre yerine dinamik soru görünür
-      launchPinDisplay.textContent = `Soru: ${num1} + ${num2} = ?`;
-    }
-  }
+  // Her girişte rastgele matematik sorusu üreten güvenli fonksiyon
+  function generateMathSecurityProblem() {
+    const num1 = Math.floor(Math.random() * 5) + 1; // 1 ile 5 arası
+    const num2 = Math.floor(Math.random() * 4) + 1; // 1 ile 4 arası
+    
+    currentMathAnswer = num1 + num2; // Doğru sonuç
+    enteredMathInput = '';
+    
+    if (launchPinDisplay) {
+      launchPinDisplay.textContent = `Soru: ${num1} + ${num2} = ?`;
+    }
+    if (mathInputDisplay) {
+      mathInputDisplay.textContent = '_';
+    }
+  }
 
-  // İlk açılışta soruyu üret
-  generateMathSecurityProblem();
+  // İlk açılışta soruyu üret
+  generateMathSecurityProblem();
 
-  function updateLaunchDots() {
-    lDots.forEach((dot, idx) => {
-      if (dot) dot.style.background = idx < enteredLaunchPin.length ? '#FF7043' : '#DDD';
-    });
-  }
+// Tuş takımı kontrolü ve ekran güncellemesi
+  document.querySelectorAll('.launch-key-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const digit = btn.textContent.trim();
+      
+      // 2 haneden uzun olmasını engelleyelim (toplama sonucu en fazla iki hanelidir)
+      if (enteredMathInput.length < 2) {
+        enteredMathInput += digit;
+        
+        // Ekranda girilen rakamı göster
+        if (mathInputDisplay) {
+          mathInputDisplay.textContent = enteredMathInput;
+        }
 
-  document.querySelectorAll('.launch-key-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const digit = btn.textContent.trim();
-      
-      if (enteredLaunchPin.length < 4) {
-        enteredLaunchPin += digit;
-        updateLaunchDots();
-        if (soundEnabled) AudioEngine.playTone(432, 0.1);
+        if (soundEnabled) AudioEngine.playTone(432, 0.1);
 
-        const userResult = parseInt(enteredLaunchPin, 10);
+        const userResult = parseInt(enteredMathInput, 10);
 
-        // Kullanıcının girdiği sonuç doğru cevapla eşleşirse
-        if (userResult === currentMathAnswer) {
-          if (soundEnabled) AudioEngine.playSuccess();
-          if (appLaunchOverlay) appLaunchOverlay.classList.add('unlocked');
-        } 
-        // Yanlış bir değer girildiyse veya basamak limiti dolduysa
-        else if (enteredLaunchPin.length >= 2 || userResult > currentMathAnswer) {
-          if (launchPinError) launchPinError.textContent = 'Hatalı sonuç! Lütfen tekrar deneyin.';
-          setTimeout(() => {
-            enteredLaunchPin = '';
-            updateLaunchDots();
-            if (launchPinError) launchPinError.textContent = '';
-          }, 800);
-        }
-      }
-    });
-  });
+        // Kullanıcının girdiği sonuç doğru cevapla eşleşirse
+        if (userResult === currentMathAnswer) {
+          if (soundEnabled) AudioEngine.playSuccess();
+          if (appLaunchOverlay) appLaunchOverlay.classList.add('unlocked');
+        } 
+        // Yanlış bir değer girildiyse veya sonuç aşıldıysa
+        else if (enteredMathInput.length >= 2 || userResult > currentMathAnswer) {
+          if (launchPinError) launchPinError.textContent = 'Hatalı sonuç! Tekrar deneyin.';
+          setTimeout(() => {
+            enteredMathInput = '';
+            if (mathInputDisplay) mathInputDisplay.textContent = '_';
+            if (launchPinError) launchPinError.textContent = '';
+          }, 800);
+        }
+      }
+    });
+  });
+
 
   // Sound Toggle Button
   const soundToggleBtn = document.getElementById('sound-toggle-btn');
