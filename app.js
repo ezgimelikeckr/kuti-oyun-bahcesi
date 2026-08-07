@@ -432,7 +432,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const teethZone = document.getElementById('teeth-target-zone');
     const mouthEmoji = document.getElementById('mouth-target-emoji');
 
-    if (brush && teethZone) {
+   if (brush && teethZone) {
       brush.addEventListener('dragstart', (e) => {
         e.dataTransfer.setData('text/plain', 'brush');
         brush.classList.add('dragging');
@@ -464,6 +464,7 @@ document.addEventListener('DOMContentLoaded', () => {
           alert('🧼 Piko pırıl pırıl dişlerle gülümsüyor!');
         }, 600);
       });
+    } 
 
     const water = document.getElementById('draggable-water');
     const sun = document.getElementById('draggable-sun');
