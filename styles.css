@@ -349,6 +349,15 @@ body {
   pointer-events: none;
 }
 
+/*Güvenlik Kuralı: Kilit ve Karşılama Ekranı Kalktığında Tıklamaları Arkaya Kesin Ver*/
+.piko-welcome-overlay.hidden-welcome,
+.app-launch-overlay.unlocked {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  display: none !important;
+}
+
 .launch-pin-box {
   background: var(--card-bg);
   border-radius: var(--radius-xl);
