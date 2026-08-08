@@ -211,63 +211,121 @@ body {
 }
 
 /* ==========================================================================
-   EBEVEYN KÖŞESİ & MOBİL DUYARLILIK (YATAY VE DİKEY KAYDIRMA ÇÖZÜMLERI)
+   EBEVEYN KÖŞESİ & MOBİL DUYARLILIK (TEK VE KUSURSUZ ÇÖZÜM)
    ========================================================================== */
 
-/* 1. Ebeveyn Köşesi Üst Menüleri İçin Yatay Kaydırma (Dikey ve Yatay Konumda Aktif) */
+/* 1. Modal Arka Plan Perdesi (Arkada kalan ana menü ve köşelerin görünmesini kesin olarak engeller) */
+.piko-modal {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  background: rgba(0, 0, 0, 0.65) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 99999 !important;
+  overflow: hidden !important;
+}
+
+/* 2. Ebeveyn Modal Kutu Boyutu ve Dikey Taşmazlık Sınırı */
+.parent-modal-box {
+  max-height: 85vh !important;
+  width: 90% !important;
+  max-width: 500px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+}
+
+#parent-dashboard-view {
+  display: none;
+  flex-direction: column !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-height: 75vh !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+}
+
+/* 3. Ebeveyn Köşesi Üst Menüleri İçin Yatay Kaydırma Şeridi */
 .parent-tabs, 
 .panel-tabs-container, 
 .modal-tabs, 
-header nav,
-.piko-modal .modal-content > div:first-of-type {
+header nav {
   display: flex !important;
   flex-wrap: nowrap !important;
   overflow-x: auto !important;
   overflow-y: hidden !important;
-  gap: 10px !important;
-  padding-bottom: 8px !important;
+  gap: 6px !important;
+  padding-bottom: 6px !important;
   -webkit-overflow-scrolling: touch !important;
   width: 100% !important;
   max-width: 100% !important;
   box-sizing: border-box !important;
   justify-content: flex-start !important;
+  flex-shrink: 0 !important;
   touch-action: pan-x !important;
 }
 
 /* Üst menü butonlarının daralıp kırılmasını kesin olarak engelle */
 .parent-tabs button, 
 .panel-tabs-container button, 
-.modal-tabs button,
-.piko-modal button {
+.modal-tabs button {
   flex: 0 0 auto !important;
   white-space: nowrap !important;
-  min-width: max-content !important;
+  font-size: 0.78rem !important;
+  padding: 6px 10px !important;
 }
 
-/* 2. Telefon Yatay Konumda veya Küçük Yüksekliklerde İçerikler İçin Dikey Kaydırma Garantisi */
-@media screen and (max-height: 500px), screen and (max-width: 768px) {
-  /* Ebeveyn paneli ve modal pencereleri dikeyde taşarsa otomatik kaydırma çubuğu açılır */
-  .piko-modal, 
-  .modal-content, 
-  #parent-dashboard-view,
-  .tab-pane.active {
-    max-height: 82vh !important;
-    overflow-y: auto !important; 
+/* 4. İçerik Alanı (Kendi içinde dikey kaydırılır, dışarıya ve alta asla taşmaz) */
+#parent-dashboard-view > div:not(.parent-tabs) {
+  flex: 1 !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  -webkit-overflow-scrolling: touch !important;
+  padding-right: 4px !important;
+  margin-top: 6px !important;
+}
+
+/* Sekme Panelleri Yönetimi */
+.tab-pane {
+  display: none !important;
+}
+
+.tab-pane.active {
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+/* 5. Mobil Genel Dikey Mod Düzenlemeleri (Max-width: 768px) */
+@media screen and (max-width: 768px) {
+  html, body {
+    width: 100%;
+    height: auto !important;
+    max-height: none !important;
     overflow-x: hidden !important;
-    -webkit-overflow-scrolling: touch !important;
+    overflow-y: auto !important;
+  }
+
+  header, .header-container, .top-header-bar {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 12px !important;
+    width: 100% !important;
+    padding: 5px 0 !important;
+  }
+
+  .corners-grid, .dashboard-grid, .piko-dashboard-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 15px !important;
+    width: 100% !important;
   }
 }
-
-/* Butonların sıkışıp kırılmasını ve ekrandan taşmasını engelle */
-.parent-tabs button, 
-.panel-tabs-container button, 
-.modal-tabs button,
-div[style*="display: flex"] > button {
-  flex: 0 0 auto !important;
-  white-space: nowrap !important;
-  min-width: max-content !important;
-}
-
 /* 1. INITIAL WELCOME OVERLAY ("Oyun bahçeme hoş geldin!") */
 .piko-welcome-overlay {
   position: fixed;
