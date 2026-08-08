@@ -465,36 +465,43 @@
       </div>
 
 <!-- PARENT DASHBOARD VIEW (NO-SCROLL TABS) -->
-      <div id="parent-dashboard-view" style="display: none; height: 100%; flex-direction: column; width: 100%; box-sizing: border-box;">
+      <div id="parent-dashboard-view" style="display: none; height: 100%; max-height: 75vh; flex-direction: column; width: 100%; box-sizing: border-box; overflow: hidden;">
         <h3 style="margin-bottom: 0.6rem; color: #5E35B1; flex-shrink: 0;">⚙️ Ebeveyn Yönetim Paneli</h3>
 
-        <!-- Kesin Taşmaz Yatay Kaydırma Alanı -->
-        <div class="parent-tabs parent-tabs-nav modal-tabs" style="display: flex; flex-wrap: nowrap; overflow-x: auto; overflow-y: hidden; gap: 5px; width: 100%; box-sizing: border-box; -webkit-overflow-scrolling: touch; padding-bottom: 5px; touch-action: pan-x;">
-          <button class="tab-btn active" data-tab="tab-time" style="flex: 0 0 auto; white-space: nowrap; font-size: 0.78rem; padding: 6px 10px;">☀️ Süre</button>
-          <button class="tab-btn" data-tab="tab-age" style="flex: 0 0 auto; white-space: nowrap; font-size: 0.78rem; padding: 6px 10px;">🌱 Yaş</button>
-          <button class="tab-btn" data-tab="tab-articles" style="flex: 0 0 auto; white-space: nowrap; font-size: 0.78rem; padding: 6px 10px;">📚 Makaleler</button>
-          <button class="tab-btn" data-tab="tab-books" style="flex: 0 0 auto; white-space: nowrap; font-size: 0.78rem; padding: 6px 10px;">📖 Kitaplar</button>
+        <!-- Üst Menü -->
+        <div class="parent-tabs parent-tabs-nav modal-tabs" style="display: flex; flex-wrap: nowrap; overflow-x: auto; overflow-y: hidden; gap: 4px; width: 100%; box-sizing: border-box; -webkit-overflow-scrolling: touch; padding-bottom: 5px; touch-action: pan-x; flex-shrink: 0;">
+          <button class="tab-btn active" data-tab="tab-time" style="flex: 0 0 auto; white-space: nowrap; font-size: 0.75rem; padding: 6px 8px;">☀️ Süre</button>
+          <button class="tab-btn" data-tab="tab-age" style="flex: 0 0 auto; white-space: nowrap; font-size: 0.75rem; padding: 6px 8px;">🌱 Yaş</button>
+          <button class="tab-btn" data-tab="tab-articles" style="flex: 0 0 auto; white-space: nowrap; font-size: 0.75rem; padding: 6px 8px;">📚 Makaleler</button>
+          <button class="tab-btn" data-tab="tab-books" style="flex: 0 0 auto; white-space: nowrap; font-size: 0.75rem; padding: 6px 8px;">📖 Kitaplar</button>
         </div>
 
-        <!-- TAB 1: SÜRE YÖNETİMİ -->
-        <div class="tab-pane active" id="tab-time">
-          <div>
-            <h4 style="margin-bottom: 0.4rem;">Güneş Yolu (Ekran Süresi Limitleri):</h4>
-            <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.85rem;">
-              Güneşin hareket hızı seçilen süre ile birebir zaman orantılıdır. Süre bittiğinde otomatik Uyku Modu'na geçilir.
-            </p>
-            <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap;">
-              <button class="btn-icon-pill time-opt-btn" data-time="5">5 Dakika</button>
-              <button class="btn-icon-pill time-opt-btn" data-time="10">10 Dakika</button>
-              <button class="btn-icon-pill time-opt-btn" data-time="15">15 Dakika (Önerilen)</button>
-              <button class="btn-icon-pill time-opt-btn" data-time="20">20 Dakika</button>
+        <!-- İçerik Alanları Kapsayıcısı (Taşmayı Önleyen ve Dikey Kaydırma Veren Bölüm) -->
+        <div style="flex: 1; overflow-y: auto; overflow-x: hidden; padding-right: 4px; margin-top: 8px; -webkit-overflow-scrolling: touch;">
+
+          <!-- TAB 1: SÜRE YÖNETİMİ -->
+          <div class="tab-pane active" id="tab-time" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
+            <div>
+              <h4 style="margin-bottom: 0.4rem; font-size: 0.9rem;">Güneş Yolu (Ekran Süresi Limitleri):</h4>
+              <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 0.6rem;">
+                Güneşin hareket hızı seçilen süre ile birebir zaman orantılıdır. Süre bittiğinde otomatik Uyku Modu'na geçilir.
+              </p>
+              <div style="display: flex; gap: 0.4rem; margin-bottom: 0.8rem; flex-wrap: wrap;">
+                <button class="btn-icon-pill time-opt-btn" data-time="5" style="font-size: 0.75rem; padding: 6px 10px;">5 Dakika</button>
+                <button class="btn-icon-pill time-opt-btn" data-time="10" style="font-size: 0.75rem; padding: 6px 10px;">10 Dakika</button>
+                <button class="btn-icon-pill time-opt-btn" data-time="15" style="font-size: 0.75rem; padding: 6px 10px;">15 Dakika (Önerilen)</button>
+                <button class="btn-icon-pill time-opt-btn" data-time="20" style="font-size: 0.75rem; padding: 6px 10px;">20 Dakika</button>
+              </div>
             </div>
+            <button class="btn-play" id="btn-force-sleep" style="background: #E53935; width: 100%; justify-content: center; padding: 8px; font-size: 0.8rem; margin-top: 10px;">
+              🌙 Güneşi Şimdi Batır (Anında Uyku Modunu Test Et)
+            </button>
           </div>
-          <button class="btn-play" id="btn-force-sleep" style="background: #E53935; width: 100%; justify-content: center; margin-top: auto;">
-            🌙 Güneşi Şimdi Batır (Anında Uyku Modunu Test Et)
-          </button>
-        </div>
 
+          <!-- (Diğer sekme içerikleri de aynı şekilde bu esnek yapının içinde düzgünce sıralanacaktır) -->
+
+        </div>
+      </div>
         <!-- TAB 2: SEVİYE VE YAŞ KATEGORİSİ -->
         <div class="tab-pane" id="tab-age">
           <div>
