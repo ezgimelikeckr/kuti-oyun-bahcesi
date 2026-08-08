@@ -210,22 +210,52 @@ body {
   display: block !important;
 }
 
-/* Ebeveyn Paneli Üst Menü / Sekme Alanı İçin Kesin Kaydırma Garantisi */
+/* ==========================================================================
+   EBEVEYN KÖŞESİ & MOBİL DUYARLILIK (YATAY VE DİKEY KAYDIRMA ÇÖZÜMLERI)
+   ========================================================================== */
+
+/* 1. Ebeveyn Köşesi Üst Menüleri İçin Yatay Kaydırma (Dikey ve Yatay Konumda Aktif) */
 .parent-tabs, 
 .panel-tabs-container, 
 .modal-tabs, 
 header nav,
-div[style*="display: flex"] {
+.piko-modal .modal-content > div:first-of-type {
   display: flex !important;
   flex-wrap: nowrap !important;
   overflow-x: auto !important;
   overflow-y: hidden !important;
+  gap: 10px !important;
+  padding-bottom: 8px !important;
   -webkit-overflow-scrolling: touch !important;
-  gap: 8px !important;
   width: 100% !important;
   max-width: 100% !important;
   box-sizing: border-box !important;
   justify-content: flex-start !important;
+  touch-action: pan-x !important;
+}
+
+/* Üst menü butonlarının daralıp kırılmasını kesin olarak engelle */
+.parent-tabs button, 
+.panel-tabs-container button, 
+.modal-tabs button,
+.piko-modal button {
+  flex: 0 0 auto !important;
+  white-space: nowrap !important;
+  min-width: max-content !important;
+}
+
+/* 2. Telefon Yatay Konumda veya Küçük Yüksekliklerde İçerikler İçin Dikey Kaydırma Garantisi */
+@media screen and (max-height: 500px), screen and (max-width: 768px) {
+  /* Ebeveyn paneli ve modal pencereleri dikeyde taşarsa otomatik kaydırma çubuğu açılır */
+  .piko-modal, 
+  .modal-content, 
+  #parent-dashboard-view,
+  .tab-pane.active {
+    max-height: 82vh !important;
+    overflow-y: auto !important; 
+    overflow-x: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
 }
 
 /* Butonların sıkışıp kırılmasını ve ekrandan taşmasını engelle */
