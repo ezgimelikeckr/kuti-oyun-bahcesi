@@ -210,6 +210,25 @@ body {
   display: block !important;
 }
 
+/* Ebeveyn Paneli Üst Menü / Sekme Alanı Yatay Kaydırma Kuralı */
+.parent-tabs, .panel-tabs-container, .modal-tabs, header nav {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  gap: 10px !important;
+  padding-bottom: 8px !important;
+  -webkit-overflow-scrolling: touch !important;
+  width: 100% !important;
+  justify-content: flex-start !important;
+}
+
+/* Sekme butonlarının daralıp büzüşmesini engelle, orijinal boyutunda kalsın */
+.parent-tabs button, .panel-tabs-container button, .modal-tabs button {
+  flex: 0 0 auto !important;
+  white-space: nowrap !important;
+}
+
 /* 1. INITIAL WELCOME OVERLAY ("Oyun bahçeme hoş geldin!") */
 .piko-welcome-overlay {
   position: fixed;
