@@ -140,6 +140,15 @@ body {
   overflow-x: hidden !important;
   box-sizing: border-box;
 }
+
+/* Sekmelerin ve içeriklerin ekranda görünmesini kesinleştiren kural */
+#parent-dashboard-view .tab-pane {
+  display: none !important;
+}
+
+#parent-dashboard-view .tab-pane.active {
+  display: block !important;
+}
 .modal-close-btn {
   position: absolute;
   top: 0.85rem;
