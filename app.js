@@ -790,11 +790,14 @@ document.addEventListener('DOMContentLoaded', () => {
       tabPanes.forEach(p => p.classList.remove('active'));
 
       // Tıklanan sekmeyi ve ilgili paneli aktif yap
-      btn.classList.add('active');
-      const target = document.getElementById(btn.dataset.tab);
-      if (target) {
-        target.classList.add('active');
-      }
+     btn.classList.add('active');
+const target = document.getElementById(btn.dataset.tab);
+if (target) {
+  target.classList.add('active');
+}
+if (parentDashboardView) {
+  parentDashboardView.scrollTop = 0; // ← YENİ SATIR: sekme değişince en üste dön
+}
       
       if (soundEnabled) AudioEngine.playTone(550);
     });
