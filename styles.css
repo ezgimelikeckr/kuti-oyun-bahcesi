@@ -117,24 +117,27 @@ body {
   background: var(--card-bg);
   border-radius: var(--radius-xl);
   padding: 1.25rem;
-  width: 95vw;
-  max-width: 1050px;
-  max-height: 85vh; /* Sabit yükseklik yerine esnek max-height */
-  height: auto;     /* İçeriğe göre boylanması için auto yapıyoruz */
+  width: 90vw !important;
+  max-width: 900px !important;
+  min-height: 450px !important; /* Kutunun asla dikeyde büzüşmesini engeller */
+  max-height: 85vh !important;
+  height: auto !important;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
   position: relative;
-  display: flex;
-  flex-direction: column;
+  display: flex !important;
+  flex-direction: column !important;
   overflow: hidden;
 }
 
 #parent-dashboard-view {
   display: none;
-  flex-direction: column;
-  width: 100%;
-  max-height: calc(85vh - 80px); /* Kutu boyutu içinde düzgün kayması için */
-  overflow-y: auto;
-  overflow-x: hidden;
+  flex-direction: column !important;
+  width: 100% !important;
+  flex: 1 !important;
+  min-height: 380px !important;
+  max-height: calc(85vh - 80px) !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
   box-sizing: border-box;
 }
 .modal-close-btn {
