@@ -464,74 +464,72 @@
         <p id="pin-error-msg" style="text-align: center; color: #E53935; font-weight: 700; margin-top: 0.4rem; min-height: 20px; font-size: 0.82rem;"></p>
       </div>
 
-<!-- PARENT DASHBOARD VIEW (NO-SCROLL TABS) -->
-      <div id="parent-dashboard-view" style="display: none; height: 100%; max-height: 75vh; flex-direction: column; width: 100%; box-sizing: border-box; overflow: hidden;">
-        <h3 style="margin-bottom: 0.6rem; color: #5E35B1; flex-shrink: 0;">⚙️ Ebeveyn Yönetim Paneli</h3>
+<!-- EBEVEYN KÖŞESİ MODAL (Kusursuz, Kaydırılabilir ve Eksiksiz Yapı) -->
+<div class="piko-modal" id="modal-parent-corner">
+  <div class="parent-modal-box" style="max-height: 85vh; width: 90%; max-width: 500px; display: flex; flex-direction: column; overflow: hidden; background: #FFFFFF; border-radius: 16px; padding: 16px; box-sizing: border-box;">
+    <button class="modal-close-btn" data-close-modal>✕</button>
 
-        <!-- Üst Menü -->
-        <div class="parent-tabs parent-tabs-nav modal-tabs" style="display: flex; flex-wrap: nowrap; overflow-x: auto; overflow-y: hidden; gap: 4px; width: 100%; box-sizing: border-box; -webkit-overflow-scrolling: touch; padding-bottom: 5px; touch-action: pan-x; flex-shrink: 0;">
-          <button class="tab-btn active" data-tab="tab-time" style="flex: 0 0 auto; white-space: nowrap; font-size: 0.75rem; padding: 6px 8px;">☀️ Süre</button>
-          <button class="tab-btn" data-tab="tab-age" style="flex: 0 0 auto; white-space: nowrap; font-size: 0.75rem; padding: 6px 8px;">🌱 Yaş</button>
-          <button class="tab-btn" data-tab="tab-articles" style="flex: 0 0 auto; white-space: nowrap; font-size: 0.75rem; padding: 6px 8px;">📚 Makaleler</button>
-          <button class="tab-btn" data-tab="tab-books" style="flex: 0 0 auto; white-space: nowrap; font-size: 0.75rem; padding: 6px 8px;">📖 Kitaplar</button>
-        </div>
+    <!-- PARENT DASHBOARD VIEW -->
+    <div id="parent-dashboard-view" style="display: none; flex-direction: column; width: 100%; height: 100%; max-height: 72vh; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; box-sizing: border-box; padding-right: 4px;">
+      
+      <h3 style="margin-bottom: 0.6rem; color: #5E35B1; flex-shrink: 0;">⚙️ Ebeveyn Yönetim Paneli</h3>
 
-        <!-- İçerik Alanları Kapsayıcısı (Taşmayı Önleyen ve Dikey Kaydırma Veren Bölüm) -->
-        <div style="flex: 1; overflow-y: auto; overflow-x: hidden; padding-right: 4px; margin-top: 8px; -webkit-overflow-scrolling: touch;">
-
-          <!-- TAB 1: SÜRE YÖNETİMİ -->
-          <div class="tab-pane active" id="tab-time" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
-            <div>
-              <h4 style="margin-bottom: 0.4rem; font-size: 0.9rem;">Güneş Yolu (Ekran Süresi Limitleri):</h4>
-              <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 0.6rem;">
-                Güneşin hareket hızı seçilen süre ile birebir zaman orantılıdır. Süre bittiğinde otomatik Uyku Modu'na geçilir.
-              </p>
-              <div style="display: flex; gap: 0.4rem; margin-bottom: 0.8rem; flex-wrap: wrap;">
-                <button class="btn-icon-pill time-opt-btn" data-time="5" style="font-size: 0.75rem; padding: 6px 10px;">5 Dakika</button>
-                <button class="btn-icon-pill time-opt-btn" data-time="10" style="font-size: 0.75rem; padding: 6px 10px;">10 Dakika</button>
-                <button class="btn-icon-pill time-opt-btn" data-time="15" style="font-size: 0.75rem; padding: 6px 10px;">15 Dakika (Önerilen)</button>
-                <button class="btn-icon-pill time-opt-btn" data-time="20" style="font-size: 0.75rem; padding: 6px 10px;">20 Dakika</button>
-              </div>
-            </div>
-            <button class="btn-play" id="btn-force-sleep" style="background: #E53935; width: 100%; justify-content: center; padding: 8px; font-size: 0.8rem; margin-top: 10px;">
-              🌙 Güneşi Şimdi Batır (Anında Uyku Modunu Test Et)
-            </button>
-          </div>
-
-          <!-- (Diğer sekme içerikleri de aynı şekilde bu esnek yapının içinde düzgünce sıralanacaktır) -->
-
-        </div>
+      <!-- Üst Menü (Sabit Kalır) -->
+      <div class="parent-tabs parent-tabs-nav modal-tabs" style="display: flex; flex-wrap: nowrap; overflow-x: auto; overflow-y: hidden; gap: 6px; width: 100%; box-sizing: border-box; -webkit-overflow-scrolling: touch; padding-bottom: 6px; flex-shrink: 0; position: sticky; top: 0; background: #FFFFFF; z-index: 10; touch-action: pan-x;">
+        <button class="tab-btn active" data-tab="tab-time" style="flex: 0 0 auto; white-space: nowrap; font-size: 0.78rem; padding: 6px 10px;">☀️ Süre</button>
+        <button class="tab-btn" data-tab="tab-age" style="flex: 0 0 auto; white-space: nowrap; font-size: 0.78rem; padding: 6px 10px;">🌱 Yaş</button>
+        <button class="tab-btn" data-tab="tab-articles" style="flex: 0 0 auto; white-space: nowrap; font-size: 0.78rem; padding: 6px 10px;">📚 Makaleler</button>
+        <button class="tab-btn" data-tab="tab-books" style="flex: 0 0 auto; white-space: nowrap; font-size: 0.78rem; padding: 6px 10px;">📖 Kitaplar</button>
       </div>
+
+      <!-- İçeriklerin Bulunduğu Ana Kaydırma Alanı (Tüm Sekmeler İçeride) -->
+      <div style="width: 100%; height: auto; box-sizing: border-box; padding-top: 8px; padding-bottom: 20px;">
+
+        <!-- TAB 1: SÜRE YÖNETİMİ -->
+        <div class="tab-pane active" id="tab-time">
+          <h4 style="margin-bottom: 0.4rem; font-size: 0.9rem;">Güneş Yolu (Ekran Süresi Limitleri):</h4>
+          <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 0.6rem;">
+            Güneşin hareket hızı seçilen süre ile birebir zaman orantılıdır. Süre bittiğinde otomatik Uyku Modu'na geçilir.
+          </p>
+          <div style="display: flex; gap: 0.4rem; margin-bottom: 0.8rem; flex-wrap: wrap;">
+            <button class="btn-icon-pill time-opt-btn" data-time="5" style="font-size: 0.75rem; padding: 6px 10px;">5 Dakika</button>
+            <button class="btn-icon-pill time-opt-btn" data-time="10" style="font-size: 0.75rem; padding: 6px 10px;">10 Dakika</button>
+            <button class="btn-icon-pill time-opt-btn" data-time="15" style="font-size: 0.75rem; padding: 6px 10px;">15 Dakika (Önerilen)</button>
+            <button class="btn-icon-pill time-opt-btn" data-time="20" style="font-size: 0.75rem; padding: 6px 10px;">20 Dakika</button>
+          </div>
+          <button class="btn-play" id="btn-force-sleep" style="background: #E53935; width: 100%; justify-content: center; padding: 8px; font-size: 0.8rem; margin-top: 10px;">
+            🌙 Güneşi Şimdi Batır (Anında Uyku Modunu Test Et)
+          </button>
+        </div>
+
         <!-- TAB 2: SEVİYE VE YAŞ KATEGORİSİ -->
         <div class="tab-pane" id="tab-age">
-          <div>
-            <h4 style="margin-bottom: 0.4rem;">Seviye ve Yaş Grubu Seçimi:</h4>
-            <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.85rem;">
-              Tüm 4 ana köşenin oyun zorluklarını ve içeriklerini anında seçtiğiniz yaşa uyarlar.
-            </p>
-            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-              <label style="padding: 0.65rem; background: #F5F5F5; border-radius: 12px; display: flex; align-items: center; gap: 0.75rem; cursor: pointer;">
-                <input type="radio" name="age-group" value="3" id="age-3">
-                <div>
-                  <strong>3 Yaş (Minik Keşifçiler)</strong>
-                  <p style="font-size: 0.75rem; color: var(--text-muted);">3 temel duygu, tek kriterli sıralama, 4 parçalı yapboz, 3 adımlı fırçalama.</p>
-                </div>
-              </label>
-              <label style="padding: 0.65rem; background: #F5F5F5; border-radius: 12px; display: flex; align-items: center; gap: 0.75rem; cursor: pointer;">
-                <input type="radio" name="age-group" value="4-5" id="age-4-5" checked>
-                <div>
-                  <strong>4-5 Yaş (Meraklı Filizler - Önerilen)</strong>
-                  <p style="font-size: 0.75rem; color: var(--text-muted);">4 duygu, çift kriterli sıralama, 6 parçalı yapboz, 5 adımlı öz bakım.</p>
-                </div>
-              </label>
-              <label style="padding: 0.65rem; background: #F5F5F5; border-radius: 12px; display: flex; align-items: center; gap: 0.75rem; cursor: pointer;">
-                <input type="radio" name="age-group" value="6+" id="age-6-plus">
-                <div>
-                  <strong>6+ Yaş (Bilge Çiçekler)</strong>
-                  <p style="font-size: 0.75rem; color: var(--text-muted);">6 zengin duygu, çok kriterli sıralama, 9-12 parçalı yapboz, 4 mevsim kombinasyon.</p>
-                </div>
-              </label>
-            </div>
+          <h4 style="margin-bottom: 0.4rem;">Seviye ve Yaş Grubu Seçimi:</h4>
+          <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.85rem;">
+            Tüm 4 ana köşenin oyun zorluklarını ve içeriklerini anında seçtiğiniz yaşa uyarlar.
+          </p>
+          <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+            <label style="padding: 0.65rem; background: #F5F5F5; border-radius: 12px; display: flex; align-items: center; gap: 0.75rem; cursor: pointer;">
+              <input type="radio" name="age-group" value="3" id="age-3">
+              <div>
+                <strong>3 Yaş (Minik Keşifçiler)</strong>
+                <p style="font-size: 0.75rem; color: var(--text-muted);">3 temel duygu, tek kriterli sıralama, 4 parçalı yapboz, 3 adımlı fırçalama.</p>
+              </div>
+            </label>
+            <label style="padding: 0.65rem; background: #F5F5F5; border-radius: 12px; display: flex; align-items: center; gap: 0.75rem; cursor: pointer;">
+              <input type="radio" name="age-group" value="4-5" id="age-4-5" checked>
+              <div>
+                <strong>4-5 Yaş (Meraklı Filizler - Önerilen)</strong>
+                <p style="font-size: 0.75rem; color: var(--text-muted);">4 duygu, çift kriterli sıralama, 6 parçalı yapboz, 5 adımlı öz bakım.</p>
+              </div>
+            </label>
+            <label style="padding: 0.65rem; background: #F5F5F5; border-radius: 12px; display: flex; align-items: center; gap: 0.75rem; cursor: pointer;">
+              <input type="radio" name="age-group" value="6+" id="age-6-plus">
+              <div>
+                <strong>6+ Yaş (Bilge Çiçekler)</strong>
+                <p style="font-size: 0.75rem; color: var(--text-muted);">6 zengin duygu, çok kriterli sıralama, 9-12 parçalı yapboz, 4 mevsim kombinasyon.</p>
+              </div>
+            </label>
           </div>
         </div>
 
@@ -568,8 +566,8 @@
 
         <!-- TAB 4: TAVSİYE KİTAPLAR -->
         <div class="tab-pane" id="tab-books">
-          <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 0.65rem; height: 100%;">
-            <div style="padding: 0.65rem; background: #FFF8E1; border: 2px solid #FFE082; border-radius: 12px; overflow-y: auto;">
+          <div style="display: flex; flex-direction: column; gap: 0.65rem;">
+            <div style="padding: 0.65rem; background: #FFF8E1; border: 2px solid #FFE082; border-radius: 12px;">
               <h5 style="color: #E65100; font-size: 0.85rem; margin-bottom: 0.35rem;">
                 👦 Ada Bazlı Çocuk Kitapları (3-6 Yaş Referans Listesi)
               </h5>
@@ -581,7 +579,7 @@
               </div>
             </div>
 
-            <div style="padding: 0.65rem; background: #EDE7F6; border: 2px solid #D1C4E9; border-radius: 12px; overflow-y: auto;">
+            <div style="padding: 0.65rem; background: #EDE7F6; border: 2px solid #D1C4E9; border-radius: 12px;">
               <h5 style="color: #5E35B1; font-size: 0.85rem; margin-bottom: 0.35rem;">
                 👨‍👩‍👧 Ebeveyn Kitapları (Kategorize)
               </h5>
@@ -599,6 +597,7 @@
       </div>
     </div>
   </div>
+</div>
 
 </body>
 </html>
