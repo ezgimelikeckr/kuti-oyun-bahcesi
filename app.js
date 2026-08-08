@@ -773,39 +773,31 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-// --- EBEVEYN PANELİ SEKMELERİNİN ÜST ÜSTE BİNMESİNİ ÖNLEYEN KESİN ÇÖZÜM ---
+// --- EBEVEYN PANELİ SEKMELERİNİN KUSURSUZ YÖNETİMİ ---
   const tabBtns = document.querySelectorAll('.tab-btn');
   const tabPanes = document.querySelectorAll('.tab-pane');
 
   tabBtns.forEach(btn => {
     btn.addEventListener('click', () => {
-      // Tüm butonlardan ve panellerden active sınıfını kaldır, stilleri sıfırla
+      // Tüm butonlardan ve panellerden active sınıfını kaldır
       tabBtns.forEach(b => b.classList.remove('active'));
-      tabPanes.forEach(p => {
-        p.classList.remove('active');
-        p.style.display = 'none'; // Diğer panelleri tamamen gizle
-      });
+      tabPanes.forEach(p => p.classList.remove('active'));
 
-      // Tıklanan sekmeyi aktif yap ve sadece ilgili hedef paneli göster
+      // Tıklanan sekmeyi ve ilgili paneli aktif yap
       btn.classList.add('active');
       const target = document.getElementById(btn.dataset.tab);
       if (target) {
         target.classList.add('active');
-        target.style.display = 'block'; // Sadece seçilen sekme görünür olsun
       }
       
       if (soundEnabled) AudioEngine.playTone(550);
     });
   });
 
-  // Sayfa açıldığında veya panel yüklendiğinde aktif olan paneli göster, diğerlerini kesin olarak gizle
-  tabPanes.forEach(pane => {
-    if (pane.classList.contains('active')) {
-      pane.style.display = 'block';
-    } else {
-      pane.style.display = 'none';
-    }
-  });
+  // Sayfa açıldığında ilk sekmenin aktif olduğundan emin ol
+  if (tabPanes.length > 0 && !document.querySelector('.tab-pane.active')) {
+    tabPanes[0].classList.add('active');
+  }
 
   // Force Sleep Test Button in Parent Panel
   const btnForceSleep = document.getElementById('btn-force-sleep');
