@@ -350,7 +350,7 @@ body {
   display: none !important;
 }
 
-/* Karşılama ve Kilit Perdelerinin Tıklamayı ve Girişi Engellemesini Kesin Çözüm */
+/* Kilit ve Karşılama Ekranı Kalktığında Tıklamaları Kesin Ver */
 .piko-welcome-overlay.hidden-welcome,
 .app-launch-overlay.unlocked {
   opacity: 0 !important;
@@ -358,15 +358,6 @@ body {
   pointer-events: none !important;
   display: none !important;
   z-index: -999 !important;
-}
-
-/*Güvenlik Kuralı: Kilit ve Karşılama Ekranı Kalktığında Tıklamaları Arkaya Kesin Ver*/
-.piko-welcome-overlay.hidden-welcome,
-.app-launch-overlay.unlocked {
-  opacity: 0 !important;
-  visibility: hidden !important;
-  pointer-events: none !important;
-  display: none !important;
 }
 
 .launch-pin-box {
