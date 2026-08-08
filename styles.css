@@ -201,6 +201,15 @@ body {
   }
 }
 
+/* Ebeveyn Paneli Sekme İçerikleri Varsayılan Olarak Gizlensin */
+.tab-pane {
+  display: none !important;
+}
+
+.tab-pane.active {
+  display: block !important;
+}
+
 /* 1. INITIAL WELCOME OVERLAY ("Oyun bahçeme hoş geldin!") */
 .piko-welcome-overlay {
   position: fixed;
