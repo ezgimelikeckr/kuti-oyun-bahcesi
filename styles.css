@@ -290,14 +290,14 @@ header nav {
   margin-top: 6px !important;
 }
 
-/* Sekme Panelleri Yönetimi */
+/* Sekme Panelleri Yönetimi (Orijinal Akışına Dönüş) */
 .tab-pane {
   display: none !important;
 }
 
 .tab-pane.active {
-  display: flex !important;
-  flex-direction: column !important;
+  display: block !important;
+  height: auto !important;
 }
 
 /* 5. Mobil Genel Dikey Mod Düzenlemeleri (Max-width: 768px) */
