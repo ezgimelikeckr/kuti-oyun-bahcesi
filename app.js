@@ -825,3 +825,4 @@ document.addEventListener('DOMContentLoaded', () => {
       alert(`Güneş Yolu (Ekran Süresi) ${mins} dakika olarak ayarlandı!`);
     });
   });
+});
