@@ -807,6 +807,12 @@ document.addEventListener('DOMContentLoaded', () => {
       sunProgress = 100;
       updateSunPosition();
     });
+  }
+
+  // Sayfa açıldığında ilk sekmenin aktif olduğundan emin ol
+  if (tabPanes.length > 0 && !document.querySelector('.tab-pane.active')) {
+    tabPanes[0].classList.add('active');
+  }
 
   // Time Option Buttons in Parent Panel
   document.querySelectorAll('.time-opt-btn').forEach(btn => {
@@ -819,5 +825,3 @@ document.addEventListener('DOMContentLoaded', () => {
       alert(`Güneş Yolu (Ekran Süresi) ${mins} dakika olarak ayarlandı!`);
     });
   });
-
-});
