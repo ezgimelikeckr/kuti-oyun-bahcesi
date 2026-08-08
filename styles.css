@@ -280,23 +280,18 @@ header nav {
   padding: 6px 10px !important;
 }
 
-/* 4. İçerik Alanı (Kendi içinde dikey kaydırılır, dışarıya ve alta asla taşmaz) */
-#parent-dashboard-view > div:not(.parent-tabs) {
-  flex: 1 !important;
+/* 4. İçerik Alanı (Tüm sekmeleri ve alt panelleri kusursuz kapsayan dikey kaydırma alanı) */
+#parent-dashboard-view {
   overflow-y: auto !important;
   overflow-x: hidden !important;
   -webkit-overflow-scrolling: touch !important;
+  max-height: 65vh !important;
   padding-right: 4px !important;
   margin-top: 6px !important;
 }
 
-/* Sekme Panelleri Yönetimi (Orijinal Akışına Dönüş) */
-.tab-pane {
-  display: none !important;
-}
-
-.tab-pane.active {
-  display: block !important;
+#parent-dashboard-view > div:not(.parent-tabs) {
+  width: 100% !important;
   height: auto !important;
 }
 
