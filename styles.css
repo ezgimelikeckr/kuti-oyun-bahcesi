@@ -210,36 +210,33 @@ body {
   display: block !important;
 }
 
-/* Ebeveyn Paneli Üst Sekmeler Alanı İçin Kesin Yatay Kaydırma Çözümü */
+/* Ebeveyn Paneli Üst Menü / Sekme Alanı İçin Kesin Kaydırma Garantisi */
 .parent-tabs, 
 .panel-tabs-container, 
 .modal-tabs, 
 header nav,
-div[style*="display: flex"], /* Esnek yapılı tüm kapsayıcıları yakalar */
-.piko-modal .modal-content > div:first-of-type {
+div[style*="display: flex"] {
   display: flex !important;
   flex-wrap: nowrap !important;
   overflow-x: auto !important;
   overflow-y: hidden !important;
-  gap: 10px !important;
-  padding-bottom: 8px !important;
   -webkit-overflow-scrolling: touch !important;
+  gap: 8px !important;
   width: 100% !important;
   max-width: 100% !important;
   box-sizing: border-box !important;
   justify-content: flex-start !important;
 }
 
-/* İçindeki sekme butonlarının küçülmesini ve alt alta kaymasını kesin olarak engelle */
+/* Butonların sıkışıp kırılmasını ve ekrandan taşmasını engelle */
 .parent-tabs button, 
 .panel-tabs-container button, 
 .modal-tabs button,
-.piko-modal button {
+div[style*="display: flex"] > button {
   flex: 0 0 auto !important;
   white-space: nowrap !important;
   min-width: max-content !important;
 }
-
 
 /* 1. INITIAL WELCOME OVERLAY ("Oyun bahçeme hoş geldin!") */
 .piko-welcome-overlay {
