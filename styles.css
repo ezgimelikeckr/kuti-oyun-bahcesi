@@ -344,9 +344,10 @@ body {
 }
 
 .app-launch-overlay.unlocked {
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  display: none !important;
 }
 
 /*Güvenlik Kuralı: Kilit ve Karşılama Ekranı Kalktığında Tıklamaları Arkaya Kesin Ver*/
