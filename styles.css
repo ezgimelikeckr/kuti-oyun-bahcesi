@@ -74,6 +74,16 @@ html, body {
   overflow: hidden !important; /* Masaüstünde sıkı no-scroll kuralı */
 }
 
+@media screen and (max-width: 768px) {
+  html, body {
+    width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+  }
+}
+
 body {
   background-color: var(--bg-cream);
   background: 
