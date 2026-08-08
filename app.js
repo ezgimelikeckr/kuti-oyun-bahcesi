@@ -798,9 +798,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Sayfa açıldığında aktif olmayan panellerin gizli olduğundan emin olalım
+  // Sayfa açıldığında veya panel yüklendiğinde aktif olan paneli göster, diğerlerini kesin olarak gizle
   tabPanes.forEach(pane => {
-    if (!pane.classList.contains('active')) {
+    if (pane.classList.contains('active')) {
+      pane.style.display = 'block';
+    } else {
       pane.style.display = 'none';
     }
   });
@@ -813,7 +815,7 @@ document.addEventListener('DOMContentLoaded', () => {
       sunProgress = 100;
       updateSunPosition();
     });
-  }
+  });
 
   // Time Option Buttons in Parent Panel
   document.querySelectorAll('.time-opt-btn').forEach(btn => {
