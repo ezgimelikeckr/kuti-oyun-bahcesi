@@ -468,12 +468,12 @@
       <div id="parent-dashboard-view" style="display: none; height: 100%; flex-direction: column; width: 100%; box-sizing: border-box;">
         <h3 style="margin-bottom: 0.6rem; color: #5E35B1; flex-shrink: 0;">⚙️ Ebeveyn Yönetim Paneli</h3>
 
-        <!-- Mobilde alt alta 2'şerli, taşma yapmayan kusursuz sekmeler -->
-        <div class="parent-tabs parent-tabs-nav modal-tabs" style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; width: 100%; box-sizing: border-box; margin-bottom: 10px;">
-          <button class="tab-btn active" data-tab="tab-time" style="width: 100%; padding: 8px 4px; font-size: 0.8rem; white-space: nowrap; justify-content: center;">☀️ 1. Süre</button>
-          <button class="tab-btn" data-tab="tab-age" style="width: 100%; padding: 8px 4px; font-size: 0.8rem; white-space: nowrap; justify-content: center;">🌱 2. Yaş</button>
-          <button class="tab-btn" data-tab="tab-articles" style="width: 100%; padding: 8px 4px; font-size: 0.8rem; white-space: nowrap; justify-content: center;">📚 3. Makaleler</button>
-          <button class="tab-btn" data-tab="tab-books" style="width: 100%; padding: 8px 4px; font-size: 0.8rem; white-space: nowrap; justify-content: center;">📖 4. Kitaplar</button>
+        <!-- Kesin Taşmaz Yatay Kaydırma Alanı -->
+        <div class="parent-tabs parent-tabs-nav modal-tabs" style="display: flex; flex-wrap: nowrap; overflow-x: auto; overflow-y: hidden; gap: 5px; width: 100%; box-sizing: border-box; -webkit-overflow-scrolling: touch; padding-bottom: 5px; touch-action: pan-x;">
+          <button class="tab-btn active" data-tab="tab-time" style="flex: 0 0 auto; white-space: nowrap; font-size: 0.78rem; padding: 6px 10px;">☀️ Süre</button>
+          <button class="tab-btn" data-tab="tab-age" style="flex: 0 0 auto; white-space: nowrap; font-size: 0.78rem; padding: 6px 10px;">🌱 Yaş</button>
+          <button class="tab-btn" data-tab="tab-articles" style="flex: 0 0 auto; white-space: nowrap; font-size: 0.78rem; padding: 6px 10px;">📚 Makaleler</button>
+          <button class="tab-btn" data-tab="tab-books" style="flex: 0 0 auto; white-space: nowrap; font-size: 0.78rem; padding: 6px 10px;">📖 Kitaplar</button>
         </div>
 
         <!-- TAB 1: SÜRE YÖNETİMİ -->
