@@ -135,42 +135,45 @@ document.addEventListener('DOMContentLoaded', () => {
   // İlk açılışta soruyu üret
   generateMathSecurityProblem();
 
-// Tuş takımı kontrolü ve ekran güncellemesi
-  document.querySelectorAll('.launch-key-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const digit = btn.textContent.trim();
-      
-      // 2 haneden uzun olmasını engelleyelim (toplama sonucu en fazla iki hanelidir)
-      if (enteredMathInput.length < 2) {
-        enteredMathInput += digit;
-        
-        // Ekranda girilen rakamı göster
-        if (mathInputDisplay) {
-          mathInputDisplay.textContent = enteredMathInput;
-        }
+// Tuş takımı kontrolü ve ekran güncellemesi (Düzenlenmiş Sınıf Adı)
+  document.querySelectorAll('.keypad-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const digit = btn.textContent.trim();
+      
+      // 2 haneden uzun olmasını engelleyelim
+      if (enteredMathInput.length < 2) {
+        enteredMathInput += digit;
+        
+        // Ekranda girilen rakamı göster
+        if (mathInputDisplay) {
+          mathInputDisplay.textContent = enteredMathInput;
+        }
 
-        if (soundEnabled) AudioEngine.playTone(432, 0.1);
+        if (typeof soundEnabled !== 'undefined' && soundEnabled && typeof AudioEngine !== 'undefined') {
+          AudioEngine.playTone(432, 0.1);
+        }
 
-        const userResult = parseInt(enteredMathInput, 10);
+        const userResult = parseInt(enteredMathInput, 10);
 
-        // Kullanıcının girdiği sonuç doğru cevapla eşleşirse
-        if (userResult === currentMathAnswer) {
-          if (soundEnabled) AudioEngine.playSuccess();
-          if (appLaunchOverlay) appLaunchOverlay.classList.add('unlocked');
-        } 
-        // Yanlış bir değer girildiyse veya sonuç aşıldıysa
-        else if (enteredMathInput.length >= 2 || userResult > currentMathAnswer) {
-          if (launchPinError) launchPinError.textContent = 'Hatalı sonuç! Tekrar deneyin.';
-          setTimeout(() => {
-            enteredMathInput = '';
-            if (mathInputDisplay) mathInputDisplay.textContent = '_';
-            if (launchPinError) launchPinError.textContent = '';
-          }, 800);
-        }
-      }
-    });
-  });
-
+        // Kullanıcının girdiği sonuç doğru cevapla eşleşirse
+        if (userResult === currentMathAnswer) {
+          if (typeof soundEnabled !== 'undefined' && soundEnabled && typeof AudioEngine !== 'undefined') {
+            AudioEngine.playSuccess();
+          }
+          if (appLaunchOverlay) appLaunchOverlay.classList.add('unlocked');
+        } 
+        // Yanlış bir değer girildiyse veya sonuç aşıldıysa
+        else if (enteredMathInput.length >= 2 || userResult > currentMathAnswer) {
+          if (launchPinError) launchPinError.textContent = 'Hatalı sonuç! Tekrar deneyin.';
+          setTimeout(() => {
+            enteredMathInput = '';
+            if (mathInputDisplay) mathInputDisplay.textContent = '_';
+            if (launchPinError) launchPinError.textContent = '';
+          }, 800);
+        }
+      }
+    });
+  });
 
   // Sound Toggle Button
   const soundToggleBtn = document.getElementById('sound-toggle-btn');
