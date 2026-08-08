@@ -814,15 +814,17 @@ document.addEventListener('DOMContentLoaded', () => {
     tabPanes[0].classList.add('active');
   }
 
-  // Time Option Buttons in Parent Panel
-  document.querySelectorAll('.time-opt-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const mins = parseInt(btn.dataset.time, 10);
-      sunTimerDuration = mins * 60;
-      sunProgress = 10;
-      updateSunPosition();
-      startSunJourney();
-      alert(`Güneş Yolu (Ekran Süresi) ${mins} dakika olarak ayarlandı!`);
+ // Time Option Buttons in Parent Panel
+    document.querySelectorAll('.time-opt-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const mins = parseInt(btn.dataset.time, 10);
+        sunTimerDuration = mins * 60;
+        sunProgress = 10;
+        updateSunPosition();
+        startSunJourney();
+        alert(`Güneş Yolu (Ekran Süresi) ${mins} dakika olarak ayarlandı!`);
+      });
     });
+
   });
 });
