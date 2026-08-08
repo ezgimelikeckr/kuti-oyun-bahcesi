@@ -243,10 +243,10 @@ body {
 }
 
 /* ==========================================================================
-   EBEVEYN KÖŞESİ & MOBİL DUYARLILIK (TEK VE KUSURSUZ ÇÖZÜM)
+   EBEVEYN KÖŞESİ & MOBİL DUYARLILIK (ÇAKIŞMASIZ TEK NET ÇÖZÜM)
    ========================================================================== */
 
-/* 1. Modal Arka Plan Perdesi (Arkada kalan ana menü ve köşelerin görünmesini kesin olarak engeller) */
+/* 1. Modal Arka Plan Perdesi */
 .piko-modal {
   position: fixed !important;
   top: 0 !important;
@@ -261,7 +261,7 @@ body {
   overflow: hidden !important;
 }
 
-/* 2. Ebeveyn Modal Kutu Boyutu ve Dikey Taşmazlık Sınırı */
+/* 2. Ebeveyn Modal Kutu Boyutu */
 .parent-modal-box {
   max-height: 85vh !important;
   width: 90% !important;
@@ -270,29 +270,36 @@ body {
   flex-direction: column !important;
   overflow: hidden !important;
   box-sizing: border-box !important;
+  background: #FFFFFF !important;
+  border-radius: 16px !important;
+  padding: 16px !important;
 }
 
+/* 3. Ebeveyn Yönetim Paneli Ana Kapsayıcısı (Dikey Kaydırma ve Akış) */
 #parent-dashboard-view {
   display: none;
   flex-direction: column !important;
   width: 100% !important;
   height: 100% !important;
-  max-height: 75vh !important;
-  overflow: hidden !important;
+  max-height: 72vh !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  -webkit-overflow-scrolling: touch !important;
   box-sizing: border-box !important;
+  padding-right: 4px !important;
 }
 
-/* 3. Ebeveyn Köşesi Üst Menüleri İçin Yatay Kaydırma Şeridi */
+/* 4. Üst Menünün Yatay Kayması ve Sabit Kalması (Sticky) */
 .parent-tabs, 
 .panel-tabs-container, 
-.modal-tabs, 
-header nav {
+.modal-tabs {
   display: flex !important;
   flex-wrap: nowrap !important;
   overflow-x: auto !important;
   overflow-y: hidden !important;
   gap: 6px !important;
-  padding-bottom: 6px !important;
+  padding-bottom: 8px !important;
+  padding-top: 4px !important;
   -webkit-overflow-scrolling: touch !important;
   width: 100% !important;
   max-width: 100% !important;
@@ -300,9 +307,13 @@ header nav {
   justify-content: flex-start !important;
   flex-shrink: 0 !important;
   touch-action: pan-x !important;
+  position: sticky !important;
+  top: 0 !important;
+  background: #FFFFFF !important;
+  z-index: 10 !important;
 }
 
-/* Üst menü butonlarının daralıp kırılmasını kesin olarak engelle */
+/* Üst menü butonlarının daralıp kırılmasını engelle */
 .parent-tabs button, 
 .panel-tabs-container button, 
 .modal-tabs button {
@@ -312,45 +323,27 @@ header nav {
   padding: 6px 10px !important;
 }
 
-/* 4. İçerik Alanı (Tüm sekmeleri ve alt panelleri kusursuz kapsayan dikey kaydırma alanı) */
-#parent-dashboard-view {
-  overflow-y: auto !important;
-  overflow-x: hidden !important;
-  -webkit-overflow-scrolling: touch !important;
-  max-height: 65vh !important;
-  padding-right: 4px !important;
-  margin-top: 6px !important;
-}
-
-#parent-dashboard-view > div:not(.parent-tabs) {
+/* 5. Sekme Panelleri Akışı (Tüm sekmeler için tam uyum) */
+.tab-pane {
+  display: none !important;
   width: 100% !important;
-  height: auto !important;
+  box-sizing: border-box !important;
 }
 
-/* 5. Mobil Genel Dikey Mod Düzenlemeleri (Max-width: 768px) */
-@media screen and (max-width: 768px) {
-  html, body {
-    width: 100%;
-    height: auto !important;
-    max-height: none !important;
-    overflow-x: hidden !important;
-    overflow-y: auto !important;
-  }
+.tab-pane.active {
+  display: block !important;
+  height: auto !important;
+  padding-top: 8px !important;
+  padding-bottom: 20px !important;
+}
 
-  header, .header-container, .top-header-bar {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    gap: 12px !important;
-    width: 100% !important;
-    padding: 5px 0 !important;
+/* 6. Yatay Mod ve Düşük Yükseklik Uyarlaması */
+@media screen and (max-height: 500px) {
+  .parent-modal-box {
+    max-height: 92vh !important;
   }
-
-  .corners-grid, .dashboard-grid, .piko-dashboard-grid {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 15px !important;
-    width: 100% !important;
+  #parent-dashboard-view {
+    max-height: 80vh !important;
   }
 }
 /* 1. INITIAL WELCOME OVERLAY ("Oyun bahçeme hoş geldin!") */
