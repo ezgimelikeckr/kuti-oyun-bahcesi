@@ -1,64 +1,45 @@
 /* ==========================================================================
    PIKO DESIGN SYSTEM & UI KIT - REFINED STYLES & LAYOUT FIXES
-   - Perfectly Centered PIN & Launch Security Lock Overlay
-   - Fixed Full-Screen No-Scroll Parent Dashboard Tabs
-   - Instant Rendering for 4 Corner Mini-Games (Sırala Bul, Yapboz, Duygu, Doğa)
-   - Real Lush Landscape Garden Atmosphere (piko_garden_bg.jpg)
    ========================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap');
 
 :root {
-  /* Core UI Kit Palette */
   --bg-cream: #FFF8E1;
   --bg-cream-accent: #FFF3C4;
   --card-bg: #FFFFFF;
-
-  /* Typography Colors */
   --text-dark: #4A3E3D;
   --text-muted: #8C7A78;
   --text-light: #6E5E5C;
-
-  /* Category Pastel Colors */
   --pastel-red-bg: #FFEDEC;
   --pastel-red-main: #FF5252;
   --pastel-red-dark: #E53935;
-
   --pastel-green-bg: #E8F5E9;
   --pastel-green-main: #4CAF50;
   --pastel-green-dark: #388E3C;
-
   --pastel-orange-bg: #FFF3E0;
   --pastel-orange-main: #FF9800;
   --pastel-orange-dark: #F57C00;
-
   --pastel-purple-bg: #F3E5F5;
   --pastel-purple-main: #AB47BC;
   --pastel-purple-dark: #8E24AA;
-
   --pastel-teal-bg: #E0F2F1;
   --pastel-teal-main: #009688;
   --pastel-teal-dark: #00796B;
-
-  /* Accent Colors */
   --piko-fox-orange: #FF7043;
   --piko-fox-dark: #E64A19;
-  --night-bg: #5E35B1; /* Deep Purple Night Theme */
+  --night-bg: #5E35B1;
   --night-card: #4527A0;
-
-  /* Borders & Shadows */
   --radius-xl: 20px;
   --radius-lg: 14px;
   --radius-pill: 9999px;
   --shadow-soft: 0px 4px 12px rgba(0, 0, 0, 0.08);
   --shadow-hover: 0px 6px 18px rgba(230, 150, 50, 0.15);
-
-  /* Fonts */
   --font-heading: 'Fredoka', 'Nunito', sans-serif;
   --font-body: 'Nunito', sans-serif;
 }
 
-/* RESET VE KESİN SAYFA DÜZENİ */
+/* RESET & MASAÜSTÜ İÇİN KİLİTLİ 100VH YAPI */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -85,7 +66,6 @@ body {
   line-height: 1.3;
 }
 
-/* ANA UYGULAMA PENCERESİ (Masaüstünü ekrana sabitleyen kural) */
 .app-container {
   max-width: 1200px;
   width: 100%;
@@ -98,7 +78,113 @@ body {
   box-sizing: border-box;
 }
 
-/* Sadece mobilde dikey kaydırmayı açan güvenli kural */
+/* ==========================================================================
+   EBEVEYN KÖŞESİ & MODAL (Masaüstü Sabit)
+   ========================================================================== */
+
+.piko-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(40, 30, 20, 0.65);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  z-index: 1500;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.piko-modal.active { opacity: 1; pointer-events: auto; }
+
+.modal-content-box {
+  background: var(--card-bg);
+  border-radius: var(--radius-xl);
+  padding: 1.25rem;
+  max-width: 640px;
+  width: 100%;
+  box-shadow: 0 16px 36px rgba(0,0,0,0.2);
+  position: relative;
+  max-height: 92vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.parent-modal-box {
+  background: var(--card-bg);
+  border-radius: var(--radius-xl);
+  padding: 1.25rem;
+  width: 95vw;
+  max-width: 1050px;
+  height: 88vh;
+  max-height: 650px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+#parent-dashboard-view {
+  display: none;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 0.85rem;
+  right: 0.85rem;
+  background: #F5F5F5;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.parent-tabs-nav {
+  display: flex;
+  gap: 0.4rem;
+  margin-bottom: 0.75rem;
+  border-bottom: 2px solid #EEEEEE;
+  padding-bottom: 0.4rem;
+  flex-shrink: 0;
+}
+
+.tab-btn {
+  background: transparent;
+  border: none;
+  padding: 0.4rem 0.85rem;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  border-radius: var(--radius-pill);
+  white-space: nowrap;
+}
+
+.tab-btn.active {
+  background: #EDE7F6;
+  color: #5E35B1;
+}
+
+/* ==========================================================================
+   TEK VE GÜVENLİ MOBİL UYARLAMA MEDYA SORGUSU (Max 768px)
+   ========================================================================== */
+
 @media screen and (max-width: 768px) {
   html, body {
     width: 100% !important;
@@ -107,21 +193,24 @@ body {
     overflow-x: hidden !important;
     overflow-y: auto !important;
   }
-}
 
-/* Telefon ve Mobil Tarayıcılar İçin Otomatik Dikey Kaydırma Kuralı */
-@media screen and (max-width: 768px) {
-  html, body {
-    width: 100%;
+  .parent-modal-box {
     height: auto !important;
-    max-height: none !important;
-    overflow-x: hidden !important;
-    overflow-y: auto !important; /* Mobilde dikey kaydırmayı açar */
+    max-height: 85vh !important;
+    width: 90% !important;
+    max-width: 500px !important;
+    padding: 16px !important;
+    overflow-y: auto !important;
   }
-}
 
-/* Mobilde Yatay Kaydırılabilir Alanlar (Kesin Çözüm) */
-@media screen and (max-width: 768px) {
+  #parent-dashboard-view {
+    height: auto !important;
+    max-height: 68vh !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    padding-right: 4px !important;
+  }
+
   #duygu-mirror-options, 
   #mevsim-options, 
   #dress-options-grid, 
@@ -137,11 +226,9 @@ body {
     max-width: 100% !important;
     box-sizing: border-box !important;
     justify-content: flex-start !important;
-    /* Mobilde parmakla kaydırmayı kolaylaştıran dokunmatik özellik */
     touch-action: pan-x !important;
   }
 
-  /* İçindeki butonların daralmasını ve kırılmasını kesin olarak engelle */
   #duygu-mirror-options button, 
   #mevsim-options button, 
   #dress-options-grid button {
@@ -149,19 +236,7 @@ body {
     white-space: nowrap !important;
     min-width: max-content !important;
   }
-}
 
-/* Telefon ve Mobil Tarayıcılar İçin Dikey Mod Optimizasyonu */
-@media screen and (max-width: 768px) {
-  html, body {
-    width: 100%;
-    height: auto !important;
-    max-height: none !important;
-    overflow-x: hidden !important;
-    overflow-y: auto !important;
-  }
-
-  /* Üst header alanını (Piko yazısı, Güneş yolu, Ses ve Kilit butonunu) dikeyde alt alta ve düzgün dizelim */
   header, .header-container, .top-header-bar {
     display: flex !important;
     flex-direction: column !important;
@@ -171,7 +246,6 @@ body {
     padding: 5px 0 !important;
   }
 
-  /* Güneş Yolu (Zaman Çubuğu) üst üste binmesin, ortalansın */
   #sun-progress-bar, .sun-track-container, .sun-container {
     width: 90% !important;
     max-width: 300px !important;
@@ -181,14 +255,12 @@ body {
     right: auto !important;
   }
 
-  /* Güneş yazılarının birbirine girmesini engelleyelim */
   .sun-time-text, #sun-time-text {
     font-size: 0.8rem !important;
     text-align: center !important;
     white-space: nowrap !important;
   }
 
-  /* Sağ üstte kaybolan ebeveyn/kilit butonunu ve ses butonunu alt alta düzgün hizalayalım */
   .header-actions, .top-buttons-container, #parent-corner-btn, #sound-toggle-btn {
     display: flex !important;
     justify-content: center !important;
@@ -198,7 +270,6 @@ body {
     margin-top: 5px !important;
   }
 
-  /* 4 Temel Köşe kartlarının dikeyde tek sütun halinde kusursuz sıralanması */
   .corners-grid, .dashboard-grid, .piko-dashboard-grid {
     display: flex !important;
     flex-direction: column !important;
@@ -207,191 +278,10 @@ body {
   }
 }
 
-/* Ebeveyn Yönetim Paneli Ana Kapsayıcısı ve Dikey Kaydırma Kilidi */
-#parent-dashboard-view {
-  display: none;
-  flex-direction: column !important;
-  width: 100% !important;
-  max-height: 72vh !important;
-  overflow-y: auto !important;
-  overflow-x: hidden !important;
-  -webkit-overflow-scrolling: touch !important;
-  box-sizing: border-box !important;
-  padding-right: 6px !important;
-}
-
-/* Üst Menünün Yatay Kayması ve Sabit Kalması */
-.parent-tabs, 
-.panel-tabs-container, 
-.modal-tabs {
-  display: flex !important;
-  flex-wrap: nowrap !important;
-  overflow-x: auto !important;
-  overflow-y: hidden !important;
-  gap: 6px !important;
-  padding-bottom: 8px !important;
-  -webkit-overflow-scrolling: touch !important;
-  width: 100% !important;
-  max-width: 100% !important;
-  box-sizing: border-box !important;
-  justify-content: flex-start !important;
-  flex-shrink: 0 !important;
-  touch-action: pan-x !important;
-  position: sticky !important;
-  top: 0 !important;
-  background: #FFFFFF !important;
-  z-index: 10 !important;
-}
-
-/* Üst menü butonlarının daralıp kırılmasını engelle */
-.parent-tabs button, 
-.panel-tabs-container button, 
-.modal-tabs button {
-  flex: 0 0 auto !important;
-  white-space: nowrap !important;
-  font-size: 0.78rem !important;
-  padding: 6px 10px !important;
-}
-
-/* Sekme Panelleri Akışı (Yaş, Makaleler ve Kitaplar Dahil Tam Görünüm) */
-.tab-pane {
-  display: none !important;
-  width: 100% !important;
-  box-sizing: border-box !important;
-}
-
-.tab-pane.active {
-  display: block !important;
-  height: auto !important;
-  padding-top: 6px !important;
-  padding-bottom: 15px !important;
-}
-
 /* ==========================================================================
-   EBEVEYN KÖŞESİ & MASAÜSTÜ / MOBİL DUYARLI ORTAK ÇÖZÜM
+   DİĞER BİLEŞENLER VE OYUNLAR
    ========================================================================== */
 
-/* 1. Modal Arka Plan Perdesi */
-.piko-modal {
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  width: 100vw !important;
-  height: 100vh !important;
-  background: rgba(0, 0, 0, 0.65) !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  z-index: 99999 !important;
-  overflow: hidden !important;
-}
-
-/* 2. Ebeveyn Modal Kutu Boyutu (Masaüstünde Geniş & Büyük, Mobilde Esnek) */
-.parent-modal-box {
-  background: #FFFFFF !important;
-  border-radius: 16px !important;
-  padding: 20px !important;
-  width: 95vw !important;
-  max-width: 1050px !important;
-  height: 88vh !important;
-  max-height: 650px !important;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25) !important;
-  position: relative !important;
-  display: flex !important;
-  flex-direction: column !important;
-  overflow: hidden !important;
-  box-sizing: border-box !important;
-}
-
-/* 3. Ebeveyn Yönetim Paneli Ana Kapsayıcısı */
-#parent-dashboard-view {
-  display: none;
-  flex-direction: column !important;
-  width: 100% !important;
-  height: 100% !important;
-  overflow-y: auto !important;
-  overflow-x: hidden !important;
-  -webkit-overflow-scrolling: touch !important;
-  box-sizing: border-box !important;
-  padding-right: 4px !important;
-}
-
-/* 4. Üst Menünün Yatay Kayması ve Sabit Kalması (Sticky) */
-.parent-tabs, 
-.panel-tabs-container, 
-.modal-tabs {
-  display: flex !important;
-  flex-wrap: nowrap !important;
-  overflow-x: auto !important;
-  overflow-y: hidden !important;
-  gap: 6px !important;
-  padding-bottom: 8px !important;
-  padding-top: 4px !important;
-  -webkit-overflow-scrolling: touch !important;
-  width: 100% !important;
-  max-width: 100% !important;
-  box-sizing: border-box !important;
-  justify-content: flex-start !important;
-  flex-shrink: 0 !important;
-  touch-action: pan-x !important;
-  position: sticky !important;
-  top: 0 !important;
-  background: #FFFFFF !important;
-  z-index: 10 !important;
-}
-
-/* Üst menü butonlarının daralıp kırılmasını engelle */
-.parent-tabs button, 
-.panel-tabs-container button, 
-.modal-tabs button {
-  flex: 0 0 auto !important;
-  white-space: nowrap !important;
-  font-size: 0.78rem !important;
-  padding: 6px 10px !important;
-}
-
-/* 5. Sekme Panelleri Akışı */
-.tab-pane {
-  display: none !important;
-  width: 100% !important;
-  box-sizing: border-box !important;
-}
-
-.tab-pane.active {
-  display: block !important;
-  height: auto !important;
-  padding-top: 8px !important;
-  padding-bottom: 20px !important;
-}
-
-/* 6. MOBİL CİHAZLAR İÇİN ÖZEL UYARLAMA (Sadece küçük ekranlarda çalışır, masaüstüne dokunmaz) */
-@media screen and (max-width: 768px) {
-  .parent-modal-box {
-    height: auto !important;
-    max-height: 85vh !important;
-    width: 90% !important;
-    max-width: 500px !important;
-    padding: 16px !important;
-    overflow-y: auto !important;
-  }
-
-  #parent-dashboard-view {
-    height: auto !important;
-    max-height: 68vh !important;
-  }
-}
-
-/* 7. Yatay Mod ve Düşük Yükseklik Uyarlaması */
-@media screen and (max-height: 500px) {
-  .parent-modal-box {
-    max-height: 92vh !important;
-  }
-  #parent-dashboard-view {
-    max-height: 80vh !important;
-  }
-}
-   
-/* 1. INITIAL WELCOME OVERLAY ("Oyun bahçeme hoş geldin!") */
 .piko-welcome-overlay {
   position: fixed;
   inset: 0;
@@ -441,7 +331,6 @@ body {
   animation: floatBounce 4s ease-in-out infinite;
 }
 
-/* 2. PERFECTLY CENTERED PIN & APP LAUNCH SECURITY LOCK OVERLAY */
 .app-launch-overlay {
   position: fixed;
   inset: 0;
@@ -460,7 +349,6 @@ body {
   pointer-events: none;
 }
 
-/* PERFECTLY CENTERED MODAL CONTENT BOX FOR LAUNCH PIN & PARENT PIN */
 .launch-pin-box {
   background: var(--card-bg);
   border-radius: var(--radius-xl);
@@ -492,7 +380,6 @@ body {
   max-width: 320px;
 }
 
-/* KEYPAD GRID PERFECT CENTERING */
 .keypad-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -520,18 +407,6 @@ body {
 
 .keypad-btn:hover { background: #FFF3C4; border-color: #FFE082; transform: translateY(-2px); }
 
-/* APP CONTAINER - EXACT 100% HEIGHT FLEXBOX BUDGETING */
-.app-container {
-  max-width: 1200px;
-  height: 100%;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  overflow: hidden;
-}
-
-/* TOP NAVIGATION & SUN TRACK HEADER */
 .top-header {
   background: var(--card-bg);
   border-radius: var(--radius-xl);
@@ -575,7 +450,6 @@ body {
   font-weight: 600;
 }
 
-/* SUN TRACK (GÜNEŞİN ÇİZGİLİ YOLU) MECHANIC */
 .sun-track-wrapper {
   flex: 1;
   max-width: 380px;
@@ -670,7 +544,6 @@ body {
   color: #311B92;
 }
 
-/* AGE LEVEL BADGE BAR */
 .age-filter-bar {
   background: #FFFFFF;
   border-radius: var(--radius-pill);
@@ -697,7 +570,6 @@ body {
   border: 1px solid #A5D6A7;
 }
 
-/* MAIN CONTENT & HERO BANNER */
 .main-content {
   flex: 1;
   min-height: 0;
@@ -753,7 +625,6 @@ body {
   margin-bottom: 0.4rem;
 }
 
-/* 2X2 CATEGORY GRID */
 .category-2x2-grid {
   flex: 1;
   min-height: 0;
@@ -838,7 +709,6 @@ body {
 
 .btn-play:hover { transform: scale(1.05); }
 
-/* UYKU MODU OVERLAY EKRANI */
 .sleep-mode-overlay {
   position: fixed;
   inset: 0;
@@ -886,7 +756,6 @@ body {
   margin-bottom: 1.25rem;
 }
 
-/* SURPRISE FLIP CARDS (3D FLIP MECHANIC) */
 .surprise-cards-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -945,111 +814,6 @@ body {
   text-align: left;
 }
 
-/* MODALS BASE */
-.piko-modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(40, 30, 20, 0.65);
-  backdrop-filter: blur(6px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
-  z-index: 1500;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
-}
-
-.piko-modal.active { opacity: 1; pointer-events: auto; }
-
-.modal-content-box {
-  background: var(--card-bg);
-  border-radius: var(--radius-xl);
-  padding: 1.25rem;
-  max-width: 640px;
-  width: 100%;
-  box-shadow: 0 16px 36px rgba(0,0,0,0.2);
-  position: relative;
-  max-height: 92vh;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-
-/* EBEVEYN YÖNETİM PANELİ - FIXED FULL-SCREEN NO-SCROLL WIDE ARCHITECTURE */
-.parent-modal-box {
-  background: var(--card-bg);
-  border-radius: var(--radius-xl);
-  padding: 1.25rem;
-  width: 95vw;
-  max-width: 1050px;
-  height: 88vh;
-  max-height: 650px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden; /* STRICT NO-SCROLL RULE */
-}
-
-.modal-close-btn {
-  position: absolute;
-  top: 0.85rem;
-  right: 0.85rem;
-  background: #F5F5F5;
-  border: none;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  font-size: 1.1rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Parent Dashboard Tabs Navigation */
-.parent-tabs-nav {
-  display: flex;
-  gap: 0.4rem;
-  margin-bottom: 0.75rem;
-  border-bottom: 2px solid #EEEEEE;
-  padding-bottom: 0.4rem;
-  flex-shrink: 0;
-}
-
-.tab-btn {
-  background: transparent;
-  border: none;
-  padding: 0.4rem 0.85rem;
-  font-family: var(--font-heading);
-  font-weight: 700;
-  font-size: 0.82rem;
-  color: var(--text-muted);
-  cursor: pointer;
-  border-radius: var(--radius-pill);
-  white-space: nowrap;
-}
-
-.tab-btn.active {
-  background: #EDE7F6;
-  color: #5E35B1;
-}
-
-.tab-pane {
-  display: none;
-  flex: 1;
-  overflow: hidden; /* STRICT NO-SCROLL */
-}
-
-.tab-pane.active {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-/* 1. DUYGU AYNASI VISUAL CHARACTER EXPRESSIONS */
 .emotion-mirror-frame {
   background: linear-gradient(135deg, #FFFDE7 0%, #FFF3E0 100%);
   border: 3px solid #FFCC80;
@@ -1073,7 +837,6 @@ body {
   transition: transform 0.3s ease;
 }
 
-/* 2. REAL DRAG-AND-DROP MECHANICS STYLES */
 .drag-source {
   cursor: grab;
   user-select: none;
@@ -1107,7 +870,6 @@ body {
   transform: scale(1.02);
 }
 
-/* 3. REAL IMAGE JIGSAW PUZZLE (YAPBOZ GÖRSEL BÜTÜNLÜĞÜ) */
 .puzzle-game-container {
   display: grid;
   grid-template-columns: 1fr 140px;
