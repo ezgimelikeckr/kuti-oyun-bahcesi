@@ -253,7 +253,7 @@ body {
 }
 
 /* ==========================================================================
-   EBEVEYN KÖŞESİ & MOBİL DUYARLILIK (ÇAKIŞMASIZ TEK NET ÇÖZÜM)
+   EBEVEYN KÖŞESİ & MASAÜSTÜ / MOBİL DUYARLI ORTAK ÇÖZÜM
    ========================================================================== */
 
 /* 1. Modal Arka Plan Perdesi */
@@ -271,27 +271,29 @@ body {
   overflow: hidden !important;
 }
 
-/* 2. Ebeveyn Modal Kutu Boyutu */
+/* 2. Ebeveyn Modal Kutu Boyutu (Masaüstünde Geniş & Büyük, Mobilde Esnek) */
 .parent-modal-box {
-  max-height: 85vh !important;
-  width: 90% !important;
-  max-width: 500px !important;
+  background: #FFFFFF !important;
+  border-radius: 16px !important;
+  padding: 20px !important;
+  width: 95vw !important;
+  max-width: 1050px !important;
+  height: 88vh !important;
+  max-height: 650px !important;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25) !important;
+  position: relative !important;
   display: flex !important;
   flex-direction: column !important;
   overflow: hidden !important;
   box-sizing: border-box !important;
-  background: #FFFFFF !important;
-  border-radius: 16px !important;
-  padding: 16px !important;
 }
 
-/* 3. Ebeveyn Yönetim Paneli Ana Kapsayıcısı (Dikey Kaydırma ve Akış) */
+/* 3. Ebeveyn Yönetim Paneli Ana Kapsayıcısı */
 #parent-dashboard-view {
   display: none;
   flex-direction: column !important;
   width: 100% !important;
   height: 100% !important;
-  max-height: 72vh !important;
   overflow-y: auto !important;
   overflow-x: hidden !important;
   -webkit-overflow-scrolling: touch !important;
@@ -333,7 +335,7 @@ body {
   padding: 6px 10px !important;
 }
 
-/* 5. Sekme Panelleri Akışı (Tüm sekmeler için tam uyum) */
+/* 5. Sekme Panelleri Akışı */
 .tab-pane {
   display: none !important;
   width: 100% !important;
@@ -347,7 +349,24 @@ body {
   padding-bottom: 20px !important;
 }
 
-/* 6. Yatay Mod ve Düşük Yükseklik Uyarlaması */
+/* 6. MOBİL CİHAZLAR İÇİN ÖZEL UYARLAMA (Sadece küçük ekranlarda çalışır, masaüstüne dokunmaz) */
+@media screen and (max-width: 768px) {
+  .parent-modal-box {
+    height: auto !important;
+    max-height: 85vh !important;
+    width: 90% !important;
+    max-width: 500px !important;
+    padding: 16px !important;
+    overflow-y: auto !important;
+  }
+
+  #parent-dashboard-view {
+    height: auto !important;
+    max-height: 68vh !important;
+  }
+}
+
+/* 7. Yatay Mod ve Düşük Yükseklik Uyarlaması */
 @media screen and (max-height: 500px) {
   .parent-modal-box {
     max-height: 92vh !important;
@@ -356,6 +375,7 @@ body {
     max-height: 80vh !important;
   }
 }
+   
 /* 1. INITIAL WELCOME OVERLAY ("Oyun bahçeme hoş geldin!") */
 .piko-welcome-overlay {
   position: fixed;
