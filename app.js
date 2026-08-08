@@ -807,7 +807,6 @@ document.addEventListener('DOMContentLoaded', () => {
       sunProgress = 100;
       updateSunPosition();
     });
-  });
 
   // Time Option Buttons in Parent Panel
   document.querySelectorAll('.time-opt-btn').forEach(btn => {
