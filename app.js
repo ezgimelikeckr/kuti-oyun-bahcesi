@@ -156,12 +156,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const userResult = parseInt(enteredMathInput, 10);
 
         // Kullanıcının girdiği sonuç doğru cevapla eşleşirse
-        if (userResult === currentMathAnswer) {
+      if (userResult === currentMathAnswer) {
           if (typeof soundEnabled !== 'undefined' && soundEnabled && typeof AudioEngine !== 'undefined') {
             AudioEngine.playSuccess();
           }
-          if (appLaunchOverlay) appLaunchOverlay.classList.add('unlocked');
-        } 
+          if (appLaunchOverlay) {
+            appLaunchOverlay.classList.add('unlocked');
+            setTimeout(() => appLaunchOverlay.remove(), 300); // Perdeyi tamamen ortadan kaldırır
+          }
+        }
         // Yanlış bir değer girildiyse veya sonuç aşıldıysa
         else if (enteredMathInput.length >= 2 || userResult > currentMathAnswer) {
           if (launchPinError) launchPinError.textContent = 'Hatalı sonuç! Tekrar deneyin.';
