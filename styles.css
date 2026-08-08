@@ -119,8 +119,8 @@ body {
   padding: 1.25rem;
   width: 95vw;
   max-width: 1050px;
-  height: 88vh;
-  max-height: 650px;
+  max-height: 85vh; /* Sabit yükseklik yerine esnek max-height */
+  height: auto;     /* İçeriğe göre boylanması için auto yapıyoruz */
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
   position: relative;
   display: flex;
@@ -132,12 +132,11 @@ body {
   display: none;
   flex-direction: column;
   width: 100%;
-  height: 100%;
+  max-height: calc(85vh - 80px); /* Kutu boyutu içinde düzgün kayması için */
   overflow-y: auto;
   overflow-x: hidden;
   box-sizing: border-box;
 }
-
 .modal-close-btn {
   position: absolute;
   top: 0.85rem;
