@@ -996,3 +996,34 @@ div.parent-modal-box .modal-close-btn:hover {
   border-color: #D1C4E9;
   box-shadow: 0 3px 8px rgba(94, 53, 177, 0.15);
 }
+
+/* MOBİLDE EBEVEYN PANELİ — YATAY (SEKME MENÜSÜ) + DİKEY (İÇERİK) ÇİFT KAYDIRMA */
+@media screen and (max-width: 768px) {
+  /* Sekme menüsü: yatay kaydırma, butonlar küçülmesin/kaybolmasın */
+  .parent-tabs-nav {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    touch-action: pan-x !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .parent-tabs-nav .tab-btn {
+    flex: 0 0 auto !important;
+    display: inline-flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+
+  /* Panel içeriği: dikey kaydırma */
+  #parent-dashboard-view {
+    max-height: 65vh !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    touch-action: pan-y !important;
+  }
+}
