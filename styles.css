@@ -132,44 +132,8 @@ body {
   overflow: hidden !important; /* Taşan içerikleri gizle */
 }
 
-/* ==========================================================================
-   EBEVEYN PANELİ VE İÇERİK GÖRÜNÜRLÜK KESİN ÇÖZÜMÜ
-   ========================================================================== */
-
+/* Ebeveyn Paneli İçerik Düzeni (display JS'e bırakıldı — PIN'e göre açılıp kapanabilsin) */
 #parent-dashboard-view {
-  display: flex !important;
-  flex-direction: column !important;
-  width: 100% !important;
-  height: 100% !important;
-  max-height: 72vh !important;
-  overflow-y: auto !important;
-  overflow-x: hidden !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-}
-
-/* Varsayılan olarak tüm tab içeriklerini gizle */
-#parent-dashboard-view .tab-pane {
-  display: none !important;
-  visibility: hidden !important;
-}
-
-/* Sadece active sınıfı alan tab'i ekrana fırlat ve görünür yap */
-#parent-dashboard-view .tab-pane.active {
-  display: block !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-}
-
-/* Panel içerisindeki tüm alt sekme ve içerik kutularının gizlenmesini önle */
-#parent-dashboard-view > * {
-  visibility: visible !important;
-  opacity: 1 !important;
-}
-
-/* Ebeveyn Paneli ve Sekme Görünürlük Garantisi */
-#parent-dashboard-view {
-  display: flex !important;
   flex-direction: column !important;
   flex: 1 !important;
   width: 100% !important;
@@ -177,8 +141,6 @@ body {
   max-height: calc(85vh - 80px) !important;
   overflow-y: auto !important;
   overflow-x: hidden !important;
-  visibility: visible !important;
-  opacity: 1 !important;
 }
 
 /* Sekmelerin gizlilik/görünürlük durumu */
