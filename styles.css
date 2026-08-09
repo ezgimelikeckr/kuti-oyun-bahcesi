@@ -132,16 +132,31 @@ body {
   overflow: hidden !important; /* Taşan içerikleri gizle */
 }
 
-/* Ebeveyn Paneli İçerik ve Görünürlük Garantisi */
+/* ==========================================================================
+   EBEVEYN PANELİ VE İÇERİK GÖRÜNÜRLÜK KESİN ÇÖZÜMÜ
+   ========================================================================== */
+
 #parent-dashboard-view {
   display: flex !important;
   flex-direction: column !important;
-  flex: 1 !important;
   width: 100% !important;
-  height: auto !important;
-  max-height: calc(85vh - 80px) !important;
+  height: 100% !important;
+  max-height: 72vh !important;
   overflow-y: auto !important;
   overflow-x: hidden !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Varsayılan olarak tüm tab içeriklerini gizle */
+#parent-dashboard-view .tab-pane {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+/* Sadece active sınıfı alan tab'i ekrana fırlat ve görünür yap */
+#parent-dashboard-view .tab-pane.active {
+  display: block !important;
   visibility: visible !important;
   opacity: 1 !important;
 }
