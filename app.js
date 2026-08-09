@@ -7,6 +7,7 @@
    - Real Cut Image Jigsaw Puzzle (Yapboz Görsel Bütünlüğü)
    - Fixed Full-Screen No-Scroll Parent Dashboard Tabs
    - ZPD (Vygotsky) Tabanlı 6+ Yaş Gerekçelendirme Soruları (Öz Bakım & Doğa)
+   - DÜZELTİLDİ: Rastgele Duygu Aynası ve Doğru/Yanlış Empati Kontrolü
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -248,8 +249,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // 4. DUYGU AYNASI VISUAL CHARACTER MIRROR SYSTEM
-  let targetEmotion = { name: 'Mutlu', emoji: '😊' };
+  // 4. DUYGU AYNASI VISUAL CHARACTER MIRROR SYSTEM (DÜZELTİLDİ: RASTGELE HEDEF DUYGU)
+  let targetEmotion = { name: 'Mutlu', emoji: '😊', label: '😊 Mutlu' };
 
   function setVisualEmotionMirror(emotion) {
     targetEmotion = emotion;
@@ -262,7 +263,13 @@ document.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => mirrorFace.style.transform = 'scale(1)', 300);
     }
     if (mirrorEmoji) mirrorEmoji.textContent = emotion.emoji;
-    if (mirrorPrompt) mirrorPrompt.textContent = `Piko'nun ${emotion.emoji} yüz ifadesini aşağıdaki butonlarla eşleştir!`;
+    if (mirrorPrompt) mirrorPrompt.textContent = `Piko şu an ${emotion.label} hissediyor. Doğru yüz ifadesini seçebilir misin?`;
+  }
+
+  function pickRandomTargetEmotion(cfg) {
+    const pool = cfg.emotions;
+    const randomIndex = Math.floor(Math.random() * pool.length);
+    setVisualEmotionMirror(pool[randomIndex]);
   }
 
   // 5. SIRALA BUL (KÜÇÜKTEN BÜYÜĞE) SHUFFLED INITIAL ORDER & INTERACTIVE REORDERING LOGIC
@@ -453,7 +460,7 @@ document.addEventListener('DOMContentLoaded', () => {
         teethZone.classList.remove('drag-over');
         if (soundEnabled) AudioEngine.playSuccess();
         if (mouthEmoji) mouthEmoji.textContent = '✨🪥🫧';
-
+        
         const pikoMessageEl = document.getElementById('piko-message');
         if (pikoMessageEl) {
           pikoMessageEl.innerHTML = "Yaşasın! Dişlerimizi fırçaladık ki minik mikroplar kaçsın, dişlerimiz pırıl pırıl parlasın! 🦷✨";
@@ -464,7 +471,7 @@ document.addEventListener('DOMContentLoaded', () => {
           alert('🧼 Piko pırıl pırıl dişlerle gülümsüyor!');
         }, 600);
       });
-    }
+    } 
 
     const water = document.getElementById('draggable-water');
     const sun = document.getElementById('draggable-sun');
@@ -491,7 +498,7 @@ document.addEventListener('DOMContentLoaded', () => {
       potZone.addEventListener('drop', (e) => {
         e.preventDefault();
         potZone.classList.remove('drag-over');
-
+        
         plantStageIndex = (plantStageIndex + 1) % plantVisualStages.length;
         plantDisplay.textContent = plantVisualStages[plantStageIndex];
         plantDisplay.style.transform = 'scale(1.3) rotate(5deg)';
@@ -505,8 +512,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initDragAndDropMechanics();
 
   // 7b. ZPD (VYGOTSKY) — ORTAK GEREKÇELENDİRME SORUSU YARDIMCI FONKSİYONU
-  // Öz Bakım ve Doğa köşelerinde 6+ yaşta kullanılır: seçim yapıldıktan sonra
-  // "neden bunu seçtin?" tarzı bir soru gösterir, cevap ne olursa olsun olumlu kapanır.
   function showSimpleWhyQuestion(boxId, optionsId, reasons, finalMessage) {
     const box = document.getElementById(boxId);
     const optionsEl = document.getElementById(optionsId);
@@ -540,7 +545,10 @@ document.addEventListener('DOMContentLoaded', () => {
         { label: '😲 Şaşırmış', name: 'Şaşırmış', emoji: '😲' }
       ],
       scenario: 'Piko dondurmasını yere düşürdü. Ne hissediyor?',
-      scenarioChoices: ['😢 Üzüldü (Ona sarılalım)', '😊 Mutlu oldu'],
+      scenarioChoices: [
+        { label: '😢 Üzüldü (Ona sarılalım)', correct: true },
+        { label: '😊 Mutlu oldu', correct: false }
+      ],
       weatherOptions: ['☀️ Güneşli (T-shirt)', '🌧️ Yağmurlu (Yağmurluk)']
     },
     '4-5': {
@@ -556,7 +564,10 @@ document.addEventListener('DOMContentLoaded', () => {
         { label: '🤩 Heyecanlı', name: 'Heyecanlı', emoji: '🤩' }
       ],
       scenario: 'Piko en sevdiği oyuncağını bulamıyor. Nasıl hissediyor ve ne yapmalıyız?',
-      scenarioChoices: ['🔍 Birlikte arayalım (Heyecanlı keşif)', '😡 Kızıp oyuncağı kıralım'],
+      scenarioChoices: [
+        { label: '🔍 Birlikte arayalım (Heyecanlı keşif)', correct: true },
+        { label: '😡 Kızıp oyuncağı kıralım', correct: false }
+      ],
       weatherOptions: ['☀️ Güneşli (Şapka & T-shirt)', '🌧️ Yağmurlu (Yağmurluk & Çizme)', '❄️ Karlı (Mont & Bere)']
     },
     '6+': {
@@ -574,9 +585,11 @@ document.addEventListener('DOMContentLoaded', () => {
         { label: '😳 Utanmış', name: 'Utanmış', emoji: '😳' }
       ],
       scenario: 'Piko sahnede şarkı söylerken sözleri unuttu. Ona nasıl destek oluruz?',
-      scenarioChoices: ['👏 Alkışlayarak cesaret verelim', '🙈 Gülüp gidelim'],
+      scenarioChoices: [
+        { label: '👏 Alkışlayarak cesaret verelim', correct: true },
+        { label: '🙈 Gülüp gidelim', correct: false }
+      ],
       weatherOptions: ['☀️ Güneşli (Güneş Gözlüğü & Şapka)', '🌧️ Yağmurlu (Şemsiye & Yağmurluk)', '❄️ Karlı (Mont, Eldiven & Bere)'],
-      // ZPD 6+ YAŞ İÇİN YENİ ALANLAR:
       dressReasons: ['🌡️ Hava sıcaklığına uygun olduğu için', '🎨 Rengini sevdiğim için', '🏃 Rahat hareket edebilmek için'],
       mevsimReasons: ['🍂 Yaprakların rengi değiştiği için', '🌡️ Hava soğuduğu için', '🐦 Kuşlar göç ettiği için']
     }
@@ -597,46 +610,56 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('ozbakim-desc').textContent = cfg.ozbakimDesc;
     document.getElementById('doga-desc').textContent = cfg.dogaDesc;
 
-    // Set Visual Emotion Mirror target
-    setVisualEmotionMirror(cfg.emotions[0]);
+    // Set Visual Emotion Mirror target (RASTGELE BAŞLAR)
+    pickRandomTargetEmotion(cfg);
 
-    // Render Duygu Aynası options (Yaşa göre duygu sayısı değişir)
+    // Render Duygu Aynası options (DÜZELTİLDİ: Doğru/Yanlış Seçenek Kontrolü)
     const emotionBox = document.getElementById('duygu-mirror-options');
     if (emotionBox) {
-      emotionBox.innerHTML = cfg.emotions.map(e =>
-        `<button class="btn-icon-pill emo-opt-btn" style="padding: 0.4rem 0.8rem;">${e.label}</button>`
+      const shuffledEmotions = [...cfg.emotions].sort(() => Math.random() - 0.5);
+      emotionBox.innerHTML = shuffledEmotions.map(e => 
+        `<button class="btn-icon-pill emo-opt-btn" data-name="${e.name}" style="padding: 0.4rem 0.8rem;">${e.label}</button>`
       ).join('');
 
-      emotionBox.querySelectorAll('.emo-opt-btn').forEach((btn, i) => {
+      emotionBox.querySelectorAll('.emo-opt-btn').forEach((btn) => {
         btn.addEventListener('click', () => {
-          const selectedEmotion = cfg.emotions[i];
-          setVisualEmotionMirror(selectedEmotion);
-          if (soundEnabled) AudioEngine.playSuccess();
+          const selectedName = btn.dataset.name;
+          const isCorrect = selectedName === targetEmotion.name;
 
-          if (selectedEmotion.label.toLowerCase().includes('kızgın') ||
-              selectedEmotion.label.toLowerCase().includes('üzgün') ||
-              selectedEmotion.label.toLowerCase().includes('korku')) {
-            alert(`🌱 Piko şu an ${selectedEmotion.label} hissediyor. Gel birlikte derin bir nefes alıp çiçek koklayalım ve yavaşça üfleyelim, minik kalbimiz sakinleşsin.`);
+          if (isCorrect) {
+            if (soundEnabled) AudioEngine.playSuccess();
+            alert(`🎉 Tebrikler! Harika bildin, Piko gerçekten ${targetEmotion.label} hissediyor!`);
+            // Doğru bilince yeni bir rastgele duyguya geç
+            pickRandomTargetEmotion(cfg);
           } else {
-            alert(`Harika! Piko da şu an ${selectedEmotion.label} hissediyor!`);
+            if (soundEnabled) AudioEngine.playTone(300, 0.2);
+            alert(`🤔 Hmm, Piko şu an ${targetEmotion.label} hissediyor. Tekrar bakalım mı?`);
           }
         });
       });
     }
 
-    // Render Piko'nun Günü scenario
+    // Render Piko'nun Günü scenario (DÜZELTİLDİ: Olumsuz yanıtta tebrik etme hatası giderildi)
     const scenarioText = document.getElementById('duygu-scenario-text');
     const scenarioChoices = document.getElementById('duygu-scenario-choices');
     if (scenarioText && scenarioChoices) {
       scenarioText.textContent = cfg.scenario;
-      scenarioChoices.innerHTML = cfg.scenarioChoices.map(c =>
-        `<button class="btn-icon-pill" style="justify-content: flex-start; text-align: left; padding: 0.45rem 0.8rem;">${c}</button>`
+      const randomizedChoices = [...cfg.scenarioChoices].sort(() => Math.random() - 0.5);
+
+      scenarioChoices.innerHTML = randomizedChoices.map(c => 
+        `<button class="btn-icon-pill scenario-opt-btn" data-correct="${c.correct}" style="justify-content: flex-start; text-align: left; padding: 0.45rem 0.8rem;">${c.label}</button>`
       ).join('');
 
-      scenarioChoices.querySelectorAll('button').forEach(btn => {
+      scenarioChoices.querySelectorAll('.scenario-opt-btn').forEach(btn => {
         btn.addEventListener('click', () => {
-          if (soundEnabled) AudioEngine.playSuccess();
-          alert("Tebrikler! Empatili harika bir çözüm buldun!");
+          const isCorrect = btn.dataset.correct === 'true';
+          if (isCorrect) {
+            if (soundEnabled) AudioEngine.playSuccess();
+            alert("🎉 Tebrikler! Empatili harika bir çözüm buldun!");
+          } else {
+            if (soundEnabled) AudioEngine.playTone(300, 0.2);
+            alert("❤️ Bu yaklaşım Piko'yu üzebilir veya sorunu çözmeyebilir. Farklı bir empati yolu deneyelim mi?");
+          }
         });
       });
     }
@@ -648,7 +671,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const mevsimBox = document.getElementById('mevsim-options');
     if (mevsimBox) {
       const seasons = level === '3' ? ['🍂 Sonbahar', '☀️ Yaz'] : ['🍂 Sonbahar', '❄️ Kış', '🌸 İlkbahar', '☀️ Yaz'];
-      mevsimBox.innerHTML = seasons.map(s =>
+      mevsimBox.innerHTML = seasons.map(s => 
         `<button class="btn-icon-pill mevsim-opt-btn">${s}</button>`
       ).join('');
 
@@ -668,10 +691,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize Real Cut Image Puzzle with Age Level
     initRealImagePuzzle(level);
 
-    // Render Hava Durumu Giydirme (Yaşa göre seçenek sayısı değişir)
+    // Render Hava Durumu Giydirme
     const dressContainer = document.getElementById('dress-options-grid');
     if (dressContainer) {
-      dressContainer.innerHTML = cfg.weatherOptions.map(opt =>
+      dressContainer.innerHTML = cfg.weatherOptions.map(opt => 
         `<button class="btn-icon-pill dress-opt-btn">${opt}</button>`
       ).join('');
 
@@ -784,7 +807,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (soundEnabled) AudioEngine.playSuccess();
             if (pinView) pinView.style.display = 'none';
             if (parentDashboardView) parentDashboardView.style.display = 'flex';
-            document.querySelector('.parent-tabs-nav .tab-btn')?.click();
+             document.querySelector('.parent-tabs-nav .tab-btn')?.click();
           } else {
             if (pinErrorMsg) pinErrorMsg.textContent = 'Hatalı Kod! Lütfen gösterilen 4 rakamı girin.';
             setTimeout(() => {
@@ -822,7 +845,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (parentDashboardView) {
         parentDashboardView.scrollTop = 0;
       }
-
+      
       if (soundEnabled) AudioEngine.playTone(550);
     });
   });
