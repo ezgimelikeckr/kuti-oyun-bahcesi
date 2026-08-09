@@ -139,6 +139,17 @@ body {
   flex-direction: column !important;
 }
 
+/* Ebeveyn Modalı Kapatma Butonu Sabitleme */
+.parent-modal-box button:last-of-type,
+.parent-modal-box .modal-close-btn,
+.parent-modal-box [class*="close"] {
+  position: absolute !important;
+  top: 0.85rem !important;
+  right: 0.85rem !important;
+  left: auto !important;
+  z-index: 100 !important;
+} 
+
 /* ==========================================================================
    TEK VE GÜVENLİ MOBİL UYARLAMA MEDYA SORGUSU (Max 768px)
    ========================================================================== */
