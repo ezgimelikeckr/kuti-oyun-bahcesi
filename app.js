@@ -249,21 +249,25 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // 4. DUYGU AYNASI VISUAL CHARACTER MIRROR SYSTEM (DÜZELTİLDİ: RASTGELE HEDEF DUYGU)
-  let targetEmotion = { name: 'Mutlu', emoji: '😊', label: '😊 Mutlu' };
+ // 4. DUYGU AYNASI (PİKO RESİM TABANLI SİSTEM)
+  let targetEmotion = { name: 'Mutlu', image: 'piko_mutlu.png', label: 'Mutlu' };
 
   function setVisualEmotionMirror(emotion) {
     targetEmotion = emotion;
     const mirrorFace = document.getElementById('mirror-face-img');
-    const mirrorEmoji = document.getElementById('mirror-expression-emoji');
     const mirrorPrompt = document.getElementById('mirror-prompt-text');
 
     if (mirrorFace) {
       mirrorFace.style.transform = 'scale(1.15) rotate(3deg)';
       setTimeout(() => mirrorFace.style.transform = 'scale(1)', 300);
+      
+      // Piko'nun o duyguya ait resim dosyası dinamik olarak yükleniyor
+      mirrorFace.src = emotion.image; 
     }
-    if (mirrorEmoji) mirrorEmoji.textContent = emotion.emoji;
-    if (mirrorPrompt) mirrorPrompt.textContent = `Piko şu an ${emotion.label} hissediyor. Doğru yüz ifadesini seçebilir misin?`;
+    
+    if (mirrorPrompt) {
+      mirrorPrompt.textContent = `Piko şu an ${emotion.label} hissediyor. Doğru yüz ifadesini seçebilir misin?`;
+    }
   }
 
   function pickRandomTargetEmotion(cfg) {
