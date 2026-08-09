@@ -804,14 +804,20 @@ document.addEventListener('DOMContentLoaded', () => {
       if (soundEnabled) AudioEngine.playTone(500);
     });
   }
-  // Modal Close buttons
+  // Modal Close buttons & Absolute Safety Reload
   document.querySelectorAll('[data-close-modal]').forEach(btn => {
     btn.addEventListener('click', (e) => {
       const modal = e.target.closest('.piko-modal');
-      if (modal) modal.classList.remove('active');
+      if (modal) {
+        modal.classList.remove('active');
+        modal.style.display = 'none';
+      }
+      // Arka plan kilidi kalmasın diye sayfayı tazeleyip her şeyi tertemiz yapıyoruz
+      setTimeout(() => {
+        location.reload();
+      }, 100);
     });
   });
-
   // --- EBEVEYN PANELİ SEKMELERİNİN KUSURSUZ YÖNETİMİ ---
   const tabBtns = document.querySelectorAll('.tab-btn');
   const tabPanes = document.querySelectorAll('.tab-pane');
