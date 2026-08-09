@@ -768,16 +768,9 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('p-dot-4')
   ];
 
-let currentDynamicPin = '';
+ let currentDynamicPin = '';
   let enteredPin = '';
-
-  // Noktaları güncelleyen fonksiyon burada tanımlı olmalı:
-  function updatePinDots() {
-    pinDots.forEach((dot, idx) => {
-      if (dot) dot.style.background = idx < enteredPin.length ? '#FF7043' : '#DDD';
-    });
-  }
-
+ 
   function generateNewPin() {
     const d1 = Math.floor(Math.random() * 9) + 1;
     const d2 = Math.floor(Math.random() * 9) + 1;
@@ -795,7 +788,7 @@ let currentDynamicPin = '';
       generateNewPin();
       enteredPin = '';
       updatePinDots();
-      if (pinErrorMsg) pinErrorMsg.textContent ==='';
+      if (pinErrorMsg) pinErrorMsg.textContent ='';
       
       // Pin ekranını göster, dashboard'u gizle
       if (pinView) {
