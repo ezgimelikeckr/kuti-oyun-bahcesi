@@ -540,9 +540,9 @@ document.addEventListener('DOMContentLoaded', () => {
       ozbakimDesc: 'Sürükle-bırak Diş Fırçalama ve hava durumuna göre kıyafet eşleştirme.',
       dogaDesc: 'Zıt mevsimler ve sürükle-bırak sulama ile görsel bitki büyütme.',
       emotions: [
-        { label: '😊 Mutlu', name: 'Mutlu', emoji: '😊' },
-        { label: '😢 Üzgün', name: 'Üzgün', emoji: '😢' },
-        { label: '😲 Şaşırmış', name: 'Şaşırmış', emoji: '😲' }
+        { label: 'Mutlu', name: 'Mutlu', image: 'piko_mutlu.png' },
+        { label: 'Üzgün', name: 'Üzgün', image: 'piko_uzgun.png' },
+        { label: 'Şaşırmış', name: 'Şaşırmış', image: 'piko_sasirmis.png' },
       ],
       scenario: 'Piko dondurmasını yere düşürdü. Ne hissediyor?',
       scenarioChoices: [
@@ -558,10 +558,10 @@ document.addEventListener('DOMContentLoaded', () => {
       ozbakimDesc: 'Sürükle-bırak fırçalama ve 4 mevsim kıyafet giydirme.',
       dogaDesc: '4 mevsim ipucu analizi ve sürükle-bırak sulama-güneş dengesi.',
       emotions: [
-        { label: '😊 Mutlu', name: 'Mutlu', emoji: '😊' },
-        { label: '😢 Üzgün', name: 'Üzgün', emoji: '😢' },
-        { label: '😡 Kızgın', name: 'Kızgın', emoji: '😡' },
-        { label: '🤩 Heyecanlı', name: 'Heyecanlı', emoji: '🤩' }
+        { label: 'Mutlu', name: 'Mutlu', image: 'piko_mutlu.png' },
+        { label: 'Üzgün', name: 'Üzgün', image: 'piko_uzgun.png' },
+        { label: 'Öfkeli', name: 'Öfkeli', image: 'piko_ofkeli.png' },
+        { label: 'Meraklı', name: 'Meraklı', image: 'piko_merakli.png' },
       ],
       scenario: 'Piko en sevdiği oyuncağını bulamıyor. Nasıl hissediyor ve ne yapmalıyız?',
       scenarioChoices: [
@@ -577,12 +577,15 @@ document.addEventListener('DOMContentLoaded', () => {
       ozbakimDesc: 'Sürükle-bırak hijyen ve çoklu mevsim kombinasyon giydirme.',
       dogaDesc: 'Çoklu canlı türü, sulama ve güneş dengesi ekolojisi.',
       emotions: [
-        { label: '😊 Mutlu', name: 'Mutlu', emoji: '😊' },
-        { label: '😢 Üzgün', name: 'Üzgün', emoji: '😢' },
-        { label: '😎 Gururlu', name: 'Gururlu', emoji: '😎' },
-        { label: '😰 Kaygılı', name: 'Kaygılı', emoji: '😰' },
-        { label: '😌 Sakin', name: 'Sakin', emoji: '😌' },
-        { label: '😳 Utanmış', name: 'Utanmış', emoji: '😳' }
+       emotions: [
+        { label: 'Mutlu', name: 'Mutlu', image: 'piko_mutlu.png' },
+        { label: 'Üzgün', name: 'Üzgün', image: 'piko_uzgun.png' },
+        { label: 'Öfkeli', name: 'Öfkeli', image: 'piko_ofkeli.png' },
+        { label: 'Şaşırmış', name: 'Şaşırmış', image: 'piko_sasirmis.png' },
+        { label: 'Utangaç', name: 'Utangaç', image: 'piko_utangac.png' },
+        { label: 'Meraklı', name: 'Meraklı', image: 'piko_merakli.png' },
+        { label: 'Korkmuş', name: 'Korkmuş', image: 'piko_korkmus.png' },
+        { label: 'Gururlu', name: 'Gururlu', image: 'piko_gururlu.png' }
       ],
       scenario: 'Piko sahnede şarkı söylerken sözleri unuttu. Ona nasıl destek oluruz?',
       scenarioChoices: [
