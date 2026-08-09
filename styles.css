@@ -139,9 +139,14 @@ body {
   flex-direction: column !important;
 }
 
-/* Ebeveyn Modalı Kapatma Butonu Kesin Çözüm */
-.parent-modal-box button.modal-close-btn,
-div.parent-modal-box .modal-close-btn {
+/* ==========================================================================
+   TÜM MODALLAR İÇİN ORTAK VE GÜVENLİ KAPATMA BUTONU & KUTU AYARI
+   ========================================================================== */
+
+/* Tüm modal içerisindeki kapatma butonları için ortak güvenli konum */
+.piko-modal .modal-close-btn,
+.parent-modal-box .modal-close-btn,
+.modal-content-box .modal-close-btn {
   position: absolute !important;
   top: 15px !important;
   right: 15px !important;
@@ -152,14 +157,21 @@ div.parent-modal-box .modal-close-btn {
   background-color: transparent !important;
   border: none !important;
   box-shadow: none !important;
-  color: #7986CB !important; /* Pastel Mavi */
+  color: #7986CB !important; /* İstediğin Pastel Mavi Tonu */
   font-size: 1.4rem !important;
   width: auto !important;
   height: auto !important;
   padding: 5px !important;
   opacity: 1 !important;
+  cursor: pointer !important;
 }
 
+.piko-modal .modal-close-btn:hover,
+.parent-modal-box .modal-close-btn:hover,
+.modal-content-box .modal-close-btn:hover {
+  color: #5C6BC0 !important;
+  background: transparent !important;
+}
 .parent-modal-box button.modal-close-btn:hover,
 div.parent-modal-box .modal-close-btn:hover {
   color: #5C6BC0 !important;
