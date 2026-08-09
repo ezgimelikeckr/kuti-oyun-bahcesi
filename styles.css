@@ -156,10 +156,10 @@ body {
   overflow-y: auto;
 }
 
-/* Kapatma Butonu Masaüstü Konumu */
+/* SADECE GERÇEK KAPATMA BUTONUNU HEDEF ALAN FİNAL KURAL */
 .parent-modal-box .modal-close-btn,
-.parent-modal-box button[id*="close"],
-.parent-modal-box button:first-child {
+.parent-modal-box .close-btn,
+.parent-modal-box button.close {
   position: absolute !important;
   top: 1rem !important;
   right: 1rem !important;
