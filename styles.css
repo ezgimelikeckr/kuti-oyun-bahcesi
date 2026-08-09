@@ -128,98 +128,16 @@ body {
   flex-direction: column !important;
   overflow: hidden;
 }
-/* GEÇİCİ TEŞHİS + ZORLA GÖRÜNÜRLÜK KURALI */
-#parent-dashboard-view,
-#parent-dashboard-view * {
-  color: #4A3E3D !important;
-  opacity: 1 !important;
-  visibility: visible !important;
-  font-size: revert !important;
-}
 
-#parent-dashboard-view h3,
-#parent-dashboard-view h4,
-#parent-dashboard-view h5 {
-  font-size: 1rem !important;
-}
 
-#parent-dashboard-view p,
-#parent-dashboard-view strong,
-#parent-dashboard-view div,
-#parent-dashboard-view span,
-#parent-dashboard-view label {
-  font-size: 0.8rem !important;
-}
-
-/* Sekmelerin ve içeriklerin ekranda görünmesini kesinleştiren kural */
+/* EBEVEYN PANELİ SEKME GEÇİŞLERİ (FİNAL) */
 #parent-dashboard-view .tab-pane {
   display: none !important;
 }
 
 #parent-dashboard-view .tab-pane.active {
   display: block !important;
-}
-.modal-close-btn {
-  position: absolute;
-  top: 0.85rem;
-  right: 0.85rem;
-  background: #F5F5F5;
-  border: none;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  font-size: 1.1rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.parent-tabs-nav {
-  display: flex;
-  gap: 0.4rem;
-  margin-bottom: 0.75rem;
-  border-bottom: 2px solid #EEEEEE;
-  padding-bottom: 0.4rem;
-  flex-shrink: 0;
-}
-
-.tab-btn {
-  background: transparent;
-  border: none;
-  padding: 0.4rem 0.85rem;
-  font-family: var(--font-heading);
-  font-weight: 700;
-  font-size: 0.82rem;
-  color: var(--text-muted);
-  cursor: pointer;
-  border-radius: var(--radius-pill);
-  white-space: nowrap;
-}
-
-.tab-btn.active {
-  background: #EDE7F6;
-  color: #5E35B1;
-}
-/* Ebeveyn Paneli Sekmeleri için Kusursuz Görünüm Kuralı */
-#parent-dashboard-view .tab-pane {
-  display: none !important;
-}
-
-#parent-dashboard-view .tab-pane.active {
-  display: flex !important;
-  flex-direction: column !important;
   width: 100% !important;
-  height: auto !important;
-  flex: 1 !important;
-}
-
-/* Sekme içindeki tüm çocuk elemanların ve metinlerin görünmesini zorunlu kıl */
-#parent-dashboard-view .tab-pane.active > div {
-  display: flex !important;
-  flex-direction: column !important;
-  width: 100% !important;
-  height: auto !important;
 }
 /* ==========================================================================
    TEK VE GÜVENLİ MOBİL UYARLAMA MEDYA SORGUSU (Max 768px)
