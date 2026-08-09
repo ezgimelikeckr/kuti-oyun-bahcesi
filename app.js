@@ -788,7 +788,7 @@ document.addEventListener('DOMContentLoaded', () => {
       generateNewPin();
       enteredPin = '';
       updatePinDots();
-      if (pinErrorMsg) pinErrorMsg.textContent = '';
+      if (pinErrorMsg) pinErrorMsg.textContent ==='';
       
       // Pin ekranını göster, dashboard'u gizle
       if (pinView) {
