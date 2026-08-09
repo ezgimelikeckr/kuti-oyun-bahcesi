@@ -6,6 +6,7 @@
    - Real HTML5 Drag & Drop Mechanics (Diş Fırçalama & Bahçe Sulama)
    - Real Cut Image Jigsaw Puzzle (Yapboz Görsel Bütünlüğü)
    - Fixed Full-Screen No-Scroll Parent Dashboard Tabs
+   - ZPD (Vygotsky) Tabanlı 6+ Yaş Gerekçelendirme Soruları (Öz Bakım & Doğa)
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -50,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
       try {
         this.init();
         const now = this.ctx.currentTime;
-        [432, 540, 648].forEach((f, i) => { // 432 Hz pentatonic tuning
+        [432, 540, 648].forEach((f, i) => {
           const osc = this.ctx.createOscillator();
           const gain = this.ctx.createGain();
           osc.type = 'sine';
@@ -103,48 +104,43 @@ document.addEventListener('DOMContentLoaded', () => {
   let sunProgress = 10;
   let sunTimerDuration = 120;
   let sunInterval = null;
-  
-// --- Ebeveyn Güvenlik Doğrulaması (Dinamik Matematik Sorusu Mantığı) ---
-  let currentMathAnswer = 0;
-  let enteredMathInput = ''; // Artık pin yerine girilen matematiksel metni tutuyoruz
-  let plantStageIndex = 0;
-  const plantVisualStages = ['🌱', '🌿', '🌻', '🌳'];
 
-  // 2. MANDATORY APP LAUNCH INITIAL ENTRY LOCK OVERLAY LOGIC
-  const appLaunchOverlay = document.getElementById('app-launch-overlay');
-  const launchPinDisplay = document.getElementById('launch-pin-display');
-  const launchPinError = document.getElementById('launch-pin-error');
-  const mathInputDisplay = document.getElementById('math-input-display'); // Yeni eklediğimiz ekran alanı
+  // --- Ebeveyn Güvenlik Doğrulaması (Dinamik Matematik Sorusu Mantığı) ---
+  let currentMathAnswer = 0;
+  let enteredMathInput = '';
+  let plantStageIndex = 0;
+  const plantVisualStages = ['🌱', '🌿', '🌻', '🌳'];
 
-  // Her girişte rastgele matematik sorusu üreten güvenli fonksiyon
-  function generateMathSecurityProblem() {
-    const num1 = Math.floor(Math.random() * 5) + 1; // 1 ile 5 arası
-    const num2 = Math.floor(Math.random() * 4) + 1; // 1 ile 4 arası
-    
-    currentMathAnswer = num1 + num2; // Doğru sonuç
-    enteredMathInput = '';
-    
-    if (launchPinDisplay) {
-      launchPinDisplay.textContent = `Soru: ${num1} + ${num2} = ?`;
-    }
-    if (mathInputDisplay) {
-      mathInputDisplay.textContent = '_';
-    }
-  }
+  // 2. MANDATORY APP LAUNCH INITIAL ENTRY LOCK OVERLAY LOGIC
+  const appLaunchOverlay = document.getElementById('app-launch-overlay');
+  const launchPinDisplay = document.getElementById('launch-pin-display');
+  const launchPinError = document.getElementById('launch-pin-error');
+  const mathInputDisplay = document.getElementById('math-input-display');
 
-  // İlk açılışta soruyu üret
-  generateMathSecurityProblem();
+  function generateMathSecurityProblem() {
+    const num1 = Math.floor(Math.random() * 5) + 1;
+    const num2 = Math.floor(Math.random() * 4) + 1;
 
-// Tuş takımı kontrolü ve ekran güncellemesi (Düzenlenmiş Sınıf Adı)
+    currentMathAnswer = num1 + num2;
+    enteredMathInput = '';
+
+    if (launchPinDisplay) {
+      launchPinDisplay.textContent = `Soru: ${num1} + ${num2} = ?`;
+    }
+    if (mathInputDisplay) {
+      mathInputDisplay.textContent = '_';
+    }
+  }
+
+  generateMathSecurityProblem();
+
   document.querySelectorAll('.keypad-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const digit = btn.textContent.trim();
-      
-      // 2 haneden uzun olmasını engelleyelim
+
       if (enteredMathInput.length < 2) {
         enteredMathInput += digit;
-        
-        // Ekranda girilen rakamı göster
+
         if (mathInputDisplay) {
           mathInputDisplay.textContent = enteredMathInput;
         }
@@ -155,17 +151,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const userResult = parseInt(enteredMathInput, 10);
 
-        // Kullanıcının girdiği sonuç doğru cevapla eşleşirse
-      if (userResult === currentMathAnswer) {
+        if (userResult === currentMathAnswer) {
           if (typeof soundEnabled !== 'undefined' && soundEnabled && typeof AudioEngine !== 'undefined') {
             AudioEngine.playSuccess();
           }
           if (appLaunchOverlay) {
             appLaunchOverlay.classList.add('unlocked');
-            setTimeout(() => appLaunchOverlay.remove(), 300); // Perdeyi tamamen ortadan kaldırır
+            setTimeout(() => appLaunchOverlay.remove(), 300);
           }
         }
-        // Yanlış bir değer girildiyse veya sonuç aşıldıysa
         else if (enteredMathInput.length >= 2 || userResult > currentMathAnswer) {
           if (launchPinError) launchPinError.textContent = 'Hatalı sonuç! Tekrar deneyin.';
           setTimeout(() => {
@@ -203,7 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
       clearInterval(sunInterval);
       triggerSleepMode();
     }
-    
+
     if (sunProgressBar) sunProgressBar.style.width = `${sunProgress}%`;
     if (sunIcon) sunIcon.style.left = `${sunProgress}%`;
 
@@ -279,7 +273,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const siralaGrid = document.getElementById('sirala-grid');
     if (!siralaGrid) return;
 
-    // Define 4 items with distinct sizes
     const baseItems = [
       { id: 1, label: '🍎', sizePx: 26, title: 'En Küçük' },
       { id: 2, label: '🍎', sizePx: 36, title: 'Küçük' },
@@ -287,7 +280,6 @@ document.addEventListener('DOMContentLoaded', () => {
       { id: 4, label: '🍎', sizePx: 58, title: 'En Büyük' }
     ];
 
-    // SHUFFLE the items randomly every time so they NEVER load pre-sorted!
     siralaItemsData = [...baseItems].sort(() => Math.random() - 0.5);
 
     renderSiralaGrid();
@@ -315,7 +307,6 @@ document.addEventListener('DOMContentLoaded', () => {
       el.textContent = item.label;
       el.title = "Değiştirmek için tıkla veya sürükle";
 
-      // Drag and Drop Swap
       el.addEventListener('dragstart', (e) => {
         e.dataTransfer.setData('text/plain', index);
         el.classList.add('dragging');
@@ -330,7 +321,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const fromIdx = parseInt(e.dataTransfer.getData('text/plain'), 10);
         const toIdx = index;
         if (!isNaN(fromIdx) && fromIdx !== toIdx) {
-          // Swap positions in array
           const temp = siralaItemsData[fromIdx];
           siralaItemsData[fromIdx] = siralaItemsData[toIdx];
           siralaItemsData[toIdx] = temp;
@@ -340,7 +330,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       });
 
-      // Click to Swap fallback
       el.addEventListener('click', () => {
         if (selectedSiralaItem === null) {
           selectedSiralaItem = index;
@@ -366,7 +355,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function checkSiralaSuccess() {
-    // Check if ids are strictly sorted 1, 2, 3, 4
     const isSorted = siralaItemsData.every((item, idx) => item.id === idx + 1);
     if (isSorted) {
       if (soundEnabled) AudioEngine.playSuccess();
@@ -387,7 +375,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const totalCols = 3;
     const totalRows = 2;
-    const missingIndices = [2, 5]; // Right-most pieces missing
+    const missingIndices = [2, 5];
 
     for (let r = 0; r < totalRows; r++) {
       for (let c = 0; c < totalCols; c++) {
@@ -445,7 +433,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const teethZone = document.getElementById('teeth-target-zone');
     const mouthEmoji = document.getElementById('mouth-target-emoji');
 
-   if (brush && teethZone) {
+    if (brush && teethZone) {
       brush.addEventListener('dragstart', (e) => {
         e.dataTransfer.setData('text/plain', 'brush');
         brush.classList.add('dragging');
@@ -465,8 +453,7 @@ document.addEventListener('DOMContentLoaded', () => {
         teethZone.classList.remove('drag-over');
         if (soundEnabled) AudioEngine.playSuccess();
         if (mouthEmoji) mouthEmoji.textContent = '✨🪥🫧';
-        
-        // Piko'nun somut neden açıklaması (Pedagojik katman)
+
         const pikoMessageEl = document.getElementById('piko-message');
         if (pikoMessageEl) {
           pikoMessageEl.innerHTML = "Yaşasın! Dişlerimizi fırçaladık ki minik mikroplar kaçsın, dişlerimiz pırıl pırıl parlasın! 🦷✨";
@@ -477,7 +464,7 @@ document.addEventListener('DOMContentLoaded', () => {
           alert('🧼 Piko pırıl pırıl dişlerle gülümsüyor!');
         }, 600);
       });
-    } 
+    }
 
     const water = document.getElementById('draggable-water');
     const sun = document.getElementById('draggable-sun');
@@ -504,7 +491,7 @@ document.addEventListener('DOMContentLoaded', () => {
       potZone.addEventListener('drop', (e) => {
         e.preventDefault();
         potZone.classList.remove('drag-over');
-        
+
         plantStageIndex = (plantStageIndex + 1) % plantVisualStages.length;
         plantDisplay.textContent = plantVisualStages[plantStageIndex];
         plantDisplay.style.transform = 'scale(1.3) rotate(5deg)';
@@ -516,6 +503,28 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   initDragAndDropMechanics();
+
+  // 7b. ZPD (VYGOTSKY) — ORTAK GEREKÇELENDİRME SORUSU YARDIMCI FONKSİYONU
+  // Öz Bakım ve Doğa köşelerinde 6+ yaşta kullanılır: seçim yapıldıktan sonra
+  // "neden bunu seçtin?" tarzı bir soru gösterir, cevap ne olursa olsun olumlu kapanır.
+  function showSimpleWhyQuestion(boxId, optionsId, reasons, finalMessage) {
+    const box = document.getElementById(boxId);
+    const optionsEl = document.getElementById(optionsId);
+    if (!box || !optionsEl) return;
+
+    optionsEl.innerHTML = '';
+    reasons.forEach(label => {
+      const btn = document.createElement('button');
+      btn.className = 'btn-icon-pill';
+      btn.textContent = label;
+      btn.addEventListener('click', () => {
+        alert(finalMessage + ' Güzel düşünmüşsün! 🌟');
+        box.style.display = 'none';
+      });
+      optionsEl.appendChild(btn);
+    });
+    box.style.display = 'block';
+  }
 
   // 8. DYNAMIC AGE LEVEL SYSTEM & INSTANT MINI-GAME RENDERER
   const ageConfig = {
@@ -551,7 +560,6 @@ document.addEventListener('DOMContentLoaded', () => {
       weatherOptions: ['☀️ Güneşli (Şapka & T-shirt)', '🌧️ Yağmurlu (Yağmurluk & Çizme)', '❄️ Karlı (Mont & Bere)']
     },
     '6+': {
-      dressReasons: ['🌡️ Hava sıcaklığına uygun olduğu için', '🎨 Rengini sevdiğim için', '🏃 Rahat hareket edebilmek için'],
       badge: '6+ Yaş (Bilge Çiçekler)',
       duyguDesc: 'Görsel 6 zengin duygu ifadesi (Gururlu, Utanmış, Kaygılı, Sakin vb.).',
       beceriDesc: 'Karışık sıralama oyunları ve detaylı zeka yapbozları.',
@@ -567,27 +575,12 @@ document.addEventListener('DOMContentLoaded', () => {
       ],
       scenario: 'Piko sahnede şarkı söylerken sözleri unuttu. Ona nasıl destek oluruz?',
       scenarioChoices: ['👏 Alkışlayarak cesaret verelim', '🙈 Gülüp gidelim'],
-      weatherOptions: ['☀️ Güneşli (Güneş Gözlüğü & Şapka)', '🌧️ Yağmurlu (Şemsiye & Yağmurluk)', '❄️ Karlı (Mont, Eldiven & Bere)']
+      weatherOptions: ['☀️ Güneşli (Güneş Gözlüğü & Şapka)', '🌧️ Yağmurlu (Şemsiye & Yağmurluk)', '❄️ Karlı (Mont, Eldiven & Bere)'],
+      // ZPD 6+ YAŞ İÇİN YENİ ALANLAR:
+      dressReasons: ['🌡️ Hava sıcaklığına uygun olduğu için', '🎨 Rengini sevdiğim için', '🏃 Rahat hareket edebilmek için'],
+      mevsimReasons: ['🍂 Yaprakların rengi değiştiği için', '🌡️ Hava soğuduğu için', '🐦 Kuşlar göç ettiği için']
     }
   };
-   function showSimpleWhyQuestion(boxId, optionsId, reasons, finalMessage) {
-  const box = document.getElementById(boxId);
-  const optionsEl = document.getElementById(optionsId);
-  if (!box || !optionsEl) return;
-
-  optionsEl.innerHTML = '';
-  reasons.forEach(label => {
-    const btn = document.createElement('button');
-    btn.className = 'btn-icon-pill';
-    btn.textContent = label;
-    btn.addEventListener('click', () => {
-      alert(finalMessage + ' Güzel düşünmüşsün! 🌟');
-      box.style.display = 'none';
-    });
-    optionsEl.appendChild(btn);
-  });
-  box.style.display = 'block';
-}
 
   function updateAgeSystem(level) {
     currentAgeLevel = level;
@@ -610,7 +603,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Render Duygu Aynası options (Yaşa göre duygu sayısı değişir)
     const emotionBox = document.getElementById('duygu-mirror-options');
     if (emotionBox) {
-      emotionBox.innerHTML = cfg.emotions.map(e => 
+      emotionBox.innerHTML = cfg.emotions.map(e =>
         `<button class="btn-icon-pill emo-opt-btn" style="padding: 0.4rem 0.8rem;">${e.label}</button>`
       ).join('');
 
@@ -620,8 +613,8 @@ document.addEventListener('DOMContentLoaded', () => {
           setVisualEmotionMirror(selectedEmotion);
           if (soundEnabled) AudioEngine.playSuccess();
 
-          if (selectedEmotion.label.toLowerCase().includes('kızgın') || 
-              selectedEmotion.label.toLowerCase().includes('üzgün') || 
+          if (selectedEmotion.label.toLowerCase().includes('kızgın') ||
+              selectedEmotion.label.toLowerCase().includes('üzgün') ||
               selectedEmotion.label.toLowerCase().includes('korku')) {
             alert(`🌱 Piko şu an ${selectedEmotion.label} hissediyor. Gel birlikte derin bir nefes alıp çiçek koklayalım ve yavaşça üfleyelim, minik kalbimiz sakinleşsin.`);
           } else {
@@ -636,7 +629,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const scenarioChoices = document.getElementById('duygu-scenario-choices');
     if (scenarioText && scenarioChoices) {
       scenarioText.textContent = cfg.scenario;
-      scenarioChoices.innerHTML = cfg.scenarioChoices.map(c => 
+      scenarioChoices.innerHTML = cfg.scenarioChoices.map(c =>
         `<button class="btn-icon-pill" style="justify-content: flex-start; text-align: left; padding: 0.45rem 0.8rem;">${c}</button>`
       ).join('');
 
@@ -648,28 +641,28 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // INITIALIZE SHUFFLED SIRALA BUL GAME (Yaşa göre eleman sayısı uyarlanabilir)
+    // INITIALIZE SHUFFLED SIRALA BUL GAME
     initSiralaBulGame(level);
 
     // RENDER HANGİ MEVSİM GAME OPTIONS
     const mevsimBox = document.getElementById('mevsim-options');
     if (mevsimBox) {
       const seasons = level === '3' ? ['🍂 Sonbahar', '☀️ Yaz'] : ['🍂 Sonbahar', '❄️ Kış', '🌸 İlkbahar', '☀️ Yaz'];
-      mevsimBox.innerHTML = seasons.map(s => 
+      mevsimBox.innerHTML = seasons.map(s =>
         `<button class="btn-icon-pill mevsim-opt-btn">${s}</button>`
       ).join('');
 
-    mevsimBox.querySelectorAll('.mevsim-opt-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    if (soundEnabled) AudioEngine.playSuccess();
-    if (level === '6+' && cfg.mevsimReasons) {
-      showSimpleWhyQuestion('doga-why-box', 'doga-why-options', cfg.mevsimReasons,
-        `Doğru! ${btn.textContent} mevsimini keşfettin!`);
-    } else {
-      alert(`Doğru! ${btn.textContent} mevsimini keşfettin!`);
-    }
-  });
-});
+      mevsimBox.querySelectorAll('.mevsim-opt-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          if (soundEnabled) AudioEngine.playSuccess();
+          if (level === '6+' && cfg.mevsimReasons) {
+            showSimpleWhyQuestion('doga-why-box', 'doga-why-options', cfg.mevsimReasons,
+              `Doğru! ${btn.textContent} mevsimini keşfettin!`);
+          } else {
+            alert(`Doğru! ${btn.textContent} mevsimini keşfettin!`);
+          }
+        });
+      });
     }
 
     // Initialize Real Cut Image Puzzle with Age Level
@@ -678,23 +671,24 @@ document.addEventListener('DOMContentLoaded', () => {
     // Render Hava Durumu Giydirme (Yaşa göre seçenek sayısı değişir)
     const dressContainer = document.getElementById('dress-options-grid');
     if (dressContainer) {
-      dressContainer.innerHTML = cfg.weatherOptions.map(opt => 
+      dressContainer.innerHTML = cfg.weatherOptions.map(opt =>
         `<button class="btn-icon-pill dress-opt-btn">${opt}</button>`
       ).join('');
-     dressContainer.querySelectorAll('.dress-opt-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    if (soundEnabled) AudioEngine.playSuccess();
-    if (level === '6+' && cfg.dressReasons) {
-      showSimpleWhyQuestion('ozbakim-why-box', 'ozbakim-why-options', cfg.dressReasons,
-        `Piko ${btn.textContent} giydi ve hazır!`);
-    } else {
-      alert(`Piko ${btn.textContent} giydi ve hazır!`);
-    }
-  });
-});
+
+      dressContainer.querySelectorAll('.dress-opt-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          if (soundEnabled) AudioEngine.playSuccess();
+          if (level === '6+' && cfg.dressReasons) {
+            showSimpleWhyQuestion('ozbakim-why-box', 'ozbakim-why-options', cfg.dressReasons,
+              `Piko ${btn.textContent} giydi ve hazır!`);
+          } else {
+            alert(`Piko ${btn.textContent} giydi ve hazır!`);
+          }
+        });
+      });
     }
   }
-       
+
   // Radio listener for Age Selection
   document.querySelectorAll('input[name="age-group"]').forEach(radio => {
     radio.addEventListener('change', (e) => {
@@ -714,7 +708,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById('card-beceri')?.addEventListener('click', () => {
     updateAgeSystem(currentAgeLevel);
-    initSiralaBulGame(); // Ensure shuffled reload
+    initSiralaBulGame();
     document.getElementById('modal-beceri-corner')?.classList.add('active');
     if (soundEnabled) AudioEngine.playTone(600);
   });
@@ -744,6 +738,9 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('p-dot-3'),
     document.getElementById('p-dot-4')
   ];
+
+  let currentDynamicPin = '';
+  let enteredPin = '';
 
   function generateNewPin() {
     const d1 = Math.floor(Math.random() * 9) + 1;
@@ -787,7 +784,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (soundEnabled) AudioEngine.playSuccess();
             if (pinView) pinView.style.display = 'none';
             if (parentDashboardView) parentDashboardView.style.display = 'flex';
-             document.querySelector('.parent-tabs-nav .tab-btn')?.click();
+            document.querySelector('.parent-tabs-nav .tab-btn')?.click();
           } else {
             if (pinErrorMsg) pinErrorMsg.textContent = 'Hatalı Kod! Lütfen gösterilen 4 rakamı girin.';
             setTimeout(() => {
@@ -808,26 +805,24 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-// --- EBEVEYN PANELİ SEKMELERİNİN KUSURSUZ YÖNETİMİ ---
+  // --- EBEVEYN PANELİ SEKMELERİNİN KUSURSUZ YÖNETİMİ ---
   const tabBtns = document.querySelectorAll('.tab-btn');
   const tabPanes = document.querySelectorAll('.tab-pane');
 
   tabBtns.forEach(btn => {
     btn.addEventListener('click', () => {
-      // Tüm butonlardan ve panellerden active sınıfını kaldır
       tabBtns.forEach(b => b.classList.remove('active'));
       tabPanes.forEach(p => p.classList.remove('active'));
 
-      // Tıklanan sekmeyi ve ilgili paneli aktif yap
-     btn.classList.add('active');
-const target = document.getElementById(btn.dataset.tab);
-if (target) {
-  target.classList.add('active');
-}
-if (parentDashboardView) {
-  parentDashboardView.scrollTop = 0; // ← YENİ SATIR: sekme değişince en üste dön
-}
-      
+      btn.classList.add('active');
+      const target = document.getElementById(btn.dataset.tab);
+      if (target) {
+        target.classList.add('active');
+      }
+      if (parentDashboardView) {
+        parentDashboardView.scrollTop = 0;
+      }
+
       if (soundEnabled) AudioEngine.playTone(550);
     });
   });
@@ -847,20 +842,16 @@ if (parentDashboardView) {
     });
   }
 
-  // Sayfa açıldığında ilk sekmenin aktif olduğundan emin ol
-  if (tabPanes.length > 0 && !document.querySelector('.tab-pane.active')) {
-    tabPanes[0].classList.add('active');
-  }
-
- // Time Option Buttons in Parent Panel
-    document.querySelectorAll('.time-opt-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const mins = parseInt(btn.dataset.time, 10);
-        sunTimerDuration = mins * 60;
-        sunProgress = 10;
-        updateSunPosition();
-        startSunJourney();
-        alert(`Güneş Yolu (Ekran Süresi) ${mins} dakika olarak ayarlandı!`);
-      });
+  // Time Option Buttons in Parent Panel
+  document.querySelectorAll('.time-opt-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const mins = parseInt(btn.dataset.time, 10);
+      sunTimerDuration = mins * 60;
+      sunProgress = 10;
+      updateSunPosition();
+      startSunJourney();
+      alert(`Güneş Yolu (Ekran Süresi) ${mins} dakika olarak ayarlandı!`);
     });
+  });
+
 });
