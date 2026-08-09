@@ -132,11 +132,24 @@ body {
   overflow: hidden !important; /* Taşan içerikleri gizle */
 }
 
+/* Ebeveyn Paneli İçerik ve Görünürlük Garantisi */
 #parent-dashboard-view {
-  overflow-y: auto !important;
-  flex: 1 !important;
   display: flex !important;
   flex-direction: column !important;
+  flex: 1 !important;
+  width: 100% !important;
+  height: auto !important;
+  max-height: calc(85vh - 80px) !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Panel içerisindeki tüm alt sekme ve içerik kutularının gizlenmesini önle */
+#parent-dashboard-view > * {
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 
 /* ==========================================================================
