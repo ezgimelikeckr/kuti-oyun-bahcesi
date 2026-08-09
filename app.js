@@ -577,7 +577,6 @@ document.addEventListener('DOMContentLoaded', () => {
       ozbakimDesc: 'Sürükle-bırak hijyen ve çoklu mevsim kombinasyon giydirme.',
       dogaDesc: 'Çoklu canlı türü, sulama ve güneş dengesi ekolojisi.',
       emotions: [
-       emotions: [
         { label: 'Mutlu', name: 'Mutlu', image: 'piko_mutlu.png' },
         { label: 'Üzgün', name: 'Üzgün', image: 'piko_uzgun.png' },
         { label: 'Öfkeli', name: 'Öfkeli', image: 'piko_ofkeli.png' },
