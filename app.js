@@ -759,6 +759,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (soundEnabled) AudioEngine.playSuccess();
             if (pinView) pinView.style.display = 'none';
             if (parentDashboardView) parentDashboardView.style.display = 'flex';
+             document.querySelector('.parent-tabs-nav .tab-btn')?.click();
           } else {
             if (pinErrorMsg) pinErrorMsg.textContent = 'Hatalı Kod! Lütfen gösterilen 4 rakamı girin.';
             setTimeout(() => {
