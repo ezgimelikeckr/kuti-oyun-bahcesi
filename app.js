@@ -787,7 +787,19 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
       generateNewPin();
       enteredPin = '';
-      updatePinDots();
+     // Noktaları güncelleyen fonksiyon çağrılmadan ÖNCE tanımlı olmalı:
+  function updatePinDots() {
+    const pinDots = [
+      document.getElementById('p-dot-1'),
+      document.getElementById('p-dot-2'),
+      document.getElementById('p-dot-3'),
+      document.getElementById('p-dot-4')
+    ];
+    pinDots.forEach((dot, idx) => {
+      if (dot) dot.style.background = idx < enteredPin.length ? '#FF7043' : '#DDD';
+    });
+  }
+       updatePinDots();
       if (pinErrorMsg) pinErrorMsg.textContent ='';
       
       // Pin ekranını göster, dashboard'u gizle
