@@ -551,6 +551,7 @@ document.addEventListener('DOMContentLoaded', () => {
       weatherOptions: ['☀️ Güneşli (Şapka & T-shirt)', '🌧️ Yağmurlu (Yağmurluk & Çizme)', '❄️ Karlı (Mont & Bere)']
     },
     '6+': {
+      dressReasons: ['🌡️ Hava sıcaklığına uygun olduğu için', '🎨 Rengini sevdiğim için', '🏃 Rahat hareket edebilmek için'],
       badge: '6+ Yaş (Bilge Çiçekler)',
       duyguDesc: 'Görsel 6 zengin duygu ifadesi (Gururlu, Utanmış, Kaygılı, Sakin vb.).',
       beceriDesc: 'Karışık sıralama oyunları ve detaylı zeka yapbozları.',
@@ -569,6 +570,24 @@ document.addEventListener('DOMContentLoaded', () => {
       weatherOptions: ['☀️ Güneşli (Güneş Gözlüğü & Şapka)', '🌧️ Yağmurlu (Şemsiye & Yağmurluk)', '❄️ Karlı (Mont, Eldiven & Bere)']
     }
   };
+   function showSimpleWhyQuestion(boxId, optionsId, reasons, finalMessage) {
+  const box = document.getElementById(boxId);
+  const optionsEl = document.getElementById(optionsId);
+  if (!box || !optionsEl) return;
+
+  optionsEl.innerHTML = '';
+  reasons.forEach(label => {
+    const btn = document.createElement('button');
+    btn.className = 'btn-icon-pill';
+    btn.textContent = label;
+    btn.addEventListener('click', () => {
+      alert(finalMessage + ' Güzel düşünmüşsün! 🌟');
+      box.style.display = 'none';
+    });
+    optionsEl.appendChild(btn);
+  });
+  box.style.display = 'block';
+}
 
   function updateAgeSystem(level) {
     currentAgeLevel = level;
@@ -640,12 +659,17 @@ document.addEventListener('DOMContentLoaded', () => {
         `<button class="btn-icon-pill mevsim-opt-btn">${s}</button>`
       ).join('');
 
-      mevsimBox.querySelectorAll('.mevsim-opt-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-          if (soundEnabled) AudioEngine.playSuccess();
-          alert(`Doğru! ${btn.textContent} mevsimini keşfettin!`);
-        });
-      });
+    mevsimBox.querySelectorAll('.mevsim-opt-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (soundEnabled) AudioEngine.playSuccess();
+    if (level === '6+' && cfg.mevsimReasons) {
+      showSimpleWhyQuestion('doga-why-box', 'doga-why-options', cfg.mevsimReasons,
+        `Doğru! ${btn.textContent} mevsimini keşfettin!`);
+    } else {
+      alert(`Doğru! ${btn.textContent} mevsimini keşfettin!`);
+    }
+  });
+});
     }
 
     // Initialize Real Cut Image Puzzle with Age Level
@@ -657,16 +681,18 @@ document.addEventListener('DOMContentLoaded', () => {
       dressContainer.innerHTML = cfg.weatherOptions.map(opt => 
         `<button class="btn-icon-pill dress-opt-btn">${opt}</button>`
       ).join('');
-
-      dressContainer.querySelectorAll('.dress-opt-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-          if (soundEnabled) AudioEngine.playSuccess();
-          alert(`Piko ${btn.textContent} giydi ve hazır!`);
-        });
-      });
+     dressContainer.querySelectorAll('.dress-opt-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (soundEnabled) AudioEngine.playSuccess();
+    if (level === '6+' && cfg.dressReasons) {
+      showSimpleWhyQuestion('ozbakim-why-box', 'ozbakim-why-options', cfg.dressReasons,
+        `Piko ${btn.textContent} giydi ve hazır!`);
+    } else {
+      alert(`Piko ${btn.textContent} giydi ve hazır!`);
     }
-  }
-
+  });
+});
+       
   // Radio listener for Age Selection
   document.querySelectorAll('input[name="age-group"]').forEach(radio => {
     radio.addEventListener('change', (e) => {
