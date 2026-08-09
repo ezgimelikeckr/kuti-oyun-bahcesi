@@ -152,6 +152,17 @@ body {
   opacity: 1 !important;
 }
 
+/* Ebeveyn Paneli Açıldığında İçeriklerin ve Sekmelerin Görünmesini Kesinleştirir */
+#parent-dashboard-view .tab-pane {
+  display: none !important; /* Varsayılan olarak hepsini gizle */
+}
+
+#parent-dashboard-view .tab-pane.active {
+  display: block !important; /* Sadece aktif olan sekmeni tırıl tırıl ekrana dök */
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
 /* ==========================================================================
    TÜM MODALLAR İÇİN ORTAK VE GÜVENLİ KAPATMA BUTONU & KUTU AYARI
    ========================================================================== */
