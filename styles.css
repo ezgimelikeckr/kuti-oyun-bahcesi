@@ -145,7 +145,7 @@ body {
   border-radius: var(--radius-xl);
   padding: 1.5rem;
   width: 90vw;
-  max-width: 900px; /* Masaüstünde geniş ekranı doldurur */
+  max-width: 900px;
   height: auto;
   min-height: 400px;
   max-height: 85vh;
@@ -156,28 +156,35 @@ body {
   overflow-y: auto;
 }
 
-/* Sadece gerçek kapatma butonunu hedef alan kural */
+/* Kapatma Butonu (Pastel Mavi & Modern Görünüm) */
 .parent-modal-box .modal-close-btn {
   position: absolute !important;
-  top: 1rem !important;
-  right: 1.2rem !important;
+  top: 15px !important;
+  right: 15px !important;
   left: auto !important;
   z-index: 100 !important;
+  
+  background: transparent !important;
+  border: none !important;
+  color: #7986CB !important;
+  font-size: 1.4rem !important;
+  width: auto !important;
+  height: auto !important;
+  padding: 5px !important;
+  opacity: 0.8 !important;
+  transition: opacity 0.2s ease, color 0.2s ease !important;
 }
 
+.parent-modal-box .modal-close-btn:hover {
+  opacity: 1 !important;
+  color: #5C6BC0 !important;
+}
 
 /* 2. MOBİL CİHAZLAR İÇİN ÖZEL AYARLAR (Sadece 768px ve altı ekranlar için) */
 @media (max-width: 768px) {
   .parent-modal-box {
-    max-width: 450px !important; /* Mobilde aşırı genişlemesini engeller, toplu durur */
+    max-width: 450px !important;
     padding: 1.25rem !important;
-  }
-  
-  .parent-modal-box .modal-close-btn,
-  .parent-modal-box button[id*="close"],
-  .parent-modal-box button:first-child {
-    top: 0.75rem !important;
-    right: 0.75rem !important;
   }
 }
 
