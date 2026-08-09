@@ -861,4 +861,58 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-});
+// 10. EBEVEYN KÖŞESİ KESİN VE GÜVENLİ AÇMA MEKANİZMASI
+  const parentModal = document.getElementById('modal-parent-corner');
+  const pinView = document.getElementById('pin-view');
+  const parentDashboardView = document.getElementById('parent-dashboard-view');
+  const dynamicPinDisplay = document.getElementById('dynamic-pin-display');
+  const pinErrorMsg = document.getElementById('pin-error-msg');
+  const pinDots = [
+    document.getElementById('p-dot-1'),
+    document.getElementById('p-dot-2'),
+    document.getElementById('p-dot-3'),
+    document.getElementById('p-dot-4')
+  ];
+
+  let currentDynamicPin = '';
+  let enteredPin = '';
+
+  function generateNewPin() {
+    const d1 = Math.floor(Math.random() * 9) + 1;
+    const d2 = Math.floor(Math.random() * 9) + 1;
+    const d3 = Math.floor(Math.random() * 9) + 1;
+    const d4 = Math.floor(Math.random() * 9) + 1;
+    currentDynamicPin = `${d1}${d2}${d3}${d4}`;
+    if (dynamicPinDisplay) {
+      dynamicPinDisplay.textContent = `Güvenlik Kodu: ${d1} - ${d2} - ${d3} - ${d4}`;
+    }
+  }
+
+  // ID yerine sınıf üzerinden (class) yakalıyoruz ki ID uyuşmazlığına takılmasın
+  const parentBtnClass = document.querySelector('.btn-parent');
+  
+  if (parentBtnClass) {
+    parentBtnClass.addEventListener('click', (e) => {
+      e.preventDefault();
+      generateNewPin();
+      enteredPin = '';
+      updatePinDots();
+      if (pinErrorMsg) pinErrorMsg.textContent = '';
+      
+      if (pinView) {
+        pinView.style.display = 'flex';
+        pinView.style.flexDirection = 'column';
+      }
+      if (parentDashboardView) {
+        parentDashboardView.style.display = 'none';
+      }
+      
+      // Modalı ekrana zorla aç
+      if (parentModal) {
+        parentModal.classList.add('active');
+        parentModal.style.display = 'flex';
+      }
+
+      if (soundEnabled) AudioEngine.playTone(500);
+    });
+  }
