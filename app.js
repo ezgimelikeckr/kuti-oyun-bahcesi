@@ -266,7 +266,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     if (mirrorPrompt) {
-      mirrorPrompt.textContent = `Piko şu an ${emotion.label} hissediyor. Doğru yüz ifadesini seçebilir misin?`;
+      mirrorPrompt.textContent = `Piko şu an nasıl hissediyor. Doğru yüz ifadesini seçebilir misin?`;
     }
   }
 
