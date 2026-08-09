@@ -156,13 +156,11 @@ body {
   overflow-y: auto;
 }
 
-/* SADECE GERÇEK KAPATMA BUTONUNU HEDEF ALAN FİNAL KURAL */
-.parent-modal-box .modal-close-btn,
-.parent-modal-box .close-btn,
-.parent-modal-box button.close {
+/* Sadece gerçek kapatma butonunu hedef alan kural */
+.parent-modal-box .modal-close-btn {
   position: absolute !important;
   top: 1rem !important;
-  right: 1rem !important;
+  right: 1.2rem !important;
   left: auto !important;
   z-index: 100 !important;
 }
