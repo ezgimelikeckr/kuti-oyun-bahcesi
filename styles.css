@@ -133,8 +133,8 @@ body {
 }
 
 #parent-dashboard-view {
-  overflow-y: auto !important; /* İçerik uzunsa kaydırma çubuğu çıkar */
-  flex: 1 !important; /* Kalan tüm boşluğu doldur */
+  overflow-y: auto !important;
+  flex: 1 !important;
   display: flex !important;
   flex-direction: column !important;
 }
