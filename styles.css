@@ -119,24 +119,26 @@ body {
   padding: 1.25rem;
   width: 90vw !important;
   max-width: 900px !important;
-  height: auto !important;
-  min-height: 350px !important;
-  max-height: 85vh !important;
+  
+  /* YÜKSEKLİK DÜZELTMELERİ (Burası kritik) */
+  height: auto !important; /* İçeriğe göre uzamasını sağla */
+  min-height: 400px !important; /* En azından bu kadar yüksek olsun */
+  max-height: 85vh !important; /* Ekranın %85'ini geçmesin */
+  
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
-  position: relative !important;
-  display: block !important; /* flex yerine block yaparak akışı rahatlatıyoruz */
-  overflow-y: auto !important;
+  position: relative !important; /* Çarpı butonu için referans noktası */
+  display: flex !important; /* İçeriği dikey dizebilmek için flex kullanıyoruz */
+  flex-direction: column !important;
+  overflow: hidden !important; /* Taşan içerikleri gizle */
 }
 
-/* EBEVEYN PANELİ SEKME GEÇİŞLERİ (FİNAL) */
-#parent-dashboard-view .tab-pane {
-  display: none !important;
+#parent-dashboard-view {
+  overflow-y: auto !important; /* İçerik uzunsa kaydırma çubuğu çıkar */
+  flex: 1 !important; /* Kalan tüm boşluğu doldur */
+  display: flex !important;
+  flex-direction: column !important;
 }
 
-#parent-dashboard-view .tab-pane.active {
-  display: block !important;
-  width: 100% !important;
-}
 /* ==========================================================================
    TEK VE GÜVENLİ MOBİL UYARLAMA MEDYA SORGUSU (Max 768px)
    ========================================================================== */
