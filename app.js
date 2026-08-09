@@ -754,7 +754,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (soundEnabled) AudioEngine.playTone(600);
   });
 
-  // 10. DYNAMIC SECURITY PIN GENERATOR FOR PARENT CORNER
+ // 10. EBEVEYN KÖŞESİ KESİN AÇMA MEKANİZMASi
   const parentBtn = document.getElementById('parent-corner-btn');
   const parentModal = document.getElementById('modal-parent-corner');
   const pinView = document.getElementById('pin-view');
@@ -782,50 +782,28 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  if (parentBtn) {
-    parentBtn.addEventListener('click', () => {
+  if (parentBtn && parentModal) {
+    parentBtn.addEventListener('click', (e) => {
+      e.preventDefault();
       generateNewPin();
       enteredPin = '';
       updatePinDots();
       if (pinErrorMsg) pinErrorMsg.textContent = '';
-      if (pinView) pinView.style.display = 'flex';
+      
+      // Pin ekranını göster, dashboard'u gizle
+      if (pinView) {
+        pinView.style.display = 'flex';
+        pinView.style.flexDirection = 'column';
+      }
       if (parentDashboardView) parentDashboardView.style.display = 'none';
-      if (parentModal) parentModal.classList.add('active');
+      
+      // Modalı ekrana zorla getir (Hem sınıf ekle hem inline flex ver)
+      parentModal.classList.add('active');
+      parentModal.style.display = 'flex'; 
+
       if (soundEnabled) AudioEngine.playTone(500);
     });
   }
-
-  function updatePinDots() {
-    pinDots.forEach((dot, idx) => {
-      if (dot) dot.style.background = idx < enteredPin.length ? '#FF7043' : '#DDD';
-    });
-  }
-
-  document.querySelectorAll('.keypad-btn:not(.launch-key-btn)').forEach(btn => {
-    btn.addEventListener('click', () => {
-      if (enteredPin.length < 4) {
-        enteredPin += btn.textContent.trim();
-        updatePinDots();
-        if (soundEnabled) AudioEngine.playTone(600, 0.1);
-
-        if (enteredPin.length === 4) {
-          if (enteredPin === currentDynamicPin) {
-            if (soundEnabled) AudioEngine.playSuccess();
-            if (pinView) pinView.style.display = 'none';
-            if (parentDashboardView) parentDashboardView.style.display = 'flex';
-             document.querySelector('.parent-tabs-nav .tab-btn')?.click();
-          } else {
-            if (pinErrorMsg) pinErrorMsg.textContent = 'Hatalı Kod! Lütfen gösterilen 4 rakamı girin.';
-            setTimeout(() => {
-              enteredPin = '';
-              updatePinDots();
-            }, 800);
-          }
-        }
-      }
-    });
-  });
-
   // Modal Close buttons
   document.querySelectorAll('[data-close-modal]').forEach(btn => {
     btn.addEventListener('click', (e) => {
