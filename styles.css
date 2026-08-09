@@ -964,3 +964,35 @@ div.parent-modal-box .modal-close-btn:hover {
 .puzzle-cut-piece:hover {
   transform: scale(1.08);
 }
+
+/* EBEVEYN PANELİ SEKME BUTONLARI — Piko tasarım diliyle uyumlu */
+.tab-btn {
+  background: #F5F5F5;
+  border: 2px solid transparent;
+  padding: 0.5rem 1rem;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  border-radius: var(--radius-pill);
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.04);
+}
+
+.tab-btn:hover {
+  background: #FFF3C4;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(255, 179, 0, 0.15);
+}
+
+.tab-btn.active {
+  background: #EDE7F6;
+  color: #5E35B1;
+  border-color: #D1C4E9;
+  box-shadow: 0 3px 8px rgba(94, 53, 177, 0.15);
+}
