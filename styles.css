@@ -152,25 +152,29 @@ body {
   opacity: 1 !important;
 }
 
-/* Ebeveyn Paneli ve İçeriklerini Zorla Gösterme Kuralı */
-#parent-dashboard-view, 
-#parent-dashboard-view * {
-  display: block !important;
+/* Ebeveyn Paneli ve Sekme Görünürlük Garantisi */
+#parent-dashboard-view {
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 !important;
+  width: 100% !important;
+  height: auto !important;
+  max-height: calc(85vh - 80px) !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
   visibility: visible !important;
   opacity: 1 !important;
 }
 
-#parent-dashboard-view {
-  display: flex !important;
-  flex-direction: column !important;
-}
-
+/* Sekmelerin gizlilik/görünürlük durumu */
 #parent-dashboard-view .tab-pane {
   display: none !important;
 }
 
 #parent-dashboard-view .tab-pane.active {
   display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 
 /* ==========================================================================
