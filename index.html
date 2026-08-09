@@ -464,139 +464,146 @@
         <p id="pin-error-msg" style="text-align: center; color: #E53935; font-weight: 700; margin-top: 0.4rem; min-height: 20px; font-size: 0.82rem;"></p>
       </div>
 
-<!-- EBEVEYN KÖŞESİ MODAL (Kusursuz, Kaydırılabilir ve Eksiksiz Yapı) -->
-<div class="piko-modal" id="modal-parent-corner">
-  <div class="parent-modal-box" style="max-height: 85vh; width: 90%; max-width: 500px; display: flex; flex-direction: column; overflow: hidden; background: #FFFFFF; border-radius: 16px; padding: 16px; box-sizing: border-box;">
-    <button class="modal-close-btn" data-close-modal>✕</button>
+<!-- EBEVEYN KÖŞESİ MODAL (TEK VE TEMİZ YAPI) -->
+  <div class="piko-modal" id="modal-parent-corner">
+    <div class="parent-modal-box">
+      <button class="modal-close-btn" data-close-modal>✕</button>
 
-    <!-- PARENT DASHBOARD VIEW -->
-   <div id="parent-dashboard-view" style="display: none; flex-direction: column; width: 100%; height: auto; min-height: 350px; max-height: 72vh; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; box-sizing: border-box; padding-right: 4px;">
-      <h3 style="margin-bottom: 0.6rem; color: #5E35B1; flex-shrink: 0;">⚙️ Ebeveyn Yönetim Paneli</h3>
+      <!-- DYNAMIC PIN SECURITY CHECK VIEW -->
+      <div id="pin-view" style="width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+        <h3 style="text-align: center; margin-bottom: 0.4rem; color: #5E35B1;">🔒 Ebeveyn Doğrulaması</h3>
+        <p style="text-align: center; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem;">
+          Ebeveyn paneline erişmek için aşağıdaki dinamik güvenlik kodunu giriniz:
+        </p>
 
-      <!-- Üst Menü (Sabit Kalır) -->
-      <div class="parent-tabs parent-tabs-nav modal-tabs" style="display: flex; flex-wrap: nowrap; overflow-x: auto; overflow-y: hidden; gap: 6px; width: 100%; box-sizing: border-box; -webkit-overflow-scrolling: touch; padding-bottom: 6px; flex-shrink: 0; position: sticky; top: 0; background: #FFFFFF; z-index: 10; touch-action: pan-x;">
-        <button class="tab-btn active" data-tab="tab-time" style="flex: 0 0 auto; white-space: nowrap; font-size: 0.78rem; padding: 6px 10px;">☀️ Süre</button>
-        <button class="tab-btn" data-tab="tab-age" style="flex: 0 0 auto; white-space: nowrap; font-size: 0.78rem; padding: 6px 10px;">🌱 Yaş</button>
-        <button class="tab-btn" data-tab="tab-articles" style="flex: 0 0 auto; white-space: nowrap; font-size: 0.78rem; padding: 6px 10px;">📚 Makaleler</button>
-        <button class="tab-btn" data-tab="tab-books" style="flex: 0 0 auto; white-space: nowrap; font-size: 0.78rem; padding: 6px 10px;">📖 Kitaplar</button>
+        <div class="dynamic-pin-badge" id="dynamic-pin-display">
+          Güvenlik Kodu: 4 - 8 - 2 - 1
+        </div>
+
+        <div style="display: flex; justify-content: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+          <div style="width: 14px; height: 14px; border-radius: 50%; background: #DDD;" id="p-dot-1"></div>
+          <div style="width: 14px; height: 14px; border-radius: 50%; background: #DDD;" id="p-dot-2"></div>
+          <div style="width: 14px; height: 14px; border-radius: 50%; background: #DDD;" id="p-dot-3"></div>
+          <div style="width: 14px; height: 14px; border-radius: 50%; background: #DDD;" id="p-dot-4"></div>
+        </div>
+
+        <div class="keypad-grid">
+          <button class="keypad-btn">1</button>
+          <button class="keypad-btn">2</button>
+          <button class="keypad-btn">3</button>
+          <button class="keypad-btn">4</button>
+          <button class="keypad-btn">5</button>
+          <button class="keypad-btn">6</button>
+          <button class="keypad-btn">7</button>
+          <button class="keypad-btn">8</button>
+          <button class="keypad-btn">9</button>
+          <button class="keypad-btn" style="grid-column: span 3;">0</button>
+        </div>
+        <p id="pin-error-msg" style="text-align: center; color: #E53935; font-weight: 700; margin-top: 0.4rem; min-height: 20px; font-size: 0.82rem;"></p>
       </div>
 
-      <!-- İçeriklerin Bulunduğu Ana Kaydırma Alanı (Tüm Sekmeler İçeride) -->
-      <div style="width: 100%; height: auto; box-sizing: border-box; padding-top: 8px; padding-bottom: 20px;">
+      <!-- PARENT DASHBOARD VIEW (Şifre Girilince Açılacak Alan) -->
+      <div id="parent-dashboard-view" style="display: none; flex-direction: column; width: 100%; height: 100%;">
+        <h3 style="margin-bottom: 0.6rem; color: #5E35B1; flex-shrink: 0;">⚙️ Ebeveyn Yönetim Paneli</h3>
 
-        <!-- TAB 1: SÜRE YÖNETİMİ -->
-        <div class="tab-pane active" id="tab-time">
-          <h4 style="margin-bottom: 0.4rem; font-size: 0.9rem;">Güneş Yolu (Ekran Süresi Limitleri):</h4>
-          <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 0.6rem;">
-            Güneşin hareket hızı seçilen süre ile birebir zaman orantılıdır. Süre bittiğinde otomatik Uyku Modu'na geçilir.
-          </p>
-          <div style="display: flex; gap: 0.4rem; margin-bottom: 0.8rem; flex-wrap: wrap;">
-            <button class="btn-icon-pill time-opt-btn" data-time="5" style="font-size: 0.75rem; padding: 6px 10px;">5 Dakika</button>
-            <button class="btn-icon-pill time-opt-btn" data-time="10" style="font-size: 0.75rem; padding: 6px 10px;">10 Dakika</button>
-            <button class="btn-icon-pill time-opt-btn" data-time="15" style="font-size: 0.75rem; padding: 6px 10px;">15 Dakika (Önerilen)</button>
-            <button class="btn-icon-pill time-opt-btn" data-time="20" style="font-size: 0.75rem; padding: 6px 10px;">20 Dakika</button>
-          </div>
-          <button class="btn-play" id="btn-force-sleep" style="background: #E53935; width: 100%; justify-content: center; padding: 8px; font-size: 0.8rem; margin-top: 10px;">
-            🌙 Güneşi Şimdi Batır (Anında Uyku Modunu Test Et)
-          </button>
+        <!-- Üst Menü -->
+        <div class="parent-tabs parent-tabs-nav modal-tabs" style="display: flex; flex-wrap: nowrap; overflow-x: auto; overflow-y: hidden; gap: 6px; width: 100%; box-sizing: border-box; -webkit-overflow-scrolling: touch; padding-bottom: 6px; flex-shrink: 0; position: sticky; top: 0; background: #FFFFFF; z-index: 10;">
+          <button class="tab-btn active" data-tab="tab-time" style="flex: 0 0 auto; white-space: nowrap; font-size: 0.78rem; padding: 6px 10px;">☀️ Süre</button>
+          <button class="tab-btn" data-tab="tab-age" style="flex: 0 0 auto; white-space: nowrap; font-size: 0.78rem; padding: 6px 10px;">🌱 Yaş</button>
+          <button class="tab-btn" data-tab="tab-articles" style="flex: 0 0 auto; white-space: nowrap; font-size: 0.78rem; padding: 6px 10px;">📚 Makaleler</button>
+          <button class="tab-btn" data-tab="tab-books" style="flex: 0 0 auto; white-space: nowrap; font-size: 0.78rem; padding: 6px 10px;">📖 Kitaplar</button>
         </div>
 
-        <!-- TAB 2: SEVİYE VE YAŞ KATEGORİSİ -->
-        <div class="tab-pane" id="tab-age">
-          <h4 style="margin-bottom: 0.4rem;">Seviye ve Yaş Grubu Seçimi:</h4>
-          <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.85rem;">
-            Tüm 4 ana köşenin oyun zorluklarını ve içeriklerini anında seçtiğiniz yaşa uyarlar.
-          </p>
-          <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-            <label style="padding: 0.65rem; background: #F5F5F5; border-radius: 12px; display: flex; align-items: center; gap: 0.75rem; cursor: pointer;">
-              <input type="radio" name="age-group" value="3" id="age-3">
-              <div>
-                <strong>3 Yaş (Minik Keşifçiler)</strong>
-                <p style="font-size: 0.75rem; color: var(--text-muted);">3 temel duygu, tek kriterli sıralama, 4 parçalı yapboz, 3 adımlı fırçalama.</p>
-              </div>
-            </label>
-            <label style="padding: 0.65rem; background: #F5F5F5; border-radius: 12px; display: flex; align-items: center; gap: 0.75rem; cursor: pointer;">
-              <input type="radio" name="age-group" value="4-5" id="age-4-5" checked>
-              <div>
-                <strong>4-5 Yaş (Meraklı Filizler - Önerilen)</strong>
-                <p style="font-size: 0.75rem; color: var(--text-muted);">4 duygu, çift kriterli sıralama, 6 parçalı yapboz, 5 adımlı öz bakım.</p>
-              </div>
-            </label>
-            <label style="padding: 0.65rem; background: #F5F5F5; border-radius: 12px; display: flex; align-items: center; gap: 0.75rem; cursor: pointer;">
-              <input type="radio" name="age-group" value="6+" id="age-6-plus">
-              <div>
-                <strong>6+ Yaş (Bilge Çiçekler)</strong>
-                <p style="font-size: 0.75rem; color: var(--text-muted);">6 zengin duygu, çok kriterli sıralama, 9-12 parçalı yapboz, 4 mevsim kombinasyon.</p>
-              </div>
-            </label>
+        <!-- İçerik Alanı -->
+        <div style="width: 100%; height: auto; box-sizing: border-box; padding-top: 8px; padding-bottom: 20px; overflow-y: auto; flex: 1;">
+
+          <!-- TAB 1: SÜRE YÖNETİMİ -->
+          <div class="tab-pane active" id="tab-time">
+            <h4 style="margin-bottom: 0.4rem; font-size: 0.9rem;">Güneş Yolu (Ekran Süresi Limitleri):</h4>
+            <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 0.6rem;">
+              Güneşin hareket hızı seçilen süre ile birebir zaman orantılıdır. Süre bittiğinde otomatik Uyku Modu'na geçilir.
+            </p>
+            <div style="display: flex; gap: 0.4rem; margin-bottom: 0.8rem; flex-wrap: wrap;">
+              <button class="btn-icon-pill time-opt-btn" data-time="5" style="font-size: 0.75rem; padding: 6px 10px;">5 Dakika</button>
+              <button class="btn-icon-pill time-opt-btn" data-time="10" style="font-size: 0.75rem; padding: 6px 10px;">10 Dakika</button>
+              <button class="btn-icon-pill time-opt-btn" data-time="15" style="font-size: 0.75rem; padding: 6px 10px;">15 Dakika (Önerilen)</button>
+              <button class="btn-icon-pill time-opt-btn" data-time="20" style="font-size: 0.75rem; padding: 6px 10px;">20 Dakika</button>
+            </div>
+            <button class="btn-play" id="btn-force-sleep" style="background: #E53935; width: 100%; justify-content: center; padding: 8px; font-size: 0.8rem; margin-top: 10px;">
+              🌙 Güneşi Şimdi Batır (Anında Uyku Modunu Test Et)
+            </button>
           </div>
-        </div>
 
-        <!-- TAB 3: AKADEMİK MAKALELER -->
-        <div class="tab-pane" id="tab-articles">
-          <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-            <h4 style="margin-bottom: 0.3rem;">Derlenen Kaynak Makaleler:</h4>
-            
-            <div style="padding: 0.65rem; background: #FAFAFA; border: 1px solid #E0E0E0; border-radius: 12px;">
-              <strong>📄 Okul Öncesi Çocuklarda Ekran Kullanımı ve Dijital Dengeli Yaşam</strong>
-              <p style="color: var(--text-muted); font-size: 0.75rem; margin: 0.15rem 0 0.3rem;">Erken çocukluk döneminde kaliteli ve etkileşimli içerik sınırları rehberi.</p>
-              <a href="https://www.aap.org" target="_blank" rel="noopener noreferrer" style="color: #5E35B1; font-weight: 700; font-size: 0.8rem; text-decoration: underline;">
-                🔗 Makaleyi Oku (Kaynak Bağlantısı) ↗
-              </a>
-            </div>
-
-            <div style="padding: 0.65rem; background: #FAFAFA; border: 1px solid #E0E0E0; border-radius: 12px;">
-              <strong>📄 Çocuk Gelişimi ve Dijital Sağlık: Uyku Hijyeni ve Melatonin Dengesi</strong>
-              <p style="color: var(--text-muted); font-size: 0.75rem; margin: 0.15rem 0 0.3rem;">Uykudan 1 saat önce ekranların kapatılmasının çocuklarda uyku kalitesine etkisi.</p>
-              <a href="https://www.turkpediatri.org.tr" target="_blank" rel="noopener noreferrer" style="color: #5E35B1; font-weight: 700; font-size: 0.8rem; text-decoration: underline;">
-                🔗 Makaleyi Oku (Kaynak Bağlantısı) ↗
-              </a>
-            </div>
-
-            <div style="padding: 0.65rem; background: #FAFAFA; border: 1px solid #E0E0E0; border-radius: 12px;">
-              <strong>📄 Erken Yaşta Duygusal Öz Düzenleme ve Empati Etkinlikleri</strong>
-              <p style="color: var(--text-muted); font-size: 0.75rem; margin: 0.15rem 0 0.3rem;">Çocuklarda duygu farkındalığı ve empati geliştirme kılavuzu.</p>
-              <a href="https://www.unicef.org" target="_blank" rel="noopener noreferrer" style="color: #5E35B1; font-weight: 700; font-size: 0.8rem; text-decoration: underline;">
-                🔗 Makaleyi Oku (Kaynak Bağlantısı) ↗
-              </a>
+          <!-- TAB 2: SEVİYE VE YAŞ KATEGORİSİ -->
+          <div class="tab-pane" id="tab-age">
+            <h4 style="margin-bottom: 0.4rem;">Seviye ve Yaş Grubu Seçimi:</h4>
+            <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.85rem;">
+              Tüm 4 ana köşenin oyun zorluklarını ve içeriklerini anında seçtiğiniz yaşa uyarlar.
+            </p>
+            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+              <label style="padding: 0.65rem; background: #F5F5F5; border-radius: 12px; display: flex; align-items: center; gap: 0.75rem; cursor: pointer;">
+                <input type="radio" name="age-group" value="3" id="age-3">
+                <div>
+                  <strong>3 Yaş (Minik Keşifçiler)</strong>
+                  <p style="font-size: 0.75rem; color: var(--text-muted);">3 temel duygu, tek kriterli sıralama, 4 parçalı yapboz, 3 adımlı fırçalama.</p>
+                </div>
+              </label>
+              <label style="padding: 0.65rem; background: #F5F5F5; border-radius: 12px; display: flex; align-items: center; gap: 0.75rem; cursor: pointer;">
+                <input type="radio" name="age-group" value="4-5" id="age-4-5" checked>
+                <div>
+                  <strong>4-5 Yaş (Meraklı Filizler - Önerilen)</strong>
+                  <p style="font-size: 0.75rem; color: var(--text-muted);">4 duygu, çift kriterli sıralama, 6 parçalı yapboz, 5 adımlı öz bakım.</p>
+                </div>
+              </label>
+              <label style="padding: 0.65rem; background: #F5F5F5; border-radius: 12px; display: flex; align-items: center; gap: 0.75rem; cursor: pointer;">
+                <input type="radio" name="age-group" value="6+" id="age-6-plus">
+                <div>
+                  <strong>6+ Yaş (Bilge Çiçekler)</strong>
+                  <p style="font-size: 0.75rem; color: var(--text-muted);">6 zengin duygu, çok kriterli sıralama, 9-12 parçalı yapboz, 4 mevsim kombinasyon.</p>
+                </div>
+              </label>
             </div>
           </div>
-        </div>
 
-        <!-- TAB 4: TAVSİYE KİTAPLAR -->
-        <div class="tab-pane" id="tab-books">
-          <div style="display: flex; flex-direction: column; gap: 0.65rem;">
-            <div style="padding: 0.65rem; background: #FFF8E1; border: 2px solid #FFE082; border-radius: 12px;">
-              <h5 style="color: #E65100; font-size: 0.85rem; margin-bottom: 0.35rem;">
-                👦 Ada Bazlı Çocuk Kitapları (3-6 Yaş Referans Listesi)
-              </h5>
-              <div style="display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.72rem;">
-                <div><b>❤️ Duygu Adası:</b> <i>Unutulan Araba (Tuğba Akbey İnan)</i>, <i>Öykülerle Duygusal Zeka Eğitimi Tali Serisi</i>, <i>Eyvah Kalbim Kırıldı</i>, <i>Arkadaşım Korku</i>, <i>Kıskanç Kurbağa Eda</i>, <i>Bob Endişe Etmemeyi Öğretiyor</i>, <i>Sakin Ol ve Acele Etme</i>, <i>Hiç Hata Yapmayan Kız</i>, <i>Kendim Olmaktan Mutluyum</i>, <i>Renklerin Ötesinde</i>, <i>Kırmızı Kırmızı Öfkeliyim</i>.</div>
-                <div><b>🧩 Beceri Adası:</b> <i>Nokta (Peter H. Reynolds)</i>, <i>Bob ve Mavi Sanatı</i>, <i>Sol Sağ Kitabım</i>, <i>Minik Sayılar</i>, <i>Kitap Tamircisi Toprak</i>, <i>Kayakçı Tavşan</i>, <i>Franklin Serisi</i>, <i>Aç Tırtıl</i>, <i>Bu Bir Kutu Değil</i>, <i>Üçgen / Kare / Daire Serisi</i>.</div>
-                <div><b>🪥 Öz Bakım Adası:</b> <i>Tali Ellerini Yıkıyor</i>, <i>Diş Hekiminde</i>, <i>Sağlık Hikayeleri</i>, <i>Temiz</i>, <i>Kendi Yatağımda Uyumayacağım!</i>, <i>Çiçekler Sınıfı Serisi</i>, <i>Potty</i>.</div>
-                <div><b>🦋 Doğa Adası:</b> <i>Haydi Sayalım Serisi</i>, <i>Haydi Sayalım Elmalar</i>, <i>Çevremize Özen Göstermek</i>, <i>Şehirdeki Son Ağaç</i>, <i>Can Dostumuz Ağaçlar</i>, <i>Kelebek & Bir Kral Kelebeğinin Yolculuğu</i>, <i>Gezegenimiz Dünya</i>, <i>Su, Taş, Yaprak Dedikleri Var Ya</i>, <i>Hava Durumu Serisi</i>, <i>Minik Tohum</i>.</div>
+          <!-- TAB 3: AKADEMİK MAKALELER -->
+          <div class="tab-pane" id="tab-articles">
+            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+              <h4 style="margin-bottom: 0.3rem;">Derlenen Kaynak Makaleler:</h4>
+              <div style="padding: 0.65rem; background: #FAFAFA; border: 1px solid #E0E0E0; border-radius: 12px;">
+                <strong>📄 Okul Öncesi Çocuklarda Ekran Kullanımı ve Dijital Dengeli Yaşam</strong>
+                <p style="color: var(--text-muted); font-size: 0.75rem; margin: 0.15rem 0 0.3rem;">Erken çocukluk döneminde kaliteli ve etkileşimli içerik sınırları rehberi.</p>
+                <a href="https://www.aap.org" target="_blank" rel="noopener noreferrer" style="color: #5E35B1; font-weight: 700; font-size: 0.8rem; text-decoration: underline;">🔗 Makaleyi Oku ↗</a>
               </div>
-            </div>
-
-            <div style="padding: 0.65rem; background: #EDE7F6; border: 2px solid #D1C4E9; border-radius: 12px;">
-              <h5 style="color: #5E35B1; font-size: 0.85rem; margin-bottom: 0.35rem;">
-                👨‍👩‍👧 Ebeveyn Kitapları (Kategorize)
-              </h5>
-              <div style="display: flex; flex-direction: column; gap: 0.3rem; font-size: 0.72rem;">
-                <div><b>💬 Genel & İletişim:</b> <i>Bütün Beyinli Çocuk</i>, <i>Çocuklarla İletişim Nasıl Olmalı</i>, <i>Ebeveyn-Çocuk İletişimi</i>, <i>Geliştiren Anne Baba</i>, <i>Saygılı Ebeveynlik</i>, <i>Koşulsuz Ebeveynlik</i>.</div>
-                <div><b>❤️ Duygu Uyumlu:</b> <i>Duygusal Zeka Aşılamak</i>, <i>Sakin Ebeveynlik</i>, <i>Patlamaya Hazır Çocuk</i>.</div>
-                <div><b>🧩 Beceri / Bağımsızlık:</b> <i>Aşırı Korumadan Kurtulma</i>, <i>0-6 Yaş 100 Temel Kural</i>.</div>
-                <div><b>🪥 Öz Bakım:</b> <i>Bilinçli Ebeveynlik Eserleri (Aletha J. Solter)</i>.</div>
-                <div><b>🦋 Doğa Uyumlu:</b> <i>Doğadaki Son Çocuk (Richard Louv)</i>.</div>
+              <div style="padding: 0.65rem; background: #FAFAFA; border: 1px solid #E0E0E0; border-radius: 12px;">
+                <strong>📄 Çocuk Gelişimi ve Dijital Sağlık: Uyku Hijyeni ve Melatonin Dengesi</strong>
+                <p style="color: var(--text-muted); font-size: 0.75rem; margin: 0.15rem 0 0.3rem;">Uykudan 1 saat önce ekranların kapatılmasının çocuklarda uyku kalitesine etkisi.</p>
+                <a href="https://www.turkpediatri.org.tr" target="_blank" rel="noopener noreferrer" style="color: #5E35B1; font-weight: 700; font-size: 0.8rem; text-decoration: underline;">🔗 Makaleyi Oku ↗</a>
+              </div>
+              <div style="padding: 0.65rem; background: #FAFAFA; border: 1px solid #E0E0E0; border-radius: 12px;">
+                <strong>📄 Erken Yaşta Duygusal Öz Düzenleme ve Empati Etkinlikleri</strong>
+                <p style="color: var(--text-muted); font-size: 0.75rem; margin: 0.15rem 0 0.3rem;">Çocuklarda duygu farkındalığı ve empati geliştirme kılavuzu.</p>
+                <a href="https://www.unicef.org" target="_blank" rel="noopener noreferrer" style="color: #5E35B1; font-weight: 700; font-size: 0.8rem; text-decoration: underline;">🔗 Makaleyi Oku ↗</a>
               </div>
             </div>
           </div>
-        </div>
 
+          <!-- TAB 4: TAVSİYE KİTAPLAR -->
+          <div class="tab-pane" id="tab-books">
+            <div style="display: flex; flex-direction: column; gap: 0.65rem;">
+              <div style="padding: 0.65rem; background: #FFF8E1; border: 2px solid #FFE082; border-radius: 12px;">
+                <h5 style="color: #E65100; font-size: 0.85rem; margin-bottom: 0.35rem;">👦 Ada Bazlı Çocuk Kitapları (3-6 Yaş)</h5>
+                <div style="display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.72rem;">
+                  <div><b>❤️ Duygu Adası:</b> <i>Unutulan Araba</i>, <i>Eyvah Kalbim Kırıldı</i>, <i>Arkadaşım Korku</i>.</div>
+                  <div><b>🧩 Beceri Adası:</b> <i>Nokta</i>, <i>Sol Sağ Kitabım</i>, <i>Aç Tırtıl</i>.</div>
+                  <div><b>🪥 Öz Bakım Adası:</b> <i>Tali Ellerini Yıkıyor</i>, <i>Diş Hekiminde</i>.</div>
+                  <div><b>🦋 Doğa Adası:</b> <i>Minik Tohum</i>, <i>Gezegenimiz Dünya</i>.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
       </div>
+
     </div>
   </div>
-</div>
-
-</body>
-</html>
