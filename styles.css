@@ -152,15 +152,25 @@ body {
   opacity: 1 !important;
 }
 
-/* Ebeveyn Paneli Açıldığında İçeriklerin ve Sekmelerin Görünmesini Kesinleştirir */
+/* Ebeveyn Paneli ve İçeriklerini Zorla Gösterme Kuralı */
+#parent-dashboard-view, 
+#parent-dashboard-view * {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+#parent-dashboard-view {
+  display: flex !important;
+  flex-direction: column !important;
+}
+
 #parent-dashboard-view .tab-pane {
-  display: none !important; /* Varsayılan olarak hepsini gizle */
+  display: none !important;
 }
 
 #parent-dashboard-view .tab-pane.active {
-  display: block !important; /* Sadece aktif olan sekmeni tırıl tırıl ekrana dök */
-  visibility: visible !important;
-  opacity: 1 !important;
+  display: block !important;
 }
 
 /* ==========================================================================
