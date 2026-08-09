@@ -692,6 +692,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+    }
+  }
        
   // Radio listener for Age Selection
   document.querySelectorAll('input[name="age-group"]').forEach(radio => {
