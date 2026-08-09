@@ -139,16 +139,49 @@ body {
   flex-direction: column !important;
 }
 
-/* Ebeveyn Modalı Kapatma Butonu Sabitleme */
-.parent-modal-box button:last-of-type,
+/* 1. MASAÜSTÜ İÇİN ANA MODAL YAPISI (Geniş ve Ferah) */
+.parent-modal-box {
+  background: var(--card-bg);
+  border-radius: var(--radius-xl);
+  padding: 1.5rem;
+  width: 90vw;
+  max-width: 900px; /* Masaüstünde geniş ekranı doldurur */
+  height: auto;
+  min-height: 400px;
+  max-height: 85vh;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+  position: relative !important;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+/* Kapatma Butonu Masaüstü Konumu */
 .parent-modal-box .modal-close-btn,
-.parent-modal-box [class*="close"] {
+.parent-modal-box button[id*="close"],
+.parent-modal-box button:first-child {
   position: absolute !important;
-  top: 0.85rem !important;
-  right: 0.85rem !important;
+  top: 1rem !important;
+  right: 1rem !important;
   left: auto !important;
   z-index: 100 !important;
-} 
+}
+
+
+/* 2. MOBİL CİHAZLAR İÇİN ÖZEL AYARLAR (Sadece 768px ve altı ekranlar için) */
+@media (max-width: 768px) {
+  .parent-modal-box {
+    max-width: 450px !important; /* Mobilde aşırı genişlemesini engeller, toplu durur */
+    padding: 1.25rem !important;
+  }
+  
+  .parent-modal-box .modal-close-btn,
+  .parent-modal-box button[id*="close"],
+  .parent-modal-box button:first-child {
+    top: 0.75rem !important;
+    right: 0.75rem !important;
+  }
+}
 
 /* ==========================================================================
    TEK VE GÜVENLİ MOBİL UYARLAMA MEDYA SORGUSU (Max 768px)
