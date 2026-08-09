@@ -859,23 +859,7 @@ document.addEventListener('DOMContentLoaded', () => {
       startSunJourney();
       alert(`Güneş Yolu (Ekran Süresi) ${mins} dakika olarak ayarlandı!`);
     });
-     // --- EBEVEYN KÖŞESİ ACİL TETİKLEME YAMASI ---
-  const emergencyParentBtn = document.querySelector('.btn-parent') || document.getElementById('parent-corner-btn');
-  const emergencyModal = document.getElementById('modal-parent-corner');
+  });
+});
   
-  if (emergencyParentBtn && emergencyModal) {
-    emergencyParentBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      emergencyModal.classList.add('active');
-      emergencyModal.style.display = 'flex';
-      
-      const pinView = document.getElementById('pin-view');
-      const parentDashboard = document.getElementById('parent-dashboard-view');
-      if (pinView) {
-        pinView.style.display = 'flex';
-        pinView.style.flexDirection = 'column';
-      }
-      if (parentDashboard) parentDashboard.style.display = 'none';
-    });
-  }
   
