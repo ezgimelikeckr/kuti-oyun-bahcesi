@@ -934,7 +934,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  document.querySelectorAll('.time-opt-btn').forEach(btn => {
+document.querySelectorAll('.time-opt-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const mins = parseInt(btn.dataset.time, 10);
       sunTimerDuration = mins * 60;
