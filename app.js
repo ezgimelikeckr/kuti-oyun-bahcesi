@@ -115,42 +115,42 @@ document.addEventListener('DOMContentLoaded', () => {
   // --- GÜNÜN ÇOCUK KİTAPLARINI DİNAMİK SEÇEN FONKSİYON ---
   function loadDailyChildrenBooks() {
     const duyguBooks = [
-      "Unutulan Araba / Duygularımı Fark Ediyorum 3 (Tuğba Akbey İnan)[cite: 4]",
-      "Öykülerle Duygusal Zeka Eğitimi: Tali Kendine Güveniyor (Berrin Göncü Işıkoğlu)[cite: 4]",
-      "Eyvah Kalbim Kırıldı (Elif Yemenici)[cite: 4]",
-      "Arkadaşım Korku (Francesca Sanna)[cite: 4]",
-      "Kıskanç Kurbağa Eda (Tülin Kozikoğlu)[cite: 4]",
-      "Bob Endişe Etmemeyi Öğretiyor (Matthew Morgan)[cite: 4]",
-      "Renklerin Ötesinde (Anna Llenas)[cite: 4]",
-      "Kırmızı Kırmızı Öfkeliyim (Molly Bang)[cite: 4]"
+      "Unutulan Araba / Duygularımı Fark Ediyorum 3 (Tuğba Akbey İnan)",
+      "Öykülerle Duygusal Zeka Eğitimi: Tali Kendine Güveniyor (Berrin Göncü Işıkoğlu)",
+      "Eyvah Kalbim Kırıldı (Elif Yemenici)",
+      "Arkadaşım Korku (Francesca Sanna)",
+      "Kıskanç Kurbağa Eda (Tülin Kozikoğlu)",
+      "Bob Endişe Etmemeyi Öğretiyor (Matthew Morgan)",
+      "Renklerin Ötesinde (Anna Llenas)",
+      "Kırmızı Kırmızı Öfkeliyim (Molly Bang)"
     ];
 
     const beceriBooks = [
-      "Nokta (Peter H. Reynolds)[cite: 4]",
-      "Bob ve Mavi Sanatı (Marion Deuchars)[cite: 4]",
-      "Sol Sağ Kitabım (Şiirsel Taş)[cite: 4]",
-      "Minik Sayılar (Volkan Göker)[cite: 4]",
-      "Kitap Tamircisi Toprak (Ezgi Berk)[cite: 4]",
-      "Aç Tırtıl (Eric Carle)[cite: 4]",
-      "Bu Bir Kutu Değil (Antoinette Portis)[cite: 4]"
+      "Nokta (Peter H. Reynolds)",
+      "Bob ve Mavi Sanatı (Marion Deuchars)",
+      "Sol Sağ Kitabım (Şiirsel Taş)",
+      "Minik Sayılar (Volkan Göker)",
+      "Kitap Tamircisi Toprak (Ezgi Berk)",
+      "Aç Tırtıl (Eric Carle)",
+      "Bu Bir Kutu Değil (Antoinette Portis)"
     ];
 
     const ozbakimBooks = [
-      "Öykülerle Davranış Eğitimi Seti: Tali Ellerini Yıkıyor (Berrin Göncü Işıkoğlu)[cite: 4]",
-      "Diş Hekiminde (Anne Civardi)[cite: 4]",
-      "Sağlık Hikayeleri: Kaan'ın Sallanan Dişi (Ezgi Perktaş)[cite: 4]",
-      "Temiz (Emily Gravett)[cite: 4]",
-      "Kendi Yatağımda Uyumayacağım! (Alberto Pellai)[cite: 4]",
-      "Potty (Leslie Patricelli)[cite: 4]"
+      "Öykülerle Davranış Eğitimi Seti: Tali Ellerini Yıkıyor (Berrin Göncü Işıkoğlu)",
+      "Diş Hekiminde (Anne Civardi)",
+      "Sağlık Hikayeleri: Kaan'ın Sallanan Dişi (Ezgi Perktaş)",
+      "Temiz (Emily Gravett)",
+      "Kendi Yatağımda Uyumayacağım! (Alberto Pellai)",
+      "Potty (Leslie Patricelli)"
     ];
 
     const dogaBooks = [
-      "Minik Tohum (Eric Carle)[cite: 4]",
-      "Haydi Sayalım Elmalar (Joan Holub)[cite: 4]",
-      "Çevremize Özen Göstermek (Aleix Cabrera)[cite: 4]",
-      "Şehirdeki Son Ağaç (Peter Carnavas)[cite: 4]",
-      "Can Dostumuz Ağaçlar (Su-bok Choi)[cite: 4]",
-      "Gezegenimiz Dünya (Dr. Mike Goldsmith)[cite: 4]"
+      "Minik Tohum (Eric Carle)",
+      "Haydi Sayalım Elmalar (Joan Holub)",
+      "Çevremize Özen Göstermek (Aleix Cabrera)",
+      "Şehirdeki Son Ağaç (Peter Carnavas)",
+      "Can Dostumuz Ağaçlar (Su-bok Choi)",
+      "Gezegenimiz Dünya (Dr. Mike Goldsmith)"
     ];
 
     const today = new Date();
