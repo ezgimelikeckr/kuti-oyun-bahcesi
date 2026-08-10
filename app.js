@@ -1,29 +1,45 @@
 /* ==========================================================================
-   PIKO CHILD EDUCATION DASHBOARD - FINAL ZPD & PEDAGOGICAL REFINED APP LOGIC
-   - Ana düzen ve yapı korunarak ZPD kuralları, görsel geri bildirimler ve 
-     12 oyunluk matris (3 yaş, 4-5 yaş, 6 yaş) entegre edilmiştir.
+   PIKO CHILD EDUCATION DASHBOARD - FINAL REFINED APP LOGIC
+   - Öz Bakım 6 yaş planlama başlığı, Görsel Eşleştirme, Doğa kilidi çözümü,
+   - Üst kısımda Piko maskotlu görsel geri bildirim ve 6 yaş Hafıza Kartı eklendi.
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  // 1. GÖRSEL GERİ BİLDİRİM SİSTEMİ (alert() yerine arayüz içi kartlar)
+  // PİKO REHBERLİĞİNDE ÜST GÖRSEL GERİ BİLDİRİM VE İPUCU SİSTEMİ
   function showVisualFeedback(message, type = "success") {
-    let box = document.getElementById("visual-feedback");
+    let box = document.getElementById("piko-visual-feedback-card");
+    
     if (!box) {
       box = document.createElement("div");
-      box.id = "visual-feedback";
-      box.style.cssText = "position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #323232; color: #fff; padding: 12px 24px; border-radius: 12px; font-weight: bold; z-index: 9999; opacity: 0; transition: opacity 0.3s ease; pointer-events: none; box-shadow: 0 4px 12px rgba(0,0,0,0.15); font-size: 0.9rem;";
+      box.id = "piko-visual-feedback-card";
+      box.style.cssText = "position: absolute; top: 12px; left: 50%; transform: translateX(-50%); background: #E0F2F1; border: 2px solid #00796B; color: #004D40; padding: 8px 16px; border-radius: 20px; font-weight: 700; z-index: 99999; opacity: 0; transition: opacity 0.3s ease, transform 0.3s ease; pointer-events: none; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.12); font-size: 0.85rem;";
       document.body.appendChild(box);
     }
-    box.textContent = message;
-    box.style.background = type === "success" ? "#2E7D32" : type === "error" ? "#C62828" : "#00796B";
+
+    let pikoIconImg = type === "success" ? "piko_mutlu.png" : "piko_merakli.png";
+    let bgColor = type === "success" ? "#E8F5E9" : type === "error" ? "#FFEBEE" : "#E0F2F1";
+    let borderColor = type === "success" ? "#4CAF50" : type === "error" ? "#E57373" : "#00796B";
+    let textColor = type === "success" ? "#1B5E20" : type === "error" ? "#B71C1C" : "#004D40";
+
+    box.style.background = bgColor;
+    box.style.borderColor = borderColor;
+    box.style.color = textColor;
+
+    box.innerHTML = `
+      <img src="${pikoIconImg}" alt="Piko" style="width: 28px; height: 28px; border-radius: 50%; object-fit: cover; border: 1.5px solid ${borderColor};">
+      <span>${message}</span>
+    `;
+
     box.style.opacity = "1";
+    box.style.transform = "translateX(-50%) translateY(4px)";
+
     setTimeout(() => {
       box.style.opacity = "0";
-    }, 1800);
+      box.style.transform = "translateX(-50%) translateY(0)";
+    }, 2200);
   }
 
-  // 2. INITIAL WELCOME OVERLAY TRANSITION LOGIC
   const welcomeOverlay = document.getElementById('piko-welcome-overlay');
   const btnStartWelcome = document.getElementById('btn-start-welcome');
   if (btnStartWelcome && welcomeOverlay) {
@@ -33,7 +49,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Web Audio Synthesizer (Sadece 432 Hz Kalimba - Diğer sesler/alertler kaldırıldı)
   const AudioEngine = {
     ctx: null,
     kalimbaTimer: null,
@@ -263,7 +278,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function triggerSleepMode() {
     if (sleepOverlay) sleepOverlay.classList.add('active');
     if (soundEnabled) {
-      AudioEngine.start432HzKalimba(); // Uyku modunda sadece Kalimba
+      AudioEngine.start432HzKalimba();
     }
   }
 
@@ -311,7 +326,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setVisualEmotionMirror(pool[randomIndex]);
   }
 
-  // BECERİ KÖŞESİ (3 Yaş: Eşleştirme çiftleri, 4-5 Yaş: Boyut sıralama, 6 Yaş: Piko'nun Hikâyesi)
+  // 3. BECERİ KÖŞESİ (3 Yaş: Görsel Eşleşme, 4-5 Yaş: Boyut Sıralama, 6 Yaş: Hafıza Kartları & Hikâye)
   function initBeceriGame(level) {
     const beceriContainer = document.getElementById('sirala-grid');
     if (!beceriContainer) return;
@@ -320,16 +335,16 @@ document.addEventListener('DOMContentLoaded', () => {
     if (level === '3') {
       beceriContainer.innerHTML = `
         <div style="text-align:center;">
-          <p style="font-size:0.85rem; font-weight:700; margin-bottom:0.5rem;">Benzer Nesneleri Eşleştir (Gerçek Eşleşme Çiftleri)</p>
+          <p style="font-size:0.85rem; font-weight:700; margin-bottom:0.5rem;">Benzer Nesneleri Eşleştir (Görsel Eşleşme)</p>
           <div style="display:flex; gap:1rem; justify-content:center;">
-            <button class="btn-icon-pill beceri-match-btn" data-val="apple">🍎 Elma - Elma</button>
-            <button class="btn-icon-pill beceri-match-btn" data-val="ball">⚽ Top - Top</button>
+            <button class="btn-icon-pill beceri-match-btn" data-val="apple" style="font-size: 1.2rem;">🍎 ↔ 🍎</button>
+            <button class="btn-icon-pill beceri-match-btn" data-val="ball" style="font-size: 1.2rem;">⚽ ↔ ⚽</button>
           </div>
         </div>`;
       beceriContainer.querySelectorAll('.beceri-match-btn').forEach(b => {
         b.addEventListener('click', () => {
           if (soundEnabled) AudioEngine.playSuccess();
-          showVisualFeedback("🎉 Harika eşleştirme!", "success");
+          showVisualFeedback("🎉 Harika görsel eşleştirme!", "success");
         });
       });
     } else if (level === '4-5') {
@@ -343,7 +358,7 @@ document.addEventListener('DOMContentLoaded', () => {
       let selectedIdx = null;
 
       function renderSirala() {
-        beceriContainer.innerHTML = '<p style="font-size:0.82rem; font-weight:700; color:#2E7D32; margin-bottom:0.5rem; text-align:center;">Nesnelere dokunarak küçükten büyüğe sırala!</p><div id="sirala-flex" style="display:flex; gap:10px; justify-content:center; align-items:flex-end; min-height:70px;"></div>';
+        beceriContainer.innerHTML = '<p style="font-size:0.82rem; font-weight:700; color:#2E7D32; margin-bottom:0.5rem; text-align:center;">Dokunarak küçükten büyüğe sırala!</p><div id="sirala-flex" style="display:flex; gap:10px; justify-content:center; align-items:flex-end; min-height:70px;"></div>';
         const flexContainer = document.getElementById('sirala-flex');
 
         siralaItemsData.forEach((item, index) => {
@@ -380,30 +395,41 @@ document.addEventListener('DOMContentLoaded', () => {
       renderSirala();
 
     } else {
+      // 6 Yaş: Hafıza Kartları (Eşini Bul) + Hikaye Akışı
       beceriContainer.innerHTML = `
         <div style="width:100%; text-align:center;">
-          <p style="font-size:0.82rem; font-weight:700; color:#2E7D32; margin-bottom:0.5rem;">📖 Piko'nun Hikâyesi (Kartları Sırala)</p>
-          <div id="story-cards-box" style="display:flex; gap:0.4rem; justify-content:center; flex-wrap:wrap; margin-bottom:0.5rem;">
-            <button class="btn-icon-pill story-card" data-step="1">1️⃣ Piko uyandı</button>
-            <button class="btn-icon-pill story-card" data-step="2">2️⃣ Parka gitti</button>
-            <button class="btn-icon-pill story-card" data-step="3">3️⃣ Piko oynadı</button>
-            <button class="btn-icon-pill story-card" data-step="4">4️⃣ Eve döndü</button>
+          <p style="font-size:0.82rem; font-weight:700; color:#2E7D32; margin-bottom:0.4rem;">🧠 Hafıza Kartları (Kartları Eşleştir)</p>
+          <div id="memory-cards-grid" style="display:flex; gap:0.4rem; justify-content:center; margin-bottom:0.5rem;">
+            <button class="btn-icon-pill memory-card" data-match="1" style="padding:0.4rem 0.6rem;">❓</button>
+            <button class="btn-icon-pill memory-card" data-match="2" style="padding:0.4rem 0.6rem;">❓</button>
+            <button class="btn-icon-pill memory-card" data-match="1" style="padding:0.4rem 0.6rem;">❓</button>
+            <button class="btn-icon-pill memory-card" data-match="2" style="padding:0.4rem 0.6rem;">❓</button>
           </div>
-          <p id="story-result-text" style="font-size:0.8rem; font-weight:600; color:#E65100;"></p>
+          <p id="memory-result-text" style="font-size:0.8rem; font-weight:600; color:#E65100;"></p>
         </div>`;
       
-      let clickedSteps = [];
-      beceriContainer.querySelectorAll('.story-card').forEach(card => {
+      let openedCards = [];
+      beceriContainer.querySelectorAll('.memory-card').forEach(card => {
         card.addEventListener('click', () => {
-          const step = card.dataset.step;
-          if (!clickedSteps.includes(step)) {
-            clickedSteps.push(step);
-            card.style.background = '#C8E6C9';
-            if (soundEnabled) AudioEngine.playTone(500);
+          if (card.classList.contains('matched') || card.classList.contains('open')) return;
+          card.textContent = card.dataset.match === '1' ? '🦊' : '⭐';
+          card.classList.add('open');
+          openedCards.push(card);
 
-            if (clickedSteps.length === 4) {
+          if (openedCards.length === 2) {
+            if (openedCards[0].dataset.match === openedCards[1].dataset.match) {
+              openedCards.forEach(c => c.classList.add('matched'));
+              openedCards = [];
               if (soundEnabled) AudioEngine.playSuccess();
-              showVisualFeedback("🎉 Hikâye akışı başarıyla tamamlandı!", "success");
+              showVisualFeedback("🎉 Hafıza kartı eşleşti!", "success");
+            } else {
+              setTimeout(() => {
+                openedCards.forEach(c => {
+                  c.textContent = '❓';
+                  c.classList.remove('open');
+                });
+                openedCards = [];
+              }, 600);
             }
           }
         });
@@ -510,11 +536,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (brush && teethZone) {
       if (level === '6+') {
+        // 1. Görsel için düzeltme: 6 yaş öz bakımda diş fırçalama kaldırıldı, tam planlama alanı
         teethZone.parentElement.innerHTML = `
           <div style="width:100%; text-align:center;">
             <p style="font-size:0.85rem; font-weight:700; color:#E65100; margin-bottom:0.4rem;">Piko'nun Sabah Hazırlanma Planını Oluştur:</p>
             <div id="ozbakim-step-1" style="display:flex; gap:4px; justify-content:center; flex-wrap:wrap; margin-bottom:0.5rem;">
-              <button class="btn-icon-pill" onclick="showVisualFeedback('Plan oluşturuldu: Uyan ➔ Giyin ➔ Kahvaltı ➔ Diş Fırçala', 'success')">📋 Planı Tamamla</button>
+              <button class="btn-icon-pill" onclick="showVisualFeedback('Plan tamamlandı: Uyan ➔ Giyin ➔ Kahvaltı', 'success')">📋 Planı Tamamla</button>
             </div>
           </div>`;
       } else {
@@ -580,10 +607,18 @@ document.addEventListener('DOMContentLoaded', () => {
       if (level === '6+') {
         potZone.parentElement.innerHTML = `
           <div style="width:100%; text-align:center; position:relative; z-index:5;">
-            <div style="font-size: 3.5rem; margin-bottom: 0.2rem;" id="plant-state-emoji">🌱</div>
-            <p style="font-size:0.85rem; font-weight:700; color:#004D40; margin-bottom:0.4rem;">Bitkinin yaşam döngüsünü sıraya koy (Toprak ➔ Sula ➔ Güneş ➔ Büyü)</p>
+            <div style="font-size: 3.5rem; margin-bottom: 0.2rem;" id="plant-state-emoji">🥀</div>
+            <p style="font-size:0.85rem; font-weight:700; color:#004D40; margin-bottom:0.4rem;">Bitkinin yaşam döngüsünü tamamlaması için doğru sırayı kur!</p>
             <div id="doga-step-1" style="display:flex; gap:4px; justify-content:center; margin-bottom:0.5rem; position:relative; z-index:10;">
-              <button class="btn-icon-pill" style="cursor:pointer;" onclick="document.getElementById('plant-state-emoji').innerHTML='🌻'; showVisualFeedback('Yaşam döngüsü tamamlandı ve bitki büyüdü!', 'success');">🌱 Suyu ve Güneşi Sırala</button>
+              <button class="btn-icon-pill" style="cursor:pointer; position:relative; z-index:15;" onclick="document.getElementById('doga-step-1').style.display='none'; document.getElementById('doga-step-2').style.display='block'; if(soundEnabled) AudioEngine.playSuccess();">💧 Susuz kaldı (Su ver)</button>
+              <button class="btn-icon-pill" style="cursor:pointer; position:relative; z-index:15;" onclick="showVisualFeedback('Temel ihtiyaç önce sudur.', 'error')">☀️ Çok güneş aldı</button>
+            </div>
+            
+            <div id="doga-step-2" style="display:none; text-align:center; position:relative; z-index:10;">
+              <p style="font-size:0.78rem; font-weight:700; color:#D32F2F;">Peki yaşam döngüsü nasıl devam eder?</p>
+              <div style="display:flex; gap:4px; justify-content:center; flex-direction:column; align-items:center;">
+                <button class="btn-icon-pill" style="width:90%; cursor:pointer; position:relative; z-index:15;" onclick="if(soundEnabled)AudioEngine.playSuccess(); document.getElementById('plant-state-emoji').innerHTML='🌻'; showVisualFeedback('Bitki yaşam döngüsünü tamamladı!', 'success'); document.getElementById('doga-step-2').innerHTML='<p style=color:#2E7D32;font-weight:bold;>Bitki yeniden açtı!</p>';">🌱 ➔ 🌿 ➔ 🌻 Yaşam Döngüsü</button>
+              </div>
             </div>
           </div>`;
       } else {
@@ -612,7 +647,39 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // DYNAMIC AGE CONFIG (ZPD ve 12 Temel Oyun Matrisine Göre)
+  // --- DOĞA KÖŞESİ MODAL RENDER (Kilitlenme Sorunu Giderildi) ---
+  function initDogaCornerGame(level) {
+    const dogaModalBox = document.getElementById('modal-doga-corner');
+    if (!dogaModalBox) return;
+    
+    const innerBox = dogaModalBox.querySelector('.modal-content-box');
+    if (innerBox) {
+      innerBox.innerHTML = `
+        <button class="modal-close-btn" data-close-modal>✕</button>
+        <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.75rem;">
+          <span style="font-size: 1.8rem;">🌿</span>
+          <div>
+            <h3 style="font-size: 1.2rem; font-weight: 700; color: #00796B;">Doğa Köşesi - Keşif Alanı</h3>
+            <span style="font-size: 0.78rem; color: #004D40; font-weight: 700;">Mevsimler ve Bitki Bakımı</span>
+          </div>
+        </div>
+
+        <div style="background: #E0F2F1; padding: 0.85rem; border-radius: 16px; margin-bottom: 0.75rem;">
+          <h4 style="color: #004D40; margin-bottom: 0.35rem; font-size: 0.9rem;">🍂 Hangi Mevsim?</h4>
+          <p style="font-size: 0.82rem; margin-bottom: 0.5rem;">Ağaçların yaprakları sararıp dökülüyor. Hangi mevsimdeyiz?</p>
+          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+            <button class="btn-icon-pill" onclick="showVisualFeedback('Doğru! Sonbahar.', 'success')">🍂 Sonbahar</button>
+            <button class="btn-icon-pill" onclick="showVisualFeedback('Tekrar deneyelim.', 'error')">❄️ Kış</button>
+          </div>
+        </div>
+
+        <div style="background: #FFF; border: 2px solid #B2DFDB; padding: 0.85rem; border-radius: 16px; text-align: center;">
+          <h4 style="color: #004D40; margin-bottom: 0.35rem; font-size: 0.92rem;">🌻 Piko'nun Bahçesi</h4>
+          <p style="font-size: 0.8rem; color: #00695C; margin-bottom: 0.5rem;" id="plant-visual-display">🌱</p>
+        </div>`;
+    }
+  }
+
   const ageConfig = {
     '3': {
       badge: '3 Yaş (Minik Keşifçiler)',
@@ -654,7 +721,7 @@ document.addEventListener('DOMContentLoaded', () => {
     '6+': {
       badge: '6+ Yaş (Bilge Çiçekler)',
       duyguDesc: "Piko'ya çözüm bul.",
-      beceriDesc: "Piko'nun hikâyesini oluştur.",
+      beceriDesc: "Piko'nun hikâyesi ve Hafıza Kartları.",
       ozbakimDesc: 'Sabah rutinini sırala.',
       dogaDesc: 'Bitkinin yaşam döngüsü.',
       emotions: [
@@ -910,7 +977,7 @@ document.addEventListener('DOMContentLoaded', () => {
       sunProgress = 100;
       updateSunPosition();
     });
-  }
+  });
 
   document.querySelectorAll('.time-opt-btn').forEach(btn => {
     btn.addEventListener('click', () => {
