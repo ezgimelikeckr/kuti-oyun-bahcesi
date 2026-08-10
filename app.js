@@ -507,7 +507,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 7. DRAG AND DROP & ÖZ BAKIM / DOĞA SENARYOLARI (6 YAŞ NEDEN SORULARI)
+ // 7. DRAG AND DROP & ÖZ BAKIM / DOĞA GELİŞMİŞ MEKANİK
   function initDragAndDropMechanics(level = '4-5') {
     const brush = document.getElementById('draggable-brush');
     const teethZone = document.getElementById('teeth-target-zone');
@@ -515,37 +515,77 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (brush && teethZone) {
       if (level === '6+') {
+        // 6 Yaş Öz Bakım (Neden ve Planlama)
         teethZone.parentElement.innerHTML = `
           <div style="width:100%; text-align:center;">
-            <p style="font-size:0.85rem; font-weight:700; color:#E65100; margin-bottom:0.4rem;">Piko'nun Sabah Rutinini Sırala:</p>
+            <p style="font-size:0.85rem; font-weight:700; color:#E65100; margin-bottom:0.4rem;">Piko'nun Sabah Rutini Sırala:</p>
             <div id="ozbakim-step-1" style="display:flex; gap:4px; justify-content:center; flex-wrap:wrap; margin-bottom:0.5rem;">
-              <button class="btn-icon-pill oz-step" onclick="document.getElementById('ozbakim-step-1').style.display='none'; document.getElementById('ozbakim-step-2').style.display='block'; if(soundEnabled) AudioEngine.playSuccess();">1. Diş Fırçala</button>
-              <button class="btn-icon-pill oz-step" onclick="alert('Önce kahvaltı yapmak daha iyi olmaz mı? 🤔')">2. Kahvaltı Yap</button>
+              <button class="btn-icon-pill" onclick="document.getElementById('ozbakim-step-1').style.display='none'; document.getElementById('ozbakim-step-2').style.display='block'; if(soundEnabled) AudioEngine.playSuccess();">1. Diş Fırçala</button>
+              <button class="btn-icon-pill" onclick="alert('Önce kahvaltı yapmak daha iyi olmaz mı? 🤔')">2. Kahvaltı Yap</button>
             </div>
             
             <div id="ozbakim-step-2" style="display:none; text-align:center;">
               <p style="font-size:0.78rem; font-weight:700; color:#D32F2F;">Neden kahvaltıdan sonra diş fırçalamayı seçtin?</p>
               <div style="display:flex; gap:4px; justify-content:center; flex-direction:column; align-items:center;">
-                <button class="btn-icon-pill" style="width:80%;" onclick="alert('🎉 Harika! Yemek artıklarını temizlemek dişlerimizi korur. 🦷'); document.getElementById('ozbakim-step-2').innerHTML='<p style=color:#4CAF50;font-weight:bold;>Piko pırıl pırıl dişlerle gülümsüyor! 😁</p>';">🍎 Yemek artıklarını temizlemek için</button>
-                <button class="btn-icon-pill" style="width:80%;" onclick="alert('⏰ Vaktimiz olsa da asıl amaç temizliktir. Diğerini seçelim!')">⏰ Vaktimiz olduğu için</button>
+                <button class="btn-icon-pill" style="width:90%;" onclick="alert('🎉 Harika! Yemek artıklarını temizlemek dişlerimizi korur. 🦷'); document.getElementById('ozbakim-step-2').innerHTML='<p style=color:#4CAF50;font-weight:bold;>Piko pırıl pırıl dişlerle gülümsüyor! 😁</p>';">🍎 Yemek artıklarını temizlemek için</button>
+                <button class="btn-icon-pill" style="width:90%;" onclick="alert('⏰ Vakit olsa da asıl amaç temizliktir.')">⏰ Vaktimiz olduğu için</button>
               </div>
             </div>
           </div>`;
       } else {
-        // Standard drag and drop for < 6
+        // 3 ve 4-5 Yaş: Adımlı Diş Fırçalama (Macun Sür -> Dişleri Fırçala -> Parlat)
+        let hasToothpaste = false;
+        if (mouthEmoji) mouthEmoji.textContent = '🦠🦷🦠'; // Başlangıçta mikroplu dişler
+
+        // Ekranaya dinamik olarak diş macunu ekleyelim
+        const brushContainer = brush.parentElement;
+        if (!document.getElementById('draggable-toothpaste')) {
+          const pasteDiv = document.createElement('div');
+          pasteDiv.className = 'drag-source';
+          pasteDiv.id = 'draggable-toothpaste';
+          pasteDiv.draggable = true;
+          pasteDiv.style.fontSize = '2.5rem';
+          pasteDiv.style.background = '#E0F7FA';
+          pasteDiv.style.padding = '0.4rem 0.8rem';
+          pasteDiv.style.borderRadius = '14px';
+          pasteDiv.title = 'Diş Macununu Sürükle';
+          pasteDiv.textContent = '🧴';
+          brushContainer.insertBefore(pasteDiv, brush);
+        }
+
+        const toothpaste = document.getElementById('draggable-toothpaste');
+
+        toothpaste.addEventListener('dragstart', (e) => {
+          e.dataTransfer.setData('text/plain', 'toothpaste');
+        });
+
         brush.addEventListener('dragstart', (e) => {
           e.dataTransfer.setData('text/plain', 'brush');
-          brush.classList.add('dragging');
         });
+
         teethZone.addEventListener('dragover', (e) => e.preventDefault());
+
         teethZone.addEventListener('drop', (e) => {
           e.preventDefault();
-          if (soundEnabled) AudioEngine.playSuccess();
-          if (mouthEmoji) mouthEmoji.textContent = '✨🪥🫧';
-          setTimeout(() => {
-            if (mouthEmoji) mouthEmoji.textContent = '😁';
-            alert('🧼 Piko pırıl pırıl dişlerle gülümsüyor!');
-          }, 600);
+          const draggedType = e.dataTransfer.getData('text/plain');
+
+          if (draggedType === 'toothpaste' && !hasToothpaste) {
+            hasToothpaste = true;
+            if (soundEnabled) AudioEngine.playSuccess();
+            brush.textContent = '🪥🧴'; // Macun sürülmüş fırça
+            toothpaste.style.opacity = '0.4';
+            alert('✨ Diş macunu fırçaya sürüldü! Şimdi fırçayı dişlerin üzerine sürükle.');
+          } else if (draggedType === 'brush') {
+            if (!hasToothpaste) {
+              alert('⚠️ Önce diş macununu fırçanın üzerine sürüklemelisin!');
+            } else {
+              if (soundEnabled) AudioEngine.playSuccess();
+              if (mouthEmoji) mouthEmoji.textContent = '✨😁✨'; // Parlayan temiz dişler
+              setTimeout(() => {
+                alert('🎉 Harika! Mikroplar kaçtı ve dişler pırıl pırıl parladı! 🦷✨');
+              }, 400);
+            }
+          }
         });
       }
     } 
@@ -560,30 +600,43 @@ document.addEventListener('DOMContentLoaded', () => {
             <p style="font-size:0.85rem; font-weight:700; color:#004D40; margin-bottom:0.4rem;">🥀 Bitki solmaya başladı! Ona ne oldu?</p>
             <div id="doga-step-1" style="display:flex; gap:4px; justify-content:center; margin-bottom:0.5rem;">
               <button class="btn-icon-pill" onclick="document.getElementById('doga-step-1').style.display='none'; document.getElementById('doga-step-2').style.display='block'; if(soundEnabled) AudioEngine.playSuccess();">💧 Susuz kaldı</button>
-              <button class="btn-icon-pill" onclick="alert('☀️ Güneşi çok sevse de asıl sorun başka olabilir.')">☀️ Çok güneş aldı</button>
+              <button class="btn-icon-pill" onclick="alert('☀️ Güneşi sevse de asıl sorun susuzluk.')">☀️ Çok güneş aldı</button>
             </div>
             
             <div id="doga-step-2" style="display:none; text-align:center;">
               <p style="font-size:0.78rem; font-weight:700; color:#D32F2F;">Peki şimdi ne yapmalıyız?</p>
               <div style="display:flex; gap:4px; justify-content:center; flex-direction:column; align-items:center;">
-                <button class="btn-icon-pill" style="width:80%;" onclick="alert('🌿 Harika! Hemen suladık ve bitki canlandı!'); document.getElementById('doga-step-2').innerHTML='<span style=font-size:3rem;>🌱</span>';">💧 Hemen sula</button>
-                <button class="btn-icon-pill" style="width:80%;" onclick="alert('⏳ Beklemek bitkiye zarar verir. Diğer seçeneği deneyelim.')">⏳ Bekle, kendi düzelir</button>
+                <button class="btn-icon-pill" style="width:90%;" onclick="alert('🌿 Harika! Hemen suladık ve bitki canlandı!'); document.getElementById('doga-step-2').innerHTML='<span style=font-size:3rem;>🌻</span>';">💧 Hemen sula</button>
+                <button class="btn-icon-pill" style="width:90%;" onclick="alert('⏳ Beklemek bitkiye zarar verir.')">⏳ Bekle, kendi düzelir</button>
               </div>
             </div>
           </div>`;
       } else {
         const water = document.getElementById('draggable-water');
         const sun = document.getElementById('draggable-sun');
+        
         [water, sun].forEach(item => {
           if (!item) return;
           item.addEventListener('dragstart', (e) => e.dataTransfer.setData('text/plain', item.id));
         });
+
         potZone.addEventListener('dragover', (e) => e.preventDefault());
+        
         potZone.addEventListener('drop', (e) => {
           e.preventDefault();
-          plantStageIndex = (plantStageIndex + 1) % plantVisualStages.length;
-          plantDisplay.textContent = plantVisualStages[plantStageIndex];
-          if (soundEnabled) AudioEngine.playSuccess();
+          if (plantStageIndex < plantVisualStages.length - 1) {
+            plantStageIndex++;
+            plantDisplay.textContent = plantVisualStages[plantStageIndex];
+            plantDisplay.style.transform = 'scale(1.3) rotate(5deg)';
+            setTimeout(() => plantDisplay.style.transform = 'scale(1)', 400);
+            if (soundEnabled) AudioEngine.playSuccess();
+
+            if (plantStageIndex === plantVisualStages.length - 1) {
+              setTimeout(() => {
+                alert('🎉 Tebrikler! Bitkini su ve güneşle besleyerek koca bir çiçek yaptın! 🌻🌿');
+              }, 400);
+            }
+          }
         });
       }
     }
