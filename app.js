@@ -1,10 +1,30 @@
 /* ==========================================================================
-   PIKO CHILD EDUCATION DASHBOARD - STABLE ZPD REFINEMENT
-   - Ana düzeni ve yapıyı bozmadan sadece oyun senaryolarını ve ZPD akışlarını düzenler
+   PIKO CHILD EDUCATION DASHBOARD - COMPLETE PRODUCTION APP LOGIC
+   ==========================================================================
+   Proje Adı: Piko Oyun Bahçesi / Çocuk Eğitim Platformu
+   Geliştirici: Ezgi Melike Çakır
+   
+   Pedagojik ve Teknik Altyapı Açıklamaları:
+   1. Lev Vygotsky ZPD (Yakınsal Gelişim Alanı) Yaklaşımı:
+      - 3 Yaş: Temel tanıma, duyusal eşleştirme ve rehberli/yardımlı keşif aşaması.
+      - 4-5 Yaş: Neden-sonuç bağlama, ardışık sıralama, örüntü tamamlama ve storyboard akışları (Yapı İskelesi).
+      - 6+ Yaş: Üst düzey problem çözme, gerekçelendirme ("Neden?" sorgulama), karar verme ve planlama rutinleri.
+   
+   2. Modüler ve Etkileşimli Mini Oyun Motorları:
+      - Duygu Aynası: Rastgele duygu ifadeleri ve yaş grubuna göre kademeli empati/çözüm senaryoları.
+      - Beceri Köşesi: Dinamik sıralama, hikâye kurgulama ve yaşa göre ölçeklenen Jigsaw Yapboz (3 Yaş: 2x2, 4-5 Yaş: 3x2, 6+ Yaş: 3x3).
+      - Öz Bakım Köşesi: HTML5 Drag & Drop tabanlı diş fırçalama (Macun sür -> Fırçala -> Parlat akışı) ve doğrudan giysi seçimi.
+      - Doğa Köşesi: Rastgele mevsim senaryoları, hava durumu eşleştirme ve kademeli bitki yaşam döngüsü (🌱➔🌿➔🌻➔🌳).
+   
+   3. Güvenlik ve Ebeveyn Yönetimi:
+      - Dinamik Matematiksel Güvenlik Kilidi (Launch Lock) ve Ebeveyn Köşesi Dinamik PIN Doğrulama.
+      - Güneşin Çizgili Yolu tabanlı Ekran Süresi ve Otomatik Dinlenme (Sleep Mode) Mekaniği.
+      - Her güne özel dinamik çocuk edebiyatı kitap seçkisi önerileri.
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
 
+  // 1. INITIAL WELCOME OVERLAY TRANSITION LOGIC
   const welcomeOverlay = document.getElementById('piko-welcome-overlay');
   const btnStartWelcome = document.getElementById('btn-start-welcome');
   if (btnStartWelcome && welcomeOverlay) {
@@ -14,6 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Web Audio Synthesizer with 432 Hz Kalimba Tuning
   const AudioEngine = {
     ctx: null,
     kalimbaTimer: null,
@@ -90,6 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
+  // State Variables
   let soundEnabled = true;
   let currentAgeLevel = '4-5';
   let sunProgress = 10;
@@ -101,6 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let plantStageIndex = 0;
   const plantVisualStages = ['🌱', '🌿', '🌻', '🌳'];
 
+  // --- ANA SAYFA "BUGÜN NASIL HİSSEDİYORSUN?" ETKİLEŞİMİ ---
   const moodButtons = document.querySelectorAll('.mood-btn');
   const pikoSpeechText = document.getElementById('piko-speech-text');
 
@@ -120,6 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // --- GÜNÜN ÇOCUK KİTAPLARINI DİNAMİK SEÇEN FONKSİYON ---
   function loadDailyChildrenBooks() {
     const duyguBooks = [
       "Unutulan Araba / Duygularımı Fark Ediyorum 3 (Tuğba Akbey İnan)",
@@ -154,6 +178,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // 2. APP LAUNCH LOCK OVERLAY
   const appLaunchOverlay = document.getElementById('app-launch-overlay');
   const launchPinDisplay = document.getElementById('launch-pin-display');
   const launchPinError = document.getElementById('launch-pin-error');
@@ -197,6 +222,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // Sound Toggle
   const soundToggleBtn = document.getElementById('sound-toggle-btn');
   const soundIcon = document.getElementById('sound-icon');
   if (soundToggleBtn) {
@@ -209,6 +235,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // 3. GÜNEŞİN ÇİZGİLİ YOLU (Ekran Süresi Yönetimi)
   const sunProgressBar = document.getElementById('sun-progress-bar');
   const sunIcon = document.getElementById('sun-icon');
   const sunTimeText = document.getElementById('sun-time-text');
@@ -267,6 +294,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // 4. DUYGU AYNASI MOTORU
   let targetEmotion = { name: 'Mutlu', image: 'piko_mutlu.png', label: 'Mutlu' };
 
   function setVisualEmotionMirror(emotion) {
@@ -290,6 +318,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setVisualEmotionMirror(pool[randomIndex]);
   }
 
+  // 5. BECERİ KÖŞESİ MOTORU
   function initBeceriGame(level) {
     const beceriContainer = document.getElementById('sirala-grid');
     if (!beceriContainer) return;
@@ -300,8 +329,8 @@ document.addEventListener('DOMContentLoaded', () => {
         <div style="text-align:center;">
           <p style="font-size:0.85rem; font-weight:700; margin-bottom:0.5rem;">Benzer Nesneleri Eşleştir (2-4 Parça Yapboz & Renk Örüntüsü)</p>
           <div style="display:flex; gap:1rem; justify-content:center;">
-            <button class="btn-icon-pill beceri-match-btn" data-val="apple">🍎 Elma</button>
-            <button class="btn-icon-pill beceri-match-btn" data-val="ball">⚽ Top</button>
+            <button class="btn-icon-pill beceri-match-btn" data-val="apple">🍎 Elma Eşle</button>
+            <button class="btn-icon-pill beceri-match-btn" data-val="ball">⚽ Top Eşle</button>
           </div>
         </div>`;
       beceriContainer.querySelectorAll('.beceri-match-btn').forEach(b => {
@@ -389,6 +418,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // 6. JIGSAW PUZZLE MOTORU
   function initRealImagePuzzle(level) {
     const puzzleBoard = document.getElementById('puzzle-board-grid');
     const puzzleBank = document.getElementById('puzzle-piece-bank');
@@ -480,6 +510,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // 7. DRAG AND DROP & ÖZ BAKIM / DOĞA KÖŞESİ MEKANİKLERİ
   function initDragAndDropMechanics(level = '4-5') {
     const brush = document.getElementById('draggable-brush');
     const teethZone = document.getElementById('teeth-target-zone');
@@ -501,7 +532,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <button class="btn-icon-pill" style="width:90%;" onclick="alert('🎉 Kesinlikle! Yemek artıklarını temizlemek dişlerimizi mikroplardan korur. 🦷✨'); document.getElementById('ozbakim-step-2').innerHTML='<p style=color:#4CAF50;font-weight:bold;>Piko pırıl pırıl dişlerle gülümsüyor! 😁</p>';">🍎 Yemek artıklarını temizlemek için</button>
               </div>
             </div>
-          </div>`;
+          `;
       } else {
         if (mouthEmoji) mouthEmoji.textContent = '🦠🦷🦠';
 
@@ -605,6 +636,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // 8. DYNAMIC AGE CONFIG (ZPD ve 6. Görsel Tasarım Şemasına Göre)
   const ageConfig = {
     '3': {
       badge: '3 Yaş (Minik Keşifçiler)',
@@ -797,6 +829,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   updateAgeSystem('4-5');
 
+  // 9. MODAL TRIGGERS
   document.getElementById('card-duygu')?.addEventListener('click', () => {
     updateAgeSystem(currentAgeLevel);
     document.getElementById('modal-duygu-corner')?.classList.add('active');
@@ -818,10 +851,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById('card-doga')?.addEventListener('click', () => {
     updateAgeSystem(currentAgeLevel);
+    initDogaCornerGame(currentAgeLevel);
     document.getElementById('modal-doga-corner')?.classList.add('active');
     if (soundEnabled) AudioEngine.playTone(600);
   });
 
+  // 10. EBEVEYN KÖŞESİ & PIN
   const parentBtn = document.getElementById('parent-corner-btn');
   const parentModal = document.getElementById('modal-parent-corner');
   const pinView = document.getElementById('pin-view');
@@ -932,8 +967,9 @@ document.addEventListener('DOMContentLoaded', () => {
       sunProgress = 100;
       updateSunPosition();
     });
-   
-document.querySelectorAll('.time-opt-btn').forEach(btn => {
+  }
+
+  document.querySelectorAll('.time-opt-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const mins = parseInt(btn.dataset.time, 10);
       sunTimerDuration = mins * 60;
@@ -944,3 +980,4 @@ document.querySelectorAll('.time-opt-btn').forEach(btn => {
     });
   });
 
+});
