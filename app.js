@@ -1,8 +1,7 @@
 /* ==========================================================================
    PIKO CHILD EDUCATION DASHBOARD - COMPLETE PRODUCTION APP LOGIC
    ==========================================================================
-   Proje Adı: Piko Oyun Bahçesi / Çocuk Eğitim Platformu
-   Geliştirici: Ezgi Melike Çakır
+
    
    Pedagojik ve Teknik Altyapı Açıklamaları:
    1. Lev Vygotsky ZPD (Yakınsal Gelişim Alanı) Yaklaşımı:
