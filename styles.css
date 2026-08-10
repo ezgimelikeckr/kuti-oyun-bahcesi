@@ -94,10 +94,15 @@ body {
   z-index: 1500;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.3s ease;
+  visibility: hidden; /* <-- Bunu ekle */
+  transition: opacity 0.3s ease, visibility 0.3s ease; /* <-- visibility de geçişe eklendi */
 }
 
-.piko-modal.active { opacity: 1; pointer-events: auto; }
+.piko-modal.active { 
+  opacity: 1; 
+  pointer-events: auto; 
+  visibility: visible; /* <-- Aktif olunca görünür ve tıklanabilir yap */
+}
 
 .modal-content-box {
   background: var(--card-bg);
