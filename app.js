@@ -536,14 +536,45 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (brush && teethZone) {
       if (level === '6+') {
-        // 6 Yaş: Sadece Planlama (Diş Fırçalama karmaşası kaldırıldı)
+        // 6 Yaş: Sabah rutinini doğru sırayla dizme oyunu (gerçek etkileşim)
         teethZone.parentElement.innerHTML = `
           <div style="width:100%; text-align:center;">
-            <p style="font-size:0.85rem; font-weight:700; color:#E65100; margin-bottom:0.4rem;">Piko'nun Sabah Hazırlanma Planını Oluştur:</p>
-            <div id="ozbakim-step-1" style="display:flex; gap:4px; justify-content:center; flex-wrap:wrap; margin-bottom:0.5rem;">
-              <button class="btn-icon-pill" onclick="showVisualFeedback('Plan tamamlandı: Uyan ➔ Giyin ➔ Kahvaltı', 'success')">📋 Planı Tamamla</button>
-            </div>
+            <p style="font-size:0.85rem; font-weight:700; color:#E65100; margin-bottom:0.5rem;">Piko'nun Sabah Rutinini doğru sırayla diz!</p>
+            <div id="ozbakim-plan-cards" style="display:flex; gap:0.4rem; justify-content:center; flex-wrap:wrap; margin-bottom:0.5rem;"></div>
+            <p id="ozbakim-plan-result" style="font-size:0.8rem; font-weight:600; color:#2E7D32; min-height:1.2em;"></p>
           </div>`;
+
+        const planSteps = [
+          { order: 1, label: '⏰ Uyan' },
+          { order: 2, label: '🪥 Diş Fırçala' },
+          { order: 3, label: '👕 Giyin' },
+          { order: 4, label: '🍳 Kahvaltı Yap' }
+        ];
+        const shuffledSteps = [...planSteps].sort(() => Math.random() - 0.5);
+        const cardsBox = document.getElementById('ozbakim-plan-cards');
+        let nextExpected = 1;
+
+        shuffledSteps.forEach(step => {
+          const btn = document.createElement('button');
+          btn.className = 'btn-icon-pill';
+          btn.textContent = step.label;
+          btn.addEventListener('click', () => {
+            if (btn.disabled) return;
+            if (step.order === nextExpected) {
+              btn.disabled = true;
+              btn.style.background = '#C8E6C9';
+              if (soundEnabled) AudioEngine.playSuccess();
+              nextExpected++;
+              if (nextExpected > planSteps.length) {
+                showVisualFeedback('🎉 Harika! Sabah planını doğru sırayla tamamladın!', 'success');
+              }
+            } else {
+              if (soundEnabled) AudioEngine.playTone(300, 0.2);
+              showVisualFeedback('Sırası bu değil, tekrar düşünelim!', 'error');
+            }
+          });
+          cardsBox.appendChild(btn);
+        });
       } else {
         // 3 ve 4-5 Yaş: Düzeltilmiş Macun -> Fırça -> Diş Akışı
         if (mouthEmoji) mouthEmoji.textContent = '🦠🦷🦠';
@@ -648,39 +679,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // --- DOĞA KÖŞESİ HATASIZ ÇIKIŞ VE RENDER ---
-  function initDogaCornerGame(level) {
-    const dogaModalBox = document.getElementById('modal-doga-corner');
-    if (!dogaModalBox) return;
-    
-    const innerBox = dogaModalBox.querySelector('.modal-content-box');
-    if (innerBox) {
-      innerBox.innerHTML = `
-        <button class="modal-close-btn" data-close-modal>✕</button>
-        <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.75rem;">
-          <span style="font-size: 1.8rem;">🌿</span>
-          <div>
-            <h3 style="font-size: 1.2rem; font-weight: 700; color: #00796B;">Doğa Köşesi - Keşif Alanı</h3>
-            <span style="font-size: 0.78rem; color: #004D40; font-weight: 700;">Mevsimler ve Bitki Bakımı</span>
-          </div>
-        </div>
-
-        <div style="background: #E0F2F1; padding: 0.85rem; border-radius: 16px; margin-bottom: 0.75rem;">
-          <h4 style="color: #004D40; margin-bottom: 0.35rem; font-size: 0.9rem;">🍂 Mevsim Keşfi</h4>
-          <p style="font-size: 0.82rem; margin-bottom: 0.5rem;">Ağaçların yaprakları sararıp dökülürken hangi mevsimdeyiz?</p>
-          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-            <button class="btn-icon-pill" onclick="showVisualFeedback('Doğru! Sonbahar.', 'success')">🍂 Sonbahar</button>
-            <button class="btn-icon-pill" onclick="showVisualFeedback('Tekrar deneyelim.', 'error')">❄️ Kış</button>
-          </div>
-        </div>
-
-        <div style="background: #FFF; border: 2px solid #B2DFDB; padding: 0.85rem; border-radius: 16px; text-align: center;">
-          <h4 style="color: #004D40; margin-bottom: 0.35rem; font-size: 0.92rem;">🌻 Piko'nun Bahçesi (Bitki Bakımı)</h4>
-          <p style="font-size: 0.8rem; color: #00695C; margin-bottom: 0.5rem;" id="plant-visual-display">🌱</p>
-        </div>`;
-    }
-  }
-
   const ageConfig = {
     '3': {
       badge: '3 Yaş (Minik Keşifçiler)',
@@ -698,7 +696,11 @@ document.addEventListener('DOMContentLoaded', () => {
         { label: '😢 Üzgün', correct: true },
         { label: '😊 Mutlu', correct: false }
       ],
-      weatherOptions: ['👕 T-shirt', '🧥 Yağmurluk']
+      weatherOptions: ['👕 T-shirt', '🧥 Yağmurluk'],
+      mevsimSenaryolari: [
+        { ipucu: 'Yapraklar dökülüyor, hava serinliyor. Hangi mevsimdeyiz?', dogru: '🍂 Sonbahar' },
+        { ipucu: 'Güneş çok sıcak, dondurma yiyoruz. Hangi mevsimdeyiz?', dogru: '☀️ Yaz' }
+      ]
     },
     '4-5': {
       badge: '4-5 Yaş (Meraklı Filizler)',
@@ -717,7 +719,19 @@ document.addEventListener('DOMContentLoaded', () => {
         { label: '🔍 Birlikte arayabiliriz', correct: true },
         { label: '🛑 Bekleyelim', correct: false }
       ],
-      weatherOptions: ['👕 T-shirt', '🧥 Yağmurluk', '🧥 Mont']
+      weatherOptions: ['👕 T-shirt', '🧥 Yağmurluk', '🧥 Mont'],
+      mevsimSenaryolari: [
+        { ipucu: 'Ağaçların yaprakları sararıp dökülüyor. Hangi mevsimdeyiz?', dogru: '🍂 Sonbahar' },
+        { ipucu: 'Her yer beyaz karla kaplandı, hava çok soğuk. Hangi mevsimdeyiz?', dogru: '❄️ Kış' },
+        { ipucu: 'Çiçekler açıyor, kuşlar geri dönüyor, hava ılıyor. Hangi mevsimdeyiz?', dogru: '🌸 İlkbahar' },
+        { ipucu: 'Güneş çok sıcak, denize gidiyoruz, günler uzun. Hangi mevsimdeyiz?', dogru: '☀️ Yaz' }
+      ],
+      weatherFollowUp: {
+        '🍂 Sonbahar': ['🍁 Serin ve rüzgarlı', '🥵 Çok sıcak', '❄️ Kar yağışlı'],
+        '❄️ Kış': ['🥶 Soğuk ve karlı', '🌞 Sıcak ve güneşli', '🌦️ Ilık ve yağmurlu'],
+        '🌸 İlkbahar': ['🌤️ Ilık ve çiçekli', '❄️ Dondurucu soğuk', '🔥 Kavurucu sıcak'],
+        '☀️ Yaz': ['☀️ Sıcak ve güneşli', '❄️ Karlı', '🍂 Serin ve rüzgarlı']
+      }
     },
     '6+': {
       badge: '6+ Yaş (Bilge Çiçekler)',
@@ -736,7 +750,19 @@ document.addEventListener('DOMContentLoaded', () => {
         { label: '❤️ Kendini güvende hissetmesi ve tekrar deneyebilmesi için', correct: true },
         { label: '🎵 Hemen sahneden inmesi için', correct: false }
       ],
-      weatherOptions: ['👕 T-shirt', '🧥 Yağmurluk', '🧥 Mont']
+      weatherOptions: ['👕 T-shirt', '🧥 Yağmurluk', '🧥 Mont'],
+      mevsimSenaryolari: [
+        { ipucu: 'Ağaçların yaprakları sararıp dökülüyor. Hangi mevsimdeyiz?', dogru: '🍂 Sonbahar' },
+        { ipucu: 'Her yer beyaz karla kaplandı, hava çok soğuk. Hangi mevsimdeyiz?', dogru: '❄️ Kış' },
+        { ipucu: 'Çiçekler açıyor, kuşlar geri dönüyor, hava ılıyor. Hangi mevsimdeyiz?', dogru: '🌸 İlkbahar' },
+        { ipucu: 'Güneş çok sıcak, denize gidiyoruz, günler uzun. Hangi mevsimdeyiz?', dogru: '☀️ Yaz' }
+      ],
+      weatherFollowUp: {
+        '🍂 Sonbahar': ['🍁 Serin ve rüzgarlı', '🥵 Çok sıcak', '❄️ Kar yağışlı'],
+        '❄️ Kış': ['🥶 Soğuk ve karlı', '🌞 Sıcak ve güneşli', '🌦️ Ilık ve yağmurlu'],
+        '🌸 İlkbahar': ['🌤️ Ilık ve çiçekli', '❄️ Dondurucu soğuk', '🔥 Kavurucu sıcak'],
+        '☀️ Yaz': ['☀️ Sıcak ve güneşli', '❄️ Karlı', '🍂 Serin ve rüzgarlı']
+      }
     }
   };
 
@@ -806,15 +832,48 @@ document.addEventListener('DOMContentLoaded', () => {
     initDragAndDropMechanics(level);
 
     const mevsimBox = document.getElementById('mevsim-options');
-    if (mevsimBox) {
+    if (mevsimBox && cfg.mevsimSenaryolari) {
+      const mevsimPromptEl = document.getElementById('mevsim-prompt');
+      const senaryo = cfg.mevsimSenaryolari[Math.floor(Math.random() * cfg.mevsimSenaryolari.length)];
+      if (mevsimPromptEl) mevsimPromptEl.textContent = senaryo.ipucu;
+
       const seasons = level === '3' ? ['🍂 Sonbahar', '☀️ Yaz'] : ['🍂 Sonbahar', '❄️ Kış', '🌸 İlkbahar', '☀️ Yaz'];
-      mevsimBox.innerHTML = seasons.map(s => 
-        `<button class="btn-icon-pill mevsim-opt-btn">${s}</button>`
+      const shuffledSeasons = [...seasons].sort(() => Math.random() - 0.5);
+
+      mevsimBox.innerHTML = shuffledSeasons.map(s =>
+        `<button class="btn-icon-pill mevsim-opt-btn" data-season="${s}">${s}</button>`
       ).join('');
+
       mevsimBox.querySelectorAll('.mevsim-opt-btn').forEach(btn => {
         btn.addEventListener('click', () => {
+          if (btn.dataset.season !== senaryo.dogru) {
+            if (soundEnabled) AudioEngine.playTone(300, 0.2);
+            showVisualFeedback(`Tekrar düşünelim: "${senaryo.ipucu}"`, "error");
+            return;
+          }
           if (soundEnabled) AudioEngine.playSuccess();
-          showVisualFeedback(`${btn.textContent} keşfedildi!`, "success");
+
+          const weatherOpts = cfg.weatherFollowUp?.[senaryo.dogru];
+          if (weatherOpts && mevsimPromptEl) {
+            mevsimPromptEl.textContent = `Harika! ${senaryo.dogru} buldun. Peki bu mevsimde hava genelde nasıl olur?`;
+            const shuffledWeather = [...weatherOpts].sort(() => Math.random() - 0.5);
+            mevsimBox.innerHTML = shuffledWeather.map(w =>
+              `<button class="btn-icon-pill mevsim-weather-btn" data-correct="${w === weatherOpts[0]}">${w}</button>`
+            ).join('');
+            mevsimBox.querySelectorAll('.mevsim-weather-btn').forEach(wbtn => {
+              wbtn.addEventListener('click', () => {
+                if (wbtn.dataset.correct === 'true') {
+                  if (soundEnabled) AudioEngine.playSuccess();
+                  showVisualFeedback(`🎉 Doğru! ${senaryo.dogru} mevsiminde hava genelde böyle olur.`, "success");
+                } else {
+                  if (soundEnabled) AudioEngine.playTone(300, 0.2);
+                  showVisualFeedback(`Aslında hava genelde: ${weatherOpts[0]}`, "error");
+                }
+              });
+            });
+          } else {
+            showVisualFeedback(`Doğru! ${senaryo.dogru} mevsimini keşfettin!`, "success");
+          }
         });
       });
     }
@@ -863,7 +922,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById('card-doga')?.addEventListener('click', () => {
     updateAgeSystem(currentAgeLevel);
-    initDogaCornerGame(currentAgeLevel);
     document.getElementById('modal-doga-corner')?.classList.add('active');
     if (soundEnabled) AudioEngine.playTone(600);
   });
