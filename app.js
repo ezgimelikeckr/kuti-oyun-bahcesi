@@ -433,7 +433,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
- // 6. JIGSAW PUZZLE (YAŞLARA GÖRE DİNAMİK VE HATASIZ ÖLÇEKLEME)
+// 6. JIGSAW PUZZLE (YAŞLARA GÖRE DİNAMİK VE HATASIZ ÖLÇEKLEME)
   function initRealImagePuzzle(level) {
     const puzzleBoard = document.getElementById('puzzle-board-grid');
     const puzzleBank = document.getElementById('puzzle-piece-bank');
@@ -446,27 +446,29 @@ document.addEventListener('DOMContentLoaded', () => {
     let totalRows = 2;
     let missingCount = 2;
 
-    // Yaş seviyesine göre grid ve eksik parça sayısı
+    // Yaş seviyesine göre grid, satır ve eksik parça ayarı
     if (level === '3') {
       totalCols = 2;
       totalRows = 2;
       missingCount = 1;
       puzzleBoard.style.gridTemplateColumns = 'repeat(2, 1fr)';
+      puzzleBoard.style.gridTemplateRows = 'repeat(2, 1fr)';
     } else if (level === '6+') {
       totalCols = 3;
       totalRows = 3;
       missingCount = 3;
       puzzleBoard.style.gridTemplateColumns = 'repeat(3, 1fr)';
+      puzzleBoard.style.gridTemplateRows = 'repeat(3, 1fr)';
     } else {
       totalCols = 3;
       totalRows = 2;
       missingCount = 2;
       puzzleBoard.style.gridTemplateColumns = 'repeat(3, 1fr)';
+      puzzleBoard.style.gridTemplateRows = 'repeat(2, 1fr)';
     }
 
     const totalSlots = totalCols * totalRows;
     
-    // Rastgele ama sabit olmayan eksik slot indeksleri seçimi
     let missingIndices = [];
     while (missingIndices.length < missingCount) {
       let randIdx = Math.floor(Math.random() * totalSlots);
@@ -497,7 +499,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    // Eksik parçaları sağdaki bankaya yerleştir
+    // Eksik parçaları bankaya yerleştir
     missingIndices.forEach(idx => {
       const c = idx % totalCols;
       const r = Math.floor(idx / totalCols);
@@ -526,7 +528,7 @@ document.addEventListener('DOMContentLoaded', () => {
       puzzleBank.appendChild(piece);
     });
   }
-
+   
  // 7. DRAG AND DROP & ÖZ BAKIM / DOĞA GELİŞMİŞ MEKANİK
   function initDragAndDropMechanics(level = '4-5') {
     const brush = document.getElementById('draggable-brush');
