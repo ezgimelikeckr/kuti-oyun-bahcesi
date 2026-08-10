@@ -864,7 +864,27 @@ document.querySelectorAll('#app-launch-overlay .keypad-btn').forEach(btn => {
       updateSunPosition();
       startSunJourney();
       alert(`Güneş Yolu (Ekran Süresi) ${mins} dakika olarak ayarlandı!`);
-    });
+   
+       // --- KÖŞELERIN AÇILMASINI VE TIKLANABİLİRLİĞİ GARANTİLEYEN ACİL YAMA ---
+  document.querySelectorAll('.category-card').forEach(card => {
+    card.addEventListener('click', (function() {
+      const cat = this.dataset.category;
+      const modalId = 'modal-' + cat + '-corner';
+      const targetModal = document.getElementById(modalId);
+      
+      // Kilitli overlay'leri ve perdeleri zorla temizle
+      document.querySelectorAll('.piko-modal').forEach(m => m.classList.remove('active'));
+      const launchOvl = document.getElementById('app-launch-overlay');
+      if (launchOvl) {
+        launchOvl.classList.add('unlocked');
+        launchOvl.remove();
+      }
+
+      if (targetModal) {
+        targetModal.classList.add('active');
+        targetModal.style.display = 'flex';
+      }
+    }));
   });
 });
   
