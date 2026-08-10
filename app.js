@@ -1,10 +1,10 @@
 /* ==========================================================================
-   PIKO CHILD EDUCATION DASHBOARD - FINAL PRODUCTION APP LOGIC
+   PIKO CHILD EDUCATION DASHBOARD - DOĞA KÖŞESİ DÜZELTİLMİŞ APP LOGIC
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  // PİKO REHBERLİĞİNDE ÜST GÖRSEL GERİ BİLDİRİM VE İPUCU SİSTEMİ
+  // Üst Piko Maskotlu Görsel Geri Bildirim ve İpucu Sistemi
   function showVisualFeedback(message, type = "success") {
     let box = document.getElementById("piko-visual-feedback-card");
     
@@ -641,12 +641,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // --- DOĞA KÖŞESİ DÜZELTİLMİŞ MODAL RENDER ---
   function initDogaCornerGame(level) {
     const dogaModalBox = document.getElementById('modal-doga-corner');
     if (!dogaModalBox) return;
     
     const innerBox = dogaModalBox.querySelector('.modal-content-box');
     if (innerBox) {
+      // Yaş seviyesine göre mantıklı ve temiz içerik
+      let plantHtml = level === '3' 
+        ? `<p style="font-size: 0.82rem; color: #00695C; margin-bottom: 0.4rem;">Minik Tohum 🌱</p>`
+        : `<p style="font-size: 0.82rem; color: #00695C; margin-bottom: 0.4rem;" id="plant-visual-display">🌱</p>`;
+
       innerBox.innerHTML = `
         <button class="modal-close-btn" data-close-modal>✕</button>
         <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.75rem;">
@@ -658,8 +664,8 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
 
         <div style="background: #E0F2F1; padding: 0.85rem; border-radius: 16px; margin-bottom: 0.75rem;">
-          <h4 style="color: #004D40; margin-bottom: 0.35rem; font-size: 0.9rem;">🍂 Hangi Mevsim?</h4>
-          <p style="font-size: 0.82rem; margin-bottom: 0.5rem;">Ağaçların yaprakları sararıp dökülüyor. Hangi mevsimdeyiz?</p>
+          <h4 style="color: #004D40; margin-bottom: 0.35rem; font-size: 0.9rem;">🍂 Mevsim Keşfi</h4>
+          <p style="font-size: 0.82rem; margin-bottom: 0.5rem;">Ağaçların yaprakları sararıp dökülürken hangi mevsimdeyiz?</p>
           <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
             <button class="btn-icon-pill" onclick="showVisualFeedback('Doğru! Sonbahar.', 'success')">🍂 Sonbahar</button>
             <button class="btn-icon-pill" onclick="showVisualFeedback('Tekrar deneyelim.', 'error')">❄️ Kış</button>
@@ -667,8 +673,8 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
 
         <div style="background: #FFF; border: 2px solid #B2DFDB; padding: 0.85rem; border-radius: 16px; text-align: center;">
-          <h4 style="color: #004D40; margin-bottom: 0.35rem; font-size: 0.92rem;">🌻 Piko'nun Bahçesi</h4>
-          <p style="font-size: 0.8rem; color: #00695C; margin-bottom: 0.5rem;" id="plant-visual-display">🌱</p>
+          <h4 style="color: #004D40; margin-bottom: 0.35rem; font-size: 0.92rem;">🌻 Piko'nun Bahçesi (Bitki Bakımı)</h4>
+          ${plantHtml}
         </div>`;
     }
   }
