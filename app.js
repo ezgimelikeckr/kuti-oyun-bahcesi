@@ -932,7 +932,7 @@ document.addEventListener('DOMContentLoaded', () => {
       sunProgress = 100;
       updateSunPosition();
     });
-  ]);   
+   
 document.querySelectorAll('.time-opt-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const mins = parseInt(btn.dataset.time, 10);
