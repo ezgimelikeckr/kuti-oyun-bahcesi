@@ -1,7 +1,5 @@
 /* ==========================================================================
-   PIKO CHILD EDUCATION DASHBOARD - FINAL REFINED APP LOGIC
-   - Öz Bakım 6 yaş planlama başlığı, Görsel Eşleştirme, Doğa kilidi çözümü,
-   - Üst kısımda Piko maskotlu görsel geri bildirim ve 6 yaş Hafıza Kartı eklendi.
+   PIKO CHILD EDUCATION DASHBOARD - FINAL PRODUCTION APP LOGIC
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -326,7 +324,6 @@ document.addEventListener('DOMContentLoaded', () => {
     setVisualEmotionMirror(pool[randomIndex]);
   }
 
-  // 3. BECERİ KÖŞESİ (3 Yaş: Görsel Eşleşme, 4-5 Yaş: Boyut Sıralama, 6 Yaş: Hafıza Kartları & Hikâye)
   function initBeceriGame(level) {
     const beceriContainer = document.getElementById('sirala-grid');
     if (!beceriContainer) return;
@@ -395,7 +392,6 @@ document.addEventListener('DOMContentLoaded', () => {
       renderSirala();
 
     } else {
-      // 6 Yaş: Hafıza Kartları (Eşini Bul) + Hikaye Akışı
       beceriContainer.innerHTML = `
         <div style="width:100%; text-align:center;">
           <p style="font-size:0.82rem; font-weight:700; color:#2E7D32; margin-bottom:0.4rem;">🧠 Hafıza Kartları (Kartları Eşleştir)</p>
@@ -528,7 +524,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ÖZ BAKIM & DOĞA KÖŞESİ MEKANİKLERİ
   function initDragAndDropMechanics(level = '4-5') {
     const brush = document.getElementById('draggable-brush');
     const teethZone = document.getElementById('teeth-target-zone');
@@ -536,7 +531,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (brush && teethZone) {
       if (level === '6+') {
-        // 1. Görsel için düzeltme: 6 yaş öz bakımda diş fırçalama kaldırıldı, tam planlama alanı
         teethZone.parentElement.innerHTML = `
           <div style="width:100%; text-align:center;">
             <p style="font-size:0.85rem; font-weight:700; color:#E65100; margin-bottom:0.4rem;">Piko'nun Sabah Hazırlanma Planını Oluştur:</p>
@@ -647,7 +641,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // --- DOĞA KÖŞESİ MODAL RENDER (Kilitlenme Sorunu Giderildi) ---
   function initDogaCornerGame(level) {
     const dogaModalBox = document.getElementById('modal-doga-corner');
     if (!dogaModalBox) return;
@@ -977,7 +970,7 @@ document.addEventListener('DOMContentLoaded', () => {
       sunProgress = 100;
       updateSunPosition();
     });
-  });
+  }
 
   document.querySelectorAll('.time-opt-btn').forEach(btn => {
     btn.addEventListener('click', () => {
