@@ -135,7 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   generateMathSecurityProblem();
 
-document.querySelectorAll('.launch-key-btn').forEach(btn => {
+document.querySelectorAll('#app-launch-overlay .keypad-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const digit = btn.textContent.trim();
 
