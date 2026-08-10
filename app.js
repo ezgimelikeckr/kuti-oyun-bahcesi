@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let plantStageIndex = 0;
   const plantVisualStages = ['🌱', '🌿', '🌻', '🌳'];
 
-  // --- ANA SAYFA "BUGÜN NASIL HİSSEDİYORSUN?" ETKİLEŞİMİ ---
+  // --- ANA SAYFA "BUGÜN NASİLSİN?" ETKİLEŞİMİ ---
   const moodButtons = document.querySelectorAll('.mood-btn');
   const pikoSpeechText = document.getElementById('piko-speech-text');
 
@@ -757,6 +757,7 @@ document.addEventListener('DOMContentLoaded', () => {
       sunProgress = 100;
       updateSunPosition();
     });
+  }
 
   document.querySelectorAll('.time-opt-btn').forEach(btn => {
     btn.addEventListener('click', () => {
