@@ -1,15 +1,10 @@
 /* ==========================================================================
-   PIKO CHILD EDUCATION DASHBOARD - ZPD PEDAGOGICAL REFINEMENT
-   - Lev Vygotsky ZPD (Yakınsal Gelişim Alanı) Tabanlı Yaş Geçiş Senaryoları
-   - 3 Yaş: Duyusal tanıma, reaksiyon ve temel eşleştirme (Yardımlı keşif)
-   - 4-5 Yaş: Neden-sonuç, ardışık sıralama ve hikâye akışı (Yapı iskelesi)
-   - 6+ Yaş: Gerekçelendirme, planlama, karar verme ve "Neden?" sorgulama
-   - DÜZELTİLDİ: Diş fırçalama macun entegrasyonu, giysi seçenekleri ve 6 yaş solan bitki tıklama akışı
+   PIKO CHILD EDUCATION DASHBOARD - STABLE ZPD REFINEMENT
+   - Ana düzeni ve yapıyı bozmadan sadece oyun senaryolarını ve ZPD akışlarını düzenler
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  // 1. INITIAL WELCOME OVERLAY TRANSITION LOGIC
   const welcomeOverlay = document.getElementById('piko-welcome-overlay');
   const btnStartWelcome = document.getElementById('btn-start-welcome');
   if (btnStartWelcome && welcomeOverlay) {
@@ -19,7 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Web Audio Synthesizer with 432 Hz Kalimba Tuning
   const AudioEngine = {
     ctx: null,
     kalimbaTimer: null,
@@ -96,7 +90,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  // State
   let soundEnabled = true;
   let currentAgeLevel = '4-5';
   let sunProgress = 10;
@@ -108,7 +101,6 @@ document.addEventListener('DOMContentLoaded', () => {
   let plantStageIndex = 0;
   const plantVisualStages = ['🌱', '🌿', '🌻', '🌳'];
 
-  // --- ANA SAYFA "BUGÜN NASIL HİSSEDİYORSUN?" ETKİLEŞİMİ ---
   const moodButtons = document.querySelectorAll('.mood-btn');
   const pikoSpeechText = document.getElementById('piko-speech-text');
 
@@ -128,7 +120,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // --- GÜNÜN ÇOCUK KİTAPLARINI DİNAMİK SEÇEN FONKSİYON ---
   function loadDailyChildrenBooks() {
     const duyguBooks = [
       "Unutulan Araba / Duygularımı Fark Ediyorum 3 (Tuğba Akbey İnan)",
@@ -163,7 +154,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // 2. APP LAUNCH LOCK OVERLAY
   const appLaunchOverlay = document.getElementById('app-launch-overlay');
   const launchPinDisplay = document.getElementById('launch-pin-display');
   const launchPinError = document.getElementById('launch-pin-error');
@@ -207,7 +197,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Sound Toggle
   const soundToggleBtn = document.getElementById('sound-toggle-btn');
   const soundIcon = document.getElementById('sound-icon');
   if (soundToggleBtn) {
@@ -220,7 +209,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 3. GÜNEŞİN ÇİZGİLİ YOLU
   const sunProgressBar = document.getElementById('sun-progress-bar');
   const sunIcon = document.getElementById('sun-icon');
   const sunTimeText = document.getElementById('sun-time-text');
@@ -279,7 +267,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // 4. DUYGU AYNASI (ZPD Destekli Yaş Bazlı Empati Senaryoları)
   let targetEmotion = { name: 'Mutlu', image: 'piko_mutlu.png', label: 'Mutlu' };
 
   function setVisualEmotionMirror(emotion) {
@@ -303,7 +290,6 @@ document.addEventListener('DOMContentLoaded', () => {
     setVisualEmotionMirror(pool[randomIndex]);
   }
 
-  // 5. BECERİ KÖŞESİ (ZPD Seviyelerine Göre: 3 Yaş Eşleştirme, 4-5 Yaş Sıralama, 6+ Yaş Hikâye)
   function initBeceriGame(level) {
     const beceriContainer = document.getElementById('sirala-grid');
     if (!beceriContainer) return;
@@ -312,7 +298,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (level === '3') {
       beceriContainer.innerHTML = `
         <div style="text-align:center;">
-          <p style="font-size:0.85rem; font-weight:700; margin-bottom:0.5rem;">Benzer Nesneleri Eşleştir! (ZPD: Yardımlı Keşif)</p>
+          <p style="font-size:0.85rem; font-weight:700; margin-bottom:0.5rem;">Benzer Nesneleri Eşleştir (2-4 Parça Yapboz & Renk Örüntüsü)</p>
           <div style="display:flex; gap:1rem; justify-content:center;">
             <button class="btn-icon-pill beceri-match-btn" data-val="apple">🍎 Elma</button>
             <button class="btn-icon-pill beceri-match-btn" data-val="ball">⚽ Top</button>
@@ -335,7 +321,7 @@ document.addEventListener('DOMContentLoaded', () => {
       let selectedIdx = null;
 
       function renderSirala() {
-        beceriContainer.innerHTML = '<p style="font-size:0.82rem; font-weight:700; color:#2E7D32; margin-bottom:0.5rem; text-align:center;">Nesneleri tıklayarak küçükten büyüğe sırala! (ZPD: Kriterli Eşleşme)</p><div id="sirala-flex" style="display:flex; gap:10px; justify-content:center; align-items:flex-end; min-height:70px;"></div>';
+        beceriContainer.innerHTML = '<p style="font-size:0.82rem; font-weight:700; color:#2E7D32; margin-bottom:0.5rem; text-align:center;">Nesneleri tıklayarak küçükten büyüğe sırala! (6-9 Parça & Şekil Örüntüsü)</p><div id="sirala-flex" style="display:flex; gap:10px; justify-content:center; align-items:flex-end; min-height:70px;"></div>';
         const flexContainer = document.getElementById('sirala-flex');
 
         siralaItemsData.forEach((item, index) => {
@@ -374,11 +360,11 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       beceriContainer.innerHTML = `
         <div style="width:100%; text-align:center;">
-          <p style="font-size:0.82rem; font-weight:700; color:#2E7D32; margin-bottom:0.5rem;">📖 Piko'nun Hikâyesi: Kartları sırayla diz! (ZPD: Üst Düzey Akış)</p>
+          <p style="font-size:0.82rem; font-weight:700; color:#2E7D32; margin-bottom:0.5rem;">📖 Piko'nun Hikâyesi (12-16 Parça Yapboz & Örüntü Tamamlama)</p>
           <div id="story-cards-box" style="display:flex; gap:0.4rem; justify-content:center; flex-wrap:wrap; margin-bottom:0.5rem;">
             <button class="btn-icon-pill story-card" data-step="1">1️⃣ Piko uyandı</button>
-            <button class="btn-icon-pill story-card" data-step="3">3️⃣ Piko oynadı</button>
             <button class="btn-icon-pill story-card" data-step="2">2️⃣ Parka gitti</button>
+            <button class="btn-icon-pill story-card" data-step="3">3️⃣ Piko oynadı</button>
             <button class="btn-icon-pill story-card" data-step="4">4️⃣ Eve döndü</button>
           </div>
           <p id="story-result-text" style="font-size:0.8rem; font-weight:600; color:#E65100;"></p>
@@ -395,11 +381,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (clickedSteps.length === 4) {
               if (soundEnabled) AudioEngine.playSuccess();
-              document.getElementById('story-result-text').innerHTML = 
-                "🎉 Hikâyeyi tamamladın! <b>Sonuna ne olsun istersin?</b><br>" +
-                "<button class='btn-icon-pill' onclick='alert(\"😴 Piko huzurla uyudu. Tatlı rüyalar!\")' style='margin:4px;'>😴 Piko Uyudu</button>" +
-                "<button class='btn-icon-pill' onclick='alert(\"🍽️ Piko lezzetli akşam yemeğini yedi!\")' style='margin:4px;'>🍽️ Piko Yemek Yedi</button>" +
-                "<button class='btn-icon-pill' onclick='alert(\"📚 Piko harika bir masal kitabı okudu!\")' style='margin:4px;'>📚 Piko Kitap Okudu</button>";
+              document.getElementById('story-result-text').innerHTML = "🎉 Hikâye ve örüntü tamamlandı!";
             }
           }
         });
@@ -407,7 +389,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // 6. JIGSAW PUZZLE (ZPD Yaş Ölçeği: 3 Yaş 2x2, 4-5 Yaş 3x2, 6+ Yaş 3x3)
   function initRealImagePuzzle(level) {
     const puzzleBoard = document.getElementById('puzzle-board-grid');
     const puzzleBank = document.getElementById('puzzle-piece-bank');
@@ -499,7 +480,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 7. DRAG AND DROP & ÖZ BAKIM / DOĞA GELİŞMİŞ MEKANİK (ZPD Seviyeli Akışlar)
   function initDragAndDropMechanics(level = '4-5') {
     const brush = document.getElementById('draggable-brush');
     const teethZone = document.getElementById('teeth-target-zone');
@@ -507,25 +487,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (brush && teethZone) {
       if (level === '6+') {
-        // 6 Yaş ZPD: Gerekçelendirme ve Rutin Planlama
         teethZone.parentElement.innerHTML = `
           <div style="width:100%; text-align:center;">
-            <p style="font-size:0.85rem; font-weight:700; color:#E65100; margin-bottom:0.4rem;">Piko'nun Sabah Rutini Sırala (ZPD: Planlama):</p>
+            <p style="font-size:0.85rem; font-weight:700; color:#E65100; margin-bottom:0.4rem;">Piko'nun Sabah Rutini: Eksik adımı bul ve sırala!</p>
             <div id="ozbakim-step-1" style="display:flex; gap:4px; justify-content:center; flex-wrap:wrap; margin-bottom:0.5rem;">
-              <button class="btn-icon-pill" onclick="alert('Önce karnımızı doyurmalıyız, kahvaltıdan sonra diş fırçalayalım! 🍳')">1. Diş Fırçala</button>
+              <button class="btn-icon-pill" onclick="alert('Önce kahvaltı yapılmalı, sonra diş fırçalanmalıdır! 🍳')">1. Diş Fırçala</button>
               <button class="btn-icon-pill" onclick="document.getElementById('ozbakim-step-1').style.display='none'; document.getElementById('ozbakim-step-2').style.display='block'; if(soundEnabled) AudioEngine.playSuccess();">2. Kahvaltı Yap</button>
             </div>
             
             <div id="ozbakim-step-2" style="display:none; text-align:center;">
-              <p style="font-size:0.78rem; font-weight:700; color:#D32F2F;">Harika! Şimdi kahvaltı bitti. Neden hemen ardından diş fırçalamalıyız?</p>
+              <p style="font-size:0.78rem; font-weight:700; color:#D32F2F;">Neden kahvaltıdan sonra diş fırçalamalıyız?</p>
               <div style="display:flex; gap:4px; justify-content:center; flex-direction:column; align-items:center;">
                 <button class="btn-icon-pill" style="width:90%;" onclick="alert('🎉 Kesinlikle! Yemek artıklarını temizlemek dişlerimizi mikroplardan korur. 🦷✨'); document.getElementById('ozbakim-step-2').innerHTML='<p style=color:#4CAF50;font-weight:bold;>Piko pırıl pırıl dişlerle gülümsüyor! 😁</p>';">🍎 Yemek artıklarını temizlemek için</button>
-                <button class="btn-icon-pill" style="width:90%;" onclick="alert('Vaktimiz olsa da asıl sebep diş sağlığıdır.')">⏰ Vaktimiz olduğu için</button>
               </div>
             </div>
-          `;
+          </div>`;
       } else {
-        // 3 ve 4-5 Yaş: Adımlı Diş Fırçalama (Macun Sür + Fırçala)
         if (mouthEmoji) mouthEmoji.textContent = '🦠🦷🦠';
 
         const brushContainer = brush.parentElement;
@@ -565,7 +542,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (soundEnabled) AudioEngine.playSuccess();
             brush.textContent = '🪥🧴';
             toothpaste.style.opacity = '0.4';
-            alert('✨ Diş macunu fırçaya sürüldü! Şimdi fırçayı dişlerin üzerine sürükle.');
+            alert('✨ Diş macunu fırçaya sürüldü! Şimdi fırçayı macunla birlikte dişlerin üzerine sürükle.');
           } else if (draggedType === 'brush') {
             if (!hasToothpaste) {
               alert('⚠️ Önce diş macununu fırçanın üzerine sürüklemelisin!');
@@ -586,26 +563,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (potZone && plantDisplay) {
       if (level === '6+') {
-        // 6 Yaş ZPD: Sebep-Sonuç İlişkisi Kurma
         potZone.parentElement.innerHTML = `
           <div style="width:100%; text-align:center; position:relative; z-index:5;">
             <div style="font-size: 3.5rem; margin-bottom: 0.2rem;" id="plant-state-emoji">🥀</div>
-            <p style="font-size:0.85rem; font-weight:700; color:#004D40; margin-bottom:0.4rem;">Bitki solmaya başladı! Sebep sizce ne olabilir? (ZPD: Neden-Sonuç)</p>
+            <p style="font-size:0.85rem; font-weight:700; color:#004D40; margin-bottom:0.4rem;">Bitkinin yaşam döngüsünü tamamlaması için doğru sırayı kur!</p>
             <div id="doga-step-1" style="display:flex; gap:4px; justify-content:center; margin-bottom:0.5rem; position:relative; z-index:10;">
-              <button class="btn-icon-pill" style="cursor:pointer; position:relative; z-index:15;" onclick="document.getElementById('doga-step-1').style.display='none'; document.getElementById('doga-step-2').style.display='block'; if(soundEnabled) AudioEngine.playSuccess();">💧 Susuz kaldı</button>
+              <button class="btn-icon-pill" style="cursor:pointer; position:relative; z-index:15;" onclick="document.getElementById('doga-step-1').style.display='none'; document.getElementById('doga-step-2').style.display='block'; if(soundEnabled) AudioEngine.playSuccess();">💧 Susuz kaldı (Su ver)</button>
               <button class="btn-icon-pill" style="cursor:pointer; position:relative; z-index:15;" onclick="alert('Güneş sever ama temel ihtiyaç sudur.')">☀️ Çok güneş aldı</button>
             </div>
             
             <div id="doga-step-2" style="display:none; text-align:center; position:relative; z-index:10;">
-              <p style="font-size:0.78rem; font-weight:700; color:#D32F2F;">Peki şimdi ne yapmalıyız?</p>
+              <p style="font-size:0.78rem; font-weight:700; color:#D32F2F;">Peki yaşam döngüsü nasıl devam eder?</p>
               <div style="display:flex; gap:4px; justify-content:center; flex-direction:column; align-items:center;">
-                <button class="btn-icon-pill" style="width:90%; cursor:pointer; position:relative; z-index:15;" onclick="if(soundEnabled)AudioEngine.playSuccess(); document.getElementById('plant-state-emoji').innerHTML='🌻'; alert('🌿 Harika sebep-sonuç ilişkisi! Su verdik, bitki canlandı ve yeniden açtı! 🎉'); document.getElementById('doga-step-2').innerHTML='<p style=color:#2E7D32;font-weight:bold;>Bitki yeniden açtı ve gülümsüyor!</p>';">💧 Hemen sula ve canlandır</button>
-                <button class="btn-icon-pill" style="width:90%; cursor:pointer; position:relative; z-index:15;" onclick="alert('⏳ Beklemek bitkiye zarar verir.')">⏳ Bekle, kendi düzelir</button>
+                <button class="btn-icon-pill" style="width:90%; cursor:pointer; position:relative; z-index:15;" onclick="if(soundEnabled)AudioEngine.playSuccess(); document.getElementById('plant-state-emoji').innerHTML='🌻'; alert('🌿 Harika sebep-sonuç ilişkisi ve yaşam döngüsü!'); document.getElementById('doga-step-2').innerHTML='<p style=color:#2E7D32;font-weight:bold;>Bitki yaşam döngüsünü tamamladı ve yeniden açtı!</p>';">🌱 ➔ 🌿 ➔ 🌻 Yaşam Döngüsü</button>
               </div>
             </div>
           </div>`;
       } else {
-        // 3 ve 4-5 Yaş: Kademeli Bitki Büyütme
         const water = document.getElementById('draggable-water');
         const sun = document.getElementById('draggable-sun');
         [water, sun].forEach(item => {
@@ -615,34 +589,35 @@ document.addEventListener('DOMContentLoaded', () => {
         potZone.addEventListener('dragover', (e) => e.preventDefault());
         potZone.addEventListener('drop', (e) => {
           e.preventDefault();
-          plantStageIndex = (plantStageIndex + 1) % plantVisualStages.length;
-          plantDisplay.textContent = plantVisualStages[plantStageIndex];
-          if (soundEnabled) AudioEngine.playSuccess();
+          if (plantStageIndex < plantVisualStages.length - 1) {
+            plantStageIndex++;
+            plantDisplay.textContent = plantVisualStages[plantStageIndex];
+            if (soundEnabled) AudioEngine.playSuccess();
 
-          if (plantStageIndex === plantVisualStages.length - 1) {
-            setTimeout(() => {
-              alert('🎉 Tebrikler! Bitkini su ve güneşle besleyerek koca bir çiçek yaptın! 🌻🌿');
-            }, 400);
+            if (plantStageIndex === plantVisualStages.length - 1) {
+              setTimeout(() => {
+                alert('🎉 Tebrikler! Bitkini su ve güneşle besleyerek koca bir çiçek yaptın! 🌻🌿');
+              }, 400);
+            }
           }
         });
       }
     }
   }
 
-  // 8. DYNAMIC AGE CONFIG (ZPD Destekli Senaryolar ve Doğrudan Giysi Seçenekleri)
   const ageConfig = {
     '3': {
       badge: '3 Yaş (Minik Keşifçiler)',
-      duyguDesc: 'Görsel duygu ifadeleri ve temel eşleştirme (ZPD: Yardımlı Keşif).',
-      beceriDesc: 'Dikkat ve Nesne Eşleştirme.',
-      ozbakimDesc: 'Tek adım doğru hedef Diş Fırçalama.',
-      dogaDesc: 'Suyu saksıya sürükle, bitki büyüsün.',
+      duyguDesc: 'Duyguları fark eder, tanır ve doğru ifade ile eşleştirir.',
+      beceriDesc: '2-4 parça yapboz ve renk örüntüsü.',
+      ozbakimDesc: 'Sabunla köpürt, sonra suyla durula ve havluyla kurula.',
+      dogaDesc: 'Doğayı tanır, bitkinin ihtiyacı olan nesneyi seç.',
       emotions: [
         { label: 'Mutlu', name: 'Mutlu', image: 'piko_mutlu.png' },
         { label: 'Üzgün', name: 'Üzgün', image: 'piko_uzgun.png' },
         { label: 'Şaşırmış', name: 'Şaşırmış', image: 'piko_sasirmis.png' }
       ],
-      scenario: 'Piko dondurmasını yere düşürdü. Ne hissediyor?',
+      scenario: 'Piko dondurmasını yere düşürdü. Ne hissediyor olabilir?',
       scenarioChoices: [
         { label: '😢 Üzüldü (Ona sarılalım)', correct: true },
         { label: '😊 Mutlu oldu', correct: false }
@@ -651,29 +626,29 @@ document.addEventListener('DOMContentLoaded', () => {
     },
     '4-5': {
       badge: '4-5 Yaş (Meraklı Filizler)',
-      duyguDesc: 'Empati senaryoları ve duygu analizi (ZPD: Yapı İskelesi).',
-      beceriDesc: 'Sırala Bul ve dinamik yapbozlar.',
-      ozbakimDesc: 'Doğru sıra ile günlük beceri takibi.',
-      dogaDesc: 'Su ve güneş dengesi.',
+      duyguDesc: 'Piko’nun yaşadığı olaya bakıp doğru duyguyu seç.',
+      beceriDesc: '6-9 parça yapboz ve şekil örüntüsü.',
+      ozbakimDesc: 'Tüm adımları doğru sırayla tamamla.',
+      dogaDesc: 'Bitkinin büyümesi için gerekli olanları seç.',
       emotions: [
         { label: 'Mutlu', name: 'Mutlu', image: 'piko_mutlu.png' },
         { label: 'Üzgün', name: 'Üzgün', image: 'piko_uzgun.png' },
         { label: 'Öfkeli', name: 'Öfkeli', image: 'piko_ofkeli.png' },
         { label: 'Meraklı', name: 'Meraklı', image: 'piko_merakli.png' }
       ],
-      scenario: 'Piko en sevdiği oyuncağını bulamıyor. Nasıl hissediyor ve ne yapmalıyız?',
+      scenario: 'Piko en sevdiği oyuncağını bulamıyor. Sence ne hissediyor ve ne yapmalıyız?',
       scenarioChoices: [
-        { label: '🔍 Birlikte arayalım (Heyecanlı keşif)', correct: true },
+        { label: '🔍 Üzüldü, birlikte arayalım (Heyecanlı keşif)', correct: true },
         { label: '😡 Kızıp oyuncağı kıralım', correct: false }
       ],
       weatherOptions: ['👕 T-shirt & Şapka', '🧥 Yağmurluk', '🧥 Mont & Bere']
     },
     '6+': {
       badge: '6+ Yaş (Bilge Çiçekler)',
-      duyguDesc: 'Zengin duygu analizi ve gerekçelendirme (ZPD: Üst Düzey Bilişsel Sentez).',
-      beceriDesc: "Piko'nun Hikâyesi (Dijital Hikâye Kurgulama).",
-      ozbakimDesc: 'Plan Kurma + Gerekçelendirme rutinleri.',
-      dogaDesc: 'Neden-Sonuç Keşfi + Problem Çözme.',
+      duyguDesc: "Piko'nun neden böyle hissettiğini düşün ve duygusunu seç.",
+      beceriDesc: "12-16 parça yapboz ve nesne örüntüsü.",
+      ozbakimDesc: 'Eksik adımı bul ve sıraya yerleştir.',
+      dogaDesc: 'Bitkinin yaşam döngüsünü doğru sıraya koy.',
       emotions: [
         { label: 'Mutlu', name: 'Mutlu', image: 'piko_mutlu.png' },
         { label: 'Üzgün', name: 'Üzgün', image: 'piko_uzgun.png' },
@@ -684,9 +659,9 @@ document.addEventListener('DOMContentLoaded', () => {
         { label: 'Korkmuş', name: 'Korkmuş', image: 'piko_korkmus.png' },
         { label: 'Gururlu', name: 'Gururlu', image: 'piko_gururlu.png' }
       ],
-      scenario: 'Piko sahnede şarkı söylerken sözleri unuttu. Ona nasıl destek oluruz?',
+      scenario: 'Piko sahnede şarkı söylerken sözleri unuttu. Nasıl hissediyor ve ne yapmalıyız?',
       scenarioChoices: [
-        { label: '👏 Alkışlayarak cesaret verelim', correct: true },
+        { label: '👏 Utandı ama alkışlayarak cesaret verelim', correct: true },
         { label: '🙈 Gülüp gidelim', correct: false }
       ],
       whyQuestion: 'Neden alkışlayarak cesaret vermeliyiz?',
@@ -822,7 +797,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   updateAgeSystem('4-5');
 
-  // 9. MODAL TRIGGERS
   document.getElementById('card-duygu')?.addEventListener('click', () => {
     updateAgeSystem(currentAgeLevel);
     document.getElementById('modal-duygu-corner')?.classList.add('active');
@@ -848,7 +822,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (soundEnabled) AudioEngine.playTone(600);
   });
 
-  // 10. EBEVEYN KÖŞESİ & PIN
   const parentBtn = document.getElementById('parent-corner-btn');
   const parentModal = document.getElementById('modal-parent-corner');
   const pinView = document.getElementById('pin-view');
@@ -959,7 +932,7 @@ document.addEventListener('DOMContentLoaded', () => {
       sunProgress = 100;
       updateSunPosition();
     });
-  }
+  });
 
   document.querySelectorAll('.time-opt-btn').forEach(btn => {
     btn.addEventListener('click', () => {
