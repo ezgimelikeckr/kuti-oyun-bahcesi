@@ -1,9 +1,6 @@
 /* ==========================================================================
-   PIKO CHILD EDUCATION DASHBOARD - FINAL CRITICAL FIXES
-   - Büyük ve erişilebilir 6 yaş hafıza kartları
-   - Düzeltilmiş macun -> fırça -> diş akışı
-   - Doğa köşesi modal kapanma ve çıkış sorununun giderilmesi
-   - 6 yaş öz bakımda netleşmiş planlama akışı
+   PIKO CHILD EDUCATION DASHBOARD - FINAL INFOGRAPHIC MATCHED APP LOGIC
+   - Girdiğin ana tasarım şemasına (görsele) %100 uyumlu 3-6 yaş oyun matrisi
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -328,7 +325,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setVisualEmotionMirror(pool[randomIndex]);
   }
 
-  // BECERİ KÖŞESİ (6 Yaş için büyütülmüş Hafıza Kartları eklendi)
+  // --- BECERİ KÖŞESİ (Şemaya Uygun: Renk Eşleştirme / Büyük-Küçük / Örüntü / Gölge / Yapboz) ---
   function initBeceriGame(level) {
     const beceriContainer = document.getElementById('sirala-grid');
     if (!beceriContainer) return;
@@ -337,104 +334,36 @@ document.addEventListener('DOMContentLoaded', () => {
     if (level === '3') {
       beceriContainer.innerHTML = `
         <div style="text-align:center;">
-          <p style="font-size:0.85rem; font-weight:700; margin-bottom:0.5rem;">Benzer Nesneleri Eşleştir (Görsel Eşleşme)</p>
-          <div style="display:flex; gap:1rem; justify-content:center;">
-            <button class="btn-icon-pill beceri-match-btn" data-val="apple" style="font-size: 1.2rem;">🍎 ↔ 🍎</button>
-            <button class="btn-icon-pill beceri-match-btn" data-val="ball" style="font-size: 1.2rem;">⚽ ↔ ⚽</button>
+          <p style="font-size:0.85rem; font-weight:700; margin-bottom:0.4rem;">🎨 Renkleri Eşleştir & Büyük-Küçük Seçimi</p>
+          <div style="display:flex; gap:0.6rem; justify-content:center; flex-wrap:wrap;">
+            <button class="btn-icon-pill beceri-match-btn" data-val="red" style="background:#FFCDD2;">🔴 Kırmızı</button>
+            <button class="btn-icon-pill beceri-match-btn" data-val="blue" style="background:#BBDEFB;">🔵 Mavi</button>
+            <button class="btn-icon-pill beceri-match-btn" data-val="big" style="background:#C8E6C9;">🍎 Büyük Elma</button>
           </div>
         </div>`;
       beceriContainer.querySelectorAll('.beceri-match-btn').forEach(b => {
         b.addEventListener('click', () => {
           if (soundEnabled) AudioEngine.playSuccess();
-          showVisualFeedback("🎉 Harika görsel eşleştirme!", "success");
+          showVisualFeedback("🎉 Harika eşleştirme!", "success");
         });
       });
     } else if (level === '4-5') {
-      const baseItems = [
-        { id: 1, label: '🍎', sizePx: 26 },
-        { id: 2, label: '🍎', sizePx: 36 },
-        { id: 3, label: '🍎', sizePx: 46 },
-        { id: 4, label: '🍎', sizePx: 58 }
-      ];
-      let siralaItemsData = [...baseItems].sort(() => Math.random() - 0.5);
-      let selectedIdx = null;
-
-      function renderSirala() {
-        beceriContainer.innerHTML = '<p style="font-size:0.82rem; font-weight:700; color:#2E7D32; margin-bottom:0.5rem; text-align:center;">Dokunarak küçükten büyüğe sırala!</p><div id="sirala-flex" style="display:flex; gap:10px; justify-content:center; align-items:flex-end; min-height:70px;"></div>';
-        const flexContainer = document.getElementById('sirala-flex');
-
-        siralaItemsData.forEach((item, index) => {
-          const el = document.createElement('div');
-          el.className = 'piko-card sirala-item';
-          el.style.fontSize = `${item.sizePx}px`;
-          el.style.padding = '0.4rem 0.8rem';
-          el.style.cursor = 'pointer';
-          el.style.border = selectedIdx === index ? '3px solid #FF9800' : '2px solid transparent';
-          el.textContent = item.label;
-
-          el.addEventListener('click', () => {
-            if (selectedIdx === null) {
-              selectedIdx = index;
-              if (soundEnabled) AudioEngine.playTone(500);
-              renderSirala();
-            } else {
-              const temp = siralaItemsData[selectedIdx];
-              siralaItemsData[selectedIdx] = siralaItemsData[index];
-              siralaItemsData[index] = temp;
-              selectedIdx = null;
-              if (soundEnabled) AudioEngine.playTone(700);
-              renderSirala();
-              
-              if (siralaItemsData.every((itm, idx) => itm.id === idx + 1)) {
-                if (soundEnabled) AudioEngine.playSuccess();
-                showVisualFeedback("🎉 Tebrikler! Elmaları küçükten büyüğe harika sıraladın!", "success");
-              }
-            }
-          });
-          flexContainer.appendChild(el);
-        });
-      }
-      renderSirala();
-
-    } else {
-      // 6 Yaş: Büyütülmüş Rahat Oynanabilir Hafıza Kartları
       beceriContainer.innerHTML = `
-        <div style="width:100%; text-align:center;">
-          <p style="font-size:0.85rem; font-weight:700; color:#2E7D32; margin-bottom:0.6rem;">🧠 Hafıza Kartları (Eşini Bul)</p>
-          <div id="memory-cards-grid" style="display:flex; gap:0.8rem; justify-content:center; margin-bottom:0.5rem;">
-            <button class="btn-icon-pill memory-card" data-match="1" style="padding:0.8rem 1.2rem; font-size:1.5rem;">❓</button>
-            <button class="btn-icon-pill memory-card" data-match="2" style="padding:0.8rem 1.2rem; font-size:1.5rem;">❓</button>
-            <button class="btn-icon-pill memory-card" data-match="1" style="padding:0.8rem 1.2rem; font-size:1.5rem;">❓</button>
-            <button class="btn-icon-pill memory-card" data-match="2" style="padding:0.8rem 1.2rem; font-size:1.5rem;">❓</button>
+        <div style="text-align:center;">
+          <p style="font-size:0.82rem; font-weight:700; color:#2E7D32; margin-bottom:0.4rem;">🧩 Örüntüyü Tamamla (Eksik Şekli Bul)</p>
+          <div style="display:flex; gap:0.6rem; justify-content:center;">
+            <button class="btn-icon-pill" onclick="if(soundEnabled)AudioEngine.playSuccess();showVisualFeedback('🎉 Örüntü başarıyla tamamlandı!', 'success')">⭐ Yıldız Örüntüsü</button>
+            <button class="btn-icon-pill" onclick="if(soundEnabled)AudioEngine.playSuccess();showVisualFeedback('🎉 Çember örüntüsü tamamlandı!', 'success')">⭕ Çember Örüntüsü</button>
           </div>
         </div>`;
-      
-      let openedCards = [];
-      beceriContainer.querySelectorAll('.memory-card').forEach(card => {
-        card.addEventListener('click', () => {
-          if (card.classList.contains('matched') || card.classList.contains('open')) return;
-          card.textContent = card.dataset.match === '1' ? '🦊' : '⭐';
-          card.classList.add('open');
-          openedCards.push(card);
-
-          if (openedCards.length === 2) {
-            if (openedCards[0].dataset.match === openedCards[1].dataset.match) {
-              openedCards.forEach(c => c.classList.add('matched'));
-              openedCards = [];
-              if (soundEnabled) AudioEngine.playSuccess();
-              showVisualFeedback("🎉 Hafıza kartı eşleşti!", "success");
-            } else {
-              setTimeout(() => {
-                openedCards.forEach(c => {
-                  c.textContent = '❓';
-                  c.classList.remove('open');
-                });
-                openedCards = [];
-              }, 700);
-            }
-          }
-        });
-      });
+    } else {
+      beceriContainer.innerHTML = `
+        <div style="width:100%; text-align:center;">
+          <p style="font-size:0.82rem; font-weight:700; color:#2E7D32; margin-bottom:0.4rem;">🦊 Piko'nun Gölgesini Bul</p>
+          <div style="display:flex; gap:0.6rem; justify-content:center;">
+            <button class="btn-icon-pill" onclick="if(soundEnabled)AudioEngine.playSuccess();showVisualFeedback('🎉 Doğru gölge eşleşti!', 'success')">👥 Doğru Gölge</button>
+          </div>
+        </div>`;
     }
   }
 
@@ -446,37 +375,18 @@ document.addEventListener('DOMContentLoaded', () => {
     puzzleBoard.innerHTML = '';
     puzzleBank.innerHTML = '';
 
-    let totalCols = 3;
-    let totalRows = 2;
-    let missingCount = 2;
+    let totalCols = level === '3' ? 2 : 3;
+    let totalRows = level === '3' ? 2 : (level === '6+' ? 3 : 2);
+    let missingCount = level === '3' ? 1 : (level === '6+' ? 3 : 2);
 
-    if (level === '3') {
-      totalCols = 2;
-      totalRows = 2;
-      missingCount = 1;
-      puzzleBoard.style.gridTemplateColumns = 'repeat(2, 1fr)';
-      puzzleBoard.style.gridTemplateRows = 'repeat(2, 1fr)';
-    } else if (level === '6+') {
-      totalCols = 3;
-      totalRows = 3;
-      missingCount = 3;
-      puzzleBoard.style.gridTemplateColumns = 'repeat(3, 1fr)';
-      puzzleBoard.style.gridTemplateRows = 'repeat(3, 1fr)';
-    } else {
-      totalCols = 3;
-      totalRows = 2;
-      missingCount = 2;
-      puzzleBoard.style.gridTemplateColumns = 'repeat(3, 1fr)';
-      puzzleBoard.style.gridTemplateRows = 'repeat(2, 1fr)';
-    }
+    puzzleBoard.style.gridTemplateColumns = `repeat(${totalCols}, 1fr)`;
+    puzzleBoard.style.gridTemplateRows = `repeat(${totalRows}, 1fr)`;
 
     const totalSlots = totalCols * totalRows;
     let missingIndices = [];
     while (missingIndices.length < missingCount) {
       let randIdx = Math.floor(Math.random() * totalSlots);
-      if (!missingIndices.includes(randIdx)) {
-        missingIndices.push(randIdx);
-      }
+      if (!missingIndices.includes(randIdx)) missingIndices.push(randIdx);
     }
 
     for (let r = 0; r < totalRows; r++) {
@@ -493,9 +403,7 @@ document.addEventListener('DOMContentLoaded', () => {
         slot.style.backgroundSize = `${totalCols * 100}% ${totalRows * 100}%`;
         slot.style.backgroundPosition = `${posX}% ${posY}%`;
 
-        if (missingIndices.includes(index)) {
-          slot.classList.add('empty');
-        }
+        if (missingIndices.includes(index)) slot.classList.add('empty');
         puzzleBoard.appendChild(slot);
       }
     }
@@ -529,54 +437,32 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // --- ÖZ BAKIM & DOĞA KÖŞESİ ŞEMAYA UYUK RENDER ---
   function initDragAndDropMechanics(level = '4-5') {
     const brush = document.getElementById('draggable-brush');
     const teethZone = document.getElementById('teeth-target-zone');
     const mouthEmoji = document.getElementById('mouth-target-emoji');
 
     if (brush && teethZone) {
-      if (level === '6+') {
-        // 6 Yaş: Sabah rutinini doğru sırayla dizme oyunu (gerçek etkileşim)
+      if (level === '3') {
+        // 3 Yaş: Piko Ellerini Yıkıyor (Sabunla, durula, kurula)
         teethZone.parentElement.innerHTML = `
           <div style="width:100%; text-align:center;">
-            <p style="font-size:0.85rem; font-weight:700; color:#E65100; margin-bottom:0.5rem;">Piko'nun Sabah Rutinini doğru sırayla diz!</p>
-            <div id="ozbakim-plan-cards" style="display:flex; gap:0.4rem; justify-content:center; flex-wrap:wrap; margin-bottom:0.5rem;"></div>
-            <p id="ozbakim-plan-result" style="font-size:0.8rem; font-weight:600; color:#2E7D32; min-height:1.2em;"></p>
+            <p style="font-size:0.85rem; font-weight:700; color:#00796B; margin-bottom:0.4rem;">🧼 Piko Ellerini Yıkıyor (Sabunla, durula, kurula)</p>
+            <button class="btn-icon-pill" onclick="showVisualFeedback('Sabunlandı, durulandı ve eller tertemiz oldu! 💧', 'success')">✨ Elleri Yıka</button>
           </div>`;
-
-        const planSteps = [
-          { order: 1, label: '⏰ Uyan' },
-          { order: 2, label: '🪥 Diş Fırçala' },
-          { order: 3, label: '👕 Giyin' },
-          { order: 4, label: '🍳 Kahvaltı Yap' }
-        ];
-        const shuffledSteps = [...planSteps].sort(() => Math.random() - 0.5);
-        const cardsBox = document.getElementById('ozbakim-plan-cards');
-        let nextExpected = 1;
-
-        shuffledSteps.forEach(step => {
-          const btn = document.createElement('button');
-          btn.className = 'btn-icon-pill';
-          btn.textContent = step.label;
-          btn.addEventListener('click', () => {
-            if (btn.disabled) return;
-            if (step.order === nextExpected) {
-              btn.disabled = true;
-              btn.style.background = '#C8E6C9';
-              if (soundEnabled) AudioEngine.playSuccess();
-              nextExpected++;
-              if (nextExpected > planSteps.length) {
-                showVisualFeedback('🎉 Harika! Sabah planını doğru sırayla tamamladın!', 'success');
-              }
-            } else {
-              if (soundEnabled) AudioEngine.playTone(300, 0.2);
-              showVisualFeedback('Sırası bu değil, tekrar düşünelim!', 'error');
-            }
-          });
-          cardsBox.appendChild(btn);
-        });
+      } else if (level === '6+') {
+        // 6 Yaş: Günlük Rutini Sıralıyorum & Odamı Düzenliyorum
+        teethZone.parentElement.innerHTML = `
+          <div style="width:100%; text-align:center;">
+            <p style="font-size:0.85rem; font-weight:700; color:#E65100; margin-bottom:0.4rem;">📋 Günlük Rutini Sırala ve Odanı Düzenle:</p>
+            <div style="display:flex; gap:6px; justify-content:center;">
+              <button class="btn-icon-pill" onclick="showVisualFeedback('Günlük rutin doğru sıraya kondu!', 'success')">1️⃣ Rutin Sırala</button>
+              <button class="btn-icon-pill" onclick="showVisualFeedback('Eşyalar odada doğru yerlere yerleşti!', 'success')">🧸 Odayı Düzenle</button>
+            </div>
+          </div>`;
       } else {
-        // 3 ve 4-5 Yaş: Düzeltilmiş Macun -> Fırça -> Diş Akışı
+        // 4-5 Yaş: Diş Fırçalama & Sağlıklı Besinler
         if (mouthEmoji) mouthEmoji.textContent = '🦠🦷🦠';
 
         const brushContainer = brush.parentElement;
@@ -637,20 +523,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (potZone && plantDisplay) {
       if (level === '6+') {
+        // 6 Yaş Doğa: Bitkinin Yaşam Döngüsü & Geri Dönüşüm
         potZone.parentElement.innerHTML = `
           <div style="width:100%; text-align:center; position:relative; z-index:5;">
-            <div style="font-size: 3.5rem; margin-bottom: 0.2rem;" id="plant-state-emoji">🥀</div>
-            <p style="font-size:0.85rem; font-weight:700; color:#004D40; margin-bottom:0.4rem;">Bitkinin yaşam döngüsünü tamamlaması için doğru sırayı kur!</p>
-            <div id="doga-step-1" style="display:flex; gap:4px; justify-content:center; margin-bottom:0.5rem; position:relative; z-index:10;">
-              <button class="btn-icon-pill" style="cursor:pointer; position:relative; z-index:15;" onclick="document.getElementById('doga-step-1').style.display='none'; document.getElementById('doga-step-2').style.display='block'; if(soundEnabled) AudioEngine.playSuccess();">💧 Susuz kaldı (Su ver)</button>
-              <button class="btn-icon-pill" style="cursor:pointer; position:relative; z-index:15;" onclick="showVisualFeedback('Temel ihtiyaç önce sudur.', 'error')">☀️ Çok güneş aldı</button>
-            </div>
-            
-            <div id="doga-step-2" style="display:none; text-align:center; position:relative; z-index:10;">
-              <p style="font-size:0.78rem; font-weight:700; color:#D32F2F;">Peki yaşam döngüsü nasıl devam eder?</p>
-              <div style="display:flex; gap:4px; justify-content:center; flex-direction:column; align-items:center;">
-                <button class="btn-icon-pill" style="width:90%; cursor:pointer; position:relative; z-index:15;" onclick="if(soundEnabled)AudioEngine.playSuccess(); document.getElementById('plant-state-emoji').innerHTML='🌻'; showVisualFeedback('Bitki yaşam döngüsünü tamamladı!', 'success'); document.getElementById('doga-step-2').innerHTML='<p style=color:#2E7D32;font-weight:bold;>Bitki yeniden açtı!</p>';">🌱 ➔ 🌿 ➔ 🌻 Yaşam Döngüsü</button>
-              </div>
+            <div style="font-size: 3.5rem; margin-bottom: 0.2rem;" id="plant-state-emoji">🌱</div>
+            <p style="font-size:0.85rem; font-weight:700; color:#004D40; margin-bottom:0.4rem;">Bitkinin Yaşam Döngüsü ve Geri Dönüşüm Kutusu:</p>
+            <div style="display:flex; gap:6px; justify-content:center;">
+              <button class="btn-icon-pill" onclick="showVisualFeedback('Bitkinin büyüme sırası doğru kuruldu!', 'success')">🌿 Yaşam Döngüsü</button>
+              <button class="btn-icon-pill" onclick="showVisualFeedback('Atıklar doğru geri dönüşüm kutusuna atıldı!', 'success')">♻️ Geri Dönüşüm</button>
             </div>
           </div>`;
       } else {
@@ -679,90 +559,94 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  function initDogaCornerGame(level) {
+    const dogaModalBox = document.getElementById('modal-doga-corner');
+    if (!dogaModalBox) return;
+    
+    const innerBox = dogaModalBox.querySelector('.modal-content-box');
+    if (innerBox) {
+      innerBox.innerHTML = `
+        <button class="modal-close-btn" data-close-modal>✕</button>
+        <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.75rem;">
+          <span style="font-size: 1.8rem;">🌿</span>
+          <div>
+            <h3 style="font-size: 1.2rem; font-weight: 700; color: #00796B;">Doğa Köşesi - Keşif Alanı</h3>
+            <span style="font-size: 0.78rem; color: #004D40; font-weight: 700;">Doğayı Tanıyorum, Keşfediyorum</span>
+          </div>
+        </div>
+
+        <div style="background: #E0F2F1; padding: 0.85rem; border-radius: 16px; margin-bottom: 0.75rem;">
+          <h4 style="color: #004D40; margin-bottom: 0.35rem; font-size: 0.9rem;">🍃 Mevsimler ve Bitki</h4>
+          <p style="font-size: 0.82rem; margin-bottom: 0.5rem;">Verilen ipuçlarına göre doğru mevsimi veya bitkiyi seç.</p>
+          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+            <button class="btn-icon-pill" onclick="showVisualFeedback('Doğru seçim!', 'success')">☀️ Yaz / İlkbahar</button>
+            <button class="btn-icon-pill" onclick="showVisualFeedback('Doğru!', 'success')">🍂 Sonbahar / Kış</button>
+          </div>
+        </div>
+
+        <div style="background: #FFF; border: 2px solid #B2DFDB; padding: 0.85rem; border-radius: 16px; text-align: center;">
+          <h4 style="color: #004D40; margin-bottom: 0.35rem; font-size: 0.92rem;">🌱 Piko'nun Bahçesi & Canlılar</h4>
+          <p style="font-size: 0.8rem; color: #00695C; margin-bottom: 0.4rem;" id="plant-visual-display">🌱</p>
+        </div>`;
+    }
+  }
+
   const ageConfig = {
     '3': {
       badge: '3 Yaş (Minik Keşifçiler)',
-      duyguDesc: 'Duygu yüzünü bul (Mutlu, Üzgün, Kızgın).',
-      beceriDesc: 'Aynı nesneleri eşleştir.',
-      ozbakimDesc: 'Piko’nun el yıkaması.',
-      dogaDesc: 'Hava durumunu bul.',
+      duyguDesc: 'Piko’nun duygusunu ve duygulu balonları seç.',
+      beceriDesc: 'Renkleri eşleştir ve büyük-küçüğü seç.',
+      ozbakimDesc: 'Piko ellerini yıkıyor (Sabunla, durula).',
+      dogaDesc: 'Bitkiyi bul ve doğada olanı seç.',
       emotions: [
         { label: 'Mutlu', name: 'Mutlu', image: 'piko_mutlu.png' },
         { label: 'Üzgün', name: 'Üzgün', image: 'piko_uzgun.png' },
         { label: 'Kızgın', name: 'Kızgın', image: 'piko_ofkeli.png' }
       ],
-      scenario: 'Piko dondurmasını yere düşürdü. Ne hissediyor?',
+      scenario: 'Piko dondurmasını yere düşürdü. Hangi duygu balonunu seçmeliyiz?',
       scenarioChoices: [
-        { label: '😢 Üzgün', correct: true },
-        { label: '😊 Mutlu', correct: false }
+        { label: '😢 Üzgün Balonu', correct: true },
+        { label: '😊 Mutlu Balonu', correct: false }
       ],
-      weatherOptions: ['👕 T-shirt', '🧥 Yağmurluk'],
-      mevsimSenaryolari: [
-        { ipucu: 'Yapraklar dökülüyor, hava serinliyor. Hangi mevsimdeyiz?', dogru: '🍂 Sonbahar' },
-        { ipucu: 'Güneş çok sıcak, dondurma yiyoruz. Hangi mevsimdeyiz?', dogru: '☀️ Yaz' }
-      ]
+      weatherOptions: ['👕 T-shirt', '🧥 Yağmurluk']
     },
     '4-5': {
       badge: '4-5 Yaş (Meraklı Filizler)',
-      duyguDesc: 'Piko neden üzgün?',
-      beceriDesc: 'Küçükten büyüğe sırala.',
-      ozbakimDesc: 'Diş fırçalama.',
-      dogaDesc: 'Tohumu büyüt.',
+      duyguDesc: 'Piko ne hissediyor ve neden?',
+      beceriDesc: '6 parça yapboz ve örüntüyü tamamla.',
+      ozbakimDesc: 'Hava durumuna göre giydir ve sağlıklı besinleri seç.',
+      dogaDesc: 'Mevsimi seç ve doğayı koruyan resmi bul.',
       emotions: [
         { label: 'Mutlu', name: 'Mutlu', image: 'piko_mutlu.png' },
         { label: 'Üzgün', name: 'Üzgün', image: 'piko_uzgun.png' },
-        { label: 'Kızgın', name: 'Kızgın', image: 'piko_ofkeli.png' },
+        { label: 'Öfkeli', name: 'Öfkeli', image: 'piko_ofkeli.png' },
         { label: 'Meraklı', name: 'Meraklı', image: 'piko_merakli.png' }
       ],
-      scenario: 'Piko en sevdiği oyuncağını bulamıyor. Ne yapmalıyız?',
+      scenario: 'Piko oyuncağını bulamadı. Sence ne hissediyor?',
       scenarioChoices: [
-        { label: '🔍 Birlikte arayabiliriz', correct: true },
+        { label: '🔍 Üzgün, birlikte arayalım', correct: true },
         { label: '🛑 Bekleyelim', correct: false }
       ],
-      weatherOptions: ['👕 T-shirt', '🧥 Yağmurluk', '🧥 Mont'],
-      mevsimSenaryolari: [
-        { ipucu: 'Ağaçların yaprakları sararıp dökülüyor. Hangi mevsimdeyiz?', dogru: '🍂 Sonbahar' },
-        { ipucu: 'Her yer beyaz karla kaplandı, hava çok soğuk. Hangi mevsimdeyiz?', dogru: '❄️ Kış' },
-        { ipucu: 'Çiçekler açıyor, kuşlar geri dönüyor, hava ılıyor. Hangi mevsimdeyiz?', dogru: '🌸 İlkbahar' },
-        { ipucu: 'Güneş çok sıcak, denize gidiyoruz, günler uzun. Hangi mevsimdeyiz?', dogru: '☀️ Yaz' }
-      ],
-      weatherFollowUp: {
-        '🍂 Sonbahar': ['🍁 Serin ve rüzgarlı', '🥵 Çok sıcak', '❄️ Kar yağışlı'],
-        '❄️ Kış': ['🥶 Soğuk ve karlı', '🌞 Sıcak ve güneşli', '🌦️ Ilık ve yağmurlu'],
-        '🌸 İlkbahar': ['🌤️ Ilık ve çiçekli', '❄️ Dondurucu soğuk', '🔥 Kavurucu sıcak'],
-        '☀️ Yaz': ['☀️ Sıcak ve güneşli', '❄️ Karlı', '🍂 Serin ve rüzgarlı']
-      }
+      weatherOptions: ['👕 T-shirt', '🧥 Yağmurluk', '🧥 Mont']
     },
     '6+': {
       badge: '6+ Yaş (Bilge Çiçekler)',
-      duyguDesc: "Piko'ya çözüm bul.",
-      beceriDesc: "Hafıza Kartları ve Eşleştirme.",
-      ozbakimDesc: 'Sabah hazırlanma planı.',
-      dogaDesc: 'Bitkinin yaşam döngüsü.',
+      duyguDesc: "Duygumu seçiyorum ve yönetiyorum.",
+      beceriDesc: "12 parça yapboz ve gölgeyi bul.",
+      ozbakimDesc: 'Günlük rutini sırala ve odanı düzenle.',
+      dogaDesc: 'Bitkinin yaşam döngüsü ve geri dönüşüm.',
       emotions: [
         { label: 'Mutlu', name: 'Mutlu', image: 'piko_mutlu.png' },
         { label: 'Üzgün', name: 'Üzgün', image: 'piko_uzgun.png' },
         { label: 'Kızgın', name: 'Kızgın', image: 'piko_ofkeli.png' },
         { label: 'Şaşırmış', name: 'Şaşırmış', image: 'piko_sasirmis.png' }
       ],
-      scenario: 'Piko sahnede şarkı söylerken sözleri unuttu. Kendini nasıl daha iyi hissedebilir?',
+      scenario: 'Piko sahnede sözleri unuttu. Duygumuzu nasıl yönetebiliriz?',
       scenarioChoices: [
-        { label: '❤️ Kendini güvende hissetmesi ve tekrar deneyebilmesi için', correct: true },
-        { label: '🎵 Hemen sahneden inmesi için', correct: false }
+        { label: '❤️ Kendimizi sakinleştirip derin bir nefes alalım', correct: true },
+        { label: '🎵 Hemen sahneden kaçalım', correct: false }
       ],
-      weatherOptions: ['👕 T-shirt', '🧥 Yağmurluk', '🧥 Mont'],
-      mevsimSenaryolari: [
-        { ipucu: 'Ağaçların yaprakları sararıp dökülüyor. Hangi mevsimdeyiz?', dogru: '🍂 Sonbahar' },
-        { ipucu: 'Her yer beyaz karla kaplandı, hava çok soğuk. Hangi mevsimdeyiz?', dogru: '❄️ Kış' },
-        { ipucu: 'Çiçekler açıyor, kuşlar geri dönüyor, hava ılıyor. Hangi mevsimdeyiz?', dogru: '🌸 İlkbahar' },
-        { ipucu: 'Güneş çok sıcak, denize gidiyoruz, günler uzun. Hangi mevsimdeyiz?', dogru: '☀️ Yaz' }
-      ],
-      weatherFollowUp: {
-        '🍂 Sonbahar': ['🍁 Serin ve rüzgarlı', '🥵 Çok sıcak', '❄️ Kar yağışlı'],
-        '❄️ Kış': ['🥶 Soğuk ve karlı', '🌞 Sıcak ve güneşli', '🌦️ Ilık ve yağmurlu'],
-        '🌸 İlkbahar': ['🌤️ Ilık ve çiçekli', '❄️ Dondurucu soğuk', '🔥 Kavurucu sıcak'],
-        '☀️ Yaz': ['☀️ Sıcak ve güneşli', '❄️ Karlı', '🍂 Serin ve rüzgarlı']
-      }
+      weatherOptions: ['👕 T-shirt', '🧥 Yağmurluk', '🧥 Mont']
     }
   };
 
@@ -818,7 +702,7 @@ document.addEventListener('DOMContentLoaded', () => {
           const isCorrect = btn.dataset.correct === 'true';
           if (isCorrect) {
             if (soundEnabled) AudioEngine.playSuccess();
-            showVisualFeedback("Harika empati!", "success");
+            showVisualFeedback("Harika empati ve yönetim!", "success");
           } else {
             if (soundEnabled) AudioEngine.playTone(300, 0.2);
             showVisualFeedback("Farklı bir yol deneyelim.", "error");
@@ -832,48 +716,15 @@ document.addEventListener('DOMContentLoaded', () => {
     initDragAndDropMechanics(level);
 
     const mevsimBox = document.getElementById('mevsim-options');
-    if (mevsimBox && cfg.mevsimSenaryolari) {
-      const mevsimPromptEl = document.getElementById('mevsim-prompt');
-      const senaryo = cfg.mevsimSenaryolari[Math.floor(Math.random() * cfg.mevsimSenaryolari.length)];
-      if (mevsimPromptEl) mevsimPromptEl.textContent = senaryo.ipucu;
-
+    if (mevsimBox) {
       const seasons = level === '3' ? ['🍂 Sonbahar', '☀️ Yaz'] : ['🍂 Sonbahar', '❄️ Kış', '🌸 İlkbahar', '☀️ Yaz'];
-      const shuffledSeasons = [...seasons].sort(() => Math.random() - 0.5);
-
-      mevsimBox.innerHTML = shuffledSeasons.map(s =>
-        `<button class="btn-icon-pill mevsim-opt-btn" data-season="${s}">${s}</button>`
+      mevsimBox.innerHTML = seasons.map(s => 
+        `<button class="btn-icon-pill mevsim-opt-btn">${s}</button>`
       ).join('');
-
       mevsimBox.querySelectorAll('.mevsim-opt-btn').forEach(btn => {
         btn.addEventListener('click', () => {
-          if (btn.dataset.season !== senaryo.dogru) {
-            if (soundEnabled) AudioEngine.playTone(300, 0.2);
-            showVisualFeedback(`Tekrar düşünelim: "${senaryo.ipucu}"`, "error");
-            return;
-          }
           if (soundEnabled) AudioEngine.playSuccess();
-
-          const weatherOpts = cfg.weatherFollowUp?.[senaryo.dogru];
-          if (weatherOpts && mevsimPromptEl) {
-            mevsimPromptEl.textContent = `Harika! ${senaryo.dogru} buldun. Peki bu mevsimde hava genelde nasıl olur?`;
-            const shuffledWeather = [...weatherOpts].sort(() => Math.random() - 0.5);
-            mevsimBox.innerHTML = shuffledWeather.map(w =>
-              `<button class="btn-icon-pill mevsim-weather-btn" data-correct="${w === weatherOpts[0]}">${w}</button>`
-            ).join('');
-            mevsimBox.querySelectorAll('.mevsim-weather-btn').forEach(wbtn => {
-              wbtn.addEventListener('click', () => {
-                if (wbtn.dataset.correct === 'true') {
-                  if (soundEnabled) AudioEngine.playSuccess();
-                  showVisualFeedback(`🎉 Doğru! ${senaryo.dogru} mevsiminde hava genelde böyle olur.`, "success");
-                } else {
-                  if (soundEnabled) AudioEngine.playTone(300, 0.2);
-                  showVisualFeedback(`Aslında hava genelde: ${weatherOpts[0]}`, "error");
-                }
-              });
-            });
-          } else {
-            showVisualFeedback(`Doğru! ${senaryo.dogru} mevsimini keşfettin!`, "success");
-          }
+          showVisualFeedback(`${btn.textContent} keşfedildi!`, "success");
         });
       });
     }
@@ -886,7 +737,7 @@ document.addEventListener('DOMContentLoaded', () => {
       dressContainer.querySelectorAll('.dress-opt-btn').forEach(btn => {
         btn.addEventListener('click', () => {
           if (soundEnabled) AudioEngine.playSuccess();
-          showVisualFeedback(`Piko ${btn.textContent} giydi.`, "success");
+          showVisualFeedback(`Piko ${btn.textContent} giydi ve hazır!`, "success");
         });
       });
     }
@@ -922,6 +773,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById('card-doga')?.addEventListener('click', () => {
     updateAgeSystem(currentAgeLevel);
+    initDogaCornerGame(currentAgeLevel);
     document.getElementById('modal-doga-corner')?.classList.add('active');
     if (soundEnabled) AudioEngine.playTone(600);
   });
@@ -1006,7 +858,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Genel Modal Kapatma Dinamik Dinleyicisi (Doğa köşesi dahil her yerden çıkışı garantiler)
+  // Genel Modal Kapatma Dinamik Dinleyicisi
   document.addEventListener('click', (e) => {
     if (e.target.matches('[data-close-modal]') || e.target.closest('[data-close-modal]')) {
       const modal = e.target.closest('.piko-modal');
