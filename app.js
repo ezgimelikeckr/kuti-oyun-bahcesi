@@ -584,7 +584,7 @@ document.querySelectorAll('#app-launch-overlay .keypad-btn').forEach(btn => {
         { label: 'Mutlu', name: 'Mutlu', image: 'piko_mutlu.png' },
         { label: 'Üzgün', name: 'Üzgün', image: 'piko_uzgun.png' },
         { label: 'Öfkeli', name: 'Öfkeli', image: 'piko_ofkeli.png' },
-        { label: 'Şaşırmış', name: 'Şaşırmış', image: 'piko_sasirmis.png' },
+        { label: 'Şaşırmış', name: 'Şaşırmış', image: 'piko_saskin.png' },
         { label: 'Utangaç', name: 'Utangaç', image: 'piko_utangac.png' },
         { label: 'Meraklı', name: 'Meraklı', image: 'piko_merakli.png' },
         { label: 'Korkmuş', name: 'Korkmuş', image: 'piko_korkmus.png' },
