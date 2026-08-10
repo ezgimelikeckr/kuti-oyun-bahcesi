@@ -943,4 +943,4 @@ document.querySelectorAll('.time-opt-btn').forEach(btn => {
       alert(`Güneş Yolu (Ekran Süresi) ${mins} dakika olarak ayarlandı!`);
     });
   });
-);
+
