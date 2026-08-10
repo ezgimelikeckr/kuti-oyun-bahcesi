@@ -728,7 +728,7 @@ document.querySelectorAll('#app-launch-overlay .keypad-btn').forEach(btn => {
 
   updateAgeSystem('4-5');
 
-  // 9. MODAL TRIGGERS FOR THE 4 CORNERS
+// 9. MODAL TRIGGERS FOR THE 4 CORNERS (Eksik Olan Tıklama Dinleyicileri)
   document.getElementById('card-duygu')?.addEventListener('click', () => {
     updateAgeSystem(currentAgeLevel);
     document.getElementById('modal-duygu-corner')?.classList.add('active');
@@ -753,7 +753,7 @@ document.querySelectorAll('#app-launch-overlay .keypad-btn').forEach(btn => {
     document.getElementById('modal-doga-corner')?.classList.add('active');
     if (soundEnabled) AudioEngine.playTone(600);
   });
-
+   
  // 10. EBEVEYN KÖŞESİ KESİN AÇMA MEKANİZMASi
   const parentBtn = document.getElementById('parent-corner-btn');
   const parentModal = document.getElementById('modal-parent-corner');
