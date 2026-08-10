@@ -1,5 +1,9 @@
 /* ==========================================================================
-   PIKO CHILD EDUCATION DASHBOARD - DOĞA KÖŞESİ DÜZELTİLMİŞ APP LOGIC
+   PIKO CHILD EDUCATION DASHBOARD - FINAL CRITICAL FIXES
+   - Büyük ve erişilebilir 6 yaş hafıza kartları
+   - Düzeltilmiş macun -> fırça -> diş akışı
+   - Doğa köşesi modal kapanma ve çıkış sorununun giderilmesi
+   - 6 yaş öz bakımda netleşmiş planlama akışı
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -11,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!box) {
       box = document.createElement("div");
       box.id = "piko-visual-feedback-card";
-      box.style.cssText = "position: absolute; top: 12px; left: 50%; transform: translateX(-50%); background: #E0F2F1; border: 2px solid #00796B; color: #004D40; padding: 8px 16px; border-radius: 20px; font-weight: 700; z-index: 99999; opacity: 0; transition: opacity 0.3s ease, transform 0.3s ease; pointer-events: none; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.12); font-size: 0.85rem;";
+      box.style.cssText = "position: absolute; top: 12px; left: 50%; transform: translateX(-50%); background: #E0F2F1; border: 2px solid #00796B; color: #004D40; padding: 10px 20px; border-radius: 20px; font-weight: 700; z-index: 99999; opacity: 0; transition: opacity 0.3s ease, transform 0.3s ease; pointer-events: none; display: flex; align-items: center; gap: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.12); font-size: 0.9rem;";
       document.body.appendChild(box);
     }
 
@@ -25,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     box.style.color = textColor;
 
     box.innerHTML = `
-      <img src="${pikoIconImg}" alt="Piko" style="width: 28px; height: 28px; border-radius: 50%; object-fit: cover; border: 1.5px solid ${borderColor};">
+      <img src="${pikoIconImg}" alt="Piko" style="width: 30px; height: 30px; border-radius: 50%; object-fit: cover; border: 1.5px solid ${borderColor};">
       <span>${message}</span>
     `;
 
@@ -324,6 +328,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setVisualEmotionMirror(pool[randomIndex]);
   }
 
+  // BECERİ KÖŞESİ (6 Yaş için büyütülmüş Hafıza Kartları eklendi)
   function initBeceriGame(level) {
     const beceriContainer = document.getElementById('sirala-grid');
     if (!beceriContainer) return;
@@ -392,16 +397,16 @@ document.addEventListener('DOMContentLoaded', () => {
       renderSirala();
 
     } else {
+      // 6 Yaş: Büyütülmüş Rahat Oynanabilir Hafıza Kartları
       beceriContainer.innerHTML = `
         <div style="width:100%; text-align:center;">
-          <p style="font-size:0.82rem; font-weight:700; color:#2E7D32; margin-bottom:0.4rem;">🧠 Hafıza Kartları (Kartları Eşleştir)</p>
-          <div id="memory-cards-grid" style="display:flex; gap:0.4rem; justify-content:center; margin-bottom:0.5rem;">
-            <button class="btn-icon-pill memory-card" data-match="1" style="padding:0.4rem 0.6rem;">❓</button>
-            <button class="btn-icon-pill memory-card" data-match="2" style="padding:0.4rem 0.6rem;">❓</button>
-            <button class="btn-icon-pill memory-card" data-match="1" style="padding:0.4rem 0.6rem;">❓</button>
-            <button class="btn-icon-pill memory-card" data-match="2" style="padding:0.4rem 0.6rem;">❓</button>
+          <p style="font-size:0.85rem; font-weight:700; color:#2E7D32; margin-bottom:0.6rem;">🧠 Hafıza Kartları (Eşini Bul)</p>
+          <div id="memory-cards-grid" style="display:flex; gap:0.8rem; justify-content:center; margin-bottom:0.5rem;">
+            <button class="btn-icon-pill memory-card" data-match="1" style="padding:0.8rem 1.2rem; font-size:1.5rem;">❓</button>
+            <button class="btn-icon-pill memory-card" data-match="2" style="padding:0.8rem 1.2rem; font-size:1.5rem;">❓</button>
+            <button class="btn-icon-pill memory-card" data-match="1" style="padding:0.8rem 1.2rem; font-size:1.5rem;">❓</button>
+            <button class="btn-icon-pill memory-card" data-match="2" style="padding:0.8rem 1.2rem; font-size:1.5rem;">❓</button>
           </div>
-          <p id="memory-result-text" style="font-size:0.8rem; font-weight:600; color:#E65100;"></p>
         </div>`;
       
       let openedCards = [];
@@ -425,7 +430,7 @@ document.addEventListener('DOMContentLoaded', () => {
                   c.classList.remove('open');
                 });
                 openedCards = [];
-              }, 600);
+              }, 700);
             }
           }
         });
@@ -531,6 +536,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (brush && teethZone) {
       if (level === '6+') {
+        // 6 Yaş: Sadece Planlama (Diş Fırçalama karmaşası kaldırıldı)
         teethZone.parentElement.innerHTML = `
           <div style="width:100%; text-align:center;">
             <p style="font-size:0.85rem; font-weight:700; color:#E65100; margin-bottom:0.4rem;">Piko'nun Sabah Hazırlanma Planını Oluştur:</p>
@@ -539,6 +545,7 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
           </div>`;
       } else {
+        // 3 ve 4-5 Yaş: Düzeltilmiş Macun -> Fırça -> Diş Akışı
         if (mouthEmoji) mouthEmoji.textContent = '🦠🦷🦠';
 
         const brushContainer = brush.parentElement;
@@ -641,18 +648,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // --- DOĞA KÖŞESİ DÜZELTİLMİŞ MODAL RENDER ---
+  // --- DOĞA KÖŞESİ HATASIZ ÇIKIŞ VE RENDER ---
   function initDogaCornerGame(level) {
     const dogaModalBox = document.getElementById('modal-doga-corner');
     if (!dogaModalBox) return;
     
     const innerBox = dogaModalBox.querySelector('.modal-content-box');
     if (innerBox) {
-      // Yaş seviyesine göre mantıklı ve temiz içerik
-      let plantHtml = level === '3' 
-        ? `<p style="font-size: 0.82rem; color: #00695C; margin-bottom: 0.4rem;">Minik Tohum 🌱</p>`
-        : `<p style="font-size: 0.82rem; color: #00695C; margin-bottom: 0.4rem;" id="plant-visual-display">🌱</p>`;
-
       innerBox.innerHTML = `
         <button class="modal-close-btn" data-close-modal>✕</button>
         <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.75rem;">
@@ -674,7 +676,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         <div style="background: #FFF; border: 2px solid #B2DFDB; padding: 0.85rem; border-radius: 16px; text-align: center;">
           <h4 style="color: #004D40; margin-bottom: 0.35rem; font-size: 0.92rem;">🌻 Piko'nun Bahçesi (Bitki Bakımı)</h4>
-          ${plantHtml}
+          <p style="font-size: 0.8rem; color: #00695C; margin-bottom: 0.5rem;" id="plant-visual-display">🌱</p>
         </div>`;
     }
   }
@@ -720,8 +722,8 @@ document.addEventListener('DOMContentLoaded', () => {
     '6+': {
       badge: '6+ Yaş (Bilge Çiçekler)',
       duyguDesc: "Piko'ya çözüm bul.",
-      beceriDesc: "Piko'nun hikâyesi ve Hafıza Kartları.",
-      ozbakimDesc: 'Sabah rutinini sırala.',
+      beceriDesc: "Hafıza Kartları ve Eşleştirme.",
+      ozbakimDesc: 'Sabah hazırlanma planı.',
       dogaDesc: 'Bitkinin yaşam döngüsü.',
       emotions: [
         { label: 'Mutlu', name: 'Mutlu', image: 'piko_mutlu.png' },
@@ -946,11 +948,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  document.querySelectorAll('[data-close-modal]').forEach(btn => {
-    btn.addEventListener('click', (e) => {
+  // Genel Modal Kapatma Dinamik Dinleyicisi (Doğa köşesi dahil her yerden çıkışı garantiler)
+  document.addEventListener('click', (e) => {
+    if (e.target.matches('[data-close-modal]') || e.target.closest('[data-close-modal]')) {
       const modal = e.target.closest('.piko-modal');
       if (modal) modal.classList.remove('active');
-    });
+    }
   });
 
   const tabBtns = document.querySelectorAll('.tab-btn');
