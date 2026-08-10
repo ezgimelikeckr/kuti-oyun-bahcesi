@@ -105,10 +105,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let currentMathAnswer = 0;
   let enteredMathInput = '';
-  let plantStageIndex = 0;
-  const plantVisualStages = ['🌱', '🌿', '🌻', '🌳'];
 
-  // --- ANA SAYFA "BUGÜN NASİLSİN?" ETKİLEŞİMİ ---
+  // --- ANA SAYFA "BUGÜN NASIL HİSSEDİYORSUN?" ETKİLEŞİMİ ---
   const moodButtons = document.querySelectorAll('.mood-btn');
   const pikoSpeechText = document.getElementById('piko-speech-text');
 
@@ -279,7 +277,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // --- BECERİ KÖŞESİ MOTORU (YAŞA GÖRE DİNAMİK) ---
+  // --- BECERİ KÖŞESİ MOTORU (İnteraktif Sırala Bul & Dinamik Yapboz) ---
   function initBeceriGame(level) {
     const siralaContainer = document.getElementById('sirala-grid');
     const siralaPrompt = document.getElementById('sirala-prompt');
@@ -586,6 +584,101 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // --- DUYGU KÖŞESİ DİNAMİK RENDER ---
+  function initDuyguCornerGame(level) {
+    const duyguModalBox = document.getElementById('modal-duygu-corner');
+    if (!duyguModalBox) return;
+    const box = duyguModalBox.querySelector('.modal-content-box');
+    if (!box) return;
+
+    box.innerHTML = `
+      <button class="modal-close-btn" data-close-modal>✕</button>
+      <h3 style="color: var(--pastel-red-main); margin-bottom: 0.35rem;">❤️ Duygu Köşesi</h3>
+      <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.75rem;">Görsel Yüz İfadesi Aynası & Empati Senaryoları</p>
+
+      <div class="emotion-mirror-frame" style="margin-bottom: 0.75rem;">
+        <h4 style="color: #D32F2F; font-size: 0.95rem;">🪞 Duygu Aynası (Piko Ne Hissediyor?)</h4>
+        <div style="position: relative; text-align:center;">
+          <img src="piko_mascot.jpg" alt="Piko Face Expression" class="mirror-face-img" id="mirror-face-img" style="width:90px; height:90px; border-radius:50%; object-fit:cover; margin: 0.5rem auto;">
+          <p style="font-size: 0.85rem; font-weight: 700; color: #5D4037;" id="mirror-prompt-text">
+            ${level === '3' ? 'Piko nasıl hissediyor? (Dokun ve gör)' : level === '6+' ? 'Piko odasını toplamak istemiyor. Sence ne yapmalı?' : 'Piko\'nun yüz ifadesine dikkatlice bak! Sence Piko şu an nasıl hissediyor?'}
+          </p>
+          <div id="duygu-mirror-options" style="display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center; margin-top:0.5rem;">
+            ${level === '3' ? `
+              <button class="btn-icon-pill" onclick="if(soundEnabled)AudioEngine.playSuccess();alert('😊 Mutlu yüz seçildi!')">😊 Mutlu</button>
+              <button class="btn-icon-pill" onclick="if(soundEnabled)AudioEngine.playSuccess();alert('😢 Üzgün yüz seçildi!')">😢 Üzgün</button>
+              <button class="btn-icon-pill" onclick="if(soundEnabled)AudioEngine.playSuccess();alert('😡 Kızgın yüz seçildi!')">😡 Kızgın</button>
+            ` : level === '6+' ? `
+              <button class="btn-icon-pill" onclick="alert('✅ Harika! Önce toparlayıp sonra oynamak en doğru plandır.')">🧹 Toparla, sonra oyna</button>
+              <button class="btn-icon-pill" onclick="alert('Dağınıklık eşyaların kaybolmasına yol açar.')">❌ Dağınık bırak</button>
+            ` : `
+              <button class="btn-icon-pill" onclick="alert('🎉 Doğru! Piko mutlu.')">😊 Mutlu</button>
+              <button class="btn-icon-pill" onclick="alert('Tekrar dene!')">😢 Üzgün</button>
+            `}
+          </div>
+        </div>
+      </div>
+
+      <div style="background: #FFF; border: 2px solid #FFCDD2; padding: 0.75rem; border-radius: 16px;">
+        <h4 style="color: #D32F2F; margin-bottom: 0.35rem; font-size: 0.9rem;">📖 Piko'nun Günü (Duygusal Senaryo)</h4>
+        <p style="font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4rem;" id="duygu-scenario-text">
+          ${level === '6+' ? 'Piko sahnede şarkı söylerken sözleri unuttu. Ona nasıl destek oluruz?' : 'Piko dondurmasını yere düşürdü. Ne hissediyor olabilir?'}
+        </p>
+        <div id="duygu-scenario-choices" style="display: flex; flex-direction: column; gap: 0.35rem;">
+          <button class="btn-icon-pill" onclick="alert('🎉 Tebrikler! Empatili harika bir çözüm buldun!')">${level === '6+' ? '👏 Alkışlayarak cesaret verelim' : '😢 Üzüldü, sarılalım'}</button>
+        </div>
+      </div>`;
+  }
+
+  // --- ÖZ BAKIM KÖŞESİ MODAL RENDER ---
+  function initOzBakimCornerGame(level) {
+    const ozbakimModalBox = document.getElementById('modal-ozbakim-corner');
+    if (!ozbakimModalBox) return;
+    const box = ozbakimModalBox.querySelector('.modal-content-box');
+    if (!box) return;
+
+    box.innerHTML = `
+      <button class="modal-close-btn" data-close-modal>✕</button>
+      <h3 style="color: var(--pastel-orange-main); margin-bottom: 0.35rem;">🪥 Öz Bakım Köşesi</h3>
+      <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.75rem;">Günlük Yaşam Becerileri ve Temizlik</p>
+
+      <div style="background: #FFF3E0; padding: 0.85rem; border-radius: 16px; margin-bottom: 0.75rem; text-align: center;">
+        <h4 style="color: #E65100; font-size: 0.95rem; margin-bottom: 0.35rem;">🪥 Diş Fırçalama Zamanı</h4>
+        <div id="ozbakim-interactive-area">
+          ${level === '6+' ? `
+            <p style="font-size:0.85rem; font-weight:700; color:#E65100; margin-bottom:0.4rem;">Piko'nun Sabah Rutini Sırala:</p>
+            <div id="ozbakim-step-1" style="display:flex; gap:6px; justify-content:center; flex-wrap:wrap; margin-bottom:0.5rem;">
+              <button class="btn-icon-pill" onclick="alert('Önce karnımızı doyurmalıyız, kahvaltıdan sonra diş fırçalayalım! 🍳')">1. Diş Fırçala</button>
+              <button class="btn-icon-pill" onclick="document.getElementById('ozbakim-step-1').style.display='none'; document.getElementById('ozbakim-step-2').style.display='block'; if(soundEnabled) AudioEngine.playSuccess();">2. Kahvaltı Yap</button>
+            </div>
+            
+            <div id="ozbakim-step-2" style="display:none; text-align:center;">
+              <p style="font-size:0.78rem; font-weight:700; color:#D32F2F;">Harika! Şimdi kahvaltı bitti. Neden hemen ardından diş fırçalamalıyız?</p>
+              <div style="display:flex; gap:4px; justify-content:center; flex-direction:column; align-items:center;">
+                <button class="btn-icon-pill" style="width:90%;" onclick="alert('🎉 Kesinlikle! Yemek artıklarını temizlemek dişlerimizi mikroplardan korur. 🦷✨'); document.getElementById('ozbakim-step-2').innerHTML='<p style=color:#4CAF50;font-weight:bold;>Piko pırıl pırıl dişlerle gülümsüyor! 😁</p>';">🍎 Yemek artıklarını temizlemek için</button>
+                <button class="btn-icon-pill" style="width:90%;" onclick="alert('Vaktimiz olsa da asıl sebep diş sağlığıdır.')">⏰ Vaktimiz olduğu için</button>
+              </div>
+            </div>
+          ` : `
+            <p style="font-size: 0.82rem; color: #6D4C41; margin-bottom: 0.75rem;">Fırçayı tut ve Piko'nun dişlerinin üzerine sürükle!</p>
+            <div style="display: flex; align-items: center; justify-content: space-around; background: #FFF; padding: 0.75rem; border-radius: 16px; border: 2px dashed #FFB74D;">
+              <div style="font-size: 2.8rem;">🪥</div>
+              <div style="font-size: 2.8rem;" id="mouth-target-emoji">😁</div>
+            </div>
+          `}
+        </div>
+      </div>
+
+      <div style="background: #FFF; border: 2px solid #FFE082; padding: 0.75rem; border-radius: 16px;">
+        <h4 style="color: #E65100; margin-bottom: 0.35rem; font-size: 0.9rem;">👕 Piko Giyiniyor (Hava Durumu Eşleştirme)</h4>
+        <p style="font-size: 0.82rem; margin-bottom: 0.4rem;">Bugün hava Yağmurlu 🌧️! Piko'ya ne giydirelim?</p>
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          <button class="btn-icon-pill" onclick="alert('Doğru! Yağmurluk giydirdik 🌧️')">🌧️ Yağmurluk</button>
+          <button class="btn-icon-pill" onclick="alert('Hava yağmurlu, t-shirt üşütür.')">☀️ T-shirt</button>
+        </div>
+      </div>`;
+  }
+
   // DYNAMIC AGE CONFIG
   const ageConfig = {
     '3': { badge: '3 Yaş (Minik Keşifçiler)', duyguTitle: 'Piko’nun Duygu Yüzleri', ozbakimTitle: 'Piko Ellerini Yıkıyor', dogaTitle: 'Piko Hava Durumunu Buluyor', beceriTitle: 'Piko’nun Renk Balonları' },
@@ -607,7 +700,6 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('doga-desc').textContent = cfg.dogaTitle;
 
     initBeceriGame(level);
-    initDragAndDropMechanics(level);
   }
 
   document.querySelectorAll('input[name="age-group"]').forEach(radio => {
@@ -619,9 +711,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   updateAgeSystem('4-5');
 
-  // Modal Tetikleyiciler
+  // Modal Tetikleyiciler (Güncellenmiş Dinamik Fonksiyon Çağrıları ile)
   document.getElementById('card-duygu')?.addEventListener('click', () => {
     updateAgeSystem(currentAgeLevel);
+    initDuyguCornerGame(currentAgeLevel);
     document.getElementById('modal-duygu-corner')?.classList.add('active');
     if (soundEnabled) AudioEngine.playTone(600);
   });
@@ -635,6 +728,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById('card-ozbakim')?.addEventListener('click', () => {
     updateAgeSystem(currentAgeLevel);
+    initOzBakimCornerGame(currentAgeLevel);
     document.getElementById('modal-ozbakim-corner')?.classList.add('active');
     if (soundEnabled) AudioEngine.playTone(600);
   });
