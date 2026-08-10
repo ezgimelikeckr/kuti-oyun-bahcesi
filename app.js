@@ -754,7 +754,7 @@ document.querySelectorAll('#app-launch-overlay .keypad-btn').forEach(btn => {
     if (soundEnabled) AudioEngine.playTone(600);
   });
    
- // 10. EBEVEYN KÖŞESİ KESİN AÇMA MEKANİZMASi
+// 10. EBEVEYN KÖŞESİ & PIN YÖNETİMİ
   const parentBtn = document.getElementById('parent-corner-btn');
   const parentModal = document.getElementById('modal-parent-corner');
   const pinView = document.getElementById('pin-view');
@@ -768,9 +768,15 @@ document.querySelectorAll('#app-launch-overlay .keypad-btn').forEach(btn => {
     document.getElementById('p-dot-4')
   ];
 
- let currentDynamicPin = '';
+  let currentDynamicPin = '';
   let enteredPin = '';
- 
+
+  function updatePinDots() {
+    pinDots.forEach((dot, idx) => {
+      if (dot) dot.style.background = idx < enteredPin.length ? '#FF7043' : '#DDD';
+    });
+  }
+
   function generateNewPin() {
     const d1 = Math.floor(Math.random() * 9) + 1;
     const d2 = Math.floor(Math.random() * 9) + 1;
@@ -787,38 +793,60 @@ document.querySelectorAll('#app-launch-overlay .keypad-btn').forEach(btn => {
       e.preventDefault();
       generateNewPin();
       enteredPin = '';
-       updatePinDots();
-      if (pinErrorMsg) pinErrorMsg.textContent ='';
+      updatePinDots();
+      if (pinErrorMsg) pinErrorMsg.textContent = '';
       
-      // Pin ekranını göster, dashboard'u gizle
       if (pinView) {
         pinView.style.display = 'flex';
         pinView.style.flexDirection = 'column';
       }
       if (parentDashboardView) parentDashboardView.style.display = 'none';
       
-      // Modalı ekrana zorla getir (Hem sınıf ekle hem inline flex ver)
       parentModal.classList.add('active');
-      parentModal.style.display = 'flex'; 
-
       if (soundEnabled) AudioEngine.playTone(500);
     });
   }
-  // Modal Close buttons & Absolute Safety Reload
+
+  document.querySelectorAll('#modal-parent-corner .keypad-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (enteredPin.length < 4) {
+        enteredPin += btn.textContent.trim();
+        updatePinDots();
+        if (soundEnabled) AudioEngine.playTone(600, 0.1);
+
+        if (enteredPin.length === 4) {
+          if (enteredPin === currentDynamicPin) {
+            if (soundEnabled) AudioEngine.playSuccess();
+            if (pinView) pinView.style.display = 'none';
+            if (parentDashboardView) {
+              parentDashboardView.style.display = 'flex';
+              parentDashboardView.style.flexDirection = 'column';
+            }
+            const firstTabBtn = document.querySelector('.parent-tabs-nav .tab-btn');
+            if (firstTabBtn) firstTabBtn.click();
+          } else {
+            if (pinErrorMsg) pinErrorMsg.textContent = 'Hatalı Kod! Lütfen gösterilen 4 rakamı girin.';
+            setTimeout(() => {
+              enteredPin = '';
+              updatePinDots();
+            }, 800);
+          }
+        }
+      }
+    });
+  });
+
+  // GÜVENLİ MODAL KAPATMA
   document.querySelectorAll('[data-close-modal]').forEach(btn => {
     btn.addEventListener('click', (e) => {
       const modal = e.target.closest('.piko-modal');
       if (modal) {
         modal.classList.remove('active');
-        modal.style.display = 'none';
       }
-      // Arka plan kilidi kalmasın diye sayfayı tazeleyip her şeyi tertemiz yapıyoruz
-      setTimeout(() => {
-        location.reload();
-      }, 100);
     });
   });
-  // --- EBEVEYN PANELİ SEKMELERİNİN KUSURSUZ YÖNETİMİ ---
+
+  // TABS MANAGEMENT
   const tabBtns = document.querySelectorAll('.tab-btn');
   const tabPanes = document.querySelectorAll('.tab-pane');
 
@@ -835,17 +863,10 @@ document.querySelectorAll('#app-launch-overlay .keypad-btn').forEach(btn => {
       if (parentDashboardView) {
         parentDashboardView.scrollTop = 0;
       }
-      
       if (soundEnabled) AudioEngine.playTone(550);
     });
   });
 
-  // Sayfa açıldığında ilk sekmenin aktif olduğundan emin ol
-  if (tabPanes.length > 0 && !document.querySelector('.tab-pane.active')) {
-    tabPanes[0].classList.add('active');
-  }
-
-  // Force Sleep Test Button in Parent Panel
   const btnForceSleep = document.getElementById('btn-force-sleep');
   if (btnForceSleep) {
     btnForceSleep.addEventListener('click', () => {
@@ -855,7 +876,6 @@ document.querySelectorAll('#app-launch-overlay .keypad-btn').forEach(btn => {
     });
   }
 
-  // Time Option Buttons in Parent Panel
   document.querySelectorAll('.time-opt-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const mins = parseInt(btn.dataset.time, 10);
@@ -864,28 +884,7 @@ document.querySelectorAll('#app-launch-overlay .keypad-btn').forEach(btn => {
       updateSunPosition();
       startSunJourney();
       alert(`Güneş Yolu (Ekran Süresi) ${mins} dakika olarak ayarlandı!`);
-   
-       // --- KÖŞELERIN AÇILMASINI VE TIKLANABİLİRLİĞİ GARANTİLEYEN ACİL YAMA ---
-  document.querySelectorAll('.category-card').forEach(card => {
-    card.addEventListener('click', (function() {
-      const cat = this.dataset.category;
-      const modalId = 'modal-' + cat + '-corner';
-      const targetModal = document.getElementById(modalId);
-      
-      // Kilitli overlay'leri ve perdeleri zorla temizle
-      document.querySelectorAll('.piko-modal').forEach(m => m.classList.remove('active'));
-      const launchOvl = document.getElementById('app-launch-overlay');
-      if (launchOvl) {
-        launchOvl.classList.add('unlocked');
-        launchOvl.remove();
-      }
-
-      if (targetModal) {
-        targetModal.classList.add('active');
-        targetModal.style.display = 'flex';
-      }
-    }));
+    });
   });
+
 });
-  
-  
