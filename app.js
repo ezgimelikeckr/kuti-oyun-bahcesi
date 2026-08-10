@@ -8,6 +8,7 @@
    - Fixed Full-Screen No-Scroll Parent Dashboard Tabs
    - ZPD (Vygotsky) Tabanlı 6+ Yaş Gerekçelendirme Soruları (Öz Bakım & Doğa)
    - DÜZELTİLDİ: Rastgele Duygu Aynası ve Doğru/Yanlış Empati Kontrolü
+   - DİNAMİK: Her Güne Değişen Çocuk Kitapları Seçkisi
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -106,11 +107,70 @@ document.addEventListener('DOMContentLoaded', () => {
   let sunTimerDuration = 120;
   let sunInterval = null;
 
-  // --- Ebeveyn Güvenlik Doğrulaması (Dinamik Matematik Sorusu Mantığı) ---
   let currentMathAnswer = 0;
   let enteredMathInput = '';
   let plantStageIndex = 0;
   const plantVisualStages = ['🌱', '🌿', '🌻', '🌳'];
+
+  // --- GÜNÜN ÇOCUK KİTAPLARINI DİNAMİK SEÇEN FONKSİYON ---
+  function loadDailyChildrenBooks() {
+    const duyguBooks = [
+      "Unutulan Araba / Duygularımı Fark Ediyorum 3 (Tuğba Akbey İnan)[cite: 4]",
+      "Öykülerle Duygusal Zeka Eğitimi: Tali Kendine Güveniyor (Berrin Göncü Işıkoğlu)[cite: 4]",
+      "Eyvah Kalbim Kırıldı (Elif Yemenici)[cite: 4]",
+      "Arkadaşım Korku (Francesca Sanna)[cite: 4]",
+      "Kıskanç Kurbağa Eda (Tülin Kozikoğlu)[cite: 4]",
+      "Bob Endişe Etmemeyi Öğretiyor (Matthew Morgan)[cite: 4]",
+      "Renklerin Ötesinde (Anna Llenas)[cite: 4]",
+      "Kırmızı Kırmızı Öfkeliyim (Molly Bang)[cite: 4]"
+    ];
+
+    const beceriBooks = [
+      "Nokta (Peter H. Reynolds)[cite: 4]",
+      "Bob ve Mavi Sanatı (Marion Deuchars)[cite: 4]",
+      "Sol Sağ Kitabım (Şiirsel Taş)[cite: 4]",
+      "Minik Sayılar (Volkan Göker)[cite: 4]",
+      "Kitap Tamircisi Toprak (Ezgi Berk)[cite: 4]",
+      "Aç Tırtıl (Eric Carle)[cite: 4]",
+      "Bu Bir Kutu Değil (Antoinette Portis)[cite: 4]"
+    ];
+
+    const ozbakimBooks = [
+      "Öykülerle Davranış Eğitimi Seti: Tali Ellerini Yıkıyor (Berrin Göncü Işıkoğlu)[cite: 4]",
+      "Diş Hekiminde (Anne Civardi)[cite: 4]",
+      "Sağlık Hikayeleri: Kaan'ın Sallanan Dişi (Ezgi Perktaş)[cite: 4]",
+      "Temiz (Emily Gravett)[cite: 4]",
+      "Kendi Yatağımda Uyumayacağım! (Alberto Pellai)[cite: 4]",
+      "Potty (Leslie Patricelli)[cite: 4]"
+    ];
+
+    const dogaBooks = [
+      "Minik Tohum (Eric Carle)[cite: 4]",
+      "Haydi Sayalım Elmalar (Joan Holub)[cite: 4]",
+      "Çevremize Özen Göstermek (Aleix Cabrera)[cite: 4]",
+      "Şehirdeki Son Ağaç (Peter Carnavas)[cite: 4]",
+      "Can Dostumuz Ağaçlar (Su-bok Choi)[cite: 4]",
+      "Gezegenimiz Dünya (Dr. Mike Goldsmith)[cite: 4]"
+    ];
+
+    const today = new Date();
+    const daySeed = today.getDate();
+
+    const selectedDuygu = duyguBooks[daySeed % duyguBooks.length];
+    const selectedBeceri = beceriBooks[daySeed % beceriBooks.length];
+    const selectedOzbakim = ozbakimBooks[daySeed % ozbakimBooks.length];
+    const selectedDoga = dogaBooks[daySeed % dogaBooks.length];
+
+    const container = document.getElementById('daily-kids-books-container');
+    if (container) {
+      container.innerHTML = `
+        <div><b>❤️ Duygu Adası Önerisi:</b> <i>${selectedDuygu}</i></div>
+        <div><b>🧩 Beceri Adası Önerisi:</b> <i>${selectedBeceri}</i></div>
+        <div><b>🪥 Öz Bakım Adası Önerisi:</b> <i>${selectedOzbakim}</i></div>
+        <div><b>🦋 Doğa Adası Önerisi:</b> <i>${selectedDoga}</i></div>
+      `;
+    }
+  }
 
   // 2. MANDATORY APP LAUNCH INITIAL ENTRY LOCK OVERLAY LOGIC
   const appLaunchOverlay = document.getElementById('app-launch-overlay');
@@ -135,7 +195,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   generateMathSecurityProblem();
 
-document.querySelectorAll('#app-launch-overlay .keypad-btn').forEach(btn => {
+  document.querySelectorAll('#app-launch-overlay .keypad-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const digit = btn.textContent.trim();
 
@@ -146,14 +206,14 @@ document.querySelectorAll('#app-launch-overlay .keypad-btn').forEach(btn => {
           mathInputDisplay.textContent = enteredMathInput;
         }
 
-        if (typeof soundEnabled !== 'undefined' && soundEnabled && typeof AudioEngine !== 'undefined') {
+        if (soundEnabled) {
           AudioEngine.playTone(432, 0.1);
         }
 
         const userResult = parseInt(enteredMathInput, 10);
 
         if (userResult === currentMathAnswer) {
-          if (typeof soundEnabled !== 'undefined' && soundEnabled && typeof AudioEngine !== 'undefined') {
+          if (soundEnabled) {
             AudioEngine.playSuccess();
           }
           if (appLaunchOverlay) {
@@ -186,7 +246,7 @@ document.querySelectorAll('#app-launch-overlay .keypad-btn').forEach(btn => {
     });
   }
 
-  // 3. GÜNEŞİN ÇİZGİLİ YOLU (TIME-PROPORTIONAL SUN TRACK)
+  // 3. GÜNEŞİN ÇİZGİLİ YOLU
   const sunProgressBar = document.getElementById('sun-progress-bar');
   const sunIcon = document.getElementById('sun-icon');
   const sunTimeText = document.getElementById('sun-time-text');
@@ -228,7 +288,6 @@ document.querySelectorAll('#app-launch-overlay .keypad-btn').forEach(btn => {
 
   startSunJourney();
 
-  // Unlock sleep mode
   const btnUnlockSleep = document.getElementById('btn-unlock-sleep');
   if (btnUnlockSleep) {
     btnUnlockSleep.addEventListener('click', () => {
@@ -241,7 +300,6 @@ document.querySelectorAll('#app-launch-overlay .keypad-btn').forEach(btn => {
     });
   }
 
-  // SURPRISE FLIP CARDS IN SLEEP MODE
   document.querySelectorAll('.flip-card').forEach(card => {
     card.addEventListener('click', () => {
       card.classList.toggle('flipped');
@@ -249,7 +307,7 @@ document.querySelectorAll('#app-launch-overlay .keypad-btn').forEach(btn => {
     });
   });
 
- // 4. DUYGU AYNASI (PİKO RESİM TABANLI SİSTEM)
+  // 4. DUYGU AYNASI
   let targetEmotion = { name: 'Mutlu', image: 'piko_mutlu.png', label: 'Mutlu' };
 
   function setVisualEmotionMirror(emotion) {
@@ -260,13 +318,11 @@ document.querySelectorAll('#app-launch-overlay .keypad-btn').forEach(btn => {
     if (mirrorFace) {
       mirrorFace.style.transform = 'scale(1.15) rotate(3deg)';
       setTimeout(() => mirrorFace.style.transform = 'scale(1)', 300);
-      
-      // Piko'nun o duyguya ait resim dosyası dinamik olarak yükleniyor
       mirrorFace.src = emotion.image; 
     }
     
     if (mirrorPrompt) {
-      mirrorPrompt.textContent = `Piko şu an nasıl hissediyor. Doğru yüz ifadesini seçebilir misin?`;
+      mirrorPrompt.textContent = `Piko'nun yüz ifadesine dikkatlice bak! Sence Piko şu an nasıl hissediyor?`;
     }
   }
 
@@ -276,7 +332,7 @@ document.querySelectorAll('#app-launch-overlay .keypad-btn').forEach(btn => {
     setVisualEmotionMirror(pool[randomIndex]);
   }
 
-  // 5. SIRALA BUL (KÜÇÜKTEN BÜYÜĞE) SHUFFLED INITIAL ORDER & INTERACTIVE REORDERING LOGIC
+  // 5. SIRALA BUL
   let siralaItemsData = [];
   let selectedSiralaItem = null;
 
@@ -292,7 +348,6 @@ document.querySelectorAll('#app-launch-overlay .keypad-btn').forEach(btn => {
     ];
 
     siralaItemsData = [...baseItems].sort(() => Math.random() - 0.5);
-
     renderSiralaGrid();
   }
 
@@ -316,7 +371,6 @@ document.querySelectorAll('#app-launch-overlay .keypad-btn').forEach(btn => {
       el.style.alignItems = 'center';
       el.style.justifyContent = 'center';
       el.textContent = item.label;
-      el.title = "Değiştirmek için tıkla veya sürükle";
 
       el.addEventListener('dragstart', (e) => {
         e.dataTransfer.setData('text/plain', index);
@@ -324,7 +378,6 @@ document.querySelectorAll('#app-launch-overlay .keypad-btn').forEach(btn => {
       });
 
       el.addEventListener('dragend', () => el.classList.remove('dragging'));
-
       el.addEventListener('dragover', (e) => e.preventDefault());
 
       el.addEventListener('drop', (e) => {
@@ -375,7 +428,7 @@ document.querySelectorAll('#app-launch-overlay .keypad-btn').forEach(btn => {
     }
   }
 
-  // 6. REAL CUT IMAGE JIGSAW PUZZLE SYSTEM (YAPBOZ GÖRSEL BÜTÜNLÜĞÜ)
+  // 6. JIGSAW PUZZLE
   function initRealImagePuzzle() {
     const puzzleBoard = document.getElementById('puzzle-board-grid');
     const puzzleBank = document.getElementById('puzzle-piece-bank');
@@ -403,7 +456,6 @@ document.querySelectorAll('#app-launch-overlay .keypad-btn').forEach(btn => {
         if (missingIndices.includes(index)) {
           slot.classList.add('empty');
         }
-
         puzzleBoard.appendChild(slot);
       }
     }
@@ -420,7 +472,6 @@ document.querySelectorAll('#app-launch-overlay .keypad-btn').forEach(btn => {
       piece.dataset.targetSlot = idx;
       piece.style.backgroundImage = "url('piko_mascot.jpg')";
       piece.style.backgroundPosition = `${posX}% ${posY}%`;
-      piece.title = "Parçayı Tahtaya Sürükle veya Tıkla";
 
       piece.addEventListener('click', () => {
         const targetSlot = puzzleBoard.querySelector(`[data-slot-index="${idx}"]`);
@@ -433,12 +484,11 @@ document.querySelectorAll('#app-launch-overlay .keypad-btn').forEach(btn => {
           }
         }
       });
-
       puzzleBank.appendChild(piece);
     });
   }
 
-  // 7. REAL HTML5 DRAG AND DROP MECHANICS
+  // 7. DRAG AND DROP
   function initDragAndDropMechanics() {
     const brush = document.getElementById('draggable-brush');
     const teethZone = document.getElementById('teeth-target-zone');
@@ -449,14 +499,12 @@ document.querySelectorAll('#app-launch-overlay .keypad-btn').forEach(btn => {
         e.dataTransfer.setData('text/plain', 'brush');
         brush.classList.add('dragging');
       });
-
       brush.addEventListener('dragend', () => brush.classList.remove('dragging'));
 
       teethZone.addEventListener('dragover', (e) => {
         e.preventDefault();
         teethZone.classList.add('drag-over');
       });
-
       teethZone.addEventListener('dragleave', () => teethZone.classList.remove('drag-over'));
 
       teethZone.addEventListener('drop', (e) => {
@@ -496,7 +544,6 @@ document.querySelectorAll('#app-launch-overlay .keypad-btn').forEach(btn => {
         e.preventDefault();
         potZone.classList.add('drag-over');
       });
-
       potZone.addEventListener('dragleave', () => potZone.classList.remove('drag-over'));
 
       potZone.addEventListener('drop', (e) => {
@@ -515,38 +562,18 @@ document.querySelectorAll('#app-launch-overlay .keypad-btn').forEach(btn => {
 
   initDragAndDropMechanics();
 
-  // 7b. ZPD (VYGOTSKY) — ORTAK GEREKÇELENDİRME SORUSU YARDIMCI FONKSİYONU
-  function showSimpleWhyQuestion(boxId, optionsId, reasons, finalMessage) {
-    const box = document.getElementById(boxId);
-    const optionsEl = document.getElementById(optionsId);
-    if (!box || !optionsEl) return;
-
-    optionsEl.innerHTML = '';
-    reasons.forEach(label => {
-      const btn = document.createElement('button');
-      btn.className = 'btn-icon-pill';
-      btn.textContent = label;
-      btn.addEventListener('click', () => {
-        alert(finalMessage + ' Güzel düşünmüşsün! 🌟');
-        box.style.display = 'none';
-      });
-      optionsEl.appendChild(btn);
-    });
-    box.style.display = 'block';
-  }
-
-  // 8. DYNAMIC AGE LEVEL SYSTEM & INSTANT MINI-GAME RENDERER
+  // 8. DYNAMIC AGE CONFIG
   const ageConfig = {
     '3': {
       badge: '3 Yaş (Minik Keşifçiler)',
-      duyguDesc: 'Görsel duygu ifadeleri (Mutlu, Üzgün, Şaşırmış) ve jest eşleştirme.',
-      beceriDesc: 'Karışık yüklenen Sırala Bul ve gerçek resim parçalı Piko yapbozları.',
-      ozbakimDesc: 'Sürükle-bırak Diş Fırçalama ve hava durumuna göre kıyafet eşleştirme.',
-      dogaDesc: 'Zıt mevsimler ve sürükle-bırak sulama ile görsel bitki büyütme.',
+      duyguDesc: 'Görsel duygu ifadeleri ve jest eşleştirme.',
+      beceriDesc: 'Karışık Sırala Bul ve yapbozlar.',
+      ozbakimDesc: 'Sürükle-bırak Diş Fırçalama ve kıyafet eşleştirme.',
+      dogaDesc: 'Zıt mevsimler ve bitki büyütme.',
       emotions: [
         { label: 'Mutlu', name: 'Mutlu', image: 'piko_mutlu.png' },
         { label: 'Üzgün', name: 'Üzgün', image: 'piko_uzgun.png' },
-        { label: 'Şaşkın', name: 'Şaşkın', image: 'piko_saskin.png' },
+        { label: 'Şaşırmış', name: 'Şaşırmış', image: 'piko_sasirmis.png' }
       ],
       scenario: 'Piko dondurmasını yere düşürdü. Ne hissediyor?',
       scenarioChoices: [
@@ -557,34 +584,34 @@ document.querySelectorAll('#app-launch-overlay .keypad-btn').forEach(btn => {
     },
     '4-5': {
       badge: '4-5 Yaş (Meraklı Filizler)',
-      duyguDesc: 'Görsel 4 duygu ifadesi (Mutlu, Üzgün, Kızgın, Heyecanlı) ve empati senaryoları.',
-      beceriDesc: 'Karışık Sırala Bul (küçükten büyüğe) ve 6 parçalı gerçek resim yapbozları.',
-      ozbakimDesc: 'Sürükle-bırak fırçalama ve 4 mevsim kıyafet giydirme.',
-      dogaDesc: '4 mevsim ipucu analizi ve sürükle-bırak sulama-güneş dengesi.',
+      duyguDesc: 'Görsel duygu ifadeleri ve empati senaryoları.',
+      beceriDesc: 'Sırala Bul ve 6 parçalı yapbozlar.',
+      ozbakimDesc: 'Sürükle-bırak fırçalama ve kıyafet seçimi.',
+      dogaDesc: 'Mevsim analizi ve sulama dengesi.',
       emotions: [
         { label: 'Mutlu', name: 'Mutlu', image: 'piko_mutlu.png' },
         { label: 'Üzgün', name: 'Üzgün', image: 'piko_uzgun.png' },
         { label: 'Öfkeli', name: 'Öfkeli', image: 'piko_ofkeli.png' },
-        { label: 'Meraklı', name: 'Meraklı', image: 'piko_merakli.png' },
+        { label: 'Meraklı', name: 'Meraklı', image: 'piko_merakli.png' }
       ],
       scenario: 'Piko en sevdiği oyuncağını bulamıyor. Nasıl hissediyor ve ne yapmalıyız?',
       scenarioChoices: [
         { label: '🔍 Birlikte arayalım (Heyecanlı keşif)', correct: true },
         { label: '😡 Kızıp oyuncağı kıralım', correct: false }
       ],
-      weatherOptions: ['☀️ Güneşli (Şapka & T-shirt)', '🌧️ Yağmurlu (Yağmurluk & Çizme)', '❄️ Karlı (Mont & Bere)']
+      weatherOptions: ['☀️ Güneşli (Şapka & T-shirt)', '🌧️ Yağmurlu (Yağmurluk)', '❄️ Karlı (Mont & Bere)']
     },
     '6+': {
       badge: '6+ Yaş (Bilge Çiçekler)',
-      duyguDesc: 'Görsel 6 zengin duygu ifadesi (Gururlu, Utanmış, Kaygılı, Sakin vb.).',
-      beceriDesc: 'Karışık sıralama oyunları ve detaylı zeka yapbozları.',
-      ozbakimDesc: 'Sürükle-bırak hijyen ve çoklu mevsim kombinasyon giydirme.',
-      dogaDesc: 'Çoklu canlı türü, sulama ve güneş dengesi ekolojisi.',
+      duyguDesc: 'Zengin duygu ifadeleri ve detaylı empati analizi.',
+      beceriDesc: 'Karmaşık sıralama ve zeka yapbozları.',
+      ozbakimDesc: 'Hijyen ve çoklu mevsim kombinasyonları.',
+      dogaDesc: 'Ekosistem ve bitki bakım dengesi.',
       emotions: [
         { label: 'Mutlu', name: 'Mutlu', image: 'piko_mutlu.png' },
         { label: 'Üzgün', name: 'Üzgün', image: 'piko_uzgun.png' },
         { label: 'Öfkeli', name: 'Öfkeli', image: 'piko_ofkeli.png' },
-        { label: 'Şaşkın', name: 'Şaşkın', image: 'piko_saskin.png' },
+        { label: 'Şaşırmış', name: 'Şaşırmış', image: 'piko_sasirmis.png' },
         { label: 'Utangaç', name: 'Utangaç', image: 'piko_utangac.png' },
         { label: 'Meraklı', name: 'Meraklı', image: 'piko_merakli.png' },
         { label: 'Korkmuş', name: 'Korkmuş', image: 'piko_korkmus.png' },
@@ -595,7 +622,7 @@ document.querySelectorAll('#app-launch-overlay .keypad-btn').forEach(btn => {
         { label: '👏 Alkışlayarak cesaret verelim', correct: true },
         { label: '🙈 Gülüp gidelim', correct: false }
       ],
-      weatherOptions: ['☀️ Güneşli (Güneş Gözlüğü & Şapka)', '🌧️ Yağmurlu (Şemsiye & Yağmurluk)', '❄️ Karlı (Mont, Eldiven & Bere)'],
+      weatherOptions: ['☀️ Güneşli (Gözlük)', '🌧️ Yağmurlu (Şemsiye)', '❄️ Karlı (Mont & Eldiven)'],
       dressReasons: ['🌡️ Hava sıcaklığına uygun olduğu için', '🎨 Rengini sevdiğim için', '🏃 Rahat hareket edebilmek için'],
       mevsimReasons: ['🍂 Yaprakların rengi değiştiği için', '🌡️ Hava soğuduğu için', '🐦 Kuşlar göç ettiği için']
     }
@@ -606,20 +633,16 @@ document.querySelectorAll('#app-launch-overlay .keypad-btn').forEach(btn => {
     const cfg = ageConfig[level];
     if (!cfg) return;
 
-    // Update active level badge
     const activeBadge = document.getElementById('active-age-badge');
     if (activeBadge) activeBadge.textContent = cfg.badge;
 
-    // Update card descriptions
     document.getElementById('duygu-desc').textContent = cfg.duyguDesc;
     document.getElementById('beceri-desc').textContent = cfg.beceriDesc;
     document.getElementById('ozbakim-desc').textContent = cfg.ozbakimDesc;
     document.getElementById('doga-desc').textContent = cfg.dogaDesc;
 
-    // Set Visual Emotion Mirror target (RASTGELE BAŞLAR)
     pickRandomTargetEmotion(cfg);
 
-    // Render Duygu Aynası options (DÜZELTİLDİ: Doğru/Yanlış Seçenek Kontrolü)
     const emotionBox = document.getElementById('duygu-mirror-options');
     if (emotionBox) {
       const shuffledEmotions = [...cfg.emotions].sort(() => Math.random() - 0.5);
@@ -634,18 +657,16 @@ document.querySelectorAll('#app-launch-overlay .keypad-btn').forEach(btn => {
 
           if (isCorrect) {
             if (soundEnabled) AudioEngine.playSuccess();
-            alert(`🎉 Tebrikler! Harika bildin, Piko gerçekten ${targetEmotion.label} hissediyor!`);
-            // Doğru bilince yeni bir rastgele duyguya geç
+            alert(`🎉 Tebrikler! Harika bildin, Piko gerçekten ${targetEmotion.label}!`);
             pickRandomTargetEmotion(cfg);
           } else {
             if (soundEnabled) AudioEngine.playTone(300, 0.2);
-            alert(`🤔 Hmm, Piko şu an ${targetEmotion.label} hissediyor. Tekrar bakalım mı?`);
+            alert(`🤔 Hmm, Piko şu an bu ifadeye sahip değil. Tekrar bakalım mı?`);
           }
         });
       });
     }
 
-    // Render Piko'nun Günü scenario (DÜZELTİLDİ: Olumsuz yanıtta tebrik etme hatası giderildi)
     const scenarioText = document.getElementById('duygu-scenario-text');
     const scenarioChoices = document.getElementById('duygu-scenario-choices');
     if (scenarioText && scenarioChoices) {
@@ -670,55 +691,38 @@ document.querySelectorAll('#app-launch-overlay .keypad-btn').forEach(btn => {
       });
     }
 
-    // INITIALIZE SHUFFLED SIRALA BUL GAME
-    initSiralaBulGame(level);
+    initSiralaBulGame();
 
-    // RENDER HANGİ MEVSİM GAME OPTIONS
     const mevsimBox = document.getElementById('mevsim-options');
     if (mevsimBox) {
       const seasons = level === '3' ? ['🍂 Sonbahar', '☀️ Yaz'] : ['🍂 Sonbahar', '❄️ Kış', '🌸 İlkbahar', '☀️ Yaz'];
       mevsimBox.innerHTML = seasons.map(s => 
         `<button class="btn-icon-pill mevsim-opt-btn">${s}</button>`
       ).join('');
-
       mevsimBox.querySelectorAll('.mevsim-opt-btn').forEach(btn => {
         btn.addEventListener('click', () => {
           if (soundEnabled) AudioEngine.playSuccess();
-          if (level === '6+' && cfg.mevsimReasons) {
-            showSimpleWhyQuestion('doga-why-box', 'doga-why-options', cfg.mevsimReasons,
-              `Doğru! ${btn.textContent} mevsimini keşfettin!`);
-          } else {
-            alert(`Doğru! ${btn.textContent} mevsimini keşfettin!`);
-          }
+          alert(`Doğru! ${btn.textContent} mevsimini keşfettin!`);
         });
       });
     }
 
-    // Initialize Real Cut Image Puzzle with Age Level
-    initRealImagePuzzle(level);
+    initRealImagePuzzle();
 
-    // Render Hava Durumu Giydirme
     const dressContainer = document.getElementById('dress-options-grid');
     if (dressContainer) {
       dressContainer.innerHTML = cfg.weatherOptions.map(opt => 
         `<button class="btn-icon-pill dress-opt-btn">${opt}</button>`
       ).join('');
-
       dressContainer.querySelectorAll('.dress-opt-btn').forEach(btn => {
         btn.addEventListener('click', () => {
           if (soundEnabled) AudioEngine.playSuccess();
-          if (level === '6+' && cfg.dressReasons) {
-            showSimpleWhyQuestion('ozbakim-why-box', 'ozbakim-why-options', cfg.dressReasons,
-              `Piko ${btn.textContent} giydi ve hazır!`);
-          } else {
-            alert(`Piko ${btn.textContent} giydi ve hazır!`);
-          }
+          alert(`Piko ${btn.textContent} giydi ve hazır!`);
         });
       });
     }
   }
 
-  // Radio listener for Age Selection
   document.querySelectorAll('input[name="age-group"]').forEach(radio => {
     radio.addEventListener('change', (e) => {
       updateAgeSystem(e.target.value);
@@ -728,7 +732,7 @@ document.querySelectorAll('#app-launch-overlay .keypad-btn').forEach(btn => {
 
   updateAgeSystem('4-5');
 
-// 9. MODAL TRIGGERS FOR THE 4 CORNERS (Eksik Olan Tıklama Dinleyicileri)
+  // 9. MODAL TRIGGERS FOR THE 4 CORNERS
   document.getElementById('card-duygu')?.addEventListener('click', () => {
     updateAgeSystem(currentAgeLevel);
     document.getElementById('modal-duygu-corner')?.classList.add('active');
@@ -753,8 +757,8 @@ document.querySelectorAll('#app-launch-overlay .keypad-btn').forEach(btn => {
     document.getElementById('modal-doga-corner')?.classList.add('active');
     if (soundEnabled) AudioEngine.playTone(600);
   });
-   
-// 10. EBEVEYN KÖŞESİ & PIN YÖNETİMİ
+
+  // 10. EBEVEYN KÖŞESİ & PIN YÖNETİMİ
   const parentBtn = document.getElementById('parent-corner-btn');
   const parentModal = document.getElementById('modal-parent-corner');
   const pinView = document.getElementById('pin-view');
@@ -822,6 +826,10 @@ document.querySelectorAll('#app-launch-overlay .keypad-btn').forEach(btn => {
               parentDashboardView.style.display = 'flex';
               parentDashboardView.style.flexDirection = 'column';
             }
+            
+            // Ebeveyn paneli açıldığında günün çocuk kitaplarını yükle
+            loadDailyChildrenBooks();
+
             const firstTabBtn = document.querySelector('.parent-tabs-nav .tab-btn');
             if (firstTabBtn) firstTabBtn.click();
           } else {
@@ -856,9 +864,9 @@ document.querySelectorAll('#app-launch-overlay .keypad-btn').forEach(btn => {
       tabPanes.forEach(p => p.classList.remove('active'));
 
       btn.classList.add('active');
-      const target = document.getElementById(btn.dataset.tab);
-      if (target) {
-        target.classList.add('active');
+      const targetEl = document.getElementById(btn.dataset.tab);
+      if (targetEl) {
+        targetEl.classList.add('active');
       }
       if (parentDashboardView) {
         parentDashboardView.scrollTop = 0;
