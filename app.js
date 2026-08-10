@@ -433,7 +433,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // 6. JIGSAW PUZZLE (YAŞA GÖRE DİNAMİK ÖLÇEKLEME)
+ // 6. JIGSAW PUZZLE (YAŞLARA GÖRE DİNAMİK VE HATASIZ ÖLÇEKLEME)
   function initRealImagePuzzle(level) {
     const puzzleBoard = document.getElementById('puzzle-board-grid');
     const puzzleBank = document.getElementById('puzzle-piece-bank');
@@ -444,57 +444,77 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let totalCols = 3;
     let totalRows = 2;
-    let missingIndices = [2, 5];
+    let missingCount = 2;
 
-    // Grid ayarları ve zorluk
+    // Yaş seviyesine göre grid ve eksik parça sayısı
     if (level === '3') {
       totalCols = 2;
       totalRows = 2;
-      missingIndices = [1];
+      missingCount = 1;
       puzzleBoard.style.gridTemplateColumns = 'repeat(2, 1fr)';
     } else if (level === '6+') {
       totalCols = 3;
       totalRows = 3;
-      missingIndices = [2, 4, 7];
+      missingCount = 3;
       puzzleBoard.style.gridTemplateColumns = 'repeat(3, 1fr)';
     } else {
       totalCols = 3;
       totalRows = 2;
-      missingIndices = [2, 5];
+      missingCount = 2;
       puzzleBoard.style.gridTemplateColumns = 'repeat(3, 1fr)';
     }
 
+    const totalSlots = totalCols * totalRows;
+    
+    // Rastgele ama sabit olmayan eksik slot indeksleri seçimi
+    let missingIndices = [];
+    while (missingIndices.length < missingCount) {
+      let randIdx = Math.floor(Math.random() * totalSlots);
+      if (!missingIndices.includes(randIdx)) {
+        missingIndices.push(randIdx);
+      }
+    }
+
+    // Tahta slotlarını oluştur
     for (let r = 0; r < totalRows; r++) {
       for (let c = 0; c < totalCols; c++) {
         const index = r * totalCols + c;
         const slot = document.createElement('div');
         slot.className = 'puzzle-board-slot';
         slot.dataset.slotIndex = index;
-        const posX = (c / (totalCols - 1)) * 100;
-        const posY = (r / (totalRows - 1)) * 100;
+        
+        const posX = totalCols > 1 ? (c / (totalCols - 1)) * 100 : 0;
+        const posY = totalRows > 1 ? (r / (totalRows - 1)) * 100 : 0;
+        
         slot.style.backgroundImage = "url('piko_mascot.jpg')";
+        slot.style.backgroundSize = `${totalCols * 100}% ${totalRows * 100}%`;
         slot.style.backgroundPosition = `${posX}% ${posY}%`;
-        if (missingIndices.includes(index)) slot.classList.add('empty');
+
+        if (missingIndices.includes(index)) {
+          slot.classList.add('empty');
+        }
         puzzleBoard.appendChild(slot);
       }
     }
 
+    // Eksik parçaları sağdaki bankaya yerleştir
     missingIndices.forEach(idx => {
       const c = idx % totalCols;
       const r = Math.floor(idx / totalCols);
-      const posX = (c / (totalCols - 1)) * 100;
-      const posY = (r / (totalRows - 1)) * 100;
+      const posX = totalCols > 1 ? (c / (totalCols - 1)) * 100 : 0;
+      const posY = totalRows > 1 ? (r / (totalRows - 1)) * 100 : 0;
 
       const piece = document.createElement('div');
       piece.className = 'puzzle-cut-piece drag-source';
       piece.draggable = true;
       piece.dataset.targetSlot = idx;
       piece.style.backgroundImage = "url('piko_mascot.jpg')";
+      piece.style.backgroundSize = `${totalCols * 100}% ${totalRows * 100}%`;
       piece.style.backgroundPosition = `${posX}% ${posY}%`;
 
       piece.addEventListener('click', () => {
         const targetSlot = puzzleBoard.querySelector(`[data-slot-index="${idx}"]`);
-        if (targetSlot) {
+        if (targetSlot && targetSlot.classList.contains('empty')) {
           targetSlot.classList.remove('empty');
           piece.remove();
           if (soundEnabled) AudioEngine.playSuccess();
