@@ -1,22 +1,22 @@
 /* ==========================================================================
-   PIKO CHILD EDUCATION DASHBOARD - FINAL INFOGRAPHIC MATCHED APP LOGIC
+   KUTI CHILD EDUCATION DASHBOARD - FINAL INFOGRAPHIC MATCHED APP LOGIC
    - Girdiğin ana tasarım şemasına (görsele) %100 uyumlu 3-6 yaş oyun matrisi
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  // Üst Piko Maskotlu Görsel Geri Bildirim ve İpucu Sistemi
+  // Üst Kuti Maskotlu Görsel Geri Bildirim ve İpucu Sistemi
   function showVisualFeedback(message, type = "success") {
-    let box = document.getElementById("piko-visual-feedback-card");
+    let box = document.getElementById("kuti-visual-feedback-card");
     
     if (!box) {
       box = document.createElement("div");
-      box.id = "piko-visual-feedback-card";
+      box.id = "kuti-visual-feedback-card";
       box.style.cssText = "position: absolute; top: 12px; left: 50%; transform: translateX(-50%); background: #E0F2F1; border: 2px solid #00796B; color: #004D40; padding: 10px 20px; border-radius: 20px; font-weight: 700; z-index: 99999; opacity: 0; transition: opacity 0.3s ease, transform 0.3s ease; pointer-events: none; display: flex; align-items: center; gap: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.12); font-size: 0.9rem;";
       document.body.appendChild(box);
     }
 
-    let pikoIconImg = type === "success" ? "piko_mutlu.png" : "piko_merakli.png";
+    let kutiIconImg = type === "success" ? "kuti_mutlu.png" : "kuti_merakli.png";
     let bgColor = type === "success" ? "#E8F5E9" : type === "error" ? "#FFEBEE" : "#E0F2F1";
     let borderColor = type === "success" ? "#4CAF50" : type === "error" ? "#E57373" : "#00796B";
     let textColor = type === "success" ? "#1B5E20" : type === "error" ? "#B71C1C" : "#004D40";
@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
     box.style.color = textColor;
 
     box.innerHTML = `
-      <img src="${pikoIconImg}" alt="Piko" style="width: 30px; height: 30px; border-radius: 50%; object-fit: cover; border: 1.5px solid ${borderColor};">
+      <img src="${kutiIconImg}" alt="Kuti" style="width: 30px; height: 30px; border-radius: 50%; object-fit: cover; border: 1.5px solid ${borderColor};">
       <span>${message}</span>
     `;
 
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 2200);
   }
 
-  const welcomeOverlay = document.getElementById('piko-welcome-overlay');
+  const welcomeOverlay = document.getElementById('kuti-welcome-overlay');
   const btnStartWelcome = document.getElementById('btn-start-welcome');
   if (btnStartWelcome && welcomeOverlay) {
     btnStartWelcome.addEventListener('click', () => {
@@ -138,18 +138,18 @@ document.addEventListener('DOMContentLoaded', () => {
   const plantVisualStages = ['🌱', '🌿', '🌻', '🌳'];
 
   const moodButtons = document.querySelectorAll('.mood-btn');
-  const pikoSpeechText = document.getElementById('piko-speech-text');
+  const kutiSpeechText = document.getElementById('kuti-speech-text');
 
   moodButtons.forEach(btn => {
     btn.addEventListener('click', () => {
       const mood = btn.dataset.mood;
-      if (pikoSpeechText) {
+      if (kutiSpeechText) {
         if (mood === 'happy') {
-          pikoSpeechText.textContent = "Ne harika! Senin adına çok sevindim, bugün enerji doluyuz! 🌟";
+          kutiSpeechText.textContent = "Ne harika! Senin adına çok sevindim, bugün enerji doluyuz! 🌟";
         } else if (mood === 'curious') {
-          pikoSpeechText.textContent = "Harika! Merak etmek yeni şeyler öğrenmenin ilk adımıdır! 🔍";
+          kutiSpeechText.textContent = "Harika! Merak etmek yeni şeyler öğrenmenin ilk adımıdır! 🔍";
         } else if (mood === 'calm') {
-          pikoSpeechText.textContent = "Huzurlu ve sakin bir gün, bahçeyi keşfetmek için mükemmel bir zaman! 🌿";
+          kutiSpeechText.textContent = "Huzurlu ve sakin bir gün, bahçeyi keşfetmek için mükemmel bir zaman! 🌿";
         }
       }
       if (soundEnabled) AudioEngine.playSuccess();
@@ -302,7 +302,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  let targetEmotion = { name: 'Mutlu', image: 'piko_mutlu.png', label: 'Mutlu' };
+  let targetEmotion = { name: 'Mutlu', image: 'kuti_mutlu.png', label: 'Mutlu' };
 
   function setVisualEmotionMirror(emotion) {
     targetEmotion = emotion;
@@ -315,7 +315,7 @@ document.addEventListener('DOMContentLoaded', () => {
       mirrorFace.src = emotion.image; 
     }
     if (mirrorPrompt) {
-      mirrorPrompt.textContent = `Piko şu an nasıl hissediyor? Doğru yüz ifadesini seçebilir misin?`;
+      mirrorPrompt.textContent = `Kuti şu an nasıl hissediyor? Doğru yüz ifadesini seçebilir misin?`;
     }
   }
 
@@ -359,7 +359,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       beceriContainer.innerHTML = `
         <div style="width:100%; text-align:center;">
-          <p style="font-size:0.82rem; font-weight:700; color:#2E7D32; margin-bottom:0.4rem;">🦊 Piko'nun Gölgesini Bul</p>
+          <p style="font-size:0.82rem; font-weight:700; color:#2E7D32; margin-bottom:0.4rem;">🦊 Kuti'nin Gölgesini Bul</p>
           <div style="display:flex; gap:0.6rem; justify-content:center;">
             <button class="btn-icon-pill" onclick="if(soundEnabled)AudioEngine.playSuccess();showVisualFeedback('🎉 Doğru gölge eşleşti!', 'success')">👥 Doğru Gölge</button>
           </div>
@@ -399,7 +399,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const posX = totalCols > 1 ? (c / (totalCols - 1)) * 100 : 0;
         const posY = totalRows > 1 ? (r / (totalRows - 1)) * 100 : 0;
         
-        slot.style.backgroundImage = "url('piko_mascot.jpg')";
+        slot.style.backgroundImage = "url('kuti_mascot.jpg')";
         slot.style.backgroundSize = `${totalCols * 100}% ${totalRows * 100}%`;
         slot.style.backgroundPosition = `${posX}% ${posY}%`;
 
@@ -418,7 +418,7 @@ document.addEventListener('DOMContentLoaded', () => {
       piece.className = 'puzzle-cut-piece drag-source';
       piece.draggable = true;
       piece.dataset.targetSlot = idx;
-      piece.style.backgroundImage = "url('piko_mascot.jpg')";
+      piece.style.backgroundImage = "url('kuti_mascot.jpg')";
       piece.style.backgroundSize = `${totalCols * 100}% ${totalRows * 100}%`;
       piece.style.backgroundPosition = `${posX}% ${posY}%`;
 
@@ -429,7 +429,7 @@ document.addEventListener('DOMContentLoaded', () => {
           piece.remove();
           if (soundEnabled) AudioEngine.playSuccess();
           if (puzzleBank.children.length === 0) {
-            setTimeout(() => showVisualFeedback("🎉 Harika! Piko Yapbozunu Tamamladın!", "success"), 300);
+            setTimeout(() => showVisualFeedback("🎉 Harika! Kuti Yapbozunu Tamamladın!", "success"), 300);
           }
         }
       });
@@ -445,10 +445,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (brush && teethZone) {
       if (level === '3') {
-        // 3 Yaş: Piko Ellerini Yıkıyor (Sabunla, durula, kurula)
+        // 3 Yaş: Kuti Ellerini Yıkıyor (Sabunla, durula, kurula)
         teethZone.parentElement.innerHTML = `
           <div style="width:100%; text-align:center;">
-            <p style="font-size:0.85rem; font-weight:700; color:#00796B; margin-bottom:0.4rem;">🧼 Piko Ellerini Yıkıyor (Sabunla, durula, kurula)</p>
+            <p style="font-size:0.85rem; font-weight:700; color:#00796B; margin-bottom:0.4rem;">🧼 Kuti Ellerini Yıkıyor (Sabunla, durula, kurula)</p>
             <button class="btn-icon-pill" onclick="showVisualFeedback('Sabunlandı, durulandı ve eller tertemiz oldu! 💧', 'success')">✨ Elleri Yıka</button>
           </div>`;
       } else if (level === '6+') {
@@ -510,7 +510,7 @@ document.addEventListener('DOMContentLoaded', () => {
               if (soundEnabled) AudioEngine.playSuccess();
               if (mouthEmoji) mouthEmoji.textContent = '✨😁✨';
               setTimeout(() => {
-                showVisualFeedback("Piko'nun dişleri temizlendi.", "success");
+                showVisualFeedback("Kuti'nin dişleri temizlendi.", "success");
               }, 400);
             }
           }
@@ -585,7 +585,7 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
 
         <div style="background: #FFF; border: 2px solid #B2DFDB; padding: 0.85rem; border-radius: 16px; text-align: center;">
-          <h4 style="color: #004D40; margin-bottom: 0.35rem; font-size: 0.92rem;">🌱 Piko'nun Bahçesi & Canlılar</h4>
+          <h4 style="color: #004D40; margin-bottom: 0.35rem; font-size: 0.92rem;">🌱 Kuti'nin Bahçesi & Canlılar</h4>
           <p style="font-size: 0.8rem; color: #00695C; margin-bottom: 0.4rem;" id="plant-visual-display">🌱</p>
         </div>`;
     }
@@ -594,16 +594,16 @@ document.addEventListener('DOMContentLoaded', () => {
   const ageConfig = {
     '3': {
       badge: '3 Yaş (Minik Keşifçiler)',
-      duyguDesc: 'Piko’nun duygusunu ve duygulu balonları seç.',
+      duyguDesc: 'Kuti’nin duygusunu ve duygulu balonları seç.',
       beceriDesc: 'Renkleri eşleştir ve büyük-küçüğü seç.',
-      ozbakimDesc: 'Piko ellerini yıkıyor (Sabunla, durula).',
+      ozbakimDesc: 'Kuti ellerini yıkıyor (Sabunla, durula).',
       dogaDesc: 'Bitkiyi bul ve doğada olanı seç.',
       emotions: [
-        { label: 'Mutlu', name: 'Mutlu', image: 'piko_mutlu.png' },
-        { label: 'Üzgün', name: 'Üzgün', image: 'piko_uzgun.png' },
-        { label: 'Kızgın', name: 'Kızgın', image: 'piko_ofkeli.png' }
+        { label: 'Mutlu', name: 'Mutlu', image: 'kuti_mutlu.png' },
+        { label: 'Üzgün', name: 'Üzgün', image: 'kuti_uzgun.png' },
+        { label: 'Kızgın', name: 'Kızgın', image: 'kuti_ofkeli.png' }
       ],
-      scenario: 'Piko dondurmasını yere düşürdü. Hangi duygu balonunu seçmeliyiz?',
+      scenario: 'Kuti dondurmasını yere düşürdü. Hangi duygu balonunu seçmeliyiz?',
       scenarioChoices: [
         { label: '😢 Üzgün Balonu', correct: true },
         { label: '😊 Mutlu Balonu', correct: false }
@@ -612,17 +612,17 @@ document.addEventListener('DOMContentLoaded', () => {
     },
     '4-5': {
       badge: '4-5 Yaş (Meraklı Filizler)',
-      duyguDesc: 'Piko ne hissediyor ve neden?',
+      duyguDesc: 'Kuti ne hissediyor ve neden?',
       beceriDesc: '6 parça yapboz ve örüntüyü tamamla.',
       ozbakimDesc: 'Hava durumuna göre giydir ve sağlıklı besinleri seç.',
       dogaDesc: 'Mevsimi seç ve doğayı koruyan resmi bul.',
       emotions: [
-        { label: 'Mutlu', name: 'Mutlu', image: 'piko_mutlu.png' },
-        { label: 'Üzgün', name: 'Üzgün', image: 'piko_uzgun.png' },
-        { label: 'Öfkeli', name: 'Öfkeli', image: 'piko_ofkeli.png' },
-        { label: 'Meraklı', name: 'Meraklı', image: 'piko_merakli.png' }
+        { label: 'Mutlu', name: 'Mutlu', image: 'kuti_mutlu.png' },
+        { label: 'Üzgün', name: 'Üzgün', image: 'kuti_uzgun.png' },
+        { label: 'Öfkeli', name: 'Öfkeli', image: 'kuti_ofkeli.png' },
+        { label: 'Meraklı', name: 'Meraklı', image: 'kuti_merakli.png' }
       ],
-      scenario: 'Piko oyuncağını bulamadı. Sence ne hissediyor?',
+      scenario: 'Kuti oyuncağını bulamadı. Sence ne hissediyor?',
       scenarioChoices: [
         { label: '🔍 Üzgün, birlikte arayalım', correct: true },
         { label: '🛑 Bekleyelim', correct: false }
@@ -636,12 +636,12 @@ document.addEventListener('DOMContentLoaded', () => {
       ozbakimDesc: 'Günlük rutini sırala ve odanı düzenle.',
       dogaDesc: 'Bitkinin yaşam döngüsü ve geri dönüşüm.',
       emotions: [
-        { label: 'Mutlu', name: 'Mutlu', image: 'piko_mutlu.png' },
-        { label: 'Üzgün', name: 'Üzgün', image: 'piko_uzgun.png' },
-        { label: 'Kızgın', name: 'Kızgın', image: 'piko_ofkeli.png' },
-        { label: 'Şaşırmış', name: 'Şaşırmış', image: 'piko_sasirmis.png' }
+        { label: 'Mutlu', name: 'Mutlu', image: 'kuti_mutlu.png' },
+        { label: 'Üzgün', name: 'Üzgün', image: 'kuti_uzgun.png' },
+        { label: 'Kızgın', name: 'Kızgın', image: 'kuti_ofkeli.png' },
+        { label: 'Şaşırmış', name: 'Şaşırmış', image: 'kuti_sasirmis.png' }
       ],
-      scenario: 'Piko sahnede sözleri unuttu. Duygumuzu nasıl yönetebiliriz?',
+      scenario: 'Kuti sahnede sözleri unuttu. Duygumuzu nasıl yönetebiliriz?',
       scenarioChoices: [
         { label: '❤️ Kendimizi sakinleştirip derin bir nefes alalım', correct: true },
         { label: '🎵 Hemen sahneden kaçalım', correct: false }
@@ -678,7 +678,7 @@ document.addEventListener('DOMContentLoaded', () => {
           const isCorrect = selectedName === targetEmotion.name;
           if (isCorrect) {
             if (soundEnabled) AudioEngine.playSuccess();
-            showVisualFeedback(`Evet, Piko ${targetEmotion.label.toLowerCase()}`, "success");
+            showVisualFeedback(`Evet, Kuti ${targetEmotion.label.toLowerCase()}`, "success");
             pickRandomTargetEmotion(cfg);
           } else {
             if (soundEnabled) AudioEngine.playTone(300, 0.2);
@@ -737,7 +737,7 @@ document.addEventListener('DOMContentLoaded', () => {
       dressContainer.querySelectorAll('.dress-opt-btn').forEach(btn => {
         btn.addEventListener('click', () => {
           if (soundEnabled) AudioEngine.playSuccess();
-          showVisualFeedback(`Piko ${btn.textContent} giydi ve hazır!`, "success");
+          showVisualFeedback(`Kuti ${btn.textContent} giydi ve hazır!`, "success");
         });
       });
     }
@@ -861,7 +861,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Genel Modal Kapatma Dinamik Dinleyicisi
   document.addEventListener('click', (e) => {
     if (e.target.matches('[data-close-modal]') || e.target.closest('[data-close-modal]')) {
-      const modal = e.target.closest('.piko-modal');
+      const modal = e.target.closest('.kuti-modal');
       if (modal) modal.classList.remove('active');
     }
   });
