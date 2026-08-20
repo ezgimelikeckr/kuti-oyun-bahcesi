@@ -1,5 +1,5 @@
 /* ==========================================================================
-   PIKO DESIGN SYSTEM & UI KIT - REFINED STYLES & LAYOUT FIXES
+   KUTI DESIGN SYSTEM & UI KIT - REFINED STYLES & LAYOUT FIXES
    ========================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap');
@@ -26,8 +26,8 @@
   --pastel-teal-bg: #E0F2F1;
   --pastel-teal-main: #009688;
   --pastel-teal-dark: #00796B;
-  --piko-fox-orange: #FF7043;
-  --piko-fox-dark: #E64A19;
+  --kuti-fox-orange: #FF7043;
+  --kuti-fox-dark: #E64A19;
   --night-bg: #5E35B1;
   --night-card: #4527A0;
   --radius-xl: 20px;
@@ -59,7 +59,7 @@ body {
   background-color: var(--bg-cream);
   background: 
     linear-gradient(to bottom, rgba(255, 248, 225, 0.88) 0%, rgba(255, 253, 231, 0.75) 40%, rgba(241, 248, 233, 0.85) 100%),
-    url('piko_garden_bg.jpg') no-repeat center center / cover;
+    url('kuti_garden_bg.jpg') no-repeat center center / cover;
   color: var(--text-dark);
   font-family: var(--font-body);
   padding: 0.6rem 1rem;
@@ -82,7 +82,7 @@ body {
    EBEVEYN KÖŞESİ & MODAL (Masaüstü Sabit)
    ========================================================================== */
 
-.piko-modal {
+.kuti-modal {
   position: fixed;
   inset: 0;
   background: rgba(40, 30, 20, 0.65);
@@ -98,7 +98,7 @@ body {
   transition: opacity 0.3s ease, visibility 0.3s ease; /* <-- visibility de geçişe eklendi */
 }
 
-.piko-modal.active { 
+.kuti-modal.active { 
   opacity: 1; 
   pointer-events: auto; 
   visibility: visible; /* <-- Aktif olunca görünür ve tıklanabilir yap */
@@ -164,7 +164,7 @@ body {
    ========================================================================== */
 
 /* Tüm modal içerisindeki kapatma butonları için ortak güvenli konum */
-.piko-modal .modal-close-btn,
+.kuti-modal .modal-close-btn,
 .parent-modal-box .modal-close-btn,
 .modal-content-box .modal-close-btn {
   position: absolute !important;
@@ -186,7 +186,7 @@ body {
   cursor: pointer !important;
 }
 
-.piko-modal .modal-close-btn:hover,
+.kuti-modal .modal-close-btn:hover,
 .parent-modal-box .modal-close-btn:hover,
 .modal-content-box .modal-close-btn:hover {
   color: #5C6BC0 !important;
@@ -295,7 +295,7 @@ div.parent-modal-box .modal-close-btn:hover {
     margin-top: 5px !important;
   }
 
-  .corners-grid, .dashboard-grid, .piko-dashboard-grid {
+  .corners-grid, .dashboard-grid, .kuti-dashboard-grid {
     display: flex !important;
     flex-direction: column !important;
     gap: 15px !important;
@@ -307,10 +307,10 @@ div.parent-modal-box .modal-close-btn:hover {
    DİĞER BİLEŞENLER VE OYUNLAR
    ========================================================================== */
 
-.piko-welcome-overlay {
+.kuti-welcome-overlay {
   position: fixed;
   inset: 0;
-  background: linear-gradient(135deg, #FFF8E1 0%, #E8F5E9 100%), url('piko_garden_bg.jpg') no-repeat center center / cover;
+  background: linear-gradient(135deg, #FFF8E1 0%, #E8F5E9 100%), url('kuti_garden_bg.jpg') no-repeat center center / cover;
   z-index: 4000;
   display: flex;
   align-items: center;
@@ -319,7 +319,7 @@ div.parent-modal-box .modal-close-btn:hover {
   transition: opacity 0.4s ease, visibility 0.4s ease;
 }
 
-.piko-welcome-overlay.hidden-welcome {
+.kuti-welcome-overlay.hidden-welcome {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
@@ -359,7 +359,7 @@ div.parent-modal-box .modal-close-btn:hover {
 .app-launch-overlay {
   position: fixed;
   inset: 0;
-  background: linear-gradient(135deg, #FFF8E1 0%, #E8F5E9 100%), url('piko_garden_bg.jpg') no-repeat center center / cover;
+  background: linear-gradient(135deg, #FFF8E1 0%, #E8F5E9 100%), url('kuti_garden_bg.jpg') no-repeat center center / cover;
   z-index: 3000;
   display: flex;
   align-items: center;
@@ -376,7 +376,7 @@ div.parent-modal-box .modal-close-btn:hover {
 }
 
 /* Kilit ve Karşılama Ekranı Kalktığında Tıklamaları Kesin Ver */
-.piko-welcome-overlay.hidden-welcome,
+.kuti-welcome-overlay.hidden-welcome,
 .app-launch-overlay.unlocked {
   opacity: 0 !important;
   visibility: hidden !important;
@@ -476,7 +476,7 @@ div.parent-modal-box .modal-close-btn:hover {
 .brand-text h1 {
   font-size: 1.35rem;
   font-weight: 700;
-  color: var(--piko-fox-dark);
+  color: var(--kuti-fox-dark);
   line-height: 1;
 }
 
@@ -614,7 +614,7 @@ div.parent-modal-box .modal-close-btn:hover {
   gap: 0.5rem;
 }
 
-.piko-card {
+.kuti-card {
   background-color: var(--card-bg);
   border-radius: var(--radius-xl);
   padding: 0.85rem 1.15rem;
@@ -970,7 +970,7 @@ div.parent-modal-box .modal-close-btn:hover {
   transform: scale(1.08);
 }
 
-/* EBEVEYN PANELİ SEKME BUTONLARI — Piko tasarım diliyle uyumlu */
+/* EBEVEYN PANELİ SEKME BUTONLARI — Kuti tasarım diliyle uyumlu */
 .tab-btn {
   background: #F5F5F5;
   border: 2px solid transparent;
