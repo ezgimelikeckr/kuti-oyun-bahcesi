@@ -3,24 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Piko - Çocuk Eğitim & Oyun Bahçesi Dashboard</title>
-  <meta name="description" content="Piko Çocuk Eğitim ve Oyun Bahçesi Arayüzü. Duygu, Beceri, Öz Bakım ve Doğa Köşesi Keşif Alanı.">
+  <title>Kuti - Çocuk Eğitim & Oyun Bahçesi Dashboard</title>
+  <meta name="description" content="Kuti Çocuk Eğitim ve Oyun Bahçesi Arayüzü. Duygu, Beceri, Öz Bakım ve Doğa Köşesi Keşif Alanı.">
   <link rel="stylesheet" href="styles.css">
   <script src="app.js" defer></script>
 </head>
 <body>
 
   <!-- 1. INITIAL WELCOME OVERLAY -->
-  <div class="piko-welcome-overlay" id="piko-welcome-overlay">
+  <div class="kuti-welcome-overlay" id="kuti-welcome-overlay">
     <div class="welcome-card-box">
-      <img src="piko_mascot.jpg" alt="Piko Mascot" class="welcome-mascot-img">
-      <h2 style="font-family: var(--font-heading); font-size: 2rem; color: var(--piko-fox-dark); margin-bottom: 0.5rem;">
-        Piko'nun Oyun Bahçesi
+      <img src="kuti_mascot.jpg" alt="Kuti Mascot" class="welcome-mascot-img">
+      <h2 style="font-family: var(--font-heading); font-size: 2rem; color: var(--kuti-fox-dark); margin-bottom: 0.5rem;">
+        Kuti'nin Oyun Bahçesi
       </h2>
       <p style="font-family: var(--font-heading); font-size: 1.3rem; color: #5D4037; font-weight: 700; margin-bottom: 1.75rem;">
         Oyun bahçeme hoş geldin! 🌸✨
       </p>
-      <button class="btn-play" id="btn-start-welcome" style="padding: 0.85rem 2rem; font-size: 1.1rem; width: 100%; justify-content: center; background: var(--piko-fox-orange);">
+      <button class="btn-play" id="btn-start-welcome" style="padding: 0.85rem 2rem; font-size: 1.1rem; width: 100%; justify-content: center; background: var(--kuti-fox-orange);">
         Bahçeye Giriş Yap 🌸
       </button>
     </div>
@@ -29,13 +29,13 @@
   <!-- 2. MANDATORY APP LAUNCH INITIAL ENTRY LOCK OVERLAY -->
   <div class="app-launch-overlay" id="app-launch-overlay">
     <div class="launch-pin-box">
-      <img src="piko_mascot.jpg" alt="Piko Mascot" class="brand-avatar" style="width: 72px; height: 72px; margin-bottom: 0.75rem;">
-      <h3 style="font-family: var(--font-heading); color: var(--piko-fox-dark); margin-bottom: 0.25rem; text-align: center;">Ebeveyn Güvenlik Doğrulaması</h3>
+      <img src="kuti_mascot.jpg" alt="Kuti Mascot" class="brand-avatar" style="width: 72px; height: 72px; margin-bottom: 0.75rem;">
+      <h3 style="font-family: var(--font-heading); color: var(--kuti-fox-dark); margin-bottom: 0.25rem; text-align: center;">Ebeveyn Güvenlik Doğrulaması</h3>
       <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.75rem; text-align: center;">
         Uygulamaya güvenli giriş için lütfen ebeveyninizden yardım isteyin ve sorunun yanıtını tuşlayın:
       </p>
 
-      <div class="dynamic-pin-badge" id="launch-pin-display" style="font-size: 1rem; color: var(--piko-fox-dark); font-weight: bold; margin-bottom: 0.5rem;">
+      <div class="dynamic-pin-badge" id="launch-pin-display" style="font-size: 1rem; color: var(--kuti-fox-dark); font-weight: bold; margin-bottom: 0.5rem;">
         Soru yükleniyor...
       </div>
 
@@ -63,10 +63,10 @@
 
     <!-- TOP NAVIGATION -->
     <header class="top-header">
-      <a href="#" class="brand-logo" id="logo-btn" title="Piko Ana Sayfa">
-        <img src="piko_mascot.jpg" alt="Piko Fox Avatar" class="brand-avatar">
+      <a href="#" class="brand-logo" id="logo-btn" title="Kuti Ana Sayfa">
+        <img src="kuti_mascot.jpg" alt="Kuti Fox Avatar" class="brand-avatar">
         <div class="brand-text">
-          <h1>Piko</h1>
+          <h1>Kuti</h1>
           <span>Oyun Bahçesi</span>
         </div>
       </a>
@@ -109,13 +109,13 @@
     <main class="main-content" style="display: flex; flex-direction: column; gap: 0.5rem;">
 
       <!-- HERO MASCOT BANNER SECTION -->
-      <section class="piko-card hero-banner" id="hero-banner-section">
+      <section class="kuti-card hero-banner" id="hero-banner-section">
         <div style="display: flex; justify-content: center;">
-          <img src="piko_mascot.jpg" alt="Sevimli Rehber Piko" class="mascot-img" id="mascot-hero-img">
+          <img src="kuti_mascot.jpg" alt="Sevimli Rehber Kuti" class="mascot-img" id="mascot-hero-img">
         </div>
 
         <div>
-          <div class="speech-bubble" id="piko-speech-text">
+          <div class="speech-bubble" id="kuti-speech-text">
             Oyun bahçeme hoş geldin! Bugün ne keşfetmek istersin? ✨
           </div>
 
@@ -147,11 +147,11 @@
               <div class="pastel-icon-box" title="Duygu Köşesi">❤️</div>
               <div class="card-title-group">
                 <h3>Duygu Köşesi</h3>
-                <p>Duygu Aynası & Piko'nun Günü</p>
+                <p>Duygu Aynası & Kuti'nin Günü</p>
               </div>
             </div>
             <p style="font-size: 0.85rem; color: var(--text-light);" id="duygu-desc">
-              Görsel Duygu Aynası ve Piko'nun Günü etkinlikleriyle kendi duygularını tanı, empati ve çözüm becerileri kazan!
+              Görsel Duygu Aynası ve Kuti'nin Günü etkinlikleriyle kendi duygularını tanı, empati ve çözüm becerileri kazan!
             </p>
             <button class="btn-play"><span>▶</span> Keşfet & Oyna</button>
           </article>
@@ -166,7 +166,7 @@
               </div>
             </div>
             <p style="font-size: 0.85rem; color: var(--text-light);" id="beceri-desc">
-              Sırala Bul mekanikleri ve gerçek resim parçalı Piko yapboz bulmacalarıyla zihnini çalıştır!
+              Sırala Bul mekanikleri ve gerçek resim parçalı Kuti yapboz bulmacalarıyla zihnini çalıştır!
             </p>
             <button class="btn-play"><span>▶</span> Oyna & Çöz</button>
           </article>
@@ -177,11 +177,11 @@
               <div class="pastel-icon-box" title="Öz Bakım Köşesi">🪥</div>
               <div class="card-title-group">
                 <h3>Öz Bakım Köşesi</h3>
-                <p>Diş Fırçalama & Piko Giyiniyor</p>
+                <p>Diş Fırçalama & Kuti Giyiniyor</p>
               </div>
             </div>
             <p style="font-size: 0.85rem; color: var(--text-light);" id="ozbakim-desc">
-              Gerçek sürükle-bırak Diş Fırçalama ve Hava Durumuna Göre Piko'yu Giyindirme interaktif modülleri.
+              Gerçek sürükle-bırak Diş Fırçalama ve Hava Durumuna Göre Kuti'yi Giyindirme interaktif modülleri.
             </p>
             <button class="btn-play"><span>▶</span> Deneyimle</button>
           </article>
@@ -210,8 +210,8 @@
 
   <!-- UYKU MODU OVERLAY EKRANI -->
   <div class="sleep-mode-overlay" id="sleep-mode-overlay">
-    <img src="piko_sleep.jpg" alt="Piko Uykuya" class="sleep-hero-img">
-    <h2 class="sleep-title">Piko uykuya, haydi anne babayla oyna! 🌙</h2>
+    <img src="kuti_sleep.jpg" alt="Kuti Uykuya" class="sleep-hero-img">
+    <h2 class="sleep-title">Kuti uykuya, haydi anne babayla oyna! 🌙</h2>
     <p class="sleep-subtitle">
       Güneş battı! Aşağıdaki sürpriz kapalı kartlardan birine tıkla ve bu akşamki ortak etkinliğinizi aç!
     </p>
@@ -266,7 +266,7 @@
   </div>
 
   <!-- MODAL: DUYGU KÖŞESİ -->
-  <div class="piko-modal" id="modal-duygu-corner">
+  <div class="kuti-modal" id="modal-duygu-corner">
     <div class="modal-content-box">
       <button class="modal-close-btn" data-close-modal>✕</button>
       <h3 style="color: var(--pastel-red-main); margin-bottom: 0.35rem;">❤️ Duygu Köşesi</h3>
@@ -275,18 +275,18 @@
       </p>
 
       <div class="emotion-mirror-frame" style="margin-bottom: 0.75rem;">
-        <h4 style="color: #D32F2F; font-size: 0.95rem;">🪞 Duygu Aynası (Piko Ne Hissediyor?)</h4>
+        <h4 style="color: #D32F2F; font-size: 0.95rem;">🪞 Duygu Aynası (Kuti Ne Hissediyor?)</h4>
         <div style="position: relative;">
-          <img src="piko_mascot.jpg" alt="Piko Face Expression" class="mirror-face-img" id="mirror-face-img">
-          <p style="font-size: 0.85rem; font-weight: 700; color: #5D4037;" id="mirror-prompt-text">Piko'nun yüz ifadesine dikkatlice bak! Sence Piko şu an nasıl hissediyor?</p>
+          <img src="kuti_mascot.jpg" alt="Kuti Face Expression" class="mirror-face-img" id="mirror-face-img">
+          <p style="font-size: 0.85rem; font-weight: 700; color: #5D4037;" id="mirror-prompt-text">Kuti'nin yüz ifadesine dikkatlice bak! Sence Kuti şu an nasıl hissediyor?</p>
           <div id="duygu-mirror-options" style="display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center;"></div>
         </div>
       </div>
 
       <div style="background: #FFF; border: 2px solid #FFCDD2; padding: 0.75rem; border-radius: 16px;">
-        <h4 style="color: #D32F2F; margin-bottom: 0.35rem; font-size: 0.9rem;">📖 Piko'nun Günü (Duygusal Senaryo)</h4>
+        <h4 style="color: #D32F2F; margin-bottom: 0.35rem; font-size: 0.9rem;">📖 Kuti'nin Günü (Duygusal Senaryo)</h4>
         <p style="font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4rem;" id="duygu-scenario-text">
-          Piko dondurmasını yere düşürdü. Ne hissediyor olabilir ve ona nasıl yardım edebiliriz?
+          Kuti dondurmasını yere düşürdü. Ne hissediyor olabilir ve ona nasıl yardım edebiliriz?
         </p>
         <div id="duygu-scenario-choices" style="display: flex; flex-direction: column; gap: 0.35rem;"></div>
       </div>
@@ -294,7 +294,7 @@
   </div>
 
   <!-- MODAL: BECERİ KÖŞESİ -->
-  <div class="piko-modal" id="modal-beceri-corner">
+  <div class="kuti-modal" id="modal-beceri-corner">
     <div class="modal-content-box" style="max-width: 680px;">
       <button class="modal-close-btn" data-close-modal>✕</button>
       <h3 style="color: var(--pastel-green-main); margin-bottom: 0.35rem;">🧩 Beceri Köşesi</h3>
@@ -311,7 +311,7 @@
       </div>
 
       <div style="background: #FFF; border: 2px solid #C8E6C9; padding: 0.75rem; border-radius: 16px;">
-        <h4 style="color: #2E7D32; margin-bottom: 0.35rem; font-size: 0.9rem;">🧩 Piko'nun Yapbozu (Parçaları Doğru Yere Yerleştir!)</h4>
+        <h4 style="color: #2E7D32; margin-bottom: 0.35rem; font-size: 0.9rem;">🧩 Kuti'nin Yapbozu (Parçaları Doğru Yere Yerleştir!)</h4>
         <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">Sağdaki resim parçalarını tahtadaki boş yuvalara tıkla veya sürükle!</p>
         
         <div class="puzzle-game-container">
@@ -323,7 +323,7 @@
   </div>
 
   <!-- MODAL: ÖZ BAKIM KÖŞESİ -->
-  <div class="piko-modal" id="modal-ozbakim-corner">
+  <div class="kuti-modal" id="modal-ozbakim-corner">
     <div class="modal-content-box" style="max-width: 640px;">
       <button class="modal-close-btn" data-close-modal>✕</button>
       <h3 style="color: var(--pastel-orange-main); margin-bottom: 0.35rem;">🪥 Öz Bakım Köşesi</h3>
@@ -334,7 +334,7 @@
       <div style="background: #FFF3E0; padding: 0.85rem; border-radius: 16px; margin-bottom: 0.75rem; text-align: center;">
         <h4 style="color: #E65100; font-size: 0.95rem; margin-bottom: 0.35rem;">🪥 Diş Fırçalama Zamanı (Fırçayı Ağza Sürükle!)</h4>
         <p style="font-size: 0.82rem; color: #6D4C41; margin-bottom: 0.75rem;" id="tooth-drag-instruction">
-          Fırçayı tut ve Piko'nun dişlerinin üzerine sürükleyip bırak! 🪥 ➡️ 👄
+          Fırçayı tut ve Kuti'nin dişlerinin üzerine sürükleyip bırak! 🪥 ➡️ 👄
         </p>
 
         <div style="display: flex; align-items: center; justify-content: space-around; background: #FFF; padding: 0.75rem; border-radius: 16px; border: 2px dashed #FFB74D;">
@@ -349,9 +349,9 @@
       </div>
 
       <div style="background: #FFF; border: 2px solid #FFE082; padding: 0.75rem; border-radius: 16px;">
-        <h4 style="color: #E65100; margin-bottom: 0.35rem; font-size: 0.9rem;">👕 Piko Giyiniyor (Hava Durumu Eşleştirme)</h4>
+        <h4 style="color: #E65100; margin-bottom: 0.35rem; font-size: 0.9rem;">👕 Kuti Giyiniyor (Hava Durumu Eşleştirme)</h4>
         <p style="font-size: 0.82rem; margin-bottom: 0.4rem;" id="dress-weather-text">
-          Bugün hava Yağmurlu 🌧️! Piko'ya ne giydirelim?
+          Bugün hava Yağmurlu 🌧️! Kuti'ye ne giydirelim?
         </p>
         <div id="dress-options-grid" style="display: flex; gap: 0.5rem; flex-wrap: wrap;"></div>
         <div id="ozbakim-why-box" style="display:none; margin-top:0.5rem;">
@@ -363,7 +363,7 @@
   </div>
 
   <!-- MODAL: DOĞA KÖŞESİ -->
-  <div class="piko-modal" id="modal-doga-corner">
+  <div class="kuti-modal" id="modal-doga-corner">
     <div class="modal-content-box" style="max-width: 650px;">
       <button class="modal-close-btn" data-close-modal>✕</button>
       <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.75rem;">
@@ -387,7 +387,7 @@
       </div>
 
       <div style="background: #FFF; border: 2px solid #B2DFDB; padding: 0.85rem; border-radius: 16px; text-align: center;">
-        <h4 style="color: #004D40; margin-bottom: 0.35rem; font-size: 0.92rem;">🌻 Piko'nun Bahçesi (Su Damlasını veya Güneşi Saksıya Sürükle!)</h4>
+        <h4 style="color: #004D40; margin-bottom: 0.35rem; font-size: 0.92rem;">🌻 Kuti'nin Bahçesi (Su Damlasını veya Güneşi Saksıya Sürükle!)</h4>
         <p style="font-size: 0.8rem; color: #00695C; margin-bottom: 0.75rem;">
           Damlayı 💧 veya Güneşi ☀️ tutup saksının üzerine bırak, bitkinin büyümesini izle!
         </p>
@@ -408,7 +408,7 @@
   </div>
 
   <!-- EBEVEYN KÖŞESİ MODAL -->
-  <div class="piko-modal" id="modal-parent-corner">
+  <div class="kuti-modal" id="modal-parent-corner">
     <div class="parent-modal-box">
       <button class="modal-close-btn" data-close-modal>✕</button>
 
@@ -504,7 +504,7 @@
           <!-- TAB 3: AKADEMİK MAKALELER -->
           <div class="tab-pane" id="tab-articles">
             <div style="display: flex; flex-direction: column; gap: 0.65rem;">
-              <h4 style="margin-bottom: 0.3rem; color: #5E35B1;">Piko Akademik Kaynaklar Kütüphanesi</h4>
+              <h4 style="margin-bottom: 0.3rem; color: #5E35B1;">Kuti Akademik Kaynaklar Kütüphanesi</h4>
 
               <div style="padding: 0.65rem; background: #FAFAFA; border: 1px solid #E0E0E0; border-radius: 12px;">
                 <strong>📄 Media and Young Minds (AAP)</strong>
