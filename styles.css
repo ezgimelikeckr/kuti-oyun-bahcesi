@@ -57,13 +57,29 @@ html, body {
 
 body {
   background-color: var(--bg-cream);
-  background: 
-    linear-gradient(to bottom, rgba(255, 248, 225, 0.82) 0%, rgba(255, 253, 231, 0.7) 40%, rgba(241, 248, 233, 0.8) 100%),
-    url('kuti_ana_arkaplan.jpg') no-repeat center center / cover;
   color: var(--text-dark);
   font-family: var(--font-body);
   padding: 0.6rem 1rem;
   line-height: 1.3;
+  position: relative;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: -20px;
+  background: url('kuti_ana_arkaplan.jpg') no-repeat center center / cover;
+  filter: blur(9px);
+  transform: scale(1.06);
+  z-index: -2;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(255, 248, 225, 0.72) 0%, rgba(255, 253, 231, 0.6) 40%, rgba(241, 248, 233, 0.7) 100%);
+  z-index: -1;
 }
 
 .app-container {
@@ -607,6 +623,96 @@ div.parent-modal-box .modal-close-btn:hover {
   align-items: center;
   justify-content: center;
   margin: 0 auto;
+}
+
+.pin-lock-icon-circle {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: #FFC107;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  margin-bottom: 0.85rem;
+  box-shadow: 0 6px 16px rgba(255, 193, 7, 0.4);
+}
+
+.pin-lock-title {
+  font-family: var(--font-heading);
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--kuti-fox-dark, #1A237E);
+  margin-bottom: 0.4rem;
+}
+
+.pin-lock-subtitle {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 1.1rem;
+  line-height: 1.4;
+}
+
+.pin-star-inputs {
+  display: flex;
+  gap: 0.6rem;
+  margin-bottom: 1.2rem;
+}
+
+.pin-star-box {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  border: 2px solid #FFE082;
+  background: #FFFDF5;
+  text-align: center;
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--text-dark);
+  font-family: var(--font-heading);
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.pin-star-box:focus {
+  border-color: #FF9800;
+  box-shadow: 0 0 0 3px rgba(255, 152, 0, 0.15);
+}
+
+.pin-star-box.filled {
+  border-color: #FFB300;
+  background: #FFF8E1;
+}
+
+.pin-star-box.pin-error-shake {
+  animation: pinShake 0.4s ease;
+  border-color: #E53935;
+}
+
+@keyframes pinShake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  75% { transform: translateX(6px); }
+}
+
+.pin-submit-btn {
+  width: 100%;
+  background: #FF7043;
+  color: #FFF;
+  border: none;
+  border-radius: var(--radius-pill);
+  padding: 0.85rem;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(255, 112, 67, 0.35);
+  transition: all 0.2s ease;
+}
+
+.pin-submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(255, 112, 67, 0.45);
 }
 
 .dynamic-pin-badge {
