@@ -58,8 +58,8 @@ html, body {
 body {
   background-color: var(--bg-cream);
   background: 
-    linear-gradient(to bottom, rgba(255, 248, 225, 0.88) 0%, rgba(255, 253, 231, 0.75) 40%, rgba(241, 248, 233, 0.85) 100%),
-    url('kuti_garden_bg.jpg') no-repeat center center / cover;
+    linear-gradient(to bottom, rgba(255, 248, 225, 0.82) 0%, rgba(255, 253, 231, 0.7) 40%, rgba(241, 248, 233, 0.8) 100%),
+    url('kuti_ana_arkaplan.jpg') no-repeat center center / cover;
   color: var(--text-dark);
   font-family: var(--font-body);
   padding: 0.6rem 1rem;
@@ -484,7 +484,7 @@ div.parent-modal-box .modal-close-btn:hover {
   content: '';
   position: absolute;
   inset: -20px;
-  background: url('Garden_backdrop.png') no-repeat center center / cover;
+  background: url('kuti_giris_arkaplan.jpg') no-repeat center center / cover;
   filter: blur(7px);
   transform: scale(1.06);
   z-index: 0;
@@ -557,7 +557,7 @@ div.parent-modal-box .modal-close-btn:hover {
   content: '';
   position: absolute;
   inset: -20px;
-  background: url('Garden_backdrop.png') no-repeat center center / cover;
+  background: url('kuti_giris_arkaplan.jpg') no-repeat center center / cover;
   filter: blur(7px);
   transform: scale(1.06);
   z-index: 0;
