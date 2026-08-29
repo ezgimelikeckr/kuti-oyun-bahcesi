@@ -29,33 +29,21 @@
   <!-- 2. MANDATORY APP LAUNCH INITIAL ENTRY LOCK OVERLAY -->
   <div class="app-launch-overlay" id="app-launch-overlay">
     <div class="launch-pin-box">
-      <img src="kuti_mascot.jpg" alt="Kuti Mascot" class="brand-avatar" style="width: 72px; height: 72px; margin-bottom: 0.75rem;">
-      <h3 style="font-family: var(--font-heading); color: var(--kuti-fox-dark); margin-bottom: 0.25rem; text-align: center;">Ebeveyn Güvenlik Doğrulaması</h3>
-      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.75rem; text-align: center;">
-        Uygulamaya güvenli giriş için lütfen ebeveyninizden yardım isteyin ve sorunun yanıtını tuşlayın:
+      <div class="pin-lock-icon-circle">🔒</div>
+      <h3 class="pin-lock-title">Ebeveyn Şifresi</h3>
+      <p class="pin-lock-subtitle">
+        Lütfen devam etmek için dört haneli şifreyi gir. Bu alan büyüklere özeldir!
       </p>
 
-      <div class="dynamic-pin-badge" id="launch-pin-display" style="font-size: 1rem; color: var(--kuti-fox-dark); font-weight: bold; margin-bottom: 0.5rem;">
-        Soru yükleniyor...
+      <div class="pin-star-inputs" id="pin-star-inputs">
+        <input type="tel" inputmode="numeric" maxlength="1" class="pin-star-box" data-pin-index="0">
+        <input type="tel" inputmode="numeric" maxlength="1" class="pin-star-box" data-pin-index="1">
+        <input type="tel" inputmode="numeric" maxlength="1" class="pin-star-box" data-pin-index="2">
+        <input type="tel" inputmode="numeric" maxlength="1" class="pin-star-box" data-pin-index="3">
       </div>
 
-      <div id="math-input-display" style="font-size: 1.2rem; font-weight: bold; color: #FF7043; background: #FFF3E0; padding: 6px 15px; border-radius: 8px; display: inline-block; margin-bottom: 0.75rem; min-width: 60px; text-align: center;">
-        _
-      </div>
-
-      <div class="keypad-grid">
-        <button class="keypad-btn launch-key-btn">1</button>
-        <button class="keypad-btn launch-key-btn">2</button>
-        <button class="keypad-btn launch-key-btn">3</button>
-        <button class="keypad-btn launch-key-btn">4</button>
-        <button class="keypad-btn launch-key-btn">5</button>
-        <button class="keypad-btn launch-key-btn">6</button>
-        <button class="keypad-btn launch-key-btn">7</button>
-        <button class="keypad-btn launch-key-btn">8</button>
-        <button class="keypad-btn launch-key-btn">9</button>
-        <button class="keypad-btn launch-key-btn" style="grid-column: span 3;">0</button>
-      </div>
-      <p id="launch-pin-error" style="color: #E53935; font-weight: 700; margin-top: 0.4rem; min-height: 20px; font-size: 0.82rem; text-align: center;"></p>
+      <button class="pin-submit-btn" id="pin-submit-btn">Giriş Yap</button>
+      <p id="launch-pin-error" style="color: #E53935; font-weight: 700; margin-top: 0.5rem; min-height: 18px; font-size: 0.8rem; text-align: center;"></p>
     </div>
   </div>
 
@@ -210,113 +198,136 @@
 
   <!-- UYKU MODU OVERLAY EKRANI -->
   <div class="sleep-mode-overlay" id="sleep-mode-overlay">
-    <img src="kuti_sleep.jpg" alt="Kuti Uykuya" class="sleep-hero-img">
-    <h2 class="sleep-title">Kuti uykuya, haydi anne babayla oyna! 🌙</h2>
-    <p class="sleep-subtitle">
-      Güneş battı! Aşağıdaki sürpriz kapalı kartlardan birine tıkla ve bu akşamki ortak etkinliğinizi aç!
-    </p>
+    <button class="btn-icon-pill sleep-unlock-btn" id="btn-unlock-sleep">
+      🔒 Ebeveyn Kilit Aç
+    </button>
 
-    <div class="surprise-cards-grid">
-      <div class="flip-card">
-        <div class="flip-card-inner">
-          <div class="flip-card-front">
-            <div style="font-size: 2.2rem; margin-bottom: 0.25rem;">❓</div>
-            <div style="font-family: var(--font-heading); font-weight: 700;">1. Sürpriz Kart</div>
-            <span style="font-size: 0.75rem; opacity: 0.8;">Tıkla ve Aç!</span>
-          </div>
-          <div class="flip-card-back">
-            <h4 style="color: #FFE082; font-size: 1rem; margin-bottom: 0.4rem;">✨ Yıldız Saymaca</h4>
-            <p style="font-size: 0.82rem; color: #EDE7F6;">Pencereden gökyüzüne bakıp parıldayan 5 tane yıldız bulun ve bir dilek tutun!</p>
+    <div class="sleep-content-wrap">
+      <h2 class="sleep-title">Kuti uykuya, haydi anne babayla oyna! 🌙</h2>
+      <p class="sleep-subtitle">
+        Güneş battı! Aşağıdaki sürpriz kapalı kartlardan birine tıkla ve bu akşamki ortak etkinliğinizi aç!
+      </p>
+
+      <div class="surprise-cards-grid">
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <div style="font-size: 2.2rem; margin-bottom: 0.25rem;">❓</div>
+              <div style="font-family: var(--font-heading); font-weight: 700;">1. Sürpriz Kart</div>
+              <span style="font-size: 0.75rem; opacity: 0.8;">Tıkla ve Aç!</span>
+            </div>
+            <div class="flip-card-back">
+              <h4 style="color: #FFE082; font-size: 1rem; margin-bottom: 0.4rem;">✨ Yıldız Saymaca</h4>
+              <p style="font-size: 0.82rem; color: #EDE7F6;">Pencereden gökyüzüne bakıp parıldayan 5 tane yıldız bulun ve bir dilek tutun!</p>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="flip-card">
-        <div class="flip-card-inner">
-          <div class="flip-card-front">
-            <div style="font-size: 2.2rem; margin-bottom: 0.25rem;">❓</div>
-            <div style="font-family: var(--font-heading); font-weight: 700;">2. Sürpriz Kart</div>
-            <span style="font-size: 0.75rem; opacity: 0.8;">Tıkla ve Aç!</span>
-          </div>
-          <div class="flip-card-back">
-            <h4 style="color: #FFE082; font-size: 1rem; margin-bottom: 0.4rem;">📖 Sessiz Masal</h4>
-            <p style="font-size: 0.82rem; color: #EDE7F6;">Sevdiğiniz bir resimli kitabı açıp masalı resimlerden birlikte yeniden hayal edin.</p>
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <div style="font-size: 2.2rem; margin-bottom: 0.25rem;">❓</div>
+              <div style="font-family: var(--font-heading); font-weight: 700;">2. Sürpriz Kart</div>
+              <span style="font-size: 0.75rem; opacity: 0.8;">Tıkla ve Aç!</span>
+            </div>
+            <div class="flip-card-back">
+              <h4 style="color: #FFE082; font-size: 1rem; margin-bottom: 0.4rem;">📖 Sessiz Masal</h4>
+              <p style="font-size: 0.82rem; color: #EDE7F6;">Sevdiğiniz bir resimli kitabı açıp masalı resimlerden birlikte yeniden hayal edin.</p>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="flip-card">
-        <div class="flip-card-inner">
-          <div class="flip-card-front">
-            <div style="font-size: 2.2rem; margin-bottom: 0.25rem;">❓</div>
-            <div style="font-family: var(--font-heading); font-weight: 700;">3. Sürpriz Kart</div>
-            <span style="font-size: 0.75rem; opacity: 0.8;">Tıkla ve Aç!</span>
-          </div>
-          <div class="flip-card-back">
-            <h4 style="color: #FFE082; font-size: 1rem; margin-bottom: 0.4rem;">💬 Günün En Güzel Anı</h4>
-            <p style="font-size: 0.82rem; color: #EDE7F6;">Bugün seni en çok mutlu eden olayı anne ve babanla paylaşın ve birbirinize sarılın.</p>
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <div style="font-size: 2.2rem; margin-bottom: 0.25rem;">❓</div>
+              <div style="font-family: var(--font-heading); font-weight: 700;">3. Sürpriz Kart</div>
+              <span style="font-size: 0.75rem; opacity: 0.8;">Tıkla ve Aç!</span>
+            </div>
+            <div class="flip-card-back">
+              <h4 style="color: #FFE082; font-size: 1rem; margin-bottom: 0.4rem;">💬 Günün En Güzel Anı</h4>
+              <p style="font-size: 0.82rem; color: #EDE7F6;">Bugün seni en çok mutlu eden olayı anne ve babanla paylaşın ve birbirinize sarılın.</p>
+            </div>
           </div>
         </div>
       </div>
     </div>
-
-    <button class="btn-icon-pill" id="btn-unlock-sleep" style="margin-top: 1.5rem; background: #7E57C2; color: #FFF; border: none; padding: 0.75rem 1.5rem;">
-      🔒 Ebeveyn Kilit Aç (Sıfırla)
-    </button>
   </div>
 
   <!-- MODAL: DUYGU KÖŞESİ -->
   <div class="kuti-modal" id="modal-duygu-corner">
-    <div class="modal-content-box">
+    <div class="modal-content-box kuti-modal-shell" style="--corner-color:#D32F2F; --corner-tint:#FFEBEE; --corner-bg-img:url('kuti_corner_duygu.jpg');">
       <button class="modal-close-btn" data-close-modal>✕</button>
-      <h3 style="color: var(--pastel-red-main); margin-bottom: 0.35rem;">❤️ Duygu Köşesi</h3>
-      <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.75rem;" id="duygu-modal-subtitle">
-        Görsel Yüz İfadesi Aynası & Empati Senaryoları
-      </p>
 
-      <div class="emotion-mirror-frame" style="margin-bottom: 0.75rem;">
-        <h4 style="color: #D32F2F; font-size: 0.95rem;">🪞 Duygu Aynası (Kuti Ne Hissediyor?)</h4>
-        <div style="position: relative;">
-          <img src="kuti_mascot.jpg" alt="Kuti Face Expression" class="mirror-face-img" id="mirror-face-img">
-          <p style="font-size: 0.85rem; font-weight: 700; color: #5D4037;" id="mirror-prompt-text">Kuti'nin yüz ifadesine dikkatlice bak! Sence Kuti şu an nasıl hissediyor?</p>
-          <div id="duygu-mirror-options" style="display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center;"></div>
-        </div>
+      <div class="modal-topbar">
+        <div class="modal-brand"><span class="modal-k-badge">K</span> Kuti</div>
+        <div class="modal-title-pill">❤️ Duygu Köşesi</div>
       </div>
 
-      <div style="background: #FFF; border: 2px solid #FFCDD2; padding: 0.75rem; border-radius: 16px;">
-        <h4 style="color: #D32F2F; margin-bottom: 0.35rem; font-size: 0.9rem;">📖 Kuti'nin Günü (Duygusal Senaryo)</h4>
-        <p style="font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4rem;" id="duygu-scenario-text">
-          Kuti dondurmasını yere düşürdü. Ne hissediyor olabilir ve ona nasıl yardım edebiliriz?
-        </p>
-        <div id="duygu-scenario-choices" style="display: flex; flex-direction: column; gap: 0.35rem;"></div>
+      <div class="modal-body-flex">
+        <nav class="modal-side-nav" data-corner-nav></nav>
+
+        <div class="modal-main-col">
+          <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.75rem;" id="duygu-modal-subtitle">
+            Görsel Yüz İfadesi Aynası & Empati Senaryoları
+          </p>
+
+          <div class="emotion-mirror-frame" style="margin-bottom: 0.75rem;">
+            <h4 style="color: #D32F2F; font-size: 0.95rem;">🪞 Duygu Aynası (Kuti Ne Hissediyor?)</h4>
+            <div style="position: relative;">
+              <img src="kuti_mascot.jpg" alt="Kuti Face Expression" class="mirror-face-img" id="mirror-face-img">
+              <p style="font-size: 0.85rem; font-weight: 700; color: #5D4037;" id="mirror-prompt-text">Kuti'nin yüz ifadesine dikkatlice bak! Sence Kuti şu an nasıl hissediyor?</p>
+              <div id="duygu-mirror-options"></div>
+            </div>
+          </div>
+
+          <div style="background: #FFF; border: 2px solid #FFCDD2; padding: 0.75rem; border-radius: 16px;">
+            <h4 style="color: #D32F2F; margin-bottom: 0.35rem; font-size: 0.9rem;">📖 Kuti'nin Günü (Duygusal Senaryo)</h4>
+            <p style="font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4rem;" id="duygu-scenario-text">
+              Kuti dondurmasını yere düşürdü. Ne hissediyor olabilir ve ona nasıl yardım edebiliriz?
+            </p>
+            <div id="duygu-scenario-choices" style="display: flex; flex-direction: column; gap: 0.35rem;"></div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
   <!-- MODAL: BECERİ KÖŞESİ -->
   <div class="kuti-modal" id="modal-beceri-corner">
-    <div class="modal-content-box" style="max-width: 680px;">
+    <div class="modal-content-box kuti-modal-shell" style="--corner-color:#2E7D32; --corner-tint:#E8F5E9; --corner-bg-img:url('kuti_corner_beceri.jpg');">
       <button class="modal-close-btn" data-close-modal>✕</button>
-      <h3 style="color: var(--pastel-green-main); margin-bottom: 0.35rem;">🧩 Beceri Köşesi</h3>
-      <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.75rem;" id="beceri-modal-subtitle">
-        Sırala Bul & Gerçek Görsel Yapboz
-      </p>
 
-      <div style="background: #E8F5E9; padding: 0.75rem; border-radius: 16px; margin-bottom: 0.75rem;">
-        <h4 style="color: #2E7D32; margin-bottom: 0.35rem; font-size: 0.9rem;">🔍 Sırala Bul (Kriterli Sıralama)</h4>
-        <p style="font-size: 0.82rem; margin-bottom: 0.5rem;" id="sirala-prompt">
-          Nesneleri küçükten büyüğe sırala!
-        </p>
-        <div id="sirala-grid" style="display: flex; gap: 0.75rem; justify-content: center; align-items: flex-end; min-height: 70px;"></div>
+      <div class="modal-topbar">
+        <div class="modal-brand"><span class="modal-k-badge">K</span> Kuti</div>
+        <div class="modal-title-pill">🧩 Beceri Köşesi</div>
       </div>
 
-      <div style="background: #FFF; border: 2px solid #C8E6C9; padding: 0.75rem; border-radius: 16px;">
-        <h4 style="color: #2E7D32; margin-bottom: 0.35rem; font-size: 0.9rem;">🧩 Kuti'nin Yapbozu (Parçaları Doğru Yere Yerleştir!)</h4>
-        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">Sağdaki resim parçalarını tahtadaki boş yuvalara tıkla veya sürükle!</p>
-        
-        <div class="puzzle-game-container">
-          <div class="puzzle-board-grid" id="puzzle-board-grid"></div>
-          <div class="puzzle-piece-bank" id="puzzle-piece-bank"></div>
+      <div class="modal-body-flex">
+        <nav class="modal-side-nav" data-corner-nav></nav>
+
+        <div class="modal-main-col">
+          <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.75rem;" id="beceri-modal-subtitle">
+            Sırala Bul & Gerçek Görsel Yapboz
+          </p>
+
+          <div style="background: #E8F5E9; padding: 0.75rem; border-radius: 16px; margin-bottom: 0.75rem;">
+            <h4 style="color: #2E7D32; margin-bottom: 0.35rem; font-size: 0.9rem;">🔍 Sırala Bul (Kriterli Sıralama)</h4>
+            <p style="font-size: 0.82rem; margin-bottom: 0.5rem;" id="sirala-prompt">
+              Nesneleri küçükten büyüğe sırala!
+            </p>
+            <div id="sirala-grid" style="display: flex; gap: 0.75rem; justify-content: center; align-items: flex-end; min-height: 70px;"></div>
+          </div>
+
+          <div style="background: #FFF; border: 2px solid #C8E6C9; padding: 0.75rem; border-radius: 16px;">
+            <h4 style="color: #2E7D32; margin-bottom: 0.35rem; font-size: 0.9rem;">🧩 Kuti'nin Yapbozu (Parçaları Doğru Yere Yerleştir!)</h4>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">Sağdaki resim parçalarını tahtadaki boş yuvalara tıkla veya sürükle!</p>
+
+            <div class="puzzle-game-container">
+              <div class="puzzle-board-grid" id="puzzle-board-grid"></div>
+              <div class="puzzle-piece-bank" id="puzzle-piece-bank"></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -324,39 +335,50 @@
 
   <!-- MODAL: ÖZ BAKIM KÖŞESİ -->
   <div class="kuti-modal" id="modal-ozbakim-corner">
-    <div class="modal-content-box" style="max-width: 640px;">
+    <div class="modal-content-box kuti-modal-shell" style="--corner-color:#E65100; --corner-tint:#FFF3E0; --corner-bg-img:url('kuti_corner_ozbakim.jpg');">
       <button class="modal-close-btn" data-close-modal>✕</button>
-      <h3 style="color: var(--pastel-orange-main); margin-bottom: 0.35rem;">🪥 Öz Bakım Köşesi</h3>
-      <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.75rem;">
-        Gerçek Sürükle-Bırak (Drag & Drop) Günlük Yaşam Becerileri
-      </p>
 
-      <div style="background: #FFF3E0; padding: 0.85rem; border-radius: 16px; margin-bottom: 0.75rem; text-align: center;">
-        <h4 style="color: #E65100; font-size: 0.95rem; margin-bottom: 0.35rem;">🪥 Diş Fırçalama Zamanı (Fırçayı Ağza Sürükle!)</h4>
-        <p style="font-size: 0.82rem; color: #6D4C41; margin-bottom: 0.75rem;" id="tooth-drag-instruction">
-          Fırçayı tut ve Kuti'nin dişlerinin üzerine sürükleyip bırak! 🪥 ➡️ 👄
-        </p>
-
-        <div style="display: flex; align-items: center; justify-content: space-around; background: #FFF; padding: 0.75rem; border-radius: 16px; border: 2px dashed #FFB74D;">
-          <div class="drag-source" id="draggable-brush" draggable="true" style="font-size: 3rem; background: #FFE082; padding: 0.5rem 1rem; border-radius: 16px; box-shadow: 0 4px 10px rgba(0,0,0,0.15);" title="Fırçayı Sürükle">
-            🪥
-          </div>
-          <div class="drop-target-zone" id="teeth-target-zone" style="width: 140px; height: 110px; padding: 0.5rem;">
-            <div style="font-size: 2.8rem;" id="mouth-target-emoji">👄</div>
-            <span style="font-size: 0.72rem; font-weight: 700; color: #E65100; margin-top: 0.2rem;">Fırçayı Buraya Bırak</span>
-          </div>
-        </div>
+      <div class="modal-topbar">
+        <div class="modal-brand"><span class="modal-k-badge">K</span> Kuti</div>
+        <div class="modal-title-pill">🪥 Öz Bakım Köşesi</div>
       </div>
 
-      <div style="background: #FFF; border: 2px solid #FFE082; padding: 0.75rem; border-radius: 16px;">
-        <h4 style="color: #E65100; margin-bottom: 0.35rem; font-size: 0.9rem;">👕 Kuti Giyiniyor (Hava Durumu Eşleştirme)</h4>
-        <p style="font-size: 0.82rem; margin-bottom: 0.4rem;" id="dress-weather-text">
-          Bugün hava Yağmurlu 🌧️! Kuti'ye ne giydirelim?
-        </p>
-        <div id="dress-options-grid" style="display: flex; gap: 0.5rem; flex-wrap: wrap;"></div>
-        <div id="ozbakim-why-box" style="display:none; margin-top:0.5rem;">
-          <p style="font-size:0.8rem; font-weight:600;">Neden bu kıyafeti seçtin?</p>
-          <div id="ozbakim-why-options" style="display:flex; gap:0.35rem; flex-wrap:wrap;"></div>
+      <div class="modal-body-flex">
+        <nav class="modal-side-nav" data-corner-nav></nav>
+
+        <div class="modal-main-col">
+          <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.75rem;">
+            Gerçek Sürükle-Bırak (Drag & Drop) Günlük Yaşam Becerileri
+          </p>
+
+          <div style="background: #FFF3E0; padding: 0.85rem; border-radius: 16px; margin-bottom: 0.75rem; text-align: center;">
+            <h4 style="color: #E65100; font-size: 0.95rem; margin-bottom: 0.35rem;">🪥 Diş Fırçalama Zamanı (Fırçayı Ağza Sürükle!)</h4>
+            <p style="font-size: 0.82rem; color: #6D4C41; margin-bottom: 0.75rem;" id="tooth-drag-instruction">
+              Fırçayı tut ve Kuti'nin dişlerinin üzerine sürükleyip bırak! 🪥 ➡️ 👄
+            </p>
+
+            <div style="display: flex; align-items: center; justify-content: space-around; background: #FFF; padding: 0.75rem; border-radius: 16px; border: 2px dashed #FFB74D;">
+              <div class="drag-source" id="draggable-brush" draggable="true" style="font-size: 3rem; background: #FFE082; padding: 0.5rem 1rem; border-radius: 16px; box-shadow: 0 4px 10px rgba(0,0,0,0.15);" title="Fırçayı Sürükle">
+                🪥
+              </div>
+              <div class="drop-target-zone" id="teeth-target-zone" style="width: 140px; height: 110px; padding: 0.5rem;">
+                <div style="font-size: 2.8rem;" id="mouth-target-emoji">👄</div>
+                <span style="font-size: 0.72rem; font-weight: 700; color: #E65100; margin-top: 0.2rem;">Fırçayı Buraya Bırak</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="background: #FFF; border: 2px solid #FFE082; padding: 0.75rem; border-radius: 16px;">
+            <h4 style="color: #E65100; margin-bottom: 0.35rem; font-size: 0.9rem;">👕 Kuti Giyiniyor (Hava Durumu Eşleştirme)</h4>
+            <p style="font-size: 0.82rem; margin-bottom: 0.4rem;" id="dress-weather-text">
+              Bugün hava Yağmurlu 🌧️! Kuti'ye ne giydirelim?
+            </p>
+            <div id="dress-options-grid" style="display: flex; gap: 0.5rem; flex-wrap: wrap;"></div>
+            <div id="ozbakim-why-box" style="display:none; margin-top:0.5rem;">
+              <p style="font-size:0.8rem; font-weight:600;">Neden bu kıyafeti seçtin?</p>
+              <div id="ozbakim-why-options" style="display:flex; gap:0.35rem; flex-wrap:wrap;"></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -364,43 +386,47 @@
 
   <!-- MODAL: DOĞA KÖŞESİ -->
   <div class="kuti-modal" id="modal-doga-corner">
-    <div class="modal-content-box" style="max-width: 650px;">
+    <div class="modal-content-box kuti-modal-shell" style="--corner-color:#00796B; --corner-tint:#E0F2F1; --corner-bg-img:url('kuti_corner_doga.jpg');">
       <button class="modal-close-btn" data-close-modal>✕</button>
-      <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.75rem;">
-        <span style="font-size: 1.8rem;">🌿</span>
-        <div>
-          <h3 style="font-size: 1.2rem; font-weight: 700; color: #00796B;">Doğa Köşesi - Sürükle-Bırak Keşif</h3>
-          <span style="font-size: 0.78rem; color: #004D40; font-weight: 700;">Derlenen Eğitici İçerikler</span>
-        </div>
+
+      <div class="modal-topbar">
+        <div class="modal-brand"><span class="modal-k-badge">K</span> Kuti</div>
+        <div class="modal-title-pill">🌿 Doğa Köşesi</div>
       </div>
 
-      <div style="background: #E0F2F1; padding: 0.75rem; border-radius: 16px; margin-bottom: 0.75rem;">
-        <h4 style="color: #004D40; margin-bottom: 0.35rem; font-size: 0.9rem;">🍂 Hangi Mevsim?</h4>
-        <p style="font-size: 0.82rem; margin-bottom: 0.4rem;" id="mevsim-prompt">
-          Ağaçların yaprakları sararıp dökülüyor. Hangi mevsimdeyiz?
-        </p>
-        <div id="doga-why-box" style="display:none; margin-top:0.5rem;">
-          <p style="font-size:0.8rem; font-weight:600;">Bunu nereden anladın?</p>
-          <div id="doga-why-options" style="display:flex; gap:0.35rem; flex-wrap:wrap;"></div>
-        </div>
-        <div id="mevsim-options" style="display: flex; gap: 0.5rem; flex-wrap: wrap;"></div>
-      </div>
+      <div class="modal-body-flex">
+        <nav class="modal-side-nav" data-corner-nav></nav>
 
-      <div style="background: #FFF; border: 2px solid #B2DFDB; padding: 0.85rem; border-radius: 16px; text-align: center;">
-        <h4 style="color: #004D40; margin-bottom: 0.35rem; font-size: 0.92rem;">🌻 Kuti'nin Bahçesi (Su Damlasını veya Güneşi Saksıya Sürükle!)</h4>
-        <p style="font-size: 0.8rem; color: #00695C; margin-bottom: 0.75rem;">
-          Damlayı 💧 veya Güneşi ☀️ tutup saksının üzerine bırak, bitkinin büyümesini izle!
-        </p>
-
-        <div style="display: flex; align-items: center; justify-content: space-around; background: #E0F2F1; padding: 0.75rem; border-radius: 16px;">
-          <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-            <div class="drag-source" id="draggable-water" draggable="true" style="font-size: 2.5rem; background: #B2EBF2; padding: 0.4rem 0.8rem; border-radius: 14px;" title="Su Damlasını Sürükle">💧</div>
-            <div class="drag-source" id="draggable-sun" draggable="true" style="font-size: 2.5rem; background: #FFF9C4; padding: 0.4rem 0.8rem; border-radius: 14px;" title="Güneşi Sürükle">☀️</div>
+        <div class="modal-main-col">
+          <div style="background: #E0F2F1; padding: 0.75rem; border-radius: 16px; margin-bottom: 0.75rem;">
+            <h4 style="color: #004D40; margin-bottom: 0.35rem; font-size: 0.9rem;">🍂 Hangi Mevsim?</h4>
+            <p style="font-size: 0.82rem; margin-bottom: 0.4rem;" id="mevsim-prompt">
+              Ağaçların yaprakları sararıp dökülüyor. Hangi mevsimdeyiz?
+            </p>
+            <div id="doga-why-box" style="display:none; margin-top:0.5rem;">
+              <p style="font-size:0.8rem; font-weight:600;">Bunu nereden anladın?</p>
+              <div id="doga-why-options" style="display:flex; gap:0.35rem; flex-wrap:wrap;"></div>
+            </div>
+            <div id="mevsim-options" style="display: flex; gap: 0.5rem; flex-wrap: wrap;"></div>
           </div>
 
-          <div class="drop-target-zone" id="plant-pot-target" style="width: 170px; height: 140px; padding: 0.5rem; background: #FFF;">
-            <div id="plant-visual-display" style="font-size: 3.8rem; transition: transform 0.4s ease;">🌱</div>
-            <span style="font-size: 0.7rem; font-weight: 700; color: #004D40; margin-top: 0.2rem;">Buraya Bırak</span>
+          <div style="background: #FFF; border: 2px solid #B2DFDB; padding: 0.85rem; border-radius: 16px; text-align: center;">
+            <h4 style="color: #004D40; margin-bottom: 0.35rem; font-size: 0.92rem;">🌻 Kuti'nin Bahçesi (Su Damlasını veya Güneşi Saksıya Sürükle!)</h4>
+            <p style="font-size: 0.8rem; color: #00695C; margin-bottom: 0.75rem;">
+              Damlayı 💧 veya Güneşi ☀️ tutup saksının üzerine bırak, bitkinin büyümesini izle!
+            </p>
+
+            <div style="display: flex; align-items: center; justify-content: space-around; background: #E0F2F1; padding: 0.75rem; border-radius: 16px;">
+              <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                <div class="drag-source" id="draggable-water" draggable="true" style="font-size: 2.5rem; background: #B2EBF2; padding: 0.4rem 0.8rem; border-radius: 14px;" title="Su Damlasını Sürükle">💧</div>
+                <div class="drag-source" id="draggable-sun" draggable="true" style="font-size: 2.5rem; background: #FFF9C4; padding: 0.4rem 0.8rem; border-radius: 14px;" title="Güneşi Sürükle">☀️</div>
+              </div>
+
+              <div class="drop-target-zone" id="plant-pot-target" style="width: 170px; height: 140px; padding: 0.5rem; background: #FFF;">
+                <div id="plant-visual-display" style="font-size: 3.8rem; transition: transform 0.4s ease;">🌱</div>
+                <span style="font-size: 0.7rem; font-weight: 700; color: #004D40; margin-top: 0.2rem;">Buraya Bırak</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
