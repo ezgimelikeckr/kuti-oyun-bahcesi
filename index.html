@@ -30,16 +30,15 @@
   <div class="app-launch-overlay" id="app-launch-overlay">
     <div class="launch-pin-box">
       <div class="pin-lock-icon-circle">🔒</div>
-      <h3 class="pin-lock-title">Ebeveyn Şifresi</h3>
+      <h3 class="pin-lock-title">Ebeveyn Doğrulaması</h3>
       <p class="pin-lock-subtitle">
-        Lütfen devam etmek için dört haneli şifreyi gir. Bu alan büyüklere özeldir!
+        Bu alan büyüklere özeldir. Devam etmek için aşağıdaki basit işlemi çöz:
       </p>
 
-      <div class="pin-star-inputs" id="pin-star-inputs">
-        <input type="tel" inputmode="numeric" maxlength="1" class="pin-star-box" data-pin-index="0">
-        <input type="tel" inputmode="numeric" maxlength="1" class="pin-star-box" data-pin-index="1">
-        <input type="tel" inputmode="numeric" maxlength="1" class="pin-star-box" data-pin-index="2">
-        <input type="tel" inputmode="numeric" maxlength="1" class="pin-star-box" data-pin-index="3">
+      <div class="math-question-badge" id="launch-pin-display">Soru yükleniyor...</div>
+
+      <div class="pin-star-inputs" id="pin-star-inputs" style="justify-content: center;">
+        <input type="tel" inputmode="numeric" maxlength="2" class="pin-star-box" id="math-answer-input" style="width: 90px;">
       </div>
 
       <button class="pin-submit-btn" id="pin-submit-btn">Giriş Yap</button>

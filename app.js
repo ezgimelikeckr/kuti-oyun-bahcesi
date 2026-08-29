@@ -132,8 +132,6 @@ document.addEventListener('DOMContentLoaded', () => {
   let sunTimerDuration = 120;
   let sunInterval = null;
 
-  let currentMathAnswer = 0;
-  let enteredMathInput = '';
   let plantStageIndex = 0;
   const plantVisualStages = ['🌱', '🌿', '🌻', '🌳'];
 
@@ -191,47 +189,56 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   const appLaunchOverlay = document.getElementById('app-launch-overlay');
-  const launchPinDisplay = document.getElementById('launch-pin-display');
   const launchPinError = document.getElementById('launch-pin-error');
-  const mathInputDisplay = document.getElementById('math-input-display');
+  const launchPinDisplay = document.getElementById('launch-pin-display');
+  const mathAnswerInput = document.getElementById('math-answer-input');
+  const pinSubmitBtn = document.getElementById('pin-submit-btn');
+  let currentMathAnswer = 0;
 
   function generateMathSecurityProblem() {
-    const num1 = Math.floor(Math.random() * 5) + 1;
-    const num2 = Math.floor(Math.random() * 4) + 1;
+    const num1 = Math.floor(Math.random() * 8) + 2;
+    const num2 = Math.floor(Math.random() * 8) + 2;
     currentMathAnswer = num1 + num2;
-    enteredMathInput = '';
-    if (launchPinDisplay) launchPinDisplay.textContent = `Soru: ${num1} + ${num2} = ?`;
-    if (mathInputDisplay) mathInputDisplay.textContent = '_';
+    if (launchPinDisplay) launchPinDisplay.textContent = `${num1} + ${num2} = ?`;
+    if (mathAnswerInput) mathAnswerInput.value = '';
   }
 
   generateMathSecurityProblem();
 
-  document.querySelectorAll('#app-launch-overlay .keypad-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const digit = btn.textContent.trim();
-      if (enteredMathInput.length < 2) {
-        enteredMathInput += digit;
-        if (mathInputDisplay) mathInputDisplay.textContent = enteredMathInput;
-        if (soundEnabled) AudioEngine.playTone(432, 0.1);
-
-        const userResult = parseInt(enteredMathInput, 10);
-        if (userResult === currentMathAnswer) {
-          if (soundEnabled) AudioEngine.playSuccess();
-          if (appLaunchOverlay) {
-            appLaunchOverlay.classList.add('unlocked');
-            setTimeout(() => appLaunchOverlay.remove(), 300);
-          }
-        } else if (enteredMathInput.length >= 2 || userResult > currentMathAnswer) {
-          if (launchPinError) launchPinError.textContent = 'Hatalı sonuç! Tekrar deneyin.';
-          setTimeout(() => {
-            enteredMathInput = '';
-            if (mathInputDisplay) mathInputDisplay.textContent = '_';
-            if (launchPinError) launchPinError.textContent = '';
-          }, 800);
-        }
-      }
+  if (mathAnswerInput) {
+    mathAnswerInput.addEventListener('input', () => {
+      mathAnswerInput.value = mathAnswerInput.value.replace(/[^0-9]/g, '').slice(0, 2);
     });
-  });
+    mathAnswerInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') checkParentPin();
+    });
+  }
+
+  function checkParentPin() {
+    const entered = parseInt(mathAnswerInput ? mathAnswerInput.value : '', 10);
+    if (isNaN(entered)) {
+      if (launchPinError) launchPinError.textContent = 'Lütfen bir sayı girin.';
+      return;
+    }
+    if (entered === currentMathAnswer) {
+      if (soundEnabled) AudioEngine.playSuccess();
+      if (appLaunchOverlay) {
+        appLaunchOverlay.classList.add('unlocked');
+        setTimeout(() => appLaunchOverlay.remove(), 300);
+      }
+    } else {
+      if (launchPinError) launchPinError.textContent = 'Yanlış cevap! Yeni bir işlem oluşturuldu.';
+      if (mathAnswerInput) mathAnswerInput.classList.add('pin-error-shake');
+      setTimeout(() => {
+        if (mathAnswerInput) mathAnswerInput.classList.remove('pin-error-shake');
+        generateMathSecurityProblem();
+        if (mathAnswerInput) mathAnswerInput.focus();
+        if (launchPinError) launchPinError.textContent = '';
+      }, 900);
+    }
+  }
+
+  if (pinSubmitBtn) pinSubmitBtn.addEventListener('click', checkParentPin);
 
   const soundToggleBtn = document.getElementById('sound-toggle-btn');
   const soundIcon = document.getElementById('sound-icon');
@@ -559,38 +566,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  function initDogaCornerGame(level) {
-    const dogaModalBox = document.getElementById('modal-doga-corner');
-    if (!dogaModalBox) return;
-    
-    const innerBox = dogaModalBox.querySelector('.modal-content-box');
-    if (innerBox) {
-      innerBox.innerHTML = `
-        <button class="modal-close-btn" data-close-modal>✕</button>
-        <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.75rem;">
-          <span style="font-size: 1.8rem;">🌿</span>
-          <div>
-            <h3 style="font-size: 1.2rem; font-weight: 700; color: #00796B;">Doğa Köşesi - Keşif Alanı</h3>
-            <span style="font-size: 0.78rem; color: #004D40; font-weight: 700;">Doğayı Tanıyorum, Keşfediyorum</span>
-          </div>
-        </div>
-
-        <div style="background: #E0F2F1; padding: 0.85rem; border-radius: 16px; margin-bottom: 0.75rem;">
-          <h4 style="color: #004D40; margin-bottom: 0.35rem; font-size: 0.9rem;">🍃 Mevsimler ve Bitki</h4>
-          <p style="font-size: 0.82rem; margin-bottom: 0.5rem;">Verilen ipuçlarına göre doğru mevsimi veya bitkiyi seç.</p>
-          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-            <button class="btn-icon-pill" onclick="showVisualFeedback('Doğru seçim!', 'success')">☀️ Yaz / İlkbahar</button>
-            <button class="btn-icon-pill" onclick="showVisualFeedback('Doğru!', 'success')">🍂 Sonbahar / Kış</button>
-          </div>
-        </div>
-
-        <div style="background: #FFF; border: 2px solid #B2DFDB; padding: 0.85rem; border-radius: 16px; text-align: center;">
-          <h4 style="color: #004D40; margin-bottom: 0.35rem; font-size: 0.92rem;">🌱 Kuti'nin Bahçesi & Canlılar</h4>
-          <p style="font-size: 0.8rem; color: #00695C; margin-bottom: 0.4rem;" id="plant-visual-display">🌱</p>
-        </div>`;
-    }
-  }
-
   const ageConfig = {
     '3': {
       badge: '3 Yaş (Minik Keşifçiler)',
@@ -752,31 +727,44 @@ document.addEventListener('DOMContentLoaded', () => {
 
   updateAgeSystem('4-5');
 
-  document.getElementById('card-duygu')?.addEventListener('click', () => {
+  // ===== KÖŞELER ARASI GEÇİŞ (Ana giriş kartları + modal içi yan menü ortak kullanır) =====
+  const CORNERS = [
+    { key: 'duygu',   modalId: 'modal-duygu-corner',   label: '❤️ Duygu Köşesi' },
+    { key: 'doga',    modalId: 'modal-doga-corner',    label: '🌿 Doğa Köşesi' },
+    { key: 'ozbakim', modalId: 'modal-ozbakim-corner', label: '🪥 Öz Bakım' },
+    { key: 'beceri',  modalId: 'modal-beceri-corner',  label: '🧩 Beceri' },
+  ];
+
+  function switchCorner(targetKey) {
+    const target = CORNERS.find(c => c.key === targetKey);
+    if (!target) return;
+
+    document.querySelectorAll('.kuti-modal.active').forEach(m => m.classList.remove('active'));
+
     updateAgeSystem(currentAgeLevel);
-    document.getElementById('modal-duygu-corner')?.classList.add('active');
+
+    document.getElementById(target.modalId)?.classList.add('active');
+    renderCornerNav(targetKey);
     if (soundEnabled) AudioEngine.playTone(600);
+  }
+
+  function renderCornerNav(activeKey) {
+    document.querySelectorAll('[data-corner-nav]').forEach(nav => {
+      nav.innerHTML = CORNERS.map(c =>
+        `<button class="side-nav-item${c.key === activeKey ? ' active' : ''}" data-goto-corner="${c.key}">${c.label}</button>`
+      ).join('');
+    });
+  }
+
+  document.addEventListener('click', (e) => {
+    const gotoBtn = e.target.closest('[data-goto-corner]');
+    if (gotoBtn) switchCorner(gotoBtn.dataset.gotoCorner);
   });
 
-  document.getElementById('card-beceri')?.addEventListener('click', () => {
-    updateAgeSystem(currentAgeLevel);
-    initBeceriGame(currentAgeLevel);
-    document.getElementById('modal-beceri-corner')?.classList.add('active');
-    if (soundEnabled) AudioEngine.playTone(600);
-  });
-
-  document.getElementById('card-ozbakim')?.addEventListener('click', () => {
-    updateAgeSystem(currentAgeLevel);
-    document.getElementById('modal-ozbakim-corner')?.classList.add('active');
-    if (soundEnabled) AudioEngine.playTone(600);
-  });
-
-  document.getElementById('card-doga')?.addEventListener('click', () => {
-    updateAgeSystem(currentAgeLevel);
-    initDogaCornerGame(currentAgeLevel);
-    document.getElementById('modal-doga-corner')?.classList.add('active');
-    if (soundEnabled) AudioEngine.playTone(600);
-  });
+  document.getElementById('card-duygu')?.addEventListener('click', () => switchCorner('duygu'));
+  document.getElementById('card-beceri')?.addEventListener('click', () => switchCorner('beceri'));
+  document.getElementById('card-ozbakim')?.addEventListener('click', () => switchCorner('ozbakim'));
+  document.getElementById('card-doga')?.addEventListener('click', () => switchCorner('doga'));
 
   const parentBtn = document.getElementById('parent-corner-btn');
   const parentModal = document.getElementById('modal-parent-corner');

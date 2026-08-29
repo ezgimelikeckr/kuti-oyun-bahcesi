@@ -68,7 +68,7 @@ body::before {
   content: '';
   position: fixed;
   inset: -20px;
-  background: url('kuti_ana_arkaplan.jpg') no-repeat center center / cover;
+  background: url('kuti_giris_arkaplan.jpg') no-repeat center center / cover;
   filter: blur(9px);
   transform: scale(1.06);
   z-index: -2;
@@ -500,7 +500,7 @@ div.parent-modal-box .modal-close-btn:hover {
   content: '';
   position: absolute;
   inset: -20px;
-  background: url('kuti_giris_arkaplan.jpg') no-repeat center center / cover;
+  background: url('kuti_ana_arkaplan.jpg') no-repeat center center / cover;
   filter: blur(7px);
   transform: scale(1.06);
   z-index: 0;
@@ -657,6 +657,19 @@ div.parent-modal-box .modal-close-btn:hover {
   display: flex;
   gap: 0.6rem;
   margin-bottom: 1.2rem;
+}
+
+.math-question-badge {
+  background: #FFF3E0;
+  border: 2px dashed #FF9800;
+  border-radius: 14px;
+  padding: 0.6rem 1.2rem;
+  text-align: center;
+  font-family: var(--font-heading);
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #E65100;
+  margin-bottom: 0.9rem;
 }
 
 .pin-star-box {
