@@ -64,7 +64,7 @@ body {
   width: 100vw;
   height: 100vh;
   overflow: hidden !important;
-  position: relative;
+  margin: 0;
 }
 
 body::before {
@@ -581,8 +581,9 @@ div.parent-modal-box .modal-close-btn:hover {
 .app-launch-overlay {
   position: fixed;
   inset: 0;
-  /*Düz renk yerine hafif şeffaf bir ton veriyoruz ki arkadaki görsel görünsün*/
-  background: rgba(255, 248, 225, 0.35) !important;
+  /* Arka planı tamamen şeffaf yapıyoruz ki altındaki body görseli görünsün, üst üste binme bitsin */
+  background: rgba(0, 0, 0, 0.45) !important; /* Arkasını hafif karartarak ortadaki kutunun öne çıkmasını sağlar */
+  backdrop-filter: blur(5px); /* Sadece ebeveyn penceresinin arkasını hafif blurlar */
   z-index: 3000;
   display: flex;
   align-items: center;
