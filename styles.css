@@ -56,11 +56,14 @@ html, body {
 }
 
 body {
-  background-color: var(--bg-cream);
+  background:url('kuti_anasayfa_arkaplan.jpg') no-repeat center center / cover !important;
   color: var(--text-dark);
   font-family: var(--font-body);
   padding: 0.6rem 1rem;
   line-height: 1.3;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden !important;
   position: relative;
 }
 
@@ -578,7 +581,8 @@ div.parent-modal-box .modal-close-btn:hover {
 .app-launch-overlay {
   position: fixed;
   inset: 0;
-  background: linear-gradient(135deg, #FFF8E1 0%, #E8F5E9 100%);
+  /*Düz renk yerine hafif şeffaf bir ton veriyoruz ki arkadaki görsel görünsün*/
+  background: rgba(255, 248, 225, 0.35) !important;
   z-index: 3000;
   display: flex;
   align-items: center;
@@ -592,18 +596,18 @@ div.parent-modal-box .modal-close-btn:hover {
   content: '';
   position: absolute;
   inset: -20px;
-  background: url('kuti_anasayfa_arkaplan.jpg') no-repeat center center / cover;
+  background: url('kuti_anasayfa_arkaplan.jpg') no-repeat center center / cover !important;
   filter: blur(7px);
   transform: scale(1.06);
-  z-index: 0;
+  z-index: -1 !important; /* İçeriğin arkasında kalmasını kesinleştirir */
 }
 
 .app-launch-overlay::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: rgba(255, 248, 225, 0.35);
-  z-index: 0;
+  background: rgba(255, 248, 225, 0.25);
+  z-index: -1 !important;
 }
 
 .app-launch-overlay .launch-pin-box {
