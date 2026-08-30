@@ -240,6 +240,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (pinSubmitBtn) pinSubmitBtn.addEventListener('click', checkParentPin);
 
+  const pinNewQuestionLink = document.getElementById('pin-new-question-link');
+  if (pinNewQuestionLink) {
+    pinNewQuestionLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      generateMathSecurityProblem();
+      if (launchPinError) launchPinError.textContent = '';
+      if (mathAnswerInput) mathAnswerInput.focus();
+    });
+  }
+
   const soundToggleBtn = document.getElementById('sound-toggle-btn');
   const soundIcon = document.getElementById('sound-icon');
   if (soundToggleBtn) {
@@ -729,10 +739,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ===== KÖŞELER ARASI GEÇİŞ (Ana giriş kartları + modal içi yan menü ortak kullanır) =====
   const CORNERS = [
-    { key: 'duygu',   modalId: 'modal-duygu-corner',   label: '❤️ Duygu Köşesi' },
-    { key: 'doga',    modalId: 'modal-doga-corner',    label: '🌿 Doğa Köşesi' },
-    { key: 'ozbakim', modalId: 'modal-ozbakim-corner', label: '🪥 Öz Bakım' },
-    { key: 'beceri',  modalId: 'modal-beceri-corner',  label: '🧩 Beceri' },
+    { key: 'duygu',   modalId: 'modal-duygu-corner',   icon: '❤️', label: 'Duygu' },
+    { key: 'doga',    modalId: 'modal-doga-corner',    icon: '🌿', label: 'Doğa' },
+    { key: 'ozbakim', modalId: 'modal-ozbakim-corner', icon: '🪥', label: 'Öz Bakım' },
+    { key: 'beceri',  modalId: 'modal-beceri-corner',  icon: '🧩', label: 'Beceri' },
   ];
 
   function switchCorner(targetKey) {
@@ -751,7 +761,10 @@ document.addEventListener('DOMContentLoaded', () => {
   function renderCornerNav(activeKey) {
     document.querySelectorAll('[data-corner-nav]').forEach(nav => {
       nav.innerHTML = CORNERS.map(c =>
-        `<button class="side-nav-item${c.key === activeKey ? ' active' : ''}" data-goto-corner="${c.key}">${c.label}</button>`
+        `<button class="side-nav-item${c.key === activeKey ? ' active' : ''}" data-goto-corner="${c.key}" title="${c.label}">
+          <span class="side-nav-icon">${c.icon}</span>
+          <span class="side-nav-label">${c.label}</span>
+        </button>`
       ).join('');
     });
   }

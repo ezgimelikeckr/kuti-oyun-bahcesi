@@ -13,14 +13,9 @@
   <!-- 1. INITIAL WELCOME OVERLAY -->
   <div class="kuti-welcome-overlay" id="kuti-welcome-overlay">
     <div class="welcome-card-box">
-      <img src="kuti_mascot.jpg" alt="Kuti Mascot" class="welcome-mascot-img">
-      <h2 style="font-family: var(--font-heading); font-size: 2rem; color: var(--kuti-fox-dark); margin-bottom: 0.5rem;">
-        Kuti'nin Oyun Bahçesi
-      </h2>
-      <p style="font-family: var(--font-heading); font-size: 1.3rem; color: #5D4037; font-weight: 700; margin-bottom: 1.75rem;">
-        Oyun bahçeme hoş geldin! 🌸✨
-      </p>
-      <button class="btn-play" id="btn-start-welcome" style="padding: 0.85rem 2rem; font-size: 1.1rem; width: 100%; justify-content: center; background: var(--kuti-fox-orange);">
+      <h2>Kuti'nin Oyun Bahçesi</h2>
+      <p>Oyun bahçeme hoş geldin! 🌸✨</p>
+      <button class="welcome-enter-btn" id="btn-start-welcome">
         Bahçeye Giriş Yap 🌸
       </button>
     </div>
@@ -43,6 +38,7 @@
 
       <button class="pin-submit-btn" id="pin-submit-btn">Giriş Yap</button>
       <p id="launch-pin-error" style="color: #E53935; font-weight: 700; margin-top: 0.5rem; min-height: 18px; font-size: 0.8rem; text-align: center;"></p>
+      <a href="#" id="pin-new-question-link" style="font-size: 0.78rem; color: var(--text-muted); font-weight: 600; margin-top: 0.4rem; text-decoration: underline;">Yeni Soru İste</a>
     </div>
   </div>
 
@@ -137,7 +133,7 @@
                 <p>Duygu Aynası & Kuti'nin Günü</p>
               </div>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-light);" id="duygu-desc">
+            <p style="font-size: 0.72rem; color: var(--text-muted); font-style: italic; opacity: 0.85;" id="duygu-desc">
               Görsel Duygu Aynası ve Kuti'nin Günü etkinlikleriyle kendi duygularını tanı, empati ve çözüm becerileri kazan!
             </p>
             <button class="btn-play"><span>▶</span> Keşfet & Oyna</button>
@@ -152,7 +148,7 @@
                 <p>Sırala Bul & Gerçek Yapboz</p>
               </div>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-light);" id="beceri-desc">
+            <p style="font-size: 0.72rem; color: var(--text-muted); font-style: italic; opacity: 0.85;" id="beceri-desc">
               Sırala Bul mekanikleri ve gerçek resim parçalı Kuti yapboz bulmacalarıyla zihnini çalıştır!
             </p>
             <button class="btn-play"><span>▶</span> Oyna & Çöz</button>
@@ -167,7 +163,7 @@
                 <p>Diş Fırçalama & Kuti Giyiniyor</p>
               </div>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-light);" id="ozbakim-desc">
+            <p style="font-size: 0.72rem; color: var(--text-muted); font-style: italic; opacity: 0.85;" id="ozbakim-desc">
               Gerçek sürükle-bırak Diş Fırçalama ve Hava Durumuna Göre Kuti'yi Giyindirme interaktif modülleri.
             </p>
             <button class="btn-play"><span>▶</span> Deneyimle</button>
@@ -182,7 +178,7 @@
                 <p>Hangi Mevsim? & Sürükle-Bırak Bahçe</p>
               </div>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-light);" id="doga-desc">
+            <p style="font-size: 0.72rem; color: var(--text-muted); font-style: italic; opacity: 0.85;" id="doga-desc">
               Mevsim ipuçları analizi ve sürükle-bırak sulama ile görsel bitki büyütme dengesi.
             </p>
             <button class="btn-play" style="background: var(--pastel-teal-main);"><span>▶</span> Doğa Keşfi</button>
