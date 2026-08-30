@@ -56,22 +56,19 @@ html, body {
 }
 
 body {
-  background:url('kuti_anasayfa_arkaplan.jpg') no-repeat center center / cover !important;
+  background-color: var(--bg-cream);
   color: var(--text-dark);
   font-family: var(--font-body);
   padding: 0.6rem 1rem;
   line-height: 1.3;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden !important;
-  margin: 0;
+  position: relative;
 }
 
 body::before {
   content: '';
   position: fixed;
   inset: -20px;
-  background: url('kuti_giris_arkaplan.jpg') no-repeat center center / cover;
+  background: url('kuti_anasayfa_arkaplan.jpg') no-repeat center center / cover;
   filter: blur(9px);
   transform: scale(1.06);
   z-index: -2;
@@ -503,7 +500,11 @@ div.parent-modal-box .modal-close-btn:hover {
 .kuti-welcome-overlay {
   position: fixed;
   inset: 0;
-  background: url('kuti_giris_arkaplan.jpg') no-repeat center center / cover;
+  background-color: #FFF8E1;
+  background-image: url('kuti_ana_arkaplan.jpg');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
   z-index: 4000;
   display: flex;
   align-items: center;
@@ -581,9 +582,8 @@ div.parent-modal-box .modal-close-btn:hover {
 .app-launch-overlay {
   position: fixed;
   inset: 0;
-  /* Arka planı tamamen şeffaf yapıyoruz ki altındaki body görseli görünsün, üst üste binme bitsin */
-  background: rgba(0, 0, 0, 0.45) !important; /* Arkasını hafif karartarak ortadaki kutunun öne çıkmasını sağlar */
-  backdrop-filter: blur(5px); /* Sadece ebeveyn penceresinin arkasını hafif blurlar */
+  background-color: #FFF8E1;
+  background-image: linear-gradient(135deg, #FFF8E1 0%, #E8F5E9 100%);
   z-index: 3000;
   display: flex;
   align-items: center;
@@ -597,18 +597,18 @@ div.parent-modal-box .modal-close-btn:hover {
   content: '';
   position: absolute;
   inset: -20px;
-  background: url('kuti_anasayfa_arkaplan.jpg') no-repeat center center / cover !important;
+  background: url('kuti_anasayfa_arkaplan.jpg') no-repeat center center / cover;
   filter: blur(7px);
   transform: scale(1.06);
-  z-index: -1 !important; /* İçeriğin arkasında kalmasını kesinleştirir */
+  z-index: 0;
 }
 
 .app-launch-overlay::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: rgba(255, 248, 225, 0.25);
-  z-index: -1 !important;
+  background: rgba(255, 248, 225, 0.35);
+  z-index: 0;
 }
 
 .app-launch-overlay .launch-pin-box {
