@@ -69,7 +69,7 @@ body::before {
   position: fixed;
   inset: -20px;
   background: url('kuti_anasayfa_arkaplan.png') no-repeat center center / cover;
-  filter: blur(9px);
+  filter: blur(5px);
   transform: scale(1.06);
   z-index: -2;
 }
