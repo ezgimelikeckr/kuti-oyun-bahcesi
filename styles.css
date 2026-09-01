@@ -2,7 +2,7 @@
    KUTI DESIGN SYSTEM & UI KIT - REFINED STYLES & LAYOUT FIXES
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap');
 
 :root {
   --bg-cream: #FFF8E1;
@@ -68,8 +68,8 @@ body::before {
   content: '';
   position: fixed;
   inset: -20px;
-  background: url('kuti_anasayfa_arkaplan.png') no-repeat center center / cover;
-  filter: blur(5px);
+  background: url('kuti_anasayfa_arkaplan.jpg') no-repeat center center / cover;
+  filter: blur(9px);
   transform: scale(1.06);
   z-index: -2;
 }
@@ -273,6 +273,35 @@ body::after {
   min-width: 0;
   overflow-y: auto;
   padding-right: 0.25rem;
+}
+
+.corner-game-stage {
+  min-height: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.game-stage-placeholder {
+  text-align: center;
+  padding: 2rem 1.5rem;
+  background: rgba(255,255,255,0.55);
+  border: 2px dashed var(--corner-color, #D32F2F);
+  border-radius: 20px;
+  opacity: 0.75;
+}
+
+.game-stage-placeholder-icon {
+  font-size: 2.8rem;
+  margin-bottom: 0.5rem;
+  opacity: 0.6;
+}
+
+.game-stage-placeholder p {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--corner-color, #D32F2F);
 }
 
 /* Duygu köşesindeki duygu seçim kartlarını büyük, dokunması kolay kartlara çevir */
@@ -501,7 +530,7 @@ div.parent-modal-box .modal-close-btn:hover {
   position: fixed;
   inset: 0;
   background-color: #FFF8E1;
-  background-image: url('kuti_giris_arkaplan.jpg');
+  background-image: url('kuti_ana_arkaplan.jpg');
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
@@ -597,7 +626,7 @@ div.parent-modal-box .modal-close-btn:hover {
   content: '';
   position: absolute;
   inset: -20px;
-  background: url('kuti_anasayfa_arkaplan.png') no-repeat center center / cover;
+  background: url('kuti_anasayfa_arkaplan.jpg') no-repeat center center / cover;
   filter: blur(7px);
   transform: scale(1.06);
   z-index: 0;
@@ -1045,7 +1074,7 @@ div.parent-modal-box .modal-close-btn:hover {
   background-image: var(--corner-bg-img);
   background-size: cover;
   background-position: center;
-  opacity: 0.16;
+  opacity: 0.40;
   z-index: -1;
   pointer-events: none;
 }
@@ -1098,8 +1127,8 @@ div.parent-modal-box .modal-close-btn:hover {
 .category-card.doga .pastel-icon-box { background: var(--pastel-teal-bg); color: var(--pastel-teal-main); }
 .category-card.doga .btn-play { background: var(--pastel-teal-main); }
 
-.card-title-group h3 { font-size: 1.2rem; font-weight: 800; }
-.card-title-group p { font-size: 0.7rem; color: var(--text-muted); font-weight: 600; }
+.card-title-group h3 { font-size: 1.2rem; font-weight: 800; color: #4A3E3D; font-family: var(--font-body); }
+.card-title-group p { font-size: 0.7rem; color: #8C7A78; font-weight: 600; font-family: var(--font-body); }
 
 .btn-play {
   border: none;
@@ -1422,4 +1451,120 @@ div.parent-modal-box .modal-close-btn:hover {
     -webkit-overflow-scrolling: touch !important;
     touch-action: pan-y !important;
   }
+}
+
+/* ===== KUTİ REHBERLİK / KÖŞELER ARASI GEÇİŞ EKRANI ===== */
+
+.kuti-transition-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(40, 30, 20, 0.55);
+  backdrop-filter: blur(6px);
+  z-index: 1800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.35s ease, visibility 0.35s ease;
+}
+
+.kuti-transition-overlay.active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.kuti-transition-card {
+  background: var(--card-bg);
+  border-radius: var(--radius-xl);
+  padding: 2rem 1.75rem;
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 20px 44px rgba(0,0,0,0.25);
+  border: 4px solid #FFE082;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: welcomePop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.kuti-transition-avatar {
+  width: 96px;
+  height: 96px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid #FFE082;
+  box-shadow: 0 8px 20px rgba(255,143,0,0.3);
+  margin-bottom: 0.85rem;
+  animation: floatBounce 4s ease-in-out infinite;
+}
+
+.kuti-transition-card h3 {
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #4A3E3D;
+  margin-bottom: 0.35rem;
+}
+
+.kuti-transition-card p {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  margin-bottom: 1.3rem;
+}
+
+.kuti-transition-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.kuti-transition-next-btn {
+  background: #FF7043;
+  color: #FFF;
+  border: none;
+  border-radius: var(--radius-pill);
+  padding: 0.85rem;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(255, 112, 67, 0.35);
+  transition: all 0.2s ease;
+}
+
+.kuti-transition-next-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(255, 112, 67, 0.45);
+}
+
+.kuti-transition-skip-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 0.82rem;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0.3rem;
+}
+
+.dev-test-complete-btn {
+  margin-top: 0.85rem;
+  background: rgba(0,0,0,0.08);
+  border: 1px dashed rgba(0,0,0,0.25);
+  border-radius: var(--radius-pill);
+  padding: 0.4rem 0.9rem;
+  font-family: var(--font-heading);
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  cursor: pointer;
 }

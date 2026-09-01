@@ -770,9 +770,61 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   document.addEventListener('click', (e) => {
+    const testCompleteBtn = e.target.closest('[data-test-complete-corner]');
+    if (testCompleteBtn) completeCornerGame(testCompleteBtn.dataset.testCompleteCorner);
+  });
+
+  document.addEventListener('click', (e) => {
     const gotoBtn = e.target.closest('[data-goto-corner]');
     if (gotoBtn) switchCorner(gotoBtn.dataset.gotoCorner);
   });
+
+  // ===== KUTİ REHBERLİK / KÖŞELER ARASI GEÇİŞ =====
+  // Bir köşenin oyunu tamamlandığında bu fonksiyon çağrılır. Vygotsky'nin
+  // "Daha Bilgili Öteki" (MKO) rolüne uygun olarak Kuti bir sonraki köşeyi
+  // önerir, ama son adımı (Devam Et / Ana Sayfaya Dön) hep çocuk seçer.
+  const transitionOverlay = document.getElementById('kuti-transition-overlay');
+  const transitionTitle = document.getElementById('kuti-transition-title');
+  const transitionMessage = document.getElementById('kuti-transition-message');
+  const transitionNextBtn = document.getElementById('kuti-transition-next-btn');
+  const transitionSkipBtn = document.getElementById('kuti-transition-skip-btn');
+
+  const CORNER_TRANSITION_MESSAGES = {
+    duygu:   'Şimdi birlikte doğayı keşfetmeye ne dersin? 🌿',
+    doga:    'Şimdi ellerini biraz meşgul edelim mi? 🪥',
+    ozbakim: 'Şimdi küçük bir bulmaca çözmeye ne dersin? 🧩',
+    beceri:  'Şimdi duygularımızı biraz konuşalım mı? ❤️',
+  };
+
+  function completeCornerGame(finishedCornerKey) {
+    const currentIndex = CORNERS.findIndex(c => c.key === finishedCornerKey);
+    const nextCorner = CORNERS[(currentIndex + 1) % CORNERS.length];
+
+    if (transitionMessage) {
+      transitionMessage.textContent = CORNER_TRANSITION_MESSAGES[finishedCornerKey] || 'Şimdi başka bir köşeyi keşfetmeye ne dersin?';
+    }
+    if (transitionNextBtn) {
+      transitionNextBtn.dataset.nextCorner = nextCorner.key;
+    }
+
+    document.querySelectorAll('.kuti-modal.active').forEach(m => m.classList.remove('active'));
+    if (transitionOverlay) transitionOverlay.classList.add('active');
+    if (soundEnabled) AudioEngine.playSuccess();
+  }
+
+  if (transitionNextBtn) {
+    transitionNextBtn.addEventListener('click', () => {
+      const nextKey = transitionNextBtn.dataset.nextCorner;
+      if (transitionOverlay) transitionOverlay.classList.remove('active');
+      if (nextKey) switchCorner(nextKey);
+    });
+  }
+
+  if (transitionSkipBtn) {
+    transitionSkipBtn.addEventListener('click', () => {
+      if (transitionOverlay) transitionOverlay.classList.remove('active');
+    });
+  }
 
   document.getElementById('card-duygu')?.addEventListener('click', () => switchCorner('duygu'));
   document.getElementById('card-beceri')?.addEventListener('click', () => switchCorner('beceri'));
