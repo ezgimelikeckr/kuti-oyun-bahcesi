@@ -626,7 +626,7 @@ div.parent-modal-box .modal-close-btn:hover {
   content: '';
   position: absolute;
   inset: -20px;
-  background: url('kuti_anasayfa_arkaplan.jpg') no-repeat center center / cover;
+  background: url('kuti_anasayfa_arkaplan.png') no-repeat center center / cover;
   filter: blur(7px);
   transform: scale(1.06);
   z-index: 0;
