@@ -68,7 +68,7 @@ body::before {
   content: '';
   position: fixed;
   inset: -20px;
-  background: url('kuti_anasayfa_arkaplan.jpg') no-repeat center center / cover;
+  background: url('kuti_anasayfa_arkaplan.png') no-repeat center center / cover;
   filter: blur(9px);
   transform: scale(1.06);
   z-index: -2;
@@ -530,7 +530,7 @@ div.parent-modal-box .modal-close-btn:hover {
   position: fixed;
   inset: 0;
   background-color: #FFF8E1;
-  background-image: url('kuti_ana_arkaplan.jpg');
+  background-image: url('kuti_giris_arkaplan.jpg');
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
