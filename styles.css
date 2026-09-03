@@ -68,7 +68,7 @@ body::before {
   content: '';
   position: fixed;
   inset: -20px;
-  background: url('kuti_anasayfa_arkaplan.png') no-repeat center center / cover;
+  background: url('kuti_anasayfa_arkaplan.jpg') no-repeat center center / cover;
   filter: blur(9px);
   transform: scale(1.06);
   z-index: -2;
@@ -137,8 +137,8 @@ body::after {
 /* ===== KÖŞE MODALLERİ — ORTAK ŞABLON (Topbar + Yan Menü + Ana İçerik) ===== */
 
 .kuti-modal-shell {
-  max-width: 760px !important;
-  padding: 1rem !important;
+  max-width: 580px !important;
+  padding: 1.25rem !important;
   position: relative;
   overflow: hidden;
   isolation: isolate;
@@ -151,7 +151,7 @@ body::after {
   background-image: var(--corner-bg-img);
   background-size: cover;
   background-position: center;
-  opacity: 0.12;
+  opacity: 0.35;
   z-index: -1;
   pointer-events: none;
 }
@@ -160,8 +160,7 @@ body::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: var(--card-bg);
-  opacity: 0.94;
+  background: linear-gradient(180deg, var(--card-bg) 0%, var(--card-bg) 45%, rgba(255,255,255,0.55) 100%);
   z-index: -1;
   pointer-events: none;
 }
@@ -169,103 +168,21 @@ body::after {
 .modal-topbar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
+  justify-content: center;
   padding-bottom: 0.75rem;
   margin-bottom: 0.75rem;
   border-bottom: 1px solid rgba(0,0,0,0.06);
   flex-shrink: 0;
 }
 
-.modal-brand {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-family: var(--font-heading);
-  font-weight: 700;
-  font-size: 1rem;
-  color: var(--text-dark);
-}
-
-.modal-k-badge {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background: var(--pastel-red-main, #E57373);
-  color: #FFF;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 800;
-  font-size: 0.9rem;
-  flex-shrink: 0;
-}
-
 .modal-title-pill {
   background: var(--corner-tint, #FFF3F3);
   color: var(--corner-color, #D32F2F);
-  font-weight: 700;
-  font-size: 0.82rem;
-  padding: 0.3rem 0.85rem;
+  font-weight: 800;
+  font-size: 1.05rem;
+  padding: 0.4rem 1.2rem;
   border-radius: var(--radius-pill);
   white-space: nowrap;
-}
-
-.modal-body-flex {
-  display: flex;
-  gap: 0.85rem;
-  overflow: hidden;
-  flex: 1;
-  min-height: 0;
-}
-
-.modal-side-nav {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  width: 92px;
-  flex-shrink: 0;
-}
-
-.side-nav-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.15rem;
-  padding: 0.65rem 0.3rem;
-  border-radius: 16px;
-  border: none;
-  background: transparent;
-  font-family: var(--font-heading);
-  cursor: pointer;
-  text-align: center;
-  transition: all 0.15s ease;
-}
-
-.side-nav-icon {
-  font-size: 1.8rem;
-  line-height: 1;
-}
-
-.side-nav-label {
-  font-size: 0.62rem;
-  font-weight: 700;
-  color: var(--text-muted);
-}
-
-.side-nav-item:hover {
-  background: rgba(0,0,0,0.04);
-  transform: translateY(-1px);
-}
-
-.side-nav-item.active {
-  background: var(--corner-tint, #FFF3F3);
-  box-shadow: 0 3px 8px rgba(0,0,0,0.08);
-}
-
-.side-nav-item.active .side-nav-label {
-  color: var(--corner-color, #D32F2F);
 }
 
 .modal-main-col {
@@ -324,17 +241,6 @@ body::after {
 #duygu-mirror-options .emo-opt-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 14px rgba(0,0,0,0.1);
-}
-
-@media (max-width: 640px) {
-  .modal-body-flex { flex-direction: column; }
-  .modal-side-nav {
-    flex-direction: row;
-    width: 100%;
-    overflow-x: auto;
-    gap: 0.4rem;
-  }
-  .side-nav-item { flex-shrink: 0; width: 74px; }
 }
 
 .parent-modal-box {
@@ -530,7 +436,7 @@ div.parent-modal-box .modal-close-btn:hover {
   position: fixed;
   inset: 0;
   background-color: #FFF8E1;
-  background-image: url('kuti_giris_arkaplan.jpg');
+  background-image: url('kuti_ana_arkaplan.jpg');
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
@@ -626,7 +532,7 @@ div.parent-modal-box .modal-close-btn:hover {
   content: '';
   position: absolute;
   inset: -20px;
-  background: url('kuti_anasayfa_arkaplan.png') no-repeat center center / cover;
+  background: url('kuti_anasayfa_arkaplan.jpg') no-repeat center center / cover;
   filter: blur(7px);
   transform: scale(1.06);
   z-index: 0;

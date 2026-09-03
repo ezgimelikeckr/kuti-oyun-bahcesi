@@ -754,29 +754,12 @@ document.addEventListener('DOMContentLoaded', () => {
     updateAgeSystem(currentAgeLevel);
 
     document.getElementById(target.modalId)?.classList.add('active');
-    renderCornerNav(targetKey);
     if (soundEnabled) AudioEngine.playTone(600);
-  }
-
-  function renderCornerNav(activeKey) {
-    document.querySelectorAll('[data-corner-nav]').forEach(nav => {
-      nav.innerHTML = CORNERS.map(c =>
-        `<button class="side-nav-item${c.key === activeKey ? ' active' : ''}" data-goto-corner="${c.key}" title="${c.label}">
-          <span class="side-nav-icon">${c.icon}</span>
-          <span class="side-nav-label">${c.label}</span>
-        </button>`
-      ).join('');
-    });
   }
 
   document.addEventListener('click', (e) => {
     const testCompleteBtn = e.target.closest('[data-test-complete-corner]');
     if (testCompleteBtn) completeCornerGame(testCompleteBtn.dataset.testCompleteCorner);
-  });
-
-  document.addEventListener('click', (e) => {
-    const gotoBtn = e.target.closest('[data-goto-corner]');
-    if (gotoBtn) switchCorner(gotoBtn.dataset.gotoCorner);
   });
 
   // ===== KUTİ REHBERLİK / KÖŞELER ARASI GEÇİŞ =====
