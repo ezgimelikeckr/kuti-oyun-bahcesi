@@ -1493,24 +1493,3 @@ div.parent-modal-box .modal-close-btn:hover {
 .parent-tab-banner-makaleler { background-image: url('kuti_parent_banner_makaleler.jpg'); }
 .parent-tab-banner-kitaplik  { background-image: url('kuti_parent_banner_kitaplik.jpg'); } 
 
-/* Ebeveyn Köşesi Modüler Kart Yapısı */
-.parent-dashboard-container {
-  display: grid; 
-  grid-template-columns: repeat(2, 1fr);
-  gap: 24px;
-  max-width: 100px;
-  margin: 0 auto; 
-  padding: 20px
-}
-
-.parent-card {
-  background: #ffffff;
-  border-radius: 20px;
-  padding: 24px;
-  box-shadow: 0 10px 30px (rgba0, 0, 0 , 0.05);
-  border: 1px solid rgba (0, 0, 0, 0.05);
-}
-
-.parent-card.full-width {
-  grid-column: span 2;
-}
