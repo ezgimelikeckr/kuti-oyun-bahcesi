@@ -392,7 +392,23 @@
       </div>
 
       <div id="parent-dashboard-view" style="display: none; flex-direction: column; width: 100%; height: auto; min-height: 350px; max-height: 72vh; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; box-sizing: border-box; padding-right: 4px;">
-        <h3 style="margin-bottom: 0.6rem; color: #5E35B1; flex-shrink: 0;">⚙️ Ebeveyn Yönetim Paneli</h3>
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; margin-bottom: 0.85rem; flex-shrink: 0; flex-wrap: wrap;">
+          <div style="display: flex; align-items: center; gap: 0.6rem;">
+            <img src="kuti_mascot.jpg" alt="Kuti" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid #FFE082;">
+            <div>
+              <h3 style="color: #5E35B1; font-size: 1.05rem; line-height: 1.1;">Kuti & Arkadaşları</h3>
+              <span style="font-size: 0.68rem; font-weight: 800; letter-spacing: 0.03em; color: var(--kuti-fox-orange);">EBEVEYN KONTROL MERKEZİ</span>
+            </div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <span style="background: #E8F5E9; color: #2E7D32; font-size: 0.72rem; font-weight: 700; padding: 0.3rem 0.7rem; border-radius: var(--radius-pill); display: flex; align-items: center; gap: 0.3rem;">
+              <span style="width: 7px; height: 7px; border-radius: 50%; background: #4CAF50; display: inline-block;"></span> Kuti Çevrimiçi
+            </span>
+            <button class="btn-play" data-close-modal style="background: var(--kuti-fox-orange); padding: 0.4rem 0.9rem; font-size: 0.78rem; margin-top: 0;">Oyuna Dön ✕</button>
+          </div>
+        </div>
+
+        <div class="parent-tab-banner parent-tab-banner-overview"></div>
 
         <div class="parent-tabs parent-tabs-nav modal-tabs" style="display: flex; flex-wrap: nowrap; overflow-x: auto; overflow-y: hidden; gap: 6px; width: 100%; box-sizing: border-box; -webkit-overflow-scrolling: touch; padding-bottom: 6px; flex-shrink: 0; position: sticky; top: 0; background: #FFFFFF; z-index: 10; touch-action: pan-x;">
           <button class="tab-btn active" data-tab="tab-time" style="flex: 0 0 auto; white-space: nowrap; font-size: 0.78rem; padding: 6px 10px;">☀️ Süre</button>
@@ -403,6 +419,7 @@
 
         <div style="width: 100%; height: auto; box-sizing: border-box; padding-top: 8px; padding-bottom: 20px;">
           <div class="tab-pane active" id="tab-time">
+            <div class="parent-tab-banner parent-tab-banner-sure"></div>
             <h4 style="margin-bottom: 0.4rem; font-size: 0.9rem;">Güneş Yolu (Ekran Süresi Limitleri):</h4>
             <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 0.6rem;">
               Güneşin hareket hızı seçilen süre ile birebir zaman orantılıdır. Süre bittiğinde otomatik Uyku Modu'na geçilir.
@@ -419,6 +436,7 @@
           </div>
 
           <div class="tab-pane" id="tab-age">
+            <div class="parent-tab-banner parent-tab-banner-yas"></div>
             <h4 style="margin-bottom: 0.4rem;">Seviye ve Yaş Grubu Seçimi:</h4>
             <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.85rem;">
               Tüm 4 ana köşenin oyun zorluklarını ve içeriklerini anında seçtiğiniz yaşa uyarlar.
@@ -450,6 +468,7 @@
 
           <!-- TAB 3: AKADEMİK MAKALELER -->
           <div class="tab-pane" id="tab-articles">
+            <div class="parent-tab-banner parent-tab-banner-makaleler"></div>
             <div style="display: flex; flex-direction: column; gap: 0.65rem;">
               <h4 style="margin-bottom: 0.3rem; color: #5E35B1;">Kuti Akademik Kaynaklar Kütüphanesi</h4>
 
@@ -537,6 +556,7 @@
 
           <!-- TAB 4: TAVSİYE KİTAPLAR -->
           <div class="tab-pane" id="tab-books">
+            <div class="parent-tab-banner parent-tab-banner-kitaplik"></div>
             <div style="display: flex; flex-direction: column; gap: 0.65rem;">
               <div style="padding: 0.65rem; background: #FFF8E1; border: 2px solid #FFE082; border-radius: 12px;">
                 <h5 style="color: #E65100; font-size: 0.85rem; margin-bottom: 0.35rem;">Günün Önerilen Çocuk Kitapları</h5>
