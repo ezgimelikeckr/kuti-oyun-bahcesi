@@ -273,17 +273,6 @@ body::after {
   overflow-x: hidden !important;
 }
 
-/* Sekmelerin gizlilik/görünürlük durumu */
-#parent-dashboard-view .tab-pane {
-  display: none !important;
-}
-
-#parent-dashboard-view .tab-pane.active {
-  display: block !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-}
-
 /* ==========================================================================
    TÜM MODALLAR İÇİN ORTAK VE GÜVENLİ KAPATMA BUTONU & KUTU AYARI
    ========================================================================== */
@@ -1491,5 +1480,37 @@ div.parent-modal-box .modal-close-btn:hover {
 .parent-tab-banner-sure      { background-image: url('kuti_parent_banner_sure.jpg'); }
 .parent-tab-banner-yas       { background-image: url('kuti_parent_banner_yas.jpg'); }
 .parent-tab-banner-makaleler { background-image: url('kuti_parent_banner_makaleler.jpg'); }
-.parent-tab-banner-kitaplik  { background-image: url('kuti_parent_banner_kitaplik.jpg'); } 
+.parent-tab-banner-kitaplik  { background-image: url('kuti_parent_banner_kitaplik.jpg'); }
 
+/* ===== EBEVEYN KÖŞESİ — TAM GRID (SEKMESİZ, HEPSİ AYNI ANDA GÖRÜNÜR) ===== */
+.parent-dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.85rem;
+}
+
+.parent-panel-card {
+  background: var(--card-bg);
+  border-radius: 18px;
+  padding: 1rem;
+  box-shadow: var(--shadow-soft);
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+.parent-panel-wide {
+  grid-column: span 3;
+}
+
+.parent-scroll-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-height: 230px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+@media (max-width: 768px) {
+  .parent-dashboard-grid { grid-template-columns: 1fr; }
+  .parent-panel-wide { grid-column: span 1; }
+}
