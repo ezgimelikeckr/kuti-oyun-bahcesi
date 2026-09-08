@@ -880,8 +880,6 @@ document.addEventListener('DOMContentLoaded', () => {
               parentDashboardView.style.flexDirection = 'column';
             }
             loadDailyChildrenBooks();
-            const firstTabBtn = document.querySelector('.parent-tabs-nav .tab-btn');
-            if (firstTabBtn) firstTabBtn.click();
           } else {
             if (pinErrorMsg) pinErrorMsg.textContent = 'Hatalı Kod! Lütfen gösterilen 4 rakamı girin.';
             setTimeout(() => {
@@ -900,22 +898,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const modal = e.target.closest('.kuti-modal');
       if (modal) modal.classList.remove('active');
     }
-  });
-
-  const tabBtns = document.querySelectorAll('.tab-btn');
-  const tabPanes = document.querySelectorAll('.tab-pane');
-
-  tabBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      tabBtns.forEach(b => b.classList.remove('active'));
-      tabPanes.forEach(p => p.classList.remove('active'));
-
-      btn.classList.add('active');
-      const targetEl = document.getElementById(btn.dataset.tab);
-      if (targetEl) targetEl.classList.add('active');
-      if (parentDashboardView) parentDashboardView.scrollTop = 0;
-      if (soundEnabled) AudioEngine.playTone(550);
-    });
   });
 
   const btnForceSleep = document.getElementById('btn-force-sleep');

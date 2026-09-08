@@ -392,35 +392,21 @@
       </div>
 
       <div id="parent-dashboard-view" style="display: none; flex-direction: column; width: 100%; height: auto; min-height: 350px; max-height: 72vh; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; box-sizing: border-box; padding-right: 4px;">
-        <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; margin-bottom: 0.85rem; flex-shrink: 0; flex-wrap: wrap;">
-          <div style="display: flex; align-items: center; gap: 0.6rem;">
-            <img src="kuti_mascot.jpg" alt="Kuti" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid #FFE082;">
-            <div>
-              <h3 style="color: #5E35B1; font-size: 1.05rem; line-height: 1.1;">Kuti & Arkadaşları</h3>
-              <span style="font-size: 0.68rem; font-weight: 800; letter-spacing: 0.03em; color: var(--kuti-fox-orange);">EBEVEYN KONTROL MERKEZİ</span>
-            </div>
-          </div>
-          <div style="display: flex; align-items: center; gap: 0.5rem;">
-            <span style="background: #E8F5E9; color: #2E7D32; font-size: 0.72rem; font-weight: 700; padding: 0.3rem 0.7rem; border-radius: var(--radius-pill); display: flex; align-items: center; gap: 0.3rem;">
-              <span style="width: 7px; height: 7px; border-radius: 50%; background: #4CAF50; display: inline-block;"></span> Kuti Çevrimiçi
-            </span>
-            <button class="btn-play" data-close-modal style="background: var(--kuti-fox-orange); padding: 0.4rem 0.9rem; font-size: 0.78rem; margin-top: 0;">Oyuna Dön ✕</button>
-          </div>
+        <div style="display: flex; align-items: center; justify-content: flex-end; margin-bottom: 0.85rem; flex-shrink: 0;">
+          <button class="btn-play" data-close-modal style="background: var(--kuti-fox-orange); padding: 0.4rem 0.9rem; font-size: 0.78rem; margin-top: 0;">Oyuna Dön ✕</button>
         </div>
 
-        <div class="parent-tab-banner parent-tab-banner-overview"></div>
+        <div class="parent-dashboard-grid">
 
-        <div class="parent-tabs parent-tabs-nav modal-tabs" style="display: flex; flex-wrap: nowrap; overflow-x: auto; overflow-y: hidden; gap: 6px; width: 100%; box-sizing: border-box; -webkit-overflow-scrolling: touch; padding-bottom: 6px; flex-shrink: 0; position: sticky; top: 0; background: #FFFFFF; z-index: 10; touch-action: pan-x;">
-          <button class="tab-btn active" data-tab="tab-time" style="flex: 0 0 auto; white-space: nowrap; font-size: 0.78rem; padding: 6px 10px;">☀️ Süre</button>
-          <button class="tab-btn" data-tab="tab-age" style="flex: 0 0 auto; white-space: nowrap; font-size: 0.78rem; padding: 6px 10px;">🌱 Yaş</button>
-          <button class="tab-btn" data-tab="tab-articles" style="flex: 0 0 auto; white-space: nowrap; font-size: 0.78rem; padding: 6px 10px;">📚 Makaleler</button>
-          <button class="tab-btn" data-tab="tab-books" style="flex: 0 0 auto; white-space: nowrap; font-size: 0.78rem; padding: 6px 10px;">📖 Kitaplar</button>
-        </div>
+          <div class="parent-panel-card parent-panel-wide">
+            <div class="parent-tab-banner parent-tab-banner-overview"></div>
+            <h4 style="margin-bottom: 0.2rem; color: #5E35B1;">⚙️ Ebeveyn Yönetim Paneli</h4>
+            <p style="font-size: 0.78rem; color: var(--text-muted);">Kuti'nin oyun deneyimini düzenleyin, gelişimini destekleyin.</p>
+          </div>
 
-        <div style="width: 100%; height: auto; box-sizing: border-box; padding-top: 8px; padding-bottom: 20px;">
-          <div class="tab-pane active" id="tab-time">
+          <div class="parent-panel-card">
             <div class="parent-tab-banner parent-tab-banner-sure"></div>
-            <h4 style="margin-bottom: 0.4rem; font-size: 0.9rem;">Güneş Yolu (Ekran Süresi Limitleri):</h4>
+            <h4 style="margin-bottom: 0.4rem; font-size: 0.9rem;">☀️ Süre</h4>
             <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 0.6rem;">
               Güneşin hareket hızı seçilen süre ile birebir zaman orantılıdır. Süre bittiğinde otomatik Uyku Modu'na geçilir.
             </p>
@@ -435,145 +421,145 @@
             </button>
           </div>
 
-          <div class="tab-pane" id="tab-age">
+          <div class="parent-panel-card" id="tab-age">
             <div class="parent-tab-banner parent-tab-banner-yas"></div>
-            <h4 style="margin-bottom: 0.4rem;">Seviye ve Yaş Grubu Seçimi:</h4>
-            <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.85rem;">
-              Tüm 4 ana köşenin oyun zorluklarını ve içeriklerini anında seçtiğiniz yaşa uyarlar.
+            <h4 style="margin-bottom: 0.4rem;">🌱 Yaş</h4>
+            <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 0.65rem;">
+              Çocuğunuzun yaş aralığını seçin. Tüm 4 ana köşenin oyun zorluklarını anında bu seçime uyarlar.
             </p>
-            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-              <label style="padding: 0.65rem; background: #F5F5F5; border-radius: 12px; display: flex; align-items: center; gap: 0.75rem; cursor: pointer;">
+            <div style="display: flex; flex-direction: column; gap: 0.45rem;">
+              <label style="padding: 0.55rem; background: #F5F5F5; border-radius: 12px; display: flex; align-items: center; gap: 0.6rem; cursor: pointer;">
                 <input type="radio" name="age-group" value="3" id="age-3">
                 <div>
-                  <strong>3 Yaş (Minik Keşifçiler)</strong>
-                  <p style="font-size: 0.75rem; color: var(--text-muted);">3 temel duygu, tek kriterli sıralama, 4 parçalı yapboz, 3 adımlı fırçalama.</p>
+                  <strong style="font-size: 0.82rem;">3 Yaş (Minik Keşifçiler)</strong>
+                  <p style="font-size: 0.72rem; color: var(--text-muted);">3 temel duygu, tek kriterli sıralama, 4 parçalı yapboz.</p>
                 </div>
               </label>
-              <label style="padding: 0.65rem; background: #F5F5F5; border-radius: 12px; display: flex; align-items: center; gap: 0.75rem; cursor: pointer;">
+              <label style="padding: 0.55rem; background: #F5F5F5; border-radius: 12px; display: flex; align-items: center; gap: 0.6rem; cursor: pointer;">
                 <input type="radio" name="age-group" value="4-5" id="age-4-5" checked>
                 <div>
-                  <strong>4-5 Yaş (Meraklı Filizler - Önerilen)</strong>
-                  <p style="font-size: 0.75rem; color: var(--text-muted);">4 duygu, çift kriterli sıralama, 6 parçalı yapboz, 5 adımlı öz bakım.</p>
+                  <strong style="font-size: 0.82rem;">4-5 Yaş (Meraklı Filizler - Önerilen)</strong>
+                  <p style="font-size: 0.72rem; color: var(--text-muted);">4 duygu, çift kriterli sıralama, 6 parçalı yapboz.</p>
                 </div>
               </label>
-              <label style="padding: 0.65rem; background: #F5F5F5; border-radius: 12px; display: flex; align-items: center; gap: 0.75rem; cursor: pointer;">
+              <label style="padding: 0.55rem; background: #F5F5F5; border-radius: 12px; display: flex; align-items: center; gap: 0.6rem; cursor: pointer;">
                 <input type="radio" name="age-group" value="6+" id="age-6-plus">
                 <div>
-                  <strong>6+ Yaş (Bilge Çiçekler)</strong>
-                  <p style="font-size: 0.75rem; color: var(--text-muted);">6 zengin duygu, çok kriterli sıralama, 9-12 parçalı yapboz, 4 mevsim kombinasyon.</p>
+                  <strong style="font-size: 0.82rem;">6+ Yaş (Bilge Çiçekler)</strong>
+                  <p style="font-size: 0.72rem; color: var(--text-muted);">6 zengin duygu, çok kriterli sıralama, 9-12 parçalı yapboz.</p>
                 </div>
               </label>
             </div>
           </div>
 
-          <!-- TAB 3: AKADEMİK MAKALELER -->
-          <div class="tab-pane" id="tab-articles">
+          <div class="parent-panel-card" id="tab-articles">
             <div class="parent-tab-banner parent-tab-banner-makaleler"></div>
-            <div style="display: flex; flex-direction: column; gap: 0.65rem;">
-              <h4 style="margin-bottom: 0.3rem; color: #5E35B1;">Kuti Akademik Kaynaklar Kütüphanesi</h4>
+            <h4 style="margin-bottom: 0.4rem; color: #5E35B1;">📚 Makaleler</h4>
+            <div class="parent-scroll-list">
 
-              <div style="padding: 0.65rem; background: #FAFAFA; border: 1px solid #E0E0E0; border-radius: 12px;">
-                <strong>📄 Media and Young Minds (AAP)</strong>
-                <p style="color: var(--text-muted); font-size: 0.75rem; margin: 0.15rem 0 0.3rem;">
-                  Amerikan Pediatri Akademisi'nin küçük çocuklarda dijital medya kullanımına dair resmi görüşü. 18 aydan küçük çocuklarda ekrandan kaçınılmasını, 2-5 yaş grubunda günde 1 saati aşmayan, kaliteli ve ebeveyn eşliğinde içerik önerir[cite: 5].
+              <div style="padding: 0.6rem; background: #FAFAFA; border: 1px solid #E0E0E0; border-radius: 12px;">
+                <strong style="font-size: 0.8rem;">📄 Media and Young Minds (AAP)</strong>
+                <p style="color: var(--text-muted); font-size: 0.72rem; margin: 0.15rem 0 0.3rem;">
+                  Amerikan Pediatri Akademisi'nin küçük çocuklarda dijital medya kullanımına dair resmi görüşü.
                 </p>
-                <a href="https://publications.aap.org/pediatrics/article/138/5/e20162591/60503/Media-and-Young-Mindse" target="_blank" rel="noopener noreferrer" style="color: #5E35B1; font-weight: 700; font-size: 0.8rem; text-decoration: underline;">
-                  🔗 Makaleye Git (Doğrudan Bağlantı) ↗
+                <a href="https://publications.aap.org/pediatrics/article/138/5/e20162591/60503/Media-and-Young-Mindse" target="_blank" rel="noopener noreferrer" style="color: #5E35B1; font-weight: 700; font-size: 0.75rem; text-decoration: underline;">
+                  🔗 Makaleye Git ↗
                 </a>
               </div>
 
-              <div style="padding: 0.65rem; background: #FAFAFA; border: 1px solid #E0E0E0; border-radius: 12px;">
-                <strong>📄 Family Media Plan (HealthyChildren.org)</strong>
-                <p style="color: var(--text-muted); font-size: 0.75rem; margin: 0.15rem 0 0.3rem;">
-                  Ailelerin kendi çocuklarına özel bir "medya kullanım planı" oluşturmasına yardımcı olan resmi AAP aracı ve rehberi. İçerik kalitesi, birlikte izleme ve aile içi iletişim üzerine pratik öneriler sunar[cite: 5].
+              <div style="padding: 0.6rem; background: #FAFAFA; border: 1px solid #E0E0E0; border-radius: 12px;">
+                <strong style="font-size: 0.8rem;">📄 Family Media Plan (HealthyChildren.org)</strong>
+                <p style="color: var(--text-muted); font-size: 0.72rem; margin: 0.15rem 0 0.3rem;">
+                  Ailelerin kendi çocuklarına özel bir "medya kullanım planı" oluşturmasına yardımcı olan resmi AAP aracı.
                 </p>
-                <a href="https://www.healthychildren.org/English/media/Pages/default.aspx" target="_blank" rel="noopener noreferrer" style="color: #5E35B1; font-weight: 700; font-size: 0.8rem; text-decoration: underline;">
-                  🔗 Rehbere Git (Doğrudan Bağlantı) ↗
+                <a href="https://www.healthychildren.org/English/media/Pages/default.aspx" target="_blank" rel="noopener noreferrer" style="color: #5E35B1; font-weight: 700; font-size: 0.75rem; text-decoration: underline;">
+                  🔗 Rehbere Git ↗
                 </a>
               </div>
 
-              <div style="padding: 0.65rem; background: #FAFAFA; border: 1px solid #E0E0E0; border-radius: 12px;">
-                <strong>📄 How Are You Feeling? (NAEYC)</strong>
-                <p style="color: var(--text-muted); font-size: 0.75rem; margin: 0.15rem 0 0.3rem;">
-                  ABD'nin en büyük erken çocukluk eğitimi kurumu NAEYC'nin yayınladığı, çocukların duygularını tanıma ve yönetme becerisini destekleme rehberi[cite: 5].
+              <div style="padding: 0.6rem; background: #FAFAFA; border: 1px solid #E0E0E0; border-radius: 12px;">
+                <strong style="font-size: 0.8rem;">📄 How Are You Feeling? (NAEYC)</strong>
+                <p style="color: var(--text-muted); font-size: 0.72rem; margin: 0.15rem 0 0.3rem;">
+                  NAEYC'nin çocukların duygularını tanıma ve yönetme becerisini destekleme rehberi.
                 </p>
-                <a href="https://www.naeyc.org/resources/pubs/yc/spring2021/helping-children-understand-emotions" target="_blank" rel="noopener noreferrer" style="color: #5E35B1; font-weight: 700; font-size: 0.8rem; text-decoration: underline;">
-                  🔗 Makaleye Git (Doğrudan Bağlantı) ↗
+                <a href="https://www.naeyc.org/resources/pubs/yc/spring2021/helping-children-understand-emotions" target="_blank" rel="noopener noreferrer" style="color: #5E35B1; font-weight: 700; font-size: 0.75rem; text-decoration: underline;">
+                  🔗 Makaleye Git ↗
                 </a>
               </div>
 
-              <div style="padding: 0.65rem; background: #FAFAFA; border: 1px solid #E0E0E0; border-radius: 12px;">
-                <strong>📄 Parent and Early Childhood Educator Perspectives of Unstructured Nature Play (PubMed Central)</strong>
-                <p style="color: var(--text-muted); font-size: 0.75rem; margin: 0.15rem 0 0.3rem;">
-                  Ebeveynlerin ve okul öncesi eğitimcilerin, çocukların yapılandırılmamış doğa oyunlarına dair görüşlerini inceleyen nitel bir araştırma[cite: 5].
+              <div style="padding: 0.6rem; background: #FAFAFA; border: 1px solid #E0E0E0; border-radius: 12px;">
+                <strong style="font-size: 0.8rem;">📄 Unstructured Nature Play (PubMed Central)</strong>
+                <p style="color: var(--text-muted); font-size: 0.72rem; margin: 0.15rem 0 0.3rem;">
+                  Ebeveynlerin ve okul öncesi eğitimcilerin, çocukların yapılandırılmamış doğa oyunlarına dair görüşleri.
                 </p>
-                <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10246796" target="_blank" rel="noopener noreferrer" style="color: #5E35B1; font-weight: 700; font-size: 0.8rem; text-decoration: underline;">
-                  🔗 Makaleye Git (Doğrudan Bağlantı) ↗
+                <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10246796" target="_blank" rel="noopener noreferrer" style="color: #5E35B1; font-weight: 700; font-size: 0.75rem; text-decoration: underline;">
+                  🔗 Makaleye Git ↗
                 </a>
               </div>
 
-              <div style="padding: 0.65rem; background: #FAFAFA; border: 1px solid #E0E0E0; border-radius: 12px;">
-                <strong>📄 3-9 Yaş Grubu Çocuklarda Dijital Medya Kullanımının Yönetimi (DergiPark)</strong>
-                <p style="color: var(--text-muted); font-size: 0.75rem; margin: 0.15rem 0 0.3rem;">
-                  Türkiye'de 3-9 yaş arası çocuğu olan 92 ebeveynle yürütülen karma yöntem araştırması. Ekran süresi, içerik niteliği ve ebeveyn aracılığının çocukların öz-düzenleme becerileriyle ilişkisini inceliyor[cite: 5].
+              <div style="padding: 0.6rem; background: #FAFAFA; border: 1px solid #E0E0E0; border-radius: 12px;">
+                <strong style="font-size: 0.8rem;">📄 3-9 Yaş Grubu Dijital Medya Kullanımı (DergiPark)</strong>
+                <p style="color: var(--text-muted); font-size: 0.72rem; margin: 0.15rem 0 0.3rem;">
+                  92 ebeveynle yürütülen, ekran süresi ve öz-düzenleme ilişkisini inceleyen araştırma.
                 </p>
-                <a href="https://dergipark.org.tr/tr/download/article-file/5545304" target="_blank" rel="noopener noreferrer" style="color: #5E35B1; font-weight: 700; font-size: 0.8rem; text-decoration: underline;">
-                  🔗 Makale PDF İndir (Doğrudan Bağlantı) ↗
+                <a href="https://dergipark.org.tr/tr/download/article-file/5545304" target="_blank" rel="noopener noreferrer" style="color: #5E35B1; font-weight: 700; font-size: 0.75rem; text-decoration: underline;">
+                  🔗 Makale PDF İndir ↗
                 </a>
               </div>
 
-              <div style="padding: 0.65rem; background: #FAFAFA; border: 1px solid #E0E0E0; border-radius: 12px;">
-                <strong>📄 Çocuk ve Ergenlerde Uyku ve Uyanıklık Bozuklukları (DergiPark)</strong>
-                <p style="color: var(--text-muted); font-size: 0.75rem; margin: 0.15rem 0 0.3rem;">
-                  Uykunun beyin gelişimi, davranış düzenlenmesi ve öğrenmedeki rolünü; ekran/medya kullanımının sağlıklı uykuyu nasıl tehdit ettiğini ele alan bir derleme[cite: 5].
+              <div style="padding: 0.6rem; background: #FAFAFA; border: 1px solid #E0E0E0; border-radius: 12px;">
+                <strong style="font-size: 0.8rem;">📄 Çocuk ve Ergenlerde Uyku Bozuklukları (DergiPark)</strong>
+                <p style="color: var(--text-muted); font-size: 0.72rem; margin: 0.15rem 0 0.3rem;">
+                  Uykunun beyin gelişimi ve öğrenmedeki rolünü, ekran kullanımının etkisini ele alan derleme.
                 </p>
-                <a href="https://dergipark.org.tr/tr/pub/atk/article/1382739" target="_blank" rel="noopener noreferrer" style="color: #5E35B1; font-weight: 700; font-size: 0.8rem; text-decoration: underline;">
-                  🔗 Makaleye Git (Doğrudan Bağlantı) ↗
+                <a href="https://dergipark.org.tr/tr/pub/atk/article/1382739" target="_blank" rel="noopener noreferrer" style="color: #5E35B1; font-weight: 700; font-size: 0.75rem; text-decoration: underline;">
+                  🔗 Makaleye Git ↗
                 </a>
               </div>
 
-              <div style="padding: 0.65rem; background: #FAFAFA; border: 1px solid #E0E0E0; border-radius: 12px;">
-                <strong>📄 Okul Öncesi Çocukların Yürütücü İşlevleri ve Duygu Düzenleme Becerileri (DergiPark)</strong>
-                <p style="color: var(--text-muted); font-size: 0.75rem; margin: 0.15rem 0 0.3rem;">
-                  137 okul öncesi çocukla (6 yaş) yürütülen bir araştırma. Bilişsel esneklik/soyutlama becerileri ile duygu düzenleme becerileri arasındaki ilişkiyi inceliyor[cite: 5].
+              <div style="padding: 0.6rem; background: #FAFAFA; border: 1px solid #E0E0E0; border-radius: 12px;">
+                <strong style="font-size: 0.8rem;">📄 Okul Öncesi Yürütücü İşlevler (DergiPark)</strong>
+                <p style="color: var(--text-muted); font-size: 0.72rem; margin: 0.15rem 0 0.3rem;">
+                  137 okul öncesi çocukla yürütülen, bilişsel esneklik ve duygu düzenleme ilişkisi araştırması.
                 </p>
-                <a href="https://dergipark.org.tr/tr/pub/inesj/issue/40018/475792" target="_blank" rel="noopener noreferrer" style="color: #5E35B1; font-weight: 700; font-size: 0.8rem; text-decoration: underline;">
-                  🔗 Makaleye Git (Doğrudan Bağlantı) ↗
+                <a href="https://dergipark.org.tr/tr/pub/inesj/issue/40018/475792" target="_blank" rel="noopener noreferrer" style="color: #5E35B1; font-weight: 700; font-size: 0.75rem; text-decoration: underline;">
+                  🔗 Makaleye Git ↗
                 </a>
               </div>
 
-              <div style="padding: 0.65rem; background: #FAFAFA; border: 1px solid #E0E0E0; border-radius: 12px;">
-                <strong>📄 Okul Öncesi Çocukların Doğa Algıları (DergiPark)</strong>
-                <p style="color: var(--text-muted); font-size: 0.75rem; margin: 0.15rem 0 0.3rem;">
-                  Doğa temelli ve MEB müfredatlarını karşılaştırarak, erken çocukluk döneminde doğayla kurulan etkileşimin çok yönlü gelişime katkısını inceleyen güncel bir çalışma[cite: 5].
+              <div style="padding: 0.6rem; background: #FAFAFA; border: 1px solid #E0E0E0; border-radius: 12px;">
+                <strong style="font-size: 0.8rem;">📄 Okul Öncesi Çocukların Doğa Algıları (DergiPark)</strong>
+                <p style="color: var(--text-muted); font-size: 0.72rem; margin: 0.15rem 0 0.3rem;">
+                  Doğayla kurulan etkileşimin çok yönlü gelişime katkısını inceleyen güncel bir çalışma.
                 </p>
-                <a href="https://dergipark.org.tr/tr/pub/ajesi/article/1798385" target="_blank" rel="noopener noreferrer" style="color: #5E35B1; font-weight: 700; font-size: 0.8rem; text-decoration: underline;">
-                  🔗 Makaleye Git (Doğrudan Bağlantı) ↗
+                <a href="https://dergipark.org.tr/tr/pub/ajesi/article/1798385" target="_blank" rel="noopener noreferrer" style="color: #5E35B1; font-weight: 700; font-size: 0.75rem; text-decoration: underline;">
+                  🔗 Makaleye Git ↗
                 </a>
               </div>
+
             </div>
           </div>
 
-          <!-- TAB 4: TAVSİYE KİTAPLAR -->
-          <div class="tab-pane" id="tab-books">
+          <div class="parent-panel-card" id="tab-books">
             <div class="parent-tab-banner parent-tab-banner-kitaplik"></div>
-            <div style="display: flex; flex-direction: column; gap: 0.65rem;">
-              <div style="padding: 0.65rem; background: #FFF8E1; border: 2px solid #FFE082; border-radius: 12px;">
-                <h5 style="color: #E65100; font-size: 0.85rem; margin-bottom: 0.35rem;">Günün Önerilen Çocuk Kitapları</h5>
-                <div id="daily-kids-books-container" style="display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.72rem;">
+            <h4 style="margin-bottom: 0.4rem;">📖 Kitaplık</h4>
+            <div class="parent-scroll-list">
+              <div style="padding: 0.6rem; background: #FFF8E1; border: 2px solid #FFE082; border-radius: 12px;">
+                <h5 style="color: #E65100; font-size: 0.82rem; margin-bottom: 0.3rem;">Günün Önerilen Çocuk Kitapları</h5>
+                <div id="daily-kids-books-container" style="display: flex; flex-direction: column; gap: 0.3rem; font-size: 0.7rem;">
                   <!-- Dinamik olarak yüklenen kitaplar -->
                 </div>
               </div>
 
-              <div style="padding: 0.65rem; background: #EDE7F6; border: 2px solid #D1C4E9; border-radius: 12px;">
-                <h5 style="color: #5E35B1; font-size: 0.85rem; margin-bottom: 0.35rem;">
-                  👨‍👩‍👧 Ebeveyn Kitapları (Gelişim & Rehberlik Kütüphanesi)
+              <div style="padding: 0.6rem; background: #EDE7F6; border: 2px solid #D1C4E9; border-radius: 12px;">
+                <h5 style="color: #5E35B1; font-size: 0.82rem; margin-bottom: 0.3rem;">
+                  👨‍👩‍👧 Ebeveyn Kitapları
                 </h5>
-                <div style="display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.72rem;">
+                <div style="display: flex; flex-direction: column; gap: 0.3rem; font-size: 0.7rem;">
                   <div><b>💬 İletişim & Beyin Gelişimi:</b> <i>Bütün Beyinli Çocuk (Daniel J. Siegel)</i>, <i>Geliştiren Anne Baba (Doğan Cüceloğlu)</i>, <i>Koşulsuz Ebeveynlik (Alfie Kohn)</i>.</div>
-                  <div><b>❤️ Duygu Uyumlu & Öfkeli Çocuklar:</b> <i>Duygusal Zeka Aşılamak (John Gottman)</i>, <i>Patlamaya Hazır Çocuk (Ross W. Greene)</i>, <i>Sakin Ebeveynlik (Laura Markham)</i>.</div>
+                  <div><b>❤️ Duygu Uyumlu Çocuklar:</b> <i>Duygusal Zeka Aşılamak (John Gottman)</i>, <i>Patlamaya Hazır Çocuk (Ross W. Greene)</i>, <i>Sakin Ebeveynlik (Laura Markham)</i>.</div>
                   <div><b>🧩 Sınırlar & Bağımsızlık:</b> <i>Aşırı Korumadan Kurtulma (Julie Lythcott-Haims)</i>, <i>0-6 Yaş 100 Temel Kural</i>.</div>
-                  <div><b>🪥 Öz Bakım & Tuvalet Eğitimi:</b> <i>Aletha J. Solter'in doğal ebeveynlik yaklaşımı eserleri</i>.</div>
+                  <div><b>🪥 Öz Bakım:</b> <i>Aletha J. Solter'in doğal ebeveynlik yaklaşımı eserleri</i>.</div>
                   <div><b>🦋 Doğa & Serbest Oyun:</b> <i>Doğadaki Son Çocuk (Richard Louv)</i>.</div>
                 </div>
               </div>
