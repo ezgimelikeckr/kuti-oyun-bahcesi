@@ -1467,12 +1467,12 @@ div.parent-modal-box .modal-close-btn:hover {
 /* ===== EBEVEYN KÖŞESİ — SEKME BANNER GÖRSELLERİ ===== */
 .parent-tab-banner {
   width: 100%;
-  height: 130px;
+  height: 240px; /* Görsellerin oranını bozmayacak ideal yükseklik */
   border-radius: 16px;
-  background-size: cover;
-  background-position: center 22%;
+  background-size: cover;    /* Görseli alanı bozmadan kaplatır*/
+  background-position: center center; /* Görseli tam ortalar, kafalar veya nesneler kesilmez */
+  background-repeat: no-repeat;
   margin-bottom: 0.85rem;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
 /* Her banner'ın kullandığı görsel adı burada, tek bir yerde toplu duruyor */
