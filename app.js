@@ -847,6 +847,44 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // ===== EBEVEYN KÖŞESİ — PANEL GEÇİŞ MANTIĞI (Ana Panel <-> Süre/Yaş/Makaleler/Kitaplık) =====
+  // Görseldeki akış: Panel-Main açılır -> menüye tıklanınca sadece o panel görünür -> Geri ile Panel-Main'e dönülür.
+  const parentPanelMain = document.getElementById('parent-panel-main');
+  const parentPanelDetails = document.querySelectorAll('.parent-panel-detail');
+
+  function showParentPanel(panelKey) {
+    if (panelKey === 'main') {
+      if (parentPanelMain) parentPanelMain.classList.remove('parent-panel-hidden');
+      parentPanelDetails.forEach(panel => panel.classList.remove('parent-panel-active'));
+      return;
+    }
+
+    if (parentPanelMain) parentPanelMain.classList.add('parent-panel-hidden');
+    parentPanelDetails.forEach(panel => {
+      if (panel.dataset.parentPanelDetail === panelKey) {
+        panel.classList.add('parent-panel-active');
+      } else {
+        panel.classList.remove('parent-panel-active');
+      }
+    });
+
+    if (panelKey === 'kitaplik') loadDailyChildrenBooks();
+  }
+
+  document.querySelectorAll('.parent-menu-item').forEach(btn => {
+    btn.addEventListener('click', () => {
+      showParentPanel(btn.dataset.parentPanel);
+      if (soundEnabled) AudioEngine.playTone(600, 0.12);
+    });
+  });
+
+  document.querySelectorAll('[data-parent-back]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      showParentPanel('main');
+      if (soundEnabled) AudioEngine.playTone(500, 0.12);
+    });
+  });
+
   if (parentBtn && parentModal) {
     parentBtn.addEventListener('click', (e) => {
       e.preventDefault();
@@ -859,6 +897,7 @@ document.addEventListener('DOMContentLoaded', () => {
         pinView.style.flexDirection = 'column';
       }
       if (parentDashboardView) parentDashboardView.style.display = 'none';
+      showParentPanel('main'); // Ebeveyn köşesi her açıldığında ana panelden başla
       parentModal.classList.add('active');
       if (soundEnabled) AudioEngine.playTone(500);
     });
@@ -879,6 +918,7 @@ document.addEventListener('DOMContentLoaded', () => {
               parentDashboardView.style.display = 'flex';
               parentDashboardView.style.flexDirection = 'column';
             }
+            showParentPanel('main');
             loadDailyChildrenBooks();
           } else {
             if (pinErrorMsg) pinErrorMsg.textContent = 'Hatalı Kod! Lütfen gösterilen 4 rakamı girin.';

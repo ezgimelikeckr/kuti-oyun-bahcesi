@@ -262,27 +262,6 @@ body::after {
   overflow: hidden !important; /* Taşan içerikleri gizle */
 }
 
-/* Arka plan göeseli ebeveyn köşesi için*/
-.parent-modal-box::before {
-  content: '';
-  position:absolute;
-  inset: 0;
-  background: var(--corner-bg-img) no-repeat center center / cover;
-  z-index: -1;
-  opacity: 0.9; 
-}
-
-/* Panel görünürlük kontrolü */
-#parent-dasboard-view .panel {
-  display: none; /* Başlangıçta gizli */
-}
-#panel-main {
-  display: block; /* İlk açılışta sadece ana panel görünsün */
-}
-#parent-dashboard-view .panel.activite{
-  display: block; /* Menüye tıklanınca aktif panel görünür */
-}
-
 /* Ebeveyn Paneli İçerik Düzeni (display JS'e bırakıldı — PIN'e göre açılıp kapanabilsin) */
 #parent-dashboard-view {
   flex-direction: column !important;
@@ -1503,7 +1482,117 @@ div.parent-modal-box .modal-close-btn:hover {
 .parent-tab-banner-makaleler { background-image: url('kuti_parent_banner_makaleler.jpg'); }
 .parent-tab-banner-kitaplik  { background-image: url('kuti_parent_banner_kitaplik.jpg'); }
 
-/* ===== EBEVEYN KÖŞESİ — TAM GRID (SEKMESİZ, HEPSİ AYNI ANDA GÖRÜNÜR) ===== */
+/* ==========================================================================
+   EBEVEYN KÖŞESİ — YENİ AKIŞ: ANA PANEL + ALT MENÜ + TEK TEK AÇILAN PANELLER
+   (Görseldeki sıra: Panel-Main -> Süre / Yaş / Makaleler / Kitaplık)
+   ========================================================================== */
+
+/* Ana panel: banner + başlık + alttaki 4 menü kutusu */
+.parent-panel-main {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.parent-panel-main.parent-panel-hidden {
+  display: none;
+}
+
+/* Ana panelin altındaki 4'lü menü (Süre / Yaş / Makaleler / Kitaplık) */
+.parent-menu-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.65rem;
+  margin-top: 0.9rem;
+}
+
+.parent-menu-item {
+  background: #FAFAFA;
+  border: 2px solid rgba(0,0,0,0.05);
+  border-radius: 16px;
+  padding: 0.85rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+}
+
+.parent-menu-item:hover {
+  background: #FFF3C4;
+  border-color: #FFE082;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 14px rgba(255, 179, 0, 0.18);
+}
+
+.parent-menu-icon {
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.parent-menu-label {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 0.82rem;
+  color: var(--text-dark);
+}
+
+.parent-menu-sub {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+/* Tek tek açılan içerik panelleri (Süre / Yaş / Makaleler / Kitaplık) */
+.parent-panel-detail {
+  display: none;
+  flex-direction: column;
+  width: 100%;
+}
+
+.parent-panel-detail.parent-panel-active {
+  display: flex;
+}
+
+.parent-panel-back-btn {
+  align-self: flex-start;
+  background: #EDE7F6;
+  color: #5E35B1;
+  border: 2px solid #D1C4E9;
+  border-radius: var(--radius-pill);
+  padding: 0.45rem 1rem;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.8rem;
+  cursor: pointer;
+  margin-bottom: 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  transition: all 0.2s ease;
+}
+
+.parent-panel-back-btn:hover {
+  background: #D1C4E9;
+  color: #311B92;
+  transform: translateX(-2px);
+}
+
+@media (max-width: 768px) {
+  .parent-menu-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ==========================================================================
+   ESKİ 3'LÜ GRID (ARTIK KULLANILMIYOR — YENİ AKIŞ YUKARIDAKİ BLOKTA)
+   Geriye dönük uyumluluk için bırakıldı.
+   ========================================================================== */
 .parent-dashboard-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
