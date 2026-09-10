@@ -851,8 +851,27 @@ document.addEventListener('DOMContentLoaded', () => {
   // Görseldeki akış: Panel-Main açılır -> menüye tıklanınca sadece o panel görünür -> Geri ile Panel-Main'e dönülür.
   const parentPanelMain = document.getElementById('parent-panel-main');
   const parentPanelDetails = document.querySelectorAll('.parent-panel-detail');
+  const parentPanelTitleEl = document.getElementById('parent-panel-title');
+  const parentBackBtn = document.getElementById('parent-back-btn');
+  const parentModalBox = document.querySelector('#modal-parent-corner .parent-modal-box');
+
+  // Menüye tıklanınca üst başlıkta görünecek isim burada, tek yerde toplu duruyor
+  const PARENT_PANEL_TITLES = {
+    main: 'Ebeveyn Köşesi (Ebeveyn Yönetim Paneli)',
+    sure: 'Süre',
+    yas: 'Yaş',
+    makaleler: 'Makaleler',
+    kitaplik: 'Kitaplık'
+  };
 
   function showParentPanel(panelKey) {
+    if (parentPanelTitleEl) {
+      parentPanelTitleEl.textContent = PARENT_PANEL_TITLES[panelKey] || PARENT_PANEL_TITLES.main;
+    }
+    if (parentBackBtn) {
+      parentBackBtn.style.display = panelKey === 'main' ? 'none' : 'inline-flex';
+    }
+
     if (panelKey === 'main') {
       if (parentPanelMain) parentPanelMain.classList.remove('parent-panel-hidden');
       parentPanelDetails.forEach(panel => panel.classList.remove('parent-panel-active'));
@@ -897,6 +916,7 @@ document.addEventListener('DOMContentLoaded', () => {
         pinView.style.flexDirection = 'column';
       }
       if (parentDashboardView) parentDashboardView.style.display = 'none';
+      if (parentModalBox) parentModalBox.classList.remove('parent-dashboard-active'); // PIN ekranı kompakt kalsın
       showParentPanel('main'); // Ebeveyn köşesi her açıldığında ana panelden başla
       parentModal.classList.add('active');
       if (soundEnabled) AudioEngine.playTone(500);
@@ -918,6 +938,7 @@ document.addEventListener('DOMContentLoaded', () => {
               parentDashboardView.style.display = 'flex';
               parentDashboardView.style.flexDirection = 'column';
             }
+            if (parentModalBox) parentModalBox.classList.add('parent-dashboard-active'); // tam yükseklik, boşluksuz görünüm
             showParentPanel('main');
             loadDailyChildrenBooks();
           } else {

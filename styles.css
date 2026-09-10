@@ -251,7 +251,7 @@ body::after {
   max-width: 900px !important;
   
   /* YÜKSEKLİK DÜZELTMELERİ (Burası kritik) */
-  height: auto !important; /* İçeriğe göre uzamasını sağla */
+  height: auto !important; /* İçeriğe göre uzamasını sağla (PIN ekranı için) */
   min-height: 400px !important; /* En azından bu kadar yüksek olsun */
   max-height: 85vh !important; /* Ekranın %85'ini geçmesin */
   
@@ -262,15 +262,21 @@ body::after {
   overflow: hidden !important; /* Taşan içerikleri gizle */
 }
 
+/* Ebeveyn Paneli (dashboard) açıkken kutuyu sabit ve tam yükseklikte tut — boşluk bırakmadan
+   ekranı doldurması için PIN ekranındaki "içeriğe göre büyüsün" davranışını devre dışı bırakır. */
+.parent-modal-box.parent-dashboard-active {
+  height: 85vh !important;
+}
+
 /* Ebeveyn Paneli İçerik Düzeni (display JS'e bırakıldı — PIN'e göre açılıp kapanabilsin) */
 #parent-dashboard-view {
   flex-direction: column !important;
   flex: 1 !important;
   width: 100% !important;
-  height: auto !important;
-  max-height: calc(85vh - 80px) !important;
-  overflow-y: auto !important;
-  overflow-x: hidden !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  overflow: hidden !important;
 }
 
 /* ==========================================================================
@@ -1464,34 +1470,93 @@ div.parent-modal-box .modal-close-btn:hover {
   cursor: pointer;
 }
 
-/* ===== EBEVEYN KÖŞESİ — SEKME BANNER GÖRSELLERİ ===== */
+/* ===== EBEVEYN KÖŞESİ — SEKME BANNER GÖRSELLERİ (Tam Genişlik, Kırpılmadan Net) ===== */
 .parent-tab-banner {
-  width: 100%;
-  height: 240px; /* Görsellerin oranını bozmayacak ideal yükseklik */
-  border-radius: 16px;
-  background-size: cover;    /* Görseli alanı bozmadan kaplatır*/
-  background-position: center center; /* Görseli tam ortalar, kafalar veya nesneler kesilmez */
+  /* .parent-modal-box'ın 1.25rem padding'ini iptal ederek görseli kenardan kenara (edge-to-edge) uzatır */
+  width: calc(100% + 2.5rem);
+  margin-left: -1.25rem;
+  margin-right: -1.25rem;
+  height: 180px;
+  border-radius: 0;
+  background-size: cover;
+  background-position: center center;
   background-repeat: no-repeat;
   margin-bottom: 0.85rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  flex-shrink: 0;
 }
 
 /* Her banner'ın kullandığı görsel adı burada, tek bir yerde toplu duruyor */
-.parent-tab-banner-overview  { background-image: url('kuti_parent_banner_ana.jpg'); height: 150px; }
+.parent-tab-banner-overview  { background-image: url('kuti_parent_banner_ana.jpg'); height: 190px; }
 .parent-tab-banner-sure      { background-image: url('kuti_parent_banner_sure.jpg'); }
 .parent-tab-banner-yas       { background-image: url('kuti_parent_banner_yas.jpg'); }
 .parent-tab-banner-makaleler { background-image: url('kuti_parent_banner_makaleler.jpg'); }
 .parent-tab-banner-kitaplik  { background-image: url('kuti_parent_banner_kitaplik.jpg'); }
+
+@media (max-width: 768px) {
+  .parent-tab-banner { height: 140px; }
+  .parent-tab-banner-overview { height: 150px; }
+}
 
 /* ==========================================================================
    EBEVEYN KÖŞESİ — YENİ AKIŞ: ANA PANEL + ALT MENÜ + TEK TEK AÇILAN PANELLER
    (Görseldeki sıra: Panel-Main -> Süre / Yaş / Makaleler / Kitaplık)
    ========================================================================== */
 
+/* Sabit üst başlık çubuğu: sol tarafta Geri + dinamik panel adı, sağda Oyuna Dön */
+.parent-panel-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding-bottom: 0.65rem;
+  margin-bottom: 0.65rem;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  flex-shrink: 0;
+}
+
+.parent-panel-title-group {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-width: 0;
+}
+
+.parent-panel-title {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 1.02rem;
+  color: #5E35B1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Topbar'daki Geri butonu (eski margin-bottom'lu halinden farklı: satır içi) */
+.parent-panel-topbar .parent-panel-back-btn {
+  margin-bottom: 0;
+  flex-shrink: 0;
+}
+
+/* İçerik: topbar'ın altında kalan tüm alanı doldurur, kendi içinde kayar — boşluk kalmaz */
+.parent-panel-scroll-area {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  padding-right: 4px;
+  display: flex;
+  flex-direction: column;
+}
+
 /* Ana panel: banner + başlık + alttaki 4 menü kutusu */
 .parent-panel-main {
   display: flex;
   flex-direction: column;
   width: 100%;
+  flex: 1;
+  min-height: 0;
 }
 
 .parent-panel-main.parent-panel-hidden {
@@ -1553,6 +1618,8 @@ div.parent-modal-box .modal-close-btn:hover {
   display: none;
   flex-direction: column;
   width: 100%;
+  flex: 1;
+  min-height: 0;
 }
 
 .parent-panel-detail.parent-panel-active {
@@ -1615,7 +1682,8 @@ div.parent-modal-box .modal-close-btn:hover {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  max-height: 230px;
+  flex: 1;
+  min-height: 0;
   overflow-y: auto;
   padding-right: 4px;
 }
