@@ -248,7 +248,7 @@ body::after {
   border-radius: var(--radius-xl);
   padding: 1.25rem;
   width: 90vw !important;
-  max-width: 580px !important;
+  max-width: 700px !important;
   
   /* YÜKSEKLİK DÜZELTMELERİ (Burası kritik) */
   height: auto !important; /* İçeriğe göre uzamasını sağla (PIN ekranı için) */
@@ -1504,14 +1504,13 @@ div.parent-modal-box .modal-close-btn:hover {
    yüzler kadrajda) kırpılsın, (3) background-position ile kırpma noktasını yüzlerin
    olduğu bölgeye sabitledik. */
 .parent-tab-banner {
-  width: 80%;
-  max-width: 320px;
-  margin: 0 auto 0.85rem auto;
-  aspect-ratio: 7 / 5;
+  width: 100%;
+  aspect-ratio: 3 / 2; /* Figma: görsel 660x440 */
   border-radius: 16px;
   background-size: cover;
   background-position: center 32%;
   background-repeat: no-repeat;
+  margin-bottom: 0.85rem;
   box-shadow: 0 4px 12px rgba(0,0,0,0.12);
   flex-shrink: 0;
 }
