@@ -1504,13 +1504,14 @@ div.parent-modal-box .modal-close-btn:hover {
    yüzler kadrajda) kırpılsın, (3) background-position ile kırpma noktasını yüzlerin
    olduğu bölgeye sabitledik. */
 .parent-tab-banner {
-  width: 100%;
+  width: 80%;
+  max-width: 380px;
+  margin: 0 auto 0.85rem auto;
   aspect-ratio: 7 / 5;
   border-radius: 16px;
   background-size: cover;
   background-position: center 32%;
   background-repeat: no-repeat;
-  margin-bottom: 0.85rem;
   box-shadow: 0 4px 12px rgba(0,0,0,0.12);
   flex-shrink: 0;
 }
