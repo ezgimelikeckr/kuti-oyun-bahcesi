@@ -970,15 +970,20 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  document.querySelectorAll('.time-opt-btn').forEach(btn => {
+  const timeOptBtns = document.querySelectorAll('.time-opt-btn');
+  timeOptBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       const mins = parseInt(btn.dataset.time, 10);
       sunTimerDuration = mins * 60;
       sunProgress = 10;
       updateSunPosition();
       startSunJourney();
+      timeOptBtns.forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
       showVisualFeedback(`Ekran süresi ${mins} dakika ayarlandı.`, "success");
     });
   });
+  // Varsayılan/önerilen süreyi mockup'taki gibi baştan seçili göster (15 dakika)
+  document.querySelector('.time-opt-btn[data-time="15"]')?.classList.add('selected');
 
 });

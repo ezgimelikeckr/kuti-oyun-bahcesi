@@ -248,7 +248,7 @@ body::after {
   border-radius: var(--radius-xl);
   padding: 1.25rem;
   width: 90vw !important;
-  max-width: 900px !important;
+  max-width: 580px !important;
   
   /* YÜKSEKLİK DÜZELTMELERİ (Burası kritik) */
   height: auto !important; /* İçeriğe göre uzamasını sağla (PIN ekranı için) */
@@ -848,6 +848,29 @@ div.parent-modal-box .modal-close-btn:hover {
 .btn-icon-pill:hover {
   background: #FFF3C4;
   transform: translateY(-2px);
+}
+
+.time-opt-btn {
+  position: relative;
+}
+
+.time-opt-btn.selected {
+  background: var(--bg-cream-accent);
+  border-color: var(--kuti-fox-orange);
+  color: var(--kuti-fox-dark);
+  box-shadow: 0 0 0 3px rgba(255, 112, 67, 0.15);
+}
+
+.time-opt-btn.selected::after {
+  content: '';
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--pastel-red-main);
+  border: 1.5px solid #fff;
 }
 
 .btn-parent {
@@ -1470,33 +1493,34 @@ div.parent-modal-box .modal-close-btn:hover {
   cursor: pointer;
 }
 
-/* ===== EBEVEYN KÖŞESİ — SEKME BANNER GÖRSELLERİ (Tam Genişlik, Kırpılmadan Net) ===== */
+/* ===== EBEVEYN KÖŞESİ — SEKME BANNER GÖRSELLERİ (Referans mockup'taki gibi: kart içine
+   yerleşik, yuvarlak köşeli, karakter yüzlerini kadraj içinde tutan net görseller) =====
+   Not: Kaynak görseller dikey/portre formatında (256x571 / 632x1027). Görseli geniş bir
+   şeride "cover" ile bastığımızda hem üstteki tavan/duvar boşluğu hem de alttaki sehpa
+   fazla yer kaplayıp tilkilerin yüzünü kadraj dışına itiyordu — üstelik kutu, kaynak
+   görselden çok daha geniş olduğu için görsel de bulanıklaşıyordu. Çözüm: (1) modal
+   genişliğini daralttık ki görsel kendi çözünürlüğüne yakın boyutta basılsın, (2) sabit
+   piksel yükseklik yerine aspect-ratio kullandık ki her ekranda aynı oranda (ve her zaman
+   yüzler kadrajda) kırpılsın, (3) background-position ile kırpma noktasını yüzlerin
+   olduğu bölgeye sabitledik. */
 .parent-tab-banner {
-  /* .parent-modal-box'ın 1.25rem padding'ini iptal ederek görseli kenardan kenara (edge-to-edge) uzatır */
-  width: calc(100% + 2.5rem);
-  margin-left: -1.25rem;
-  margin-right: -1.25rem;
-  height: 180px;
-  border-radius: 0;
+  width: 100%;
+  aspect-ratio: 7 / 5;
+  border-radius: 16px;
   background-size: cover;
-  background-position: center center;
+  background-position: center 32%;
   background-repeat: no-repeat;
   margin-bottom: 0.85rem;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
   flex-shrink: 0;
 }
 
 /* Her banner'ın kullandığı görsel adı burada, tek bir yerde toplu duruyor */
-.parent-tab-banner-overview  { background-image: url('kuti_parent_banner_ana.jpg'); height: 190px; }
+.parent-tab-banner-overview  { background-image: url('kuti_parent_banner_ana.jpg'); }
 .parent-tab-banner-sure      { background-image: url('kuti_parent_banner_sure.jpg'); }
 .parent-tab-banner-yas       { background-image: url('kuti_parent_banner_yas.jpg'); }
 .parent-tab-banner-makaleler { background-image: url('kuti_parent_banner_makaleler.jpg'); }
 .parent-tab-banner-kitaplik  { background-image: url('kuti_parent_banner_kitaplik.jpg'); }
-
-@media (max-width: 768px) {
-  .parent-tab-banner { height: 140px; }
-  .parent-tab-banner-overview { height: 150px; }
-}
 
 /* ==========================================================================
    EBEVEYN KÖŞESİ — YENİ AKIŞ: ANA PANEL + ALT MENÜ + TEK TEK AÇILAN PANELLER
@@ -1595,8 +1619,15 @@ div.parent-modal-box .modal-close-btn:hover {
 }
 
 .parent-menu-icon {
-  font-size: 1.5rem;
+  font-size: 1.15rem;
   line-height: 1;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--bg-cream);
 }
 
 .parent-menu-label {
