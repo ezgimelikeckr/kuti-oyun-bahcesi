@@ -1516,11 +1516,11 @@ div.parent-modal-box .modal-close-btn:hover {
 }
 
 /* Her banner'ın kullandığı görsel adı burada, tek bir yerde toplu duruyor */
-.parent-tab-banner-overview  { background-image: url('kuti_parent_banner_ana.jpg'); }
-.parent-tab-banner-sure      { background-image: url('kuti_parent_banner_sure.jpg'); }
-.parent-tab-banner-yas       { background-image: url('kuti_parent_banner_yas.jpg'); }
-.parent-tab-banner-makaleler { background-image: url('kuti_parent_banner_makaleler.jpg'); }
-.parent-tab-banner-kitaplik  { background-image: url('kuti_parent_banner_kitaplik.jpg'); }
+.parent-tab-banner-overview  { background-image: url('kuti_parent_banner_ana.png'); }
+.parent-tab-banner-sure      { background-image: url('kuti_parent_banner_sure.png'); }
+.parent-tab-banner-yas       { background-image: url('kuti_parent_banner_yas.png'); }
+.parent-tab-banner-makaleler { background-image: url('kuti_parent_banner_makaleler.png'); }
+.parent-tab-banner-kitaplik  { background-image: url('kuti_parent_banner_kitaplik.png'); }
 
 /* ==========================================================================
    EBEVEYN KÖŞESİ — YENİ AKIŞ: ANA PANEL + ALT MENÜ + TEK TEK AÇILAN PANELLER
