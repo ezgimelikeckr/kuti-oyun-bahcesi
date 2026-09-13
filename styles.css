@@ -1499,7 +1499,7 @@ div.parent-modal-box .modal-close-btn:hover {
    KÜÇÜK bir kare kullanıyoruz: hem tasarımdaki boşluklu/çerçeveli görünümü verir hem de
    görseli olduğundan büyütmediği için netliği korur. */
 .parent-tab-banner {
-  width: 428px;
+  width: 424px;
   max-width: 100%;
   margin: 0 auto 0.5rem auto;
   aspect-ratio: 1 / 1;
