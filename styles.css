@@ -1493,22 +1493,17 @@ div.parent-modal-box .modal-close-btn:hover {
   cursor: pointer;
 }
 
-/* ===== EBEVEYN KÖŞESİ — SEKME BANNER GÖRSELLERİ (Referans mockup'taki gibi: kart içine
-   yerleşik, yuvarlak köşeli, karakter yüzlerini kadraj içinde tutan net görseller) =====
-   Not: Kaynak görseller dikey/portre formatında (256x571 / 632x1027). Görseli geniş bir
-   şeride "cover" ile bastığımızda hem üstteki tavan/duvar boşluğu hem de alttaki sehpa
-   fazla yer kaplayıp tilkilerin yüzünü kadraj dışına itiyordu — üstelik kutu, kaynak
-   görselden çok daha geniş olduğu için görsel de bulanıklaşıyordu. Çözüm: (1) modal
-   genişliğini daralttık ki görsel kendi çözünürlüğüne yakın boyutta basılsın, (2) sabit
-   piksel yükseklik yerine aspect-ratio kullandık ki her ekranda aynı oranda (ve her zaman
-   yüzler kadrajda) kırpılsın, (3) background-position ile kırpma noktasını yüzlerin
-   olduğu bölgeye sabitledik. */
+/* ===== EBEVEYN KÖŞESİ — SEKME BANNER GÖRSELLERİ =====
+   Görseller artık 1:1 (kare) oranında dışa aktarılıyor (bkz. Figma). Kart genişliğinin
+   tamamını kaplayan bir kutu yerine, referans tasarımdaki gibi ORTALANMIŞ ve biraz daha
+   KÜÇÜK bir kare kullanıyoruz: hem tasarımdaki boşluklu/çerçeveli görünümü verir hem de
+   görseli olduğundan büyütmediği için netliği korur. */
 .parent-tab-banner {
-  width: 100%;
-  height: 240px;
+  width: 72%;
   margin: 0 auto 0.85rem auto;
+  aspect-ratio: 1 / 1;
   border-radius: 16px;
-  background-size: contain;
+  background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
   box-shadow: 0 4px 12px rgba(0,0,0,0.12);
