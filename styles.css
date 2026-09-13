@@ -415,11 +415,46 @@ div.parent-modal-box .modal-close-btn:hover {
     margin-top: 5px !important;
   }
 
-  .corners-grid, .dashboard-grid, .kuti-dashboard-grid {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 15px !important;
-    width: 100% !important;
+  /* DÜZELTME: Aşağıdaki üç sınıf (.corners-grid, .dashboard-grid, .kuti-dashboard-grid)
+     HTML'de hiç kullanılmıyordu — asıl köşe grid'i .category-2x2-grid'dir ve mobilde
+     hiç uyarlanmıyordu. Bu da masaüstündeki sabit yükseklik/overflow:hidden mantığının
+     mobilde de aynen kalmasına, dolayısıyla ekranın alt yarısının kırpılmasına sebep
+     oluyordu. Ana kapsayıcılar artık mobilde içeriğe göre uzayıp body üzerinden kayıyor. */
+  .app-container {
+    height: auto !important;
+    min-height: 100vh !important;
+    overflow: visible !important;
+  }
+
+  .main-content {
+    flex: none !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+  }
+
+  .corners-section,
+  .main-content > section:last-of-type {
+    flex: none !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+  }
+
+  .category-2x2-grid, .corners-grid, .dashboard-grid, .kuti-dashboard-grid {
+    flex: none !important;
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    grid-template-rows: auto !important;
+    gap: 0.6rem !important;
+    min-height: 0 !important;
+  }
+
+  .category-card {
+    height: auto !important;
+    min-height: 175px;
+  }
+
+  body {
+    padding-bottom: 1.5rem !important;
   }
 }
 

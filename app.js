@@ -728,9 +728,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  const PARENT_AGE_NOTES = {
+    '3': '3 temel duygu, tek kriterli sıralama, 4 parçalı yapboz.',
+    '4-5': '4 duygu, çift kriterli sıralama, 6 parçalı yapboz.',
+    '6+': '6 zengin duygu, çok kriterli sıralama, 9-12 parçalı yapboz.'
+  };
+  const parentAgeNoteEl = document.getElementById('parent-age-note');
+
   document.querySelectorAll('input[name="age-group"]').forEach(radio => {
     radio.addEventListener('change', (e) => {
       updateAgeSystem(e.target.value);
+      if (parentAgeNoteEl) {
+        parentAgeNoteEl.textContent = PARENT_AGE_NOTES[e.target.value] || PARENT_AGE_NOTES['4-5'];
+      }
       if (soundEnabled) AudioEngine.playSuccess();
     });
   });
@@ -970,20 +980,37 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  const timeOptBtns = document.querySelectorAll('.time-opt-btn');
-  timeOptBtns.forEach(btn => {
+  document.querySelectorAll('.time-opt-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const mins = parseInt(btn.dataset.time, 10);
       sunTimerDuration = mins * 60;
       sunProgress = 10;
       updateSunPosition();
       startSunJourney();
-      timeOptBtns.forEach(b => b.classList.remove('selected'));
-      btn.classList.add('selected');
+      document.querySelectorAll('.time-opt-btn').forEach(b => b.classList.remove('parent-option-selected'));
+      btn.classList.add('parent-option-selected');
       showVisualFeedback(`Ekran süresi ${mins} dakika ayarlandı.`, "success");
     });
   });
-  // Varsayılan/önerilen süreyi mockup'taki gibi baştan seçili göster (15 dakika)
-  document.querySelector('.time-opt-btn[data-time="15"]')?.classList.add('selected');
+
+  // ===== EBEVEYN KÖŞESİ — MAKALELER / KİTAPLIK "Tümünü Gör" AÇMA-KAPAMA =====
+  document.querySelectorAll('[data-expand-target]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const targetIds = btn.dataset.expandTarget.split(' ').filter(Boolean);
+      let nowOpen = false;
+      targetIds.forEach(id => {
+        const target = document.getElementById(id);
+        if (!target) return;
+        target.classList.toggle('parent-resource-extra-open');
+        nowOpen = target.classList.contains('parent-resource-extra-open');
+      });
+      if (btn.classList.contains('parent-view-all-btn')) {
+        const baseLabel = btn.dataset.baseLabel || btn.textContent.trim();
+        btn.dataset.baseLabel = btn.dataset.baseLabel || baseLabel;
+        btn.textContent = nowOpen ? '🔼 Daha Az Göster' : btn.dataset.baseLabel;
+      }
+      if (soundEnabled) AudioEngine.playTone(550, 0.1);
+    });
+  });
 
 });
