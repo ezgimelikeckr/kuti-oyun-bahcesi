@@ -569,6 +569,34 @@ div.parent-modal-box .modal-close-btn:hover {
   z-index: -999 !important;
 }
 
+/* ===== SADECE MOBİL: DİK TUTULUNCA "TELEFONU ÇEVİR" UYARISI =====*/
+.rotate-device-overlay { display: none; }
+
+@media screen and (max-width: 768px) and (orientation: portrait) {
+  .rotate-device-overlay {
+    display: flex;
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background: var(--bg-cream);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+  }
+  .rotate-device-overlay .rotate-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    animation: rotateHint 1.6s ease-in-out infinite;
+  }
+}
+
+@keyframes rotateHint {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(90deg); }
+}
+
 .launch-pin-box {
   background: var(--card-bg);
   border-radius: var(--radius-xl);
