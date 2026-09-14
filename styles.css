@@ -339,6 +339,12 @@ div.parent-modal-box .modal-close-btn:hover {
     overflow-y: auto !important;
   }
 
+  @media screen and (max-widht: 768px) {
+    .kuti-welcome-overlay {
+      background-position: 90% center;
+    }
+  }
+
   .parent-modal-box {
     height: auto !important;
     max-height: 85vh !important;
