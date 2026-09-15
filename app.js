@@ -982,3 +982,45 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
 });
+
+/* ==========================================================================
+   SCALE-TO-FIT: TABLET TASARIMINI KÜÇÜLTEREK MOBİLE BİREBİR YANSITMA
+   - 1024px ve üzeri ekranlarda (tablet/masaüstü) hiçbir şeye dokunmaz.
+   - Daha dar ekranlarda .app-container'ı sabit 1024px genişlikte çizip
+     JS ile gerçek ekrana sığacak oranda küçültüp ortalar.
+   ========================================================================== */
+(function () {
+  var DESIGN_WIDTH = 1024; // tablet tasarım referans genişliği (px)
+  var wrapper = document.getElementById('app-scale-wrapper');
+  var container = wrapper ? wrapper.querySelector('.app-container') : null;
+  if (!wrapper || !container) return;
+
+  function applyScale() {
+    var vw = window.innerWidth;
+    var vh = window.innerHeight;
+
+    if (vw >= DESIGN_WIDTH) {
+      // Tablet/masaüstü: mevcut akışkan tasarım zaten çalışıyor, ölçekleme kapalı
+      container.style.transform = 'none';
+      container.style.width = '';
+      return;
+    }
+
+    // Doğal yüksekliği ölçmek için önce tasarım genişliğinde, ölçeksiz çiz
+    container.style.width = DESIGN_WIDTH + 'px';
+    container.style.transform = 'none';
+    var naturalHeight = container.scrollHeight;
+
+    var scale = Math.min(vw / DESIGN_WIDTH, vh / naturalHeight);
+    var offsetX = (vw - DESIGN_WIDTH * scale) / 2;
+    var offsetY = (vh - naturalHeight * scale) / 2;
+
+    container.style.transformOrigin = 'top left';
+    container.style.transform =
+      'translate(' + offsetX + 'px, ' + offsetY + 'px) scale(' + scale + ')';
+  }
+
+  window.addEventListener('resize', applyScale);
+  window.addEventListener('orientationchange', applyScale);
+  applyScale();
+})();
