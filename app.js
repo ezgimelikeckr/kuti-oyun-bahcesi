@@ -857,7 +857,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Menüye tıklanınca üst başlıkta görünecek isim burada, tek yerde toplu duruyor
   const PARENT_PANEL_TITLES = {
-    main: 'Ebeveyn Köşesi (Ebeveyn Yönetim Paneli)',
+    main: 'Ebeveyn Köşesi',
     sure: 'Süre',
     yas: 'Yaş',
     makaleler: 'Makaleler',
