@@ -49,8 +49,8 @@
 
 html, body {
   width: 100vw;
-  height: 100vh;    /* eski tarayıcılar için fallback */
-  height: 100dvh;  /* gerçek görünür alan - adres çunuğunu hesaba katar */
+  height: 100vh;
+  height: 100dvh;
   max-width: 100vw;
   max-height: 100vh;
   max-height: 100dvh;
@@ -70,6 +70,8 @@ body::before {
   content: '';
   position: fixed;
   inset: -20px;
+  height: calc(100vh + 40px);
+  height: calc(100dvh + 40px);
   background: url('kuti_anasayfa_arkaplan.png') no-repeat center center / cover;
   filter: blur(9px);
   transform: scale(1.06);
@@ -332,7 +334,15 @@ div.parent-modal-box .modal-close-btn:hover {
    TEK VE GÜVENLİ MOBİL UYARLAMA MEDYA SORGUSU (Max 768px)
    ========================================================================== */
 
- @media screen and (max-width: 768px) {
+@media screen and (max-width: 768px) {
+  html, body {
+    width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+  }
+
   .parent-modal-box {
     height: auto !important;
     max-height: 85vh !important;
@@ -376,10 +386,44 @@ div.parent-modal-box .modal-close-btn:hover {
     min-width: max-content !important;
   }
 
+  header, .header-container, .top-header-bar {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 12px !important;
+    width: 100% !important;
+    padding: 5px 0 !important;
+  }
+
+  #sun-progress-bar, .sun-track-container, .sun-container {
+    width: 90% !important;
+    max-width: 300px !important;
+    margin: 0 auto !important;
+    position: relative !important;
+    left: auto !important;
+    right: auto !important;
+  }
+
   .sun-time-text, #sun-time-text {
     font-size: 0.8rem !important;
     text-align: center !important;
     white-space: nowrap !important;
+  }
+
+  .header-actions, .top-buttons-container, #parent-corner-btn, #sound-toggle-btn {
+    display: flex !important;
+    justify-content: center !important;
+    gap: 10px !important;
+    position: static !important;
+    width: 100% !important;
+    margin-top: 5px !important;
+  }
+
+  .corners-grid, .dashboard-grid, .kuti-dashboard-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 15px !important;
+    width: 100% !important;
   }
 }
 
@@ -521,34 +565,6 @@ div.parent-modal-box .modal-close-btn:hover {
   pointer-events: none !important;
   display: none !important;
   z-index: -999 !important;
-}
-
-/* ===== SADECE MOBİL: DİK TUTULUNCA "TELEFONU ÇEVİR" UYARISI =====*/
-.rotate-device-overlay { display: none; }
-
-@media screen and (max-width: 768px) and (orientation: portrait) {
-  .rotate-device-overlay {
-    display: flex;
-    position: fixed;
-    inset: 0;
-    z-index: 99999;
-    background: var(--bg-cream);
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 2rem;
-  }
-  .rotate-device-overlay .rotate-icon {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-    animation: rotateHint 1.6s ease-in-out infinite;
-  }
-}
-
-@keyframes rotateHint {
-  0%, 100% { transform: rotate(0deg); }
-  50% { transform: rotate(90deg); }
 }
 
 .launch-pin-box {
@@ -1706,19 +1722,57 @@ div.parent-modal-box .modal-close-btn:hover {
 @media (max-width: 768px) {
   .parent-dashboard-grid { grid-template-columns: 1fr; }
   .parent-panel-wide { grid-column: span 1; }
-
-/* ===== SCALE-TO-FIT: TABLET TASARIMINI KÜÇÜLTEREK MOBİLE YANSIT ===== */
-#app-scale-wrapper {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
+}
+/* ==========================================================================
+   MOBİL: GİRİŞ EKRANI ARKA PLANINDA TİLKİ KARAKTERİNİ GÖRÜNÜR KILMA
+   ========================================================================== */
+@media screen and (max-width: 768px) {
+  .kuti-welcome-overlay {
+    background-position: 90% center;
+  }
 }
 
-#app-scale-wrapper .app-container {
-  position: absolute;
-  top: 0;
-  left: 0;
+/* ==========================================================================
+   SADECE MOBİL: DİK TUTULUNCA "TELEFONU ÇEVİR" UYARISI
+   ========================================================================== */
+.rotate-device-overlay { display: none; }
+
+@media screen and (max-width: 768px) and (orientation: portrait) {
+  .rotate-device-overlay {
+    display: flex;
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background: var(--bg-cream);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+  }
+  .rotate-device-overlay .rotate-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    animation: rotateHint 1.6s ease-in-out infinite;
+  }
 }
 
+@keyframes rotateHint {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(90deg); }
+}
+
+/* ==========================================================================
+   TELEFON YATAY MODDA: EKRAN KISA OLDUĞU İÇİN (768px kuralı burada devreye
+   girmez, çünkü yatay genişlik genelde 768px'i geçer) YÜKSEKLİĞE GÖRE
+   KAYDIRMAYA İZİN VER — aksi halde header/grid kısayken kesilir, kaydırılamaz.
+   ========================================================================== */
+@media screen and (max-height: 500px) {
+  html, body {
+    height: auto !important;
+    max-height: none !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
 }

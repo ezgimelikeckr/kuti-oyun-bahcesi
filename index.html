@@ -5,10 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Kuti - Çocuk Eğitim & Oyun Bahçesi Dashboard</title>
   <meta name="description" content="Kuti Çocuk Eğitim ve Oyun Bahçesi Arayüzü. Duygu, Beceri, Öz Bakım ve Doğa Köşesi Keşif Alanı.">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="theme-color" content="#FFF8E1">
   <link rel="stylesheet" href="styles.css">
   <script src="app.js" defer></script>
 </head>
@@ -395,20 +391,15 @@
         <p id="pin-error-msg" style="text-align: center; color: #E53935; font-weight: 700; margin-top: 0.4rem; min-height: 20px; font-size: 0.82rem;"></p>
       </div>
 
-      <div id="parent-dashboard-view" style="display: none; box-sizing: border-box;">
-        <div class="parent-panel-topbar">
-          <div class="parent-panel-title-group">
-            <button type="button" class="parent-panel-back-btn" id="parent-back-btn" data-parent-back style="display: none;">← Geri</button>
-            <h3 class="parent-panel-title" id="parent-panel-title">Ebeveyn Köşesi (Ebeveyn Yönetim Paneli)</h3>
-          </div>
-          <button class="btn-play" data-close-modal style="background: var(--kuti-fox-orange); padding: 0.4rem 0.9rem; font-size: 0.78rem; margin-top: 0; flex-shrink: 0;">Oyuna Dön ✕</button>
+      <div id="parent-dashboard-view" style="display: none; flex-direction: column; width: 100%; height: auto; min-height: 350px; max-height: 72vh; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; box-sizing: border-box; padding-right: 4px;">
+        <div style="display: flex; align-items: center; justify-content: flex-end; margin-bottom: 0.85rem; flex-shrink: 0;">
+          <button class="btn-play" data-close-modal style="background: var(--kuti-fox-orange); padding: 0.4rem 0.9rem; font-size: 0.78rem; margin-top: 0;">Oyuna Dön ✕</button>
         </div>
-
-        <div class="parent-panel-scroll-area">
 
         <!-- ===== PANEL-MAIN: Genel bakış + alt menü (Süre / Yaş / Makaleler / Kitaplık) ===== -->
         <div class="parent-panel-main" id="parent-panel-main">
           <div class="parent-tab-banner parent-tab-banner-overview"></div>
+          <h4 style="margin-bottom: 0.2rem; color: #5E35B1;">⚙️ Ebeveyn Yönetim Paneli</h4>
           <p style="font-size: 0.78rem; color: var(--text-muted);">Kuti'nin oyun deneyimini düzenleyin, gelişimini destekleyin.</p>
 
           <div class="parent-menu-grid">
@@ -437,7 +428,9 @@
 
         <!-- ===== PANEL-SURE ===== -->
         <div class="parent-panel-detail" id="parent-panel-sure" data-parent-panel-detail="sure">
+          <button type="button" class="parent-panel-back-btn" data-parent-back>← Geri</button>
           <div class="parent-tab-banner parent-tab-banner-sure"></div>
+          <h4 style="margin-bottom: 0.4rem; font-size: 0.95rem;">☀️ Süre</h4>
           <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 0.6rem;">
             Güneşin hareket hızı seçilen süre ile birebir zaman orantılıdır. Süre bittiğinde otomatik Uyku Modu'na geçilir.
           </p>
@@ -454,7 +447,9 @@
 
         <!-- ===== PANEL-YAS ===== -->
         <div class="parent-panel-detail" id="parent-panel-yas" data-parent-panel-detail="yas">
+          <button type="button" class="parent-panel-back-btn" data-parent-back>← Geri</button>
           <div class="parent-tab-banner parent-tab-banner-yas"></div>
+          <h4 style="margin-bottom: 0.4rem;">🌱 Yaş</h4>
           <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 0.65rem;">
             Çocuğunuzun yaş aralığını seçin. Tüm 4 ana köşenin oyun zorluklarını anında bu seçime uyarlar.
           </p>
@@ -485,8 +480,10 @@
 
         <!-- ===== PANEL-MAKALELER ===== -->
         <div class="parent-panel-detail" id="parent-panel-makaleler" data-parent-panel-detail="makaleler">
+          <button type="button" class="parent-panel-back-btn" data-parent-back>← Geri</button>
           <div class="parent-tab-banner parent-tab-banner-makaleler"></div>
-          <div class="parent-scroll-list">
+          <h4 style="margin-bottom: 0.4rem; color: #5E35B1;">📚 Makaleler</h4>
+          <div class="parent-scroll-list" style="max-height: 340px;">
 
             <div style="padding: 0.6rem; background: #FAFAFA; border: 1px solid #E0E0E0; border-radius: 12px;">
               <strong style="font-size: 0.8rem;">📄 Media and Young Minds (AAP)</strong>
@@ -573,8 +570,10 @@
 
         <!-- ===== PANEL-KITAPLIK ===== -->
         <div class="parent-panel-detail" id="parent-panel-kitaplik" data-parent-panel-detail="kitaplik">
+          <button type="button" class="parent-panel-back-btn" data-parent-back>← Geri</button>
           <div class="parent-tab-banner parent-tab-banner-kitaplik"></div>
-          <div class="parent-scroll-list">
+          <h4 style="margin-bottom: 0.4rem;">📖 Kitaplık</h4>
+          <div class="parent-scroll-list" style="max-height: 340px;">
             <div style="padding: 0.6rem; background: #FFF8E1; border: 2px solid #FFE082; border-radius: 12px;">
               <h5 style="color: #E65100; font-size: 0.82rem; margin-bottom: 0.3rem;">Günün Önerilen Çocuk Kitapları</h5>
               <div id="daily-kids-books-container" style="display: flex; flex-direction: column; gap: 0.3rem; font-size: 0.7rem;">
@@ -597,19 +596,16 @@
           </div>
         </div>
 
-        </div>
-        <!-- /parent-panel-scroll-area -->
-
       </div>
 
     </div>
   </div>
 
-<!-- SADECE MOBİL: DİK TUTULUNCA "TELEFONU ÇEVİR" UYARISI -->
-<div class="rotate-device-overlay">
-  <div class="rotate-icon">📱</div>
-  <h2>Daha keyifli oynamak için telefonunu yatay çevir 😊</h2>
-</div>
+  <!-- SADECE MOBİL: DİK TUTULUNCA "TELEFONU ÇEVİR" UYARISI -->
+  <div class="rotate-device-overlay">
+    <div class="rotate-icon">📱</div>
+    <h2>Daha keyifli oynamak için telefonunu yatay çevir 🙂</h2>
+  </div>
 
 </body>
 </html>
