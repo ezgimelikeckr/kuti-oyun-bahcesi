@@ -1650,8 +1650,6 @@ div.parent-modal-box .modal-close-btn:hover {
   display: none;
   flex-direction: column;
   width: 100%;
-  flex: 1;
-  min-height: 0;
 }
 
 .parent-panel-detail.parent-panel-active {
@@ -1714,9 +1712,6 @@ div.parent-modal-box .modal-close-btn:hover {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  flex: 1;
-  min-height: 0;
-  overflow-y: auto;
   padding-right: 4px;
 }
 
