@@ -391,14 +391,16 @@
         <p id="pin-error-msg" style="text-align: center; color: #E53935; font-weight: 700; margin-top: 0.4rem; min-height: 20px; font-size: 0.82rem;"></p>
       </div>
 
-      <div id="parent-dashboard-view" style="display: none; flex-direction: column; width: 100%; height: auto; min-height: 350px; max-height: 72vh; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; box-sizing: border-box; padding-right: 4px; padding-top: 3.4rem;">
-        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.85rem; flex-shrink: 0; gap: 0.5rem;">
+      <div id="parent-dashboard-view" style="display: none; flex-direction: column; width: 100%; height: auto; min-height: 350px; max-height: 72vh; box-sizing: border-box;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.6rem; margin-top: 2.8rem; flex-shrink: 0; gap: 0.5rem;">
           <div style="display: flex; align-items: center; gap: 0.6rem; min-width: 0;">
             <button type="button" id="parent-back-btn" class="parent-panel-back-btn" data-parent-back style="display: none; margin-bottom: 0;">← Geri</button>
             <h3 id="parent-panel-title" style="margin: 0; font-size: 0.95rem; color: #5E35B1; font-family: var(--font-heading); font-weight: 800; white-space: nowrap;">Ebeveyn Köşesi</h3>
           </div>
           <button class="btn-play" data-close-modal style="background: var(--kuti-fox-orange); padding: 0.4rem 0.9rem; font-size: 0.78rem; margin-top: 0; flex-shrink: 0;">Oyuna Dön ✕</button>
         </div>
+
+        <div id="parent-panel-scroll-body" style="flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; padding-right: 4px;">
 
         <!-- ===== PANEL-MAIN: Genel bakış + alt menü (Süre / Yaş / Makaleler / Kitaplık) ===== -->
         <div class="parent-panel-main" id="parent-panel-main">
@@ -594,6 +596,9 @@
             </div>
           </div>
         </div>
+
+        </div>
+        <!-- /#parent-panel-scroll-body -->
 
       </div>
 
