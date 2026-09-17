@@ -269,7 +269,32 @@ body::after {
 /* Ebeveyn Paneli (dashboard) açıkken kutuyu sabit ve tam yükseklikte tut — boşluk bırakmadan
    ekranı doldurması için PIN ekranındaki "içeriğe göre büyüsün" davranışını devre dışı bırakır. */
 .parent-modal-box.parent-dashboard-active {
-  height: min(85vh, 620px) !important;
+  width: 580px !important;
+  max-width: 90vw !important;
+  height: 781px !important;
+  max-height: 90vh !important;
+}
+
+/* Panele göre sabit dış kutu ölçüleri — büyütme/küçültme yok, verilen ölçüler birebir */
+.parent-modal-box.parent-dashboard-active[data-active-panel="main"] {
+  width: 580px !important;
+  height: 781px !important;
+}
+.parent-modal-box.parent-dashboard-active[data-active-panel="sure"] {
+  width: 580px !important;
+  height: 718px !important;
+}
+.parent-modal-box.parent-dashboard-active[data-active-panel="yas"] {
+  width: 580px !important;
+  height: 817px !important;
+}
+.parent-modal-box.parent-dashboard-active[data-active-panel="makaleler"] {
+  width: 608px !important;
+  height: 972px !important;
+}
+.parent-modal-box.parent-dashboard-active[data-active-panel="kitaplik"] {
+  width: 580px !important;
+  height: 871px !important;
 }
 
 /* Ebeveyn Paneli İçerik Düzeni (display JS'e bırakıldı — PIN'e göre açılıp kapanabilsin) */
@@ -1503,24 +1528,18 @@ div.parent-modal-box .modal-close-btn:hover {
    KÜÇÜK bir kare kullanıyoruz: hem tasarımdaki boşluklu/çerçeveli görünümü verir hem de
    görseli olduğundan büyütmediği için netliği korur. */
 .parent-tab-banner {
-  width: auto;
-  height: 400px;
-  max-width: 440px;
-  max-height: 38vh;
+  width: 440px;
+  height: 440px;
   margin: 0 auto 0.5rem auto;
-  aspect-ratio: 1 / 1;
   border-radius: 10px;
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
   box-shadow: 0 4px 12px rgba(0,0,0,0.12);
-  flex-shrink: 1;
-  min-height: 0;
+  flex-shrink: 0;
 }
 
-/* Banner dışındaki tüm doğrudan içerik (başlık, açıklama, menü, liste vb.)
-   asla küçülmesin — sıkışma her zaman sadece görsele yansısın, metin
-   her koşulda net ve okunur kalsın. */
+/* Banner dışındaki tüm doğrudan içerik sabit boyutunda kalır (ölçekleme yok) */
 .parent-panel-main > *:not(.parent-tab-banner),
 .parent-panel-detail > *:not(.parent-tab-banner) {
   flex-shrink: 0;
@@ -1725,6 +1744,24 @@ div.parent-modal-box .modal-close-btn:hover {
   flex-direction: column;
   gap: 0.5rem;
   padding-right: 4px;
+}
+
+/* Sadece Makaleler paneli: kartlar yan yana, yatayda kaydırılabilir */
+.parent-scroll-list-horizontal {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 0.6rem;
+  padding-right: 0;
+  padding-bottom: 6px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+.parent-scroll-list-horizontal > div {
+  flex: 0 0 240px;
+  width: 240px;
 }
 
 @media (max-width: 768px) {

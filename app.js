@@ -871,6 +871,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (parentBackBtn) {
       parentBackBtn.style.display = panelKey === 'main' ? 'none' : 'inline-flex';
     }
+    if (parentModalBox) {
+      parentModalBox.setAttribute('data-active-panel', panelKey || 'main');
+    }
 
     if (panelKey === 'main') {
       if (parentPanelMain) parentPanelMain.classList.remove('parent-panel-hidden');
