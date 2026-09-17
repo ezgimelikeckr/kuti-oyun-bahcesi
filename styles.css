@@ -1503,8 +1503,10 @@ div.parent-modal-box .modal-close-btn:hover {
    KÜÇÜK bir kare kullanıyoruz: hem tasarımdaki boşluklu/çerçeveli görünümü verir hem de
    görseli olduğundan büyütmediği için netliği korur. */
 .parent-tab-banner {
-  width: 440px;
-  max-width: 100%;
+  width: auto;
+  height: 400px;
+  max-width: 440px;
+  max-height: 38vh;
   margin: 0 auto 0.5rem auto;
   aspect-ratio: 1 / 1;
   border-radius: 10px;
@@ -1512,6 +1514,15 @@ div.parent-modal-box .modal-close-btn:hover {
   background-position: center center;
   background-repeat: no-repeat;
   box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+  flex-shrink: 1;
+  min-height: 0;
+}
+
+/* Banner dışındaki tüm doğrudan içerik (başlık, açıklama, menü, liste vb.)
+   asla küçülmesin — sıkışma her zaman sadece görsele yansısın, metin
+   her koşulda net ve okunur kalsın. */
+.parent-panel-main > *:not(.parent-tab-banner),
+.parent-panel-detail > *:not(.parent-tab-banner) {
   flex-shrink: 0;
 }
 
@@ -1653,6 +1664,8 @@ div.parent-modal-box .modal-close-btn:hover {
 
 .parent-panel-detail.parent-panel-active {
   display: flex;
+  flex: 1;
+  min-height: 0;
 }
 
 .parent-panel-back-btn {
