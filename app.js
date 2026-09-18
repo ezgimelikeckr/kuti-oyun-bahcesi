@@ -1,5 +1,7 @@
 /* ==========================================================================
    KUTI CHILD EDUCATION DASHBOARD - FINAL INFOGRAPHIC MATCHED APP LOGIC
+   - Girdiğin ana tasar/* ==========================================================================
+   KUTI CHILD EDUCATION DASHBOARD - FINAL INFOGRAPHIC MATCHED APP LOGIC
    - Girdiğin ana tasarım şemasına (görsele) %100 uyumlu 3-6 yaş oyun matrisi
    ========================================================================== */
 

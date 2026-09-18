@@ -1,6 +1,9 @@
 /* ==========================================================================
    KUTI DESIGN SYSTEM & UI KIT - REFINED STYLES & LAYOUT FIXES
    ========================================================================== */
+/* ==========================================================================
+   KUTI DESIGN SYSTEM & UI KIT - REFINED STYLES & LAYOUT FIXES
+   ========================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap');
 
@@ -1820,4 +1823,16 @@ div.parent-modal-box .modal-close-btn:hover {
     overflow-x: hidden !important;
     -webkit-overflow-scrolling: touch !important;
   }
+}
+
+/* Kaydırma çubuğunu görsel olarak gizle — kaydırma işlevi aktif kalır,
+   içerik hiçbir zaman kırpılmaz, sadece çubuk (görsel obje) görünmez. */
+.hide-scrollbar {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* eski Edge/IE */
+}
+.hide-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, yeni Edge */
+  width: 0;
+  height: 0;
 }
