@@ -249,7 +249,7 @@
     </div>
   </div>
 
-  <!-- MODAL: DUYGU KÖŞESİ (İnteraktif Duygu Aynası) -->
+  <!-- MODAL: DUYGU KÖŞESİ -->
   <div class="kuti-modal" id="modal-duygu-corner">
     <div class="modal-content-box kuti-modal-shell" style="--corner-color:#D32F2F; --corner-tint:#FFEBEE; --corner-bg-img:url('kuti_corner_duygu.jpg');">
       <button class="modal-close-btn" data-close-modal>✕</button>
@@ -258,26 +258,32 @@
         <div class="modal-title-pill">❤️ Duygu Köşesi</div>
       </div>
 
-      <div class="modal-main-col" style="text-align: center; display: flex; flex-direction: column; align-items: center; gap: 0.75rem;">
-        <p style="font-size: 0.85rem; color: var(--text-dark); font-weight: 700;" id="duygu-modal-prompt">
-          Kuti şu an nasıl hissediyor? Aşağıdan doğru yüz ifadesini seç!
-        </p>
+      <div class="modal-main-col">
+          <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.75rem;" id="duygu-modal-subtitle">
+            Görsel Yüz İfadesi Aynası & Empati Senaryoları
+          </p>
 
-        <div class="emotion-mirror-frame" style="width: 100%; max-width: 280px;">
-          <img src="kuti_mutlu.png" alt="Kuti Duygu Aynası" class="mirror-face-img" id="mirror-face-img" style="width: 110px; height: 110px;">
-          <span style="font-size: 0.78rem; font-weight: 700; color: #D32F2F;" id="mirror-prompt-text">Mutlu Kuti 🌟</span>
+          <div class="corner-game-stage" id="duygu-game-stage">
+            <div style="width:100%;">
+              <div class="duygu-mirror-section" style="text-align:center; margin-bottom:1.1rem;">
+                <img id="mirror-face-img" class="mirror-face-img" src="kuti_mutlu.png" alt="Kuti">
+                <p id="mirror-prompt-text" style="font-size:0.85rem; font-weight:700; color:var(--corner-color); margin:0.5rem 0;"></p>
+                <div id="duygu-mirror-options"></div>
+              </div>
+              <div class="duygu-scenario-section" style="text-align:center; border-top:2px dashed #FFCDD2; padding-top:1rem;">
+                <p id="duygu-scenario-text" style="font-size:0.85rem; font-weight:700; color:#B71C1C; margin-bottom:0.55rem;"></p>
+                <div id="duygu-scenario-choices" style="display:flex; flex-direction:column; gap:0.5rem;"></div>
+              </div>
+              <div style="text-align:center; margin-top:1rem;">
+                <button class="dev-test-complete-btn" data-test-complete-corner="duygu">Bitir (Test) →</button>
+              </div>
+            </div>
+          </div>
         </div>
-
-        <div id="duygu-mirror-options" style="display: flex; gap: 0.5rem; justify-content: center; width: 100%; margin-top: 0.5rem;">
-          <!-- Dinamik doldurulur -->
-        </div>
-
-        <button class="dev-test-complete-btn" data-test-complete-corner="duygu" style="margin-top: 1rem;">Etkinliği Bitir →</button>
       </div>
     </div>
-  </div>
 
-  <!-- MODAL: BECERİ KÖŞESİ (Yapboz & Zeka Alanı) -->
+  <!-- MODAL: BECERİ KÖŞESİ -->
   <div class="kuti-modal" id="modal-beceri-corner">
     <div class="modal-content-box kuti-modal-shell" style="--corner-color:#2E7D32; --corner-tint:#E8F5E9; --corner-bg-img:url('kuti_corner_beceri.jpg');">
       <button class="modal-close-btn" data-close-modal>✕</button>
@@ -286,22 +292,28 @@
         <div class="modal-title-pill">🧩 Beceri Köşesi</div>
       </div>
 
-      <div class="modal-main-col" style="display: flex; flex-direction: column; align-items: center; gap: 0.75rem;">
-        <p style="font-size: 0.85rem; color: var(--text-dark); font-weight: 700; text-align: center;">
-          Kuti'nin Yapbozunu Parçaları Yerine Koyarak Tamamla! 🧩
-        </p>
+      <div class="modal-main-col">
+          <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.75rem;" id="beceri-modal-subtitle">
+            Sırala Bul & Gerçek Görsel Yapboz
+          </p>
 
-        <div style="width: 100%; max-width: 320px; display: flex; flex-direction: column; gap: 0.75rem; align-items: center;">
-          <div id="puzzle-board-grid" class="puzzle-board-grid" style="grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(2, 1fr); width: 220px; height: 160px;"></div>
-          <div id="puzzle-piece-bank" class="puzzle-piece-bank" style="width: 100%; min-height: 70px; flex-direction: row; flex-wrap: wrap;"></div>
+          <div class="corner-game-stage" id="beceri-game-stage">
+            <div style="width:100%;">
+              <div id="sirala-grid" style="margin-bottom:1.25rem;"></div>
+              <div class="puzzle-game-container">
+                <div class="puzzle-board-grid" id="puzzle-board-grid"></div>
+                <div class="puzzle-piece-bank" id="puzzle-piece-bank"></div>
+              </div>
+              <div style="text-align:center; margin-top:1rem;">
+                <button class="dev-test-complete-btn" data-test-complete-corner="beceri">Bitir (Test) →</button>
+              </div>
+            </div>
+          </div>
         </div>
-
-        <button class="dev-test-complete-btn" data-test-complete-corner="beceri">Etkinliği Bitir →</button>
       </div>
     </div>
-  </div>
 
-  <!-- MODAL: ÖZ BAKIM KÖŞESİ (Diş Fırçalama & Yüz Yıkama) -->
+  <!-- MODAL: ÖZ BAKIM KÖŞESİ -->
   <div class="kuti-modal" id="modal-ozbakim-corner">
     <div class="modal-content-box kuti-modal-shell" style="--corner-color:#E65100; --corner-tint:#FFF3E0; --corner-bg-img:url('kuti_corner_ozbakim.jpg');">
       <button class="modal-close-btn" data-close-modal>✕</button>
@@ -310,30 +322,25 @@
         <div class="modal-title-pill">🪥 Öz Bakım Köşesi</div>
       </div>
 
-      <div class="modal-main-col" style="display: flex; flex-direction: column; align-items: center; gap: 0.75rem; text-align: center;">
-        <p style="font-size: 0.85rem; color: var(--text-dark); font-weight: 700;">
-          Kuti Sabah Rutinini Yapıyor! Dişlerini fırçala ve yüzünü köpükle yıka. 🪥✨
-        </p>
-
-        <div style="display: flex; gap: 1rem; align-items: center; justify-content: center; background: rgba(255,255,255,0.7); padding: 1rem; border-radius: 16px; width: 100%; max-width: 400px;">
-          <div style="text-align: center;">
-            <img src="Karakteri aynen koru, doğrudan kameraya_aynaya bakıyor gibi poz ver, elinde diş fırçası, arka planda ayna YOK, sadece pastel banyo ortamı.jpg" alt="Diş Fırçalayan Kuti" style="width: 120px; height: 120px; object-fit: cover; border-radius: 16px; border: 2px solid #FF9800; cursor: pointer;" id="btn-brush-action" title="Dişleri Fırçala">
-            <p style="font-size: 0.72rem; font-weight: 700; margin-top: 0.3rem; color: #E65100;">🦷 Dişleri Fırçala</p>
-          </div>
-          <div style="text-align: center;">
-            <img src="Karakteri aynen koru, doğrudan kameraya_aynaya bakıyor gibi poz ver, elleri yüzünde sabun köpükleri, arka planda ayna YOK, sadece pastel banyo ortamı.jpg" alt="Yüzünü Yıkayan Kuti" style="width: 120px; height: 120px; object-fit: cover; border-radius: 16px; border: 2px solid #009688; cursor: pointer;" id="btn-bubble-action" title="Yüzü Köpükle Yıka">
-            <p style="font-size: 0.72rem; font-weight: 700; margin-top: 0.3rem; color: #00796B;">🧼 Köpükle Yıka</p>
+      <div class="modal-main-col">
+          <div class="corner-game-stage" id="ozbakim-game-stage">
+            <div style="width:100%;">
+              <div id="ozbakim-oral-wrapper" style="margin-bottom:1.25rem;"></div>
+              <div style="border-top:2px dashed #FFE0B2; padding-top:1rem;">
+                <p style="font-size:0.82rem; font-weight:700; color:#E65100; text-align:center; margin-bottom:0.4rem;">🌤️ Hava Durumuna Göre Kuti'yi Giydir</p>
+                <p id="ozbakim-weather-clue" style="text-align:center; font-size:1.7rem; margin-bottom:0.5rem;"></p>
+                <div id="dress-options-grid" style="display:flex; gap:0.5rem; justify-content:center; flex-wrap:wrap;"></div>
+              </div>
+              <div style="text-align:center; margin-top:1rem;">
+                <button class="dev-test-complete-btn" data-test-complete-corner="ozbakim">Bitir (Test) →</button>
+              </div>
+            </div>
           </div>
         </div>
-
-        <div id="ozbakim-status-text" style="font-family: var(--font-heading); font-weight: 700; font-size: 0.85rem; color: #2E7D32; min-height: 24px;"></div>
-
-        <button class="dev-test-complete-btn" data-test-complete-corner="ozbakim">Etkinliği Bitir →</button>
       </div>
     </div>
-  </div>
 
-  <!-- MODAL: DOĞA KÖŞESİ (Hava Durumu & Kıyafet Seçimi) -->
+  <!-- MODAL: DOĞA KÖŞESİ -->
   <div class="kuti-modal" id="modal-doga-corner">
     <div class="modal-content-box kuti-modal-shell" style="--corner-color:#00796B; --corner-tint:#E0F2F1; --corner-bg-img:url('kuti_corner_doga.jpg');">
       <button class="modal-close-btn" data-close-modal>✕</button>
@@ -342,25 +349,23 @@
         <div class="modal-title-pill">🌿 Doğa Köşesi</div>
       </div>
 
-      <div class="modal-main-col" style="display: flex; flex-direction: column; align-items: center; gap: 0.75rem; text-align: center;">
-        <p style="font-size: 0.85rem; color: var(--text-dark); font-weight: 700;">
-          Hava durumuna uygun kıyafeti seç ve Kuti'yi giydir! 🌧️❄️
-        </p>
-
-        <div style="background: rgba(255,255,255,0.75); padding: 0.85rem; border-radius: 16px; display: flex; flex-direction: column; align-items: center; gap: 0.5rem; width: 100%; max-width: 320px;">
-          <img src="Tilkiye aynen kıyafet kartındaki gibi pastel sarı kapüşonlu yağmurluk ve pastel mor yağmur çizmeleri giydirin.jpg" alt="Kuti Kıyafet" style="width: 140px; height: 140px; object-fit: cover; border-radius: 50%; border: 3px solid #009688;" id="doga-kuti-outfit-img">
-          <p style="font-size: 0.78rem; font-weight: 700; color: #004D40;" id="doga-outfit-label">Sarı Yağmurluk & Mor Çizmeler 🌧️</p>
-          
-          <div style="display: flex; gap: 0.5rem; width: 100%; justify-content: center; margin-top: 0.3rem;">
-            <button class="btn-icon-pill" id="btn-outfit-rain" style="background:#FFF9C4; font-size: 0.75rem;">🧥 Sarı Yağmurluk</button>
-            <button class="btn-icon-pill" id="btn-outfit-winter" style="background:#E1F5FE; font-size: 0.75rem;">❄️ Kışlık Mont</button>
+      <div class="modal-main-col">
+          <div class="corner-game-stage" id="doga-game-stage">
+            <div style="width:100%;">
+              <div style="margin-bottom:1.25rem;">
+                <p style="font-size:0.82rem; font-weight:700; color:#00796B; text-align:center; margin-bottom:0.3rem;">🔎 İpucuna Uygun Mevsimi/Havayı Bul</p>
+                <p id="doga-mevsim-clue" style="text-align:center; font-size:1.9rem; margin-bottom:0.5rem;"></p>
+                <div id="mevsim-options" style="display:flex; gap:0.5rem; justify-content:center; flex-wrap:wrap;"></div>
+              </div>
+              <div id="doga-garden-wrapper" style="border-top:2px dashed #B2DFDB; padding-top:1rem;"></div>
+              <div style="text-align:center; margin-top:1rem;">
+                <button class="dev-test-complete-btn" data-test-complete-corner="doga">Bitir (Test) →</button>
+              </div>
+            </div>
           </div>
         </div>
-
-        <button class="dev-test-complete-btn" data-test-complete-corner="doga">Etkinliği Bitir →</button>
       </div>
     </div>
-  </div>
 
   <!-- KUTİ REHBERLİK / KÖŞELER ARASI GEÇİŞ EKRANI -->
   <div class="kuti-transition-overlay" id="kuti-transition-overlay">
@@ -423,7 +428,7 @@
 
         <div id="parent-panel-scroll-body" class="hide-scrollbar" style="flex: 1; min-height: 0; display: flex; flex-direction: column; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; padding-right: 4px;">
 
-        <!-- ===== PANEL-MAIN ===== -->
+        <!-- ===== PANEL-MAIN: Genel bakış + alt menü (Süre / Yaş / Makaleler / Kitaplık) ===== -->
         <div class="parent-panel-main" id="parent-panel-main">
           <div class="parent-tab-banner parent-tab-banner-overview"></div>
           <h4 style="margin-bottom: 0.2rem; color: #5E35B1;">⚙️ Ebeveyn Yönetim Paneli</h4>
@@ -537,6 +542,57 @@
                 🔗 Makaleye Git ↗
               </a>
             </div>
+
+            <div style="padding: 0.6rem; background: #FAFAFA; border: 1px solid #E0E0E0; border-radius: 12px;">
+              <strong style="font-size: 0.8rem;">📄 Unstructured Nature Play (PubMed Central)</strong>
+              <p style="color: var(--text-muted); font-size: 0.72rem; margin: 0.15rem 0 0.3rem;">
+                Ebeveynlerin ve okul öncesi eğitimcilerin, çocukların yapılandırılmamış doğa oyunlarına dair görüşleri.
+              </p>
+              <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10246796" target="_blank" rel="noopener noreferrer" style="color: #5E35B1; font-weight: 700; font-size: 0.75rem; text-decoration: underline;">
+                🔗 Makaleye Git ↗
+              </a>
+            </div>
+
+            <div style="padding: 0.6rem; background: #FAFAFA; border: 1px solid #E0E0E0; border-radius: 12px;">
+              <strong style="font-size: 0.8rem;">📄 3-9 Yaş Grubu Dijital Medya Kullanımı (DergiPark)</strong>
+              <p style="color: var(--text-muted); font-size: 0.72rem; margin: 0.15rem 0 0.3rem;">
+                92 ebeveynle yürütülen, ekran süresi ve öz-düzenleme ilişkisini inceleyen araştırma.
+              </p>
+              <a href="https://dergipark.org.tr/tr/download/article-file/5545304" target="_blank" rel="noopener noreferrer" style="color: #5E35B1; font-weight: 700; font-size: 0.75rem; text-decoration: underline;">
+                🔗 Makale PDF İndir ↗
+              </a>
+            </div>
+
+            <div style="padding: 0.6rem; background: #FAFAFA; border: 1px solid #E0E0E0; border-radius: 12px;">
+              <strong style="font-size: 0.8rem;">📄 Çocuk ve Ergenlerde Uyku Bozuklukları (DergiPark)</strong>
+              <p style="color: var(--text-muted); font-size: 0.72rem; margin: 0.15rem 0 0.3rem;">
+                Uykunun beyin gelişimi ve öğrenmedeki rolünü, ekran kullanımının etkisini ele alan derleme.
+              </p>
+              <a href="https://dergipark.org.tr/tr/pub/atk/article/1382739" target="_blank" rel="noopener noreferrer" style="color: #5E35B1; font-weight: 700; font-size: 0.75rem; text-decoration: underline;">
+                🔗 Makaleye Git ↗
+              </a>
+            </div>
+
+            <div style="padding: 0.6rem; background: #FAFAFA; border: 1px solid #E0E0E0; border-radius: 12px;">
+              <strong style="font-size: 0.8rem;">📄 Okul Öncesi Yürütücü İşlevler (DergiPark)</strong>
+              <p style="color: var(--text-muted); font-size: 0.72rem; margin: 0.15rem 0 0.3rem;">
+                137 okul öncesi çocukla yürütülen, bilişsel esneklik ve duygu düzenleme ilişkisi araştırması.
+              </p>
+              <a href="https://dergipark.org.tr/tr/pub/inesj/issue/40018/475792" target="_blank" rel="noopener noreferrer" style="color: #5E35B1; font-weight: 700; font-size: 0.75rem; text-decoration: underline;">
+                🔗 Makaleye Git ↗
+              </a>
+            </div>
+
+            <div style="padding: 0.6rem; background: #FAFAFA; border: 1px solid #E0E0E0; border-radius: 12px;">
+              <strong style="font-size: 0.8rem;">📄 Okul Öncesi Çocukların Doğa Algıları (DergiPark)</strong>
+              <p style="color: var(--text-muted); font-size: 0.72rem; margin: 0.15rem 0 0.3rem;">
+                Doğayla kurulan etkileşimin çok yönlü gelişime katkısını inceleyen güncel bir çalışma.
+              </p>
+              <a href="https://dergipark.org.tr/tr/pub/ajesi/article/1798385" target="_blank" rel="noopener noreferrer" style="color: #5E35B1; font-weight: 700; font-size: 0.75rem; text-decoration: underline;">
+                🔗 Makaleye Git ↗
+              </a>
+            </div>
+
           </div>
         </div>
 
@@ -547,24 +603,35 @@
           <div class="parent-scroll-list">
             <div style="padding: 0.6rem; background: #FFF8E1; border: 2px solid #FFE082; border-radius: 12px;">
               <h5 style="color: #E65100; font-size: 0.82rem; margin-bottom: 0.3rem;">Günün Önerilen Çocuk Kitapları</h5>
-              <div id="daily-kids-books-container" style="display: flex; flex-direction: column; gap: 0.3rem; font-size: 0.7rem;"></div>
+              <div id="daily-kids-books-container" style="display: flex; flex-direction: column; gap: 0.3rem; font-size: 0.7rem;">
+                <!-- Dinamik olarak yüklenen kitaplar -->
+              </div>
             </div>
 
             <div style="padding: 0.6rem; background: #EDE7F6; border: 2px solid #D1C4E9; border-radius: 12px;">
-              <h5 style="color: #5E35B1; font-size: 0.82rem; margin-bottom: 0.3rem;">👨‍👩‍👧 Ebeveyn Kitapları</h5>
+              <h5 style="color: #5E35B1; font-size: 0.82rem; margin-bottom: 0.3rem;">
+                👨‍👩‍👧 Ebeveyn Kitapları
+              </h5>
               <div style="display: flex; flex-direction: column; gap: 0.3rem; font-size: 0.7rem;">
-                <div><b>💬 İletişim:</b> <i>Bütün Beyinli Çocuk (Daniel J. Siegel)</i>, <i>Geliştiren Anne Baba (Doğan Cüceloğlu)</i>.</div>
-                <div><b>❤️ Duygu:</b> <i>Duygusal Zeka Aşılamak (John Gottman)</i>, <i>Sakin Ebeveynlik (Laura Markham)</i>.</div>
+                <div><b>💬 İletişim & Beyin Gelişimi:</b> <i>Bütün Beyinli Çocuk (Daniel J. Siegel)</i>, <i>Geliştiren Anne Baba (Doğan Cüceloğlu)</i>, <i>Koşulsuz Ebeveynlik (Alfie Kohn)</i>.</div>
+                <div><b>❤️ Duygu Uyumlu Çocuklar:</b> <i>Duygusal Zeka Aşılamak (John Gottman)</i>, <i>Patlamaya Hazır Çocuk (Ross W. Greene)</i>, <i>Sakin Ebeveynlik (Laura Markham)</i>.</div>
+                <div><b>🧩 Sınırlar & Bağımsızlık:</b> <i>Aşırı Korumadan Kurtulma (Julie Lythcott-Haims)</i>, <i>0-6 Yaş 100 Temel Kural</i>.</div>
+                <div><b>🪥 Öz Bakım:</b> <i>Aletha J. Solter'in doğal ebeveynlik yaklaşımı eserleri</i>.</div>
+                <div><b>🦋 Doğa & Serbest Oyun:</b> <i>Doğadaki Son Çocuk (Richard Louv)</i>.</div>
               </div>
             </div>
           </div>
         </div>
 
         </div>
+        <!-- /#parent-panel-scroll-body -->
+
       </div>
+
     </div>
   </div>
 
+  <!-- SADECE MOBİL: DİK TUTULUNCA "TELEFONU ÇEVİR" UYARISI -->
   <div class="rotate-device-overlay">
     <div class="rotate-icon">📱</div>
     <h2>Daha keyifli oynamak için telefonunu yatay çevir 🙂</h2>
