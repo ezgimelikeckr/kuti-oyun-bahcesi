@@ -1346,6 +1346,97 @@ div.parent-modal-box .modal-close-btn:hover {
   transform: scale(1.08);
 }
 
+/* ==========================================================================
+   YENİ KÖŞE OYUNLARI — Sırayla Dokun / İpucu Eşleştirme / Bölgeye Sürükle
+   (Beceri "Sırala Bul", Öz Bakım "Rutin/Giydirme", Doğa "Mevsim/Yaşam Döngüsü")
+   ========================================================================== */
+
+.tap-order-row {
+  display: flex;
+  gap: 0.6rem;
+  justify-content: center;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  padding: 0.4rem 0;
+}
+
+.tap-order-btn {
+  flex-direction: column;
+  border-width: 2px;
+}
+
+.tap-order-btn:disabled {
+  cursor: default;
+}
+
+.tap-order-btn.tap-order-correct {
+  background: #C8E6C9 !important;
+  border-color: #4CAF50 !important;
+  opacity: 0.85;
+  transform: translateY(-3px);
+}
+
+.tap-order-btn.tap-order-shake {
+  animation: tap-order-shake-anim 0.4s ease;
+  border-color: #E57373 !important;
+  background: #FFEBEE !important;
+}
+
+@keyframes tap-order-shake-anim {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  75% { transform: translateX(6px); }
+}
+
+.zone-drop-grid {
+  display: flex;
+  gap: 0.6rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 0.6rem;
+}
+
+.zone-drop-target {
+  width: 90px;
+  min-height: 70px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-align: center;
+  padding: 0.4rem;
+  gap: 0.2rem;
+}
+
+.zone-drop-target .zone-icon {
+  font-size: 1.6rem;
+}
+
+.zone-item-bank {
+  display: flex;
+  gap: 0.6rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 0.7rem;
+}
+
+.zone-item-bank .drag-source {
+  font-size: 2rem;
+  background: #FFF8E1;
+  border: 2px solid #FFB74D;
+  border-radius: 14px;
+  padding: 0.35rem 0.6rem;
+}
+
+.shadow-choice-btn {
+  filter: brightness(0);
+  opacity: 0.72;
+  font-size: 2rem;
+  padding: 0.5rem 0.8rem;
+}
+
+.shadow-choice-btn:hover {
+  opacity: 0.9;
+}
+
 /* EBEVEYN PANELİ SEKME BUTONLARI — Kuti tasarım diliyle uyumlu */
 .tab-btn {
   background: #F5F5F5;
