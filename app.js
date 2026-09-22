@@ -321,27 +321,260 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  let targetEmotion = { name: 'Mutlu', image: 'kuti_mutlu.png', label: 'Mutlu' };
-
-  function setVisualEmotionMirror(emotion) {
-    targetEmotion = emotion;
-    const mirrorFace = document.getElementById('mirror-face-img');
-    const mirrorPrompt = document.getElementById('mirror-prompt-text');
-
-    if (mirrorFace) {
-      mirrorFace.style.transform = 'scale(1.15) rotate(3deg)';
-      setTimeout(() => mirrorFace.style.transform = 'scale(1)', 300);
-      mirrorFace.src = emotion.image; 
+  // --- DUYGU KÖŞESİ — YAŞA GÖRE 3 AYRI GERÇEK OYUN ---
+  // 3 yaş: Kuti'nin Duygu Yüzleri (duygu tanıma - gösterilen yüzü 3 seçenekten bul)
+  // 4-5 yaş: Kuti'nin Duygu Hikâyesi (rol yapma - önce duygu, sonra doğru çözümü seç)
+  // 6 yaş: Kuti'nin Duygu Hikâyesini Kur (imgeleme - olay + duygu + çözüm kartını sırayla
+  //         başlangıç/orta/son alanına yerleştirerek hikâyeyi kur)
+  const DUYGU_GAME_DATA = {
+    '3': {
+      title: "😊 Kuti'nin Duygu Yüzleri",
+      instruction: 'Kuti şu an nasıl hissediyor? Doğru yüzü seç.',
+      pool: [
+        { name: 'Mutlu', label: '😊 Mutlu', image: 'kuti_mutlu.png' },
+        { name: 'Üzgün', label: '😢 Üzgün', image: 'kuti_uzgun.png' },
+        { name: 'Kızgın', label: '😠 Kızgın', image: 'kuti_ofkeli.png' }
+      ]
+    },
+    '4-5': {
+      title: '📖 Kuti\'nin Duygu Hikâyesi',
+      scenes: [
+        {
+          text: 'Kuti en sevdiği oyuncağını kaybetti.',
+          emotionOptions: [
+            { name: 'Üzgün', label: '😢 Üzgün', correct: true },
+            { name: 'Mutlu', label: '😊 Mutlu', correct: false }
+          ],
+          solutionOptions: [
+            { label: '🔍 Birlikte arayalım', correct: true },
+            { label: '🙈 Görmezden gelelim', correct: false }
+          ]
+        },
+        {
+          text: 'Kuti\'nin kulesi az önce yıkıldı.',
+          emotionOptions: [
+            { name: 'Kızgın', label: '😠 Kızgın', correct: true },
+            { name: 'Meraklı', label: '🤔 Meraklı', correct: false }
+          ],
+          solutionOptions: [
+            { label: '🧘 Derin bir nefes alıp yeniden yapalım', correct: true },
+            { label: '💥 Diğer oyuncakları da atalım', correct: false }
+          ]
+        }
+      ]
+    },
+    '6+': {
+      title: "📚 Kuti'nin Duygu Hikâyesini Kur",
+      scenes: [
+        {
+          eventLabel: '🎂 Kuti\'nin doğum günü partisi yağmur yüzünden iptal oldu.',
+          emotionOptions: [
+            { label: '😢 Üzgün', correct: true },
+            { label: '😊 Mutlu', correct: false },
+            { label: '😲 Şaşırmış', correct: false }
+          ],
+          solutionOptions: [
+            { label: '🏠 Partiyi içeride, küçük bir sürprizle yapalım', correct: true },
+            { label: '😡 Herkese kızalım', correct: false }
+          ]
+        },
+        {
+          eventLabel: '🎭 Kuti sahnede repliklerini unuttu.',
+          emotionOptions: [
+            { label: '😨 Endişeli', correct: true },
+            { label: '😴 Uykulu', correct: false },
+            { label: '😊 Mutlu', correct: false }
+          ],
+          solutionOptions: [
+            { label: '❤️ Sakinleşip derin bir nefes alalım', correct: true },
+            { label: '🏃 Sahneden kaçalım', correct: false }
+          ]
+        }
+      ]
     }
-    if (mirrorPrompt) {
-      mirrorPrompt.textContent = `Kuti şu an nasıl hissediyor? Doğru yüz ifadesini seçebilir misin?`;
+  };
+
+  function renderDuyguChoiceRow(container, options, onPick) {
+    container.innerHTML = '';
+    options.slice().sort(() => Math.random() - 0.5).forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'btn-icon-pill scenario-opt-btn';
+      btn.style.cssText = 'justify-content:flex-start; text-align:left; padding:0.45rem 0.8rem;';
+      btn.textContent = opt.label;
+      btn.addEventListener('click', () => {
+        if (btn.disabled) return;
+        if (opt.correct) {
+          btn.disabled = true;
+          container.querySelectorAll('button').forEach(b => b.disabled = true);
+          if (soundEnabled) AudioEngine.playSuccess();
+          onPick(opt);
+        } else {
+          if (soundEnabled) AudioEngine.playTone(300, 0.2);
+          btn.classList.add('tap-order-shake');
+          setTimeout(() => btn.classList.remove('tap-order-shake'), 400);
+          showVisualFeedback('Tekrar deneyelim.', 'error');
+        }
+      });
+      container.appendChild(btn);
+    });
+  }
+
+  function initDuyguGame(level) {
+    const wrapper = document.getElementById('duygu-game-wrapper');
+    if (!wrapper) return;
+    const data = DUYGU_GAME_DATA[level] || DUYGU_GAME_DATA['4-5'];
+
+    if (level === '3') {
+      const target = data.pool[Math.floor(Math.random() * data.pool.length)];
+      wrapper.innerHTML = `
+        <div style="text-align:center;">
+          <p style="font-size:0.85rem; font-weight:700; color:var(--corner-color); margin-bottom:0.5rem;">${data.title}</p>
+          <img src="${target.image}" alt="Kuti" class="mirror-face-img" id="duygu3-face-img">
+          <p style="font-size:0.8rem; font-weight:700; color:#B71C1C; margin:0.5rem 0;">${data.instruction}</p>
+          <div id="duygu3-options" style="display:flex; gap:0.5rem; justify-content:center; flex-wrap:wrap;"></div>
+        </div>`;
+      const optBox = document.getElementById('duygu3-options');
+      data.pool.slice().sort(() => Math.random() - 0.5).forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = 'btn-icon-pill emo-opt-btn';
+        btn.textContent = opt.label;
+        btn.addEventListener('click', () => {
+          if (opt.name === target.name) {
+            if (soundEnabled) AudioEngine.playSuccess();
+            showVisualFeedback(`Evet, Kuti ${opt.name.toLowerCase()}! 🎉`, 'success');
+            initDuyguGame('3');
+          } else {
+            if (soundEnabled) AudioEngine.playTone(300, 0.2);
+            showVisualFeedback('Tekrar deneyelim.', 'error');
+          }
+        });
+        optBox.appendChild(btn);
+      });
+    } else if (level === '4-5') {
+      const scene = data.scenes[Math.floor(Math.random() * data.scenes.length)];
+      wrapper.innerHTML = `
+        <div style="text-align:center;">
+          <p style="font-size:0.85rem; font-weight:700; color:var(--corner-color); margin-bottom:0.5rem;">${data.title}</p>
+          <p style="font-size:0.82rem; font-weight:700; color:#B71C1C; margin-bottom:0.55rem;">${scene.text}</p>
+          <p style="font-size:0.72rem; color:var(--text-muted); margin-bottom:0.3rem;">1️⃣ Kuti ne hissediyor?</p>
+          <div id="duygu45-step1" style="display:flex; flex-direction:column; gap:0.4rem; align-items:center; margin-bottom:0.6rem;"></div>
+          <div id="duygu45-step2" style="display:flex; flex-direction:column; gap:0.4rem; align-items:center;"></div>
+        </div>`;
+      const step1 = document.getElementById('duygu45-step1');
+      const step2 = document.getElementById('duygu45-step2');
+      renderDuyguChoiceRow(step1, scene.emotionOptions, () => {
+        const p = document.createElement('p');
+        p.style.cssText = 'font-size:0.72rem; color:var(--text-muted); margin:0.3rem 0;';
+        p.textContent = '2️⃣ Şimdi ne yapmalıyız?';
+        step2.appendChild(p);
+        const choiceRow = document.createElement('div');
+        choiceRow.style.cssText = 'display:flex; flex-direction:column; gap:0.4rem; align-items:center;';
+        step2.appendChild(choiceRow);
+        renderDuyguChoiceRow(choiceRow, scene.solutionOptions, () => {
+          showVisualFeedback('Harika empati ve çözüm! 🎉', 'success');
+          setTimeout(() => initDuyguGame('4-5'), 900);
+        });
+      });
+    } else {
+      const scene = data.scenes[Math.floor(Math.random() * data.scenes.length)];
+      wrapper.innerHTML = `
+        <div style="text-align:center;">
+          <p style="font-size:0.85rem; font-weight:700; color:var(--corner-color); margin-bottom:0.5rem;">${data.title}</p>
+          <div style="display:flex; gap:0.5rem; justify-content:center; margin-bottom:0.7rem;">
+            <div class="story-slot" id="story-slot-1" data-label="Başlangıç">🎬</div>
+            <div class="story-slot" id="story-slot-2" data-label="Orta">❓</div>
+            <div class="story-slot" id="story-slot-3" data-label="Son">❓</div>
+          </div>
+          <p style="font-size:0.72rem; color:var(--text-muted); margin-bottom:0.3rem;">1️⃣ Kuti bunu hissediyor olabilir mi?</p>
+          <div id="duygu6-step1" style="display:flex; flex-direction:column; gap:0.4rem; align-items:center; margin-bottom:0.6rem;"></div>
+          <div id="duygu6-step2" style="display:flex; flex-direction:column; gap:0.4rem; align-items:center;"></div>
+        </div>`;
+      document.getElementById('story-slot-1').textContent = scene.eventLabel.split(' ')[0];
+      const step1 = document.getElementById('duygu6-step1');
+      const step2 = document.getElementById('duygu6-step2');
+      const p0 = document.createElement('p');
+      p0.style.cssText = 'font-size:0.8rem; font-weight:700; color:#B71C1C; margin-bottom:0.4rem;';
+      p0.textContent = scene.eventLabel;
+      step1.parentElement.insertBefore(p0, step1);
+      renderDuyguChoiceRow(step1, scene.emotionOptions, (picked) => {
+        document.getElementById('story-slot-2').textContent = picked.label.split(' ')[0];
+        const p = document.createElement('p');
+        p.style.cssText = 'font-size:0.72rem; color:var(--text-muted); margin:0.3rem 0;';
+        p.textContent = '2️⃣ Hikâyeyi nasıl bitirelim?';
+        step2.appendChild(p);
+        const choiceRow = document.createElement('div');
+        choiceRow.style.cssText = 'display:flex; flex-direction:column; gap:0.4rem; align-items:center;';
+        step2.appendChild(choiceRow);
+        renderDuyguChoiceRow(choiceRow, scene.solutionOptions, (picked2) => {
+          document.getElementById('story-slot-3').textContent = picked2.label.split(' ')[0];
+          showVisualFeedback('🎉 Hikâyeni harika bir şekilde kurdun!', 'success');
+          setTimeout(() => initDuyguGame('6+'), 1200);
+        });
+      });
     }
   }
 
-  function pickRandomTargetEmotion(cfg) {
-    const pool = cfg.emotions;
-    const randomIndex = Math.floor(Math.random() * pool.length);
-    setVisualEmotionMirror(pool[randomIndex]);
+  // --- GENEL YENİDEN KULLANILABİLİR: HAFIZA/EŞLEŞTİRME OYUNU ---
+  // pairs: [{id, icon}] — her biri 2 kart olarak karışık dizilir, çocuk aynı ikona sahip
+  // 2 kartı art arda bulmalıdır. Kuti'nin Hafıza Bahçesi gibi oyunlarda kullanılır.
+  function initMemoryMatchGame(container, pairs, successMsg) {
+    if (!container) return;
+    container.innerHTML = '';
+    const grid = document.createElement('div');
+    grid.className = 'memory-match-grid';
+    const cards = [];
+    pairs.forEach(p => { cards.push({ ...p, cardId: p.id + '-a' }); cards.push({ ...p, cardId: p.id + '-b' }); });
+    cards.sort(() => Math.random() - 0.5);
+
+    let openCards = [];
+    let lockBoard = false;
+    let matchedCount = 0;
+
+    cards.forEach(card => {
+      const btn = document.createElement('button');
+      btn.className = 'btn-icon-pill memory-card-btn';
+      btn.textContent = '❓';
+      btn.dataset.cardId = card.cardId;
+      btn.addEventListener('click', () => {
+        if (lockBoard || btn.disabled || btn.classList.contains('memory-card-open')) return;
+        btn.textContent = card.icon;
+        btn.classList.add('memory-card-open');
+        openCards.push({ btn, id: card.id });
+
+        if (openCards.length === 2) {
+          lockBoard = true;
+          const [first, second] = openCards;
+          if (first.id === second.id) {
+            if (soundEnabled) AudioEngine.playSuccess();
+            first.btn.disabled = true;
+            second.btn.disabled = true;
+            first.btn.classList.add('memory-card-matched');
+            second.btn.classList.add('memory-card-matched');
+            matchedCount++;
+            openCards = [];
+            lockBoard = false;
+            if (matchedCount === pairs.length) {
+              setTimeout(() => showVisualFeedback(successMsg, 'success'), 250);
+            } else {
+              showVisualFeedback('Harika eşleşme!', 'success');
+            }
+          } else {
+            if (soundEnabled) AudioEngine.playTone(300, 0.2);
+            showVisualFeedback('Eşleşmedi, tekrar dene.', 'error');
+            setTimeout(() => {
+              first.btn.textContent = '❓';
+              second.btn.textContent = '❓';
+              first.btn.classList.remove('memory-card-open');
+              second.btn.classList.remove('memory-card-open');
+              openCards = [];
+              lockBoard = false;
+            }, 700);
+          }
+        }
+      });
+      grid.appendChild(btn);
+    });
+    container.appendChild(grid);
   }
 
   // --- GENEL YENİDEN KULLANILABİLİR OYUN MEKANİKLERİ ---
@@ -434,85 +667,101 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // --- BECERİ KÖŞESİ — OYUN 1: SIRALA BUL (3 yaş: Küçük→Büyük Sırala, 4-5 yaş: Örüntü, 6 yaş: Gölge Bul) ---
+  // --- BECERİ KÖŞESİ — OYUN 1 ---
+  // 3 yaş: Kuti'nin Renk Yolu (söylenen renkteki alana dokun)
+  // 4-5 yaş: Kuti'nin Bahçesini Tamamlıyorum (bahçeye uygun nesneleri yerleştir - sürükle-bırak)
+  // 6 yaş: Kuti'nin Örüntü Bahçesi (renk/şekil/boyut örüntüsünü tamamla - çoklu kriter)
   function initBeceriGame(level) {
     const beceriContainer = document.getElementById('sirala-grid');
     if (!beceriContainer) return;
     beceriContainer.innerHTML = '';
 
     if (level === '3') {
-      // Gerçek mekanik: Kuti'nin 3 farklı boyuttaki halini küçükten büyüğe doğru sırayla tıklama
-      const title = document.createElement('p');
-      title.style.cssText = 'text-align:center; font-size:0.85rem; font-weight:700; color:#2E7D32; margin-bottom:0.5rem;';
-      title.textContent = "📏 Kuti'leri küçükten büyüğe doğru sırayla dokun";
-      beceriContainer.appendChild(title);
-      const orderRow = document.createElement('div');
-      beceriContainer.appendChild(orderRow);
-      initTapOrderGame(orderRow, [
-        { id: 'small', html: '<img src="kuti_mutlu.png" style="width:34px;height:34px;border-radius:50%;object-fit:cover;">' },
-        { id: 'medium', html: '<img src="kuti_mutlu.png" style="width:54px;height:54px;border-radius:50%;object-fit:cover;">' },
-        { id: 'big', html: '<img src="kuti_mutlu.png" style="width:76px;height:76px;border-radius:50%;object-fit:cover;">' }
-      ], "🎉 Harika! Küçükten büyüğe doğru sıraladın!");
-    } else if (level === '4-5') {
-      // Gerçek mekanik: Tekrar eden bir örüntü gösterilir, çocuk eksik şekli iki seçenek arasından bulur
-      const patterns = [
-        { seq: ['⭐', '⭐', '🔵'], next: '⭐', wrong: '🔵' },
-        { seq: ['🔺', '🟢', '🔺'], next: '🟢', wrong: '🔺' }
+      // Gerçek mekanik: Söylenen renk seslendirilir/gösterilir, çocuk o renkteki alana dokunur
+      const colors = [
+        { id: 'red', name: 'Kırmızı', swatch: '🔴' },
+        { id: 'yellow', name: 'Sarı', swatch: '🟡' },
+        { id: 'blue', name: 'Mavi', swatch: '🔵' }
       ];
-      const p = patterns[Math.floor(Math.random() * patterns.length)];
-      const displaySeq = [...p.seq, ...p.seq, ...p.seq.slice(0, p.seq.length - 1)];
+      const target = colors[Math.floor(Math.random() * colors.length)];
       beceriContainer.innerHTML = `
         <div style="text-align:center;">
-          <p style="font-size:0.82rem; font-weight:700; color:#2E7D32; margin-bottom:0.5rem;">🧩 Örüntüyü Tamamla — Sırada ne gelmeli?</p>
-          <div style="font-size:1.8rem; letter-spacing:0.3rem; margin-bottom:0.7rem;">${displaySeq.join(' ')} <span style="opacity:0.4;">❓</span></div>
-          <div id="beceri-pattern-choices" style="display:flex; gap:0.6rem; justify-content:center;"></div>
+          <p style="font-size:0.85rem; font-weight:700; color:#2E7D32; margin-bottom:0.4rem;">🎨 Kuti'nin Renk Yolu</p>
+          <p style="font-size:0.8rem; font-weight:700; color:#1B5E20; margin-bottom:0.6rem;">"${target.name}" renkteki alana dokun!</p>
+          <div id="beceri-color-choices" style="display:flex; gap:0.7rem; justify-content:center;"></div>
+        </div>`;
+      const box = document.getElementById('beceri-color-choices');
+      colors.slice().sort(() => Math.random() - 0.5).forEach(c => {
+        const btn = document.createElement('button');
+        btn.className = 'btn-icon-pill';
+        btn.style.fontSize = '2rem';
+        btn.textContent = c.swatch;
+        btn.addEventListener('click', () => {
+          if (c.id === target.id) {
+            if (soundEnabled) AudioEngine.playSuccess();
+            showVisualFeedback('🎉 Doğru renge dokundun!', 'success');
+            initBeceriGame('3');
+          } else {
+            if (soundEnabled) AudioEngine.playTone(300, 0.2);
+            showVisualFeedback('Tekrar bak, hangi renk söylendi?', 'error');
+          }
+        });
+        box.appendChild(btn);
+      });
+    } else if (level === '4-5') {
+      // Gerçek mekanik: Bahçe nesnelerini (güneş, ağaç, çiçek, bank) doğru bahçe alanına sürükle
+      beceriContainer.innerHTML = `
+        <p style="text-align:center; font-size:0.82rem; font-weight:700; color:#2E7D32; margin-bottom:0.5rem;">🌻 Kuti'nin Bahçesini Tamamlıyorum</p>
+        <div id="beceri-garden-bank" class="zone-item-bank"></div>
+        <div id="beceri-garden-zones" class="zone-drop-grid"></div>`;
+      initZoneDragGame(
+        document.getElementById('beceri-garden-bank'),
+        document.getElementById('beceri-garden-zones'),
+        [
+          { id: 'sun', icon: '☀️', zoneId: 'sky' },
+          { id: 'tree', icon: '🌳', zoneId: 'ground' },
+          { id: 'flower', icon: '🌸', zoneId: 'ground' },
+          { id: 'bench', icon: '🪑', zoneId: 'ground' }
+        ],
+        [
+          { id: 'sky', icon: '☁️', label: 'Gökyüzü' },
+          { id: 'ground', icon: '🟩', label: 'Bahçe Zemini' }
+        ],
+        '🎉 Bahçeyi harika bir şekilde tamamladın!'
+      );
+    } else {
+      // Gerçek mekanik: Renk + şekil + boyut kriterli örüntü — eksik öğeyi bul
+      const patterns = [
+        { seq: ['🔴 küçük', '🔴 büyük', '🔵 küçük'], next: '🔵 büyük', wrong: '🔴 küçük', label: 'renk + boyut' },
+        { seq: ['🟢▲', '🟡●', '🟢▲'], next: '🟡●', wrong: '🟢●', label: 'renk + şekil' }
+      ];
+      const p = patterns[Math.floor(Math.random() * patterns.length)];
+      const displaySeq = [...p.seq, ...p.seq];
+      beceriContainer.innerHTML = `
+        <div style="text-align:center;">
+          <p style="font-size:0.82rem; font-weight:700; color:#2E7D32; margin-bottom:0.3rem;">🪴 Kuti'nin Örüntü Bahçesi</p>
+          <p style="font-size:0.68rem; color:var(--text-muted); margin-bottom:0.5rem;">Çoklu kriter: ${p.label}</p>
+          <div style="font-size:1.3rem; letter-spacing:0.4rem; margin-bottom:0.7rem;">${displaySeq.join(' · ')} · <span style="opacity:0.4;">❓</span></div>
+          <div id="beceri-pattern-choices" style="display:flex; gap:0.6rem; justify-content:center; flex-wrap:wrap;"></div>
         </div>`;
       const choicesBox = document.getElementById('beceri-pattern-choices');
       const options = [p.next, p.wrong].sort(() => Math.random() - 0.5);
       options.forEach(opt => {
         const btn = document.createElement('button');
         btn.className = 'btn-icon-pill';
-        btn.style.fontSize = '1.4rem';
+        btn.style.fontSize = '1.1rem';
         btn.textContent = opt;
         btn.addEventListener('click', () => {
           if (opt === p.next) {
             if (soundEnabled) AudioEngine.playSuccess();
-            showVisualFeedback("🎉 Örüntü başarıyla tamamlandı!", "success");
+            showVisualFeedback('🎉 Örüntü başarıyla tamamlandı!', 'success');
+            initBeceriGame('6+');
           } else {
             if (soundEnabled) AudioEngine.playTone(300, 0.2);
-            showVisualFeedback("Örüntüye tekrar bak, hangisi uyuyor?", "error");
+            showVisualFeedback('Örüntüye tekrar bak, kriterler neydi?', 'error');
           }
         });
         choicesBox.appendChild(btn);
-      });
-    } else {
-      // Gerçek mekanik: Hedef hayvan gösterilir, 3 siluet arasından doğru gölge seçilir
-      const animals = ['🦊', '🐻', '🐰', '🦁'];
-      const correctAnimal = animals[Math.floor(Math.random() * animals.length)];
-      const wrongAnimals = animals.filter(a => a !== correctAnimal).sort(() => Math.random() - 0.5).slice(0, 2);
-      const choiceAnimals = [correctAnimal, ...wrongAnimals].sort(() => Math.random() - 0.5);
-      beceriContainer.innerHTML = `
-        <div style="width:100%; text-align:center;">
-          <p style="font-size:0.82rem; font-weight:700; color:#2E7D32; margin-bottom:0.4rem;">🔦 Kuti'nin Gölgesini Bul</p>
-          <div style="font-size:2.4rem; margin-bottom:0.6rem;">${correctAnimal}</div>
-          <div id="beceri-shadow-choices" style="display:flex; gap:0.6rem; justify-content:center;"></div>
-        </div>`;
-      const shadowBox = document.getElementById('beceri-shadow-choices');
-      choiceAnimals.forEach(a => {
-        const btn = document.createElement('button');
-        btn.className = 'btn-icon-pill shadow-choice-btn';
-        btn.textContent = a;
-        btn.addEventListener('click', () => {
-          if (a === correctAnimal) {
-            if (soundEnabled) AudioEngine.playSuccess();
-            btn.style.filter = 'none';
-            showVisualFeedback("🎉 Doğru gölge eşleşti!", "success");
-          } else {
-            if (soundEnabled) AudioEngine.playTone(300, 0.2);
-            showVisualFeedback("Bu gölge Kuti'ye ait değil, tekrar dene.", "error");
-          }
-        });
-        shadowBox.appendChild(btn);
       });
     }
   }
@@ -525,8 +774,10 @@ document.addEventListener('DOMContentLoaded', () => {
     puzzleBoard.innerHTML = '';
     puzzleBank.innerHTML = '';
 
-    let totalCols = level === '3' ? 2 : 3;
-    let totalRows = level === '3' ? 2 : (level === '6+' ? 3 : 2);
+    // 3 yaş: 2x2 (1 parça eksik) · 4-5 yaş: Kuti 2x2 Yapbozu (2 parça eksik, 4 parçalı tam bulmaca)
+    // 6 yaş: Kuti 3x3 Yapbozu (9 parçalı bulmaca, 3 parça eksik)
+    let totalCols = level === '6+' ? 3 : 2;
+    let totalRows = level === '6+' ? 3 : 2;
     let missingCount = level === '3' ? 1 : (level === '6+' ? 3 : 2);
 
     puzzleBoard.style.gridTemplateColumns = `repeat(${totalCols}, 1fr)`;
@@ -587,6 +838,31 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // --- BECERİ KÖŞESİ — OYUN 3 (sadece 6 yaş): Kuti'nin Hafıza Bahçesi ---
+  // 12 kapalı kart içinden 6 çifti bulma — görsel hafıza ve eşleştirme.
+  function initBeceriExtraGame(level) {
+    const wrapper = document.getElementById('beceri-extra-wrapper');
+    if (!wrapper) return;
+    wrapper.innerHTML = '';
+    if (level !== '6+') return;
+
+    const title = document.createElement('p');
+    title.style.cssText = 'text-align:center; font-size:0.82rem; font-weight:700; color:#2E7D32; margin-bottom:0.5rem; border-top:2px dashed #C8E6C9; padding-top:0.8rem;';
+    title.textContent = "🧠 Kuti'nin Hafıza Bahçesi";
+    wrapper.appendChild(title);
+    const grid = document.createElement('div');
+    wrapper.appendChild(grid);
+
+    initMemoryMatchGame(grid, [
+      { id: 'sun', icon: '☀️' },
+      { id: 'leaf', icon: '🍃' },
+      { id: 'flower', icon: '🌸' },
+      { id: 'book', icon: '📖' },
+      { id: 'drop', icon: '💧' },
+      { id: 'kuti', icon: '🦊' }
+    ], '🎉 Harika hafıza! Bütün çiftleri buldun!');
+  }
+
   // --- ÖZ BAKIM KÖŞESİ — OYUN 1: TEMİZLİK/RUTİN (her yaş için ayrı gerçek mekanik) ---
   // Not: Kap her seferinde tamamen yeniden kuruluyor, böylece bir yaştan diğerine geçerken
   // önceki DOM elemanları kaybolsa bile fonksiyon her zaman doğru elemanları bulur.
@@ -609,78 +885,36 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: 'dry', html: '🌬️<br><span style="font-size:0.62rem;">Kurula</span>' }
       ], "✨ Eller sabunlandı, durulandı ve tertemiz oldu!");
     } else if (level === '6+') {
-      // Gerçek mekanik: Günlük rutini sırala + eşyaları doğru yerlere sürükle
-      wrapper.innerHTML = `
-        <p style="text-align:center; font-size:0.85rem; font-weight:700; color:#E65100; margin-bottom:0.4rem;">📋 Günlük Rutini Doğru Sıraya Diz</p>
-        <div id="ozbakim-routine-row" style="margin-bottom:1rem;"></div>
-        <p style="text-align:center; font-size:0.85rem; font-weight:700; color:#E65100; margin-bottom:0.4rem;">🧸 Eşyaları Doğru Yerlere Sürükle</p>
-        <div id="ozbakim-room-bank" class="zone-item-bank"></div>
-        <div id="ozbakim-room-zones" class="zone-drop-grid"></div>`;
-
-      initTapOrderGame(document.getElementById('ozbakim-routine-row'), [
-        { id: 'wake', html: '🌅<br><span style="font-size:0.6rem;">Uyan</span>' },
-        { id: 'brush', html: '🪥<br><span style="font-size:0.6rem;">Fırçala</span>' },
-        { id: 'dress', html: '👕<br><span style="font-size:0.6rem;">Giyin</span>' },
-        { id: 'go', html: '🎒<br><span style="font-size:0.6rem;">Okula Git</span>' }
-      ], "🎉 Günlük rutin doğru sıraya kondu!");
-
-      initZoneDragGame(
-        document.getElementById('ozbakim-room-bank'),
-        document.getElementById('ozbakim-room-zones'),
-        [
-          { id: 'book', icon: '📚', zoneId: 'shelf' },
-          { id: 'toy', icon: '🧸', zoneId: 'box' },
-          { id: 'clothes', icon: '👕', zoneId: 'closet' }
-        ],
-        [
-          { id: 'shelf', icon: '📖', label: 'Kitaplık' },
-          { id: 'box', icon: '🧺', label: 'Oyuncak Kutusu' },
-          { id: 'closet', icon: '🚪', label: 'Dolap' }
-        ],
-        "🎉 Oda tertemiz ve düzenli oldu!"
-      );
+      // Gerçek mekanik: Kuti'nin Bir Günü — sabah ve gece rutinini 7 adımlık tam gün akışında sırala
+      const title = document.createElement('p');
+      title.style.cssText = 'text-align:center; font-size:0.85rem; font-weight:700; color:#E65100; margin-bottom:0.5rem;';
+      title.textContent = "☀️🌙 Kuti'nin Bir Günü — Rutini Doğru Sıraya Diz";
+      wrapper.appendChild(title);
+      const row = document.createElement('div');
+      wrapper.appendChild(row);
+      initTapOrderGame(row, [
+        { id: 'wake', html: '🌅<br><span style="font-size:0.6rem;">Uyanma</span>' },
+        { id: 'wash', html: '🚿<br><span style="font-size:0.6rem;">Yüz Yıkama</span>' },
+        { id: 'brush', html: '🪥<br><span style="font-size:0.6rem;">Diş Fırçalama</span>' },
+        { id: 'dress', html: '👕<br><span style="font-size:0.6rem;">Kıyafet Değiştirme</span>' },
+        { id: 'go', html: '🎒<br><span style="font-size:0.6rem;">Dışarı Hazırlanma</span>' },
+        { id: 'pajama', html: '🩳<br><span style="font-size:0.6rem;">Pijama</span>' },
+        { id: 'sleep', html: '🌙<br><span style="font-size:0.6rem;">Uyuma</span>' }
+      ], "🎉 Kuti'nin bütün günü doğru sıraya kondu!");
     } else {
-      // 4-5 Yaş: Gerçek 2 adımlı diş fırçalama (mevcut çalışan sürükle-bırak mekaniği)
-      wrapper.innerHTML = `
-        <p style="text-align:center; font-size:0.85rem; font-weight:700; color:#00796B; margin-bottom:0.5rem;">🪥 Macunu Fırçaya, Fırçayı Ağza Sürükle</p>
-        <div style="text-align:center; font-size:2.6rem; margin-bottom:0.6rem;" id="mouth-target-emoji">🦠🦷🦠</div>
-        <div style="display:flex; gap:0.8rem; justify-content:center; align-items:center;">
-          <div class="drag-source" id="draggable-toothpaste" draggable="true" style="font-size:2.2rem; background:#E0F7FA; padding:0.3rem 0.6rem; border-radius:12px;" title="Diş Macununu Sürükle">🧴</div>
-          <div class="drag-source" id="draggable-brush" draggable="true" style="font-size:2.2rem;" title="Fırçayı Sürükle">🪥</div>
-          <div class="drop-target-zone" id="teeth-target-zone" style="width:110px; min-height:80px; font-size:0.72rem; font-weight:700; text-align:center;">Buraya sürükle</div>
-        </div>`;
-
-      const brush = document.getElementById('draggable-brush');
-      const toothpaste = document.getElementById('draggable-toothpaste');
-      const teethZone = document.getElementById('teeth-target-zone');
-      const mouthEmoji = document.getElementById('mouth-target-emoji');
-      let hasToothpaste = false;
-
-      toothpaste.addEventListener('dragstart', (e) => e.dataTransfer.setData('text/plain', 'toothpaste'));
-      brush.addEventListener('dragstart', (e) => e.dataTransfer.setData('text/plain', 'brush'));
-      teethZone.addEventListener('dragover', (e) => { e.preventDefault(); teethZone.classList.add('drag-over'); });
-      teethZone.addEventListener('dragleave', () => teethZone.classList.remove('drag-over'));
-      teethZone.addEventListener('drop', (e) => {
-        e.preventDefault();
-        teethZone.classList.remove('drag-over');
-        const draggedType = e.dataTransfer.getData('text/plain');
-
-        if (draggedType === 'toothpaste' && !hasToothpaste) {
-          hasToothpaste = true;
-          if (soundEnabled) AudioEngine.playSuccess();
-          brush.textContent = '🪥🧴';
-          toothpaste.style.opacity = '0.4';
-          showVisualFeedback("Macun fırçaya eklendi. Şimdi fırçayı dişlere götür.", "info");
-        } else if (draggedType === 'brush') {
-          if (!hasToothpaste) {
-            showVisualFeedback("Önce macunu fırçaya eklemelisin!", "error");
-          } else {
-            if (soundEnabled) AudioEngine.playSuccess();
-            if (mouthEmoji) mouthEmoji.textContent = '✨😁✨';
-            setTimeout(() => showVisualFeedback("Kuti'nin dişleri temizlendi.", "success"), 400);
-          }
-        }
-      });
+      // 4-5 Yaş: Kuti'nin Sabah Sırası — sabah rutinini gerçek sıralı dokunma ile doğru sıraya koy
+      const title = document.createElement('p');
+      title.style.cssText = 'text-align:center; font-size:0.85rem; font-weight:700; color:#00796B; margin-bottom:0.5rem;';
+      title.textContent = "🌅 Kuti'nin Sabah Sırası";
+      wrapper.appendChild(title);
+      const row = document.createElement('div');
+      wrapper.appendChild(row);
+      initTapOrderGame(row, [
+        { id: 'wake', html: '🌅<br><span style="font-size:0.62rem;">Uyanma</span>' },
+        { id: 'wash', html: '🚿<br><span style="font-size:0.62rem;">Yüz Yıkama</span>' },
+        { id: 'brush', html: '🪥<br><span style="font-size:0.62rem;">Diş Fırçalama</span>' },
+        { id: 'dress', html: '👕<br><span style="font-size:0.62rem;">Giyinme</span>' }
+      ], "🎉 Sabah rutini doğru sıraya kondu!");
     }
   }
 
@@ -729,12 +963,40 @@ document.addEventListener('DOMContentLoaded', () => {
     '☀️ Yaz': ['☀️ Güneş çok sıcak', '🍉 Karpuz zamanı']
   };
 
+  // 3 yaş: Kuti'nin Hava Durumu — gökyüzü görseline uygun hava ikonunu seç (görsel eşleştirme)
+  // 4-5 / 6 yaş: Kuti'nin Mevsimini Bul — hava durumu ipucundan mevsimi tahmin et
   function initDogaMevsimGame(level) {
     const clueEl = document.getElementById('doga-mevsim-clue');
     const mevsimBox = document.getElementById('mevsim-options');
     if (!mevsimBox) return;
 
-    const seasons = level === '3' ? ['🍂 Sonbahar', '☀️ Yaz'] : ['🍂 Sonbahar', '❄️ Kış', '🌸 İlkbahar', '☀️ Yaz'];
+    if (level === '3') {
+      const skyOptions = [
+        { icon: '☀️', label: 'Güneşli' },
+        { icon: '☁️', label: 'Bulutlu' },
+        { icon: '🌧️', label: 'Yağmurlu' }
+      ];
+      const target = skyOptions[Math.floor(Math.random() * skyOptions.length)];
+      if (clueEl) clueEl.textContent = `Gökyüzü şöyle: ${target.icon} — hangisi bu havaya uyuyor?`;
+      mevsimBox.innerHTML = skyOptions.map(o =>
+        `<button class="btn-icon-pill mevsim-opt-btn" data-correct="${o.icon === target.icon}" style="font-size:1.6rem;">${o.icon}</button>`
+      ).join('');
+      mevsimBox.querySelectorAll('.mevsim-opt-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          if (btn.dataset.correct === 'true') {
+            if (soundEnabled) AudioEngine.playSuccess();
+            showVisualFeedback('🎉 Doğru hava durumunu buldun!', 'success');
+            initDogaMevsimGame('3');
+          } else {
+            if (soundEnabled) AudioEngine.playTone(300, 0.2);
+            showVisualFeedback('Gökyüzüne tekrar bak.', 'error');
+          }
+        });
+      });
+      return;
+    }
+
+    const seasons = ['🍂 Sonbahar', '❄️ Kış', '🌸 İlkbahar', '☀️ Yaz'];
     const correctSeason = seasons[Math.floor(Math.random() * seasons.length)];
     const clues = SEASON_CLUE_MAP[correctSeason];
     const clue = clues[Math.floor(Math.random() * clues.length)];
@@ -765,11 +1027,12 @@ document.addEventListener('DOMContentLoaded', () => {
     wrapper.innerHTML = '';
 
     if (level === '6+') {
-      // Gerçek mekanik: Yaşam döngüsünü sırala + atıkları doğru kutuya sürükle
+      // Gerçek mekanik: Kuti'nin Bahçesini Temizliyorum — yaşam döngüsünü sırala +
+      // doğal nesneleri ve çöpleri ayırarak bahçeyi temizle (sınıflama, çevre farkındalığı)
       wrapper.innerHTML = `
         <p style="text-align:center; font-size:0.85rem; font-weight:700; color:#004D40; margin-bottom:0.4rem;">🌿 Bitkinin Yaşam Döngüsünü Sırala</p>
         <div id="doga-lifecycle-row" style="margin-bottom:1rem;"></div>
-        <p style="text-align:center; font-size:0.85rem; font-weight:700; color:#004D40; margin-bottom:0.4rem;">♻️ Atıkları Doğru Kutuya Sürükle</p>
+        <p style="text-align:center; font-size:0.85rem; font-weight:700; color:#004D40; margin-bottom:0.4rem;">🧹 Kuti'nin Bahçesini Temizliyorum</p>
         <div id="doga-recycle-bank" class="zone-item-bank"></div>
         <div id="doga-recycle-zones" class="zone-drop-grid"></div>`;
 
@@ -784,19 +1047,35 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('doga-recycle-bank'),
         document.getElementById('doga-recycle-zones'),
         [
-          { id: 'peel', icon: '🍌', zoneId: 'organic' },
-          { id: 'paper', icon: '📄', zoneId: 'paper' },
-          { id: 'bottle', icon: '🍾', zoneId: 'plastic' }
+          { id: 'leaf', icon: '🍁', zoneId: 'nature' },
+          { id: 'stone', icon: '🪨', zoneId: 'nature' },
+          { id: 'paper', icon: '📄', zoneId: 'trash' },
+          { id: 'bottle', icon: '🍾', zoneId: 'trash' },
+          { id: 'wrapper', icon: '🧃', zoneId: 'trash' }
         ],
         [
-          { id: 'organic', icon: '🟢', label: 'Organik' },
-          { id: 'paper', icon: '🔵', label: 'Kağıt' },
-          { id: 'plastic', icon: '🟡', label: 'Plastik' }
+          { id: 'nature', icon: '🌳', label: 'Doğa Alanı' },
+          { id: 'trash', icon: '🗑️', label: 'Çöp Kutusu' }
         ],
-        "🎉 Atıklar doğru geri dönüşüm kutularına ayrıldı!"
+        '🎉 Bahçe tertemiz oldu, doğa korundu!'
       );
+    } else if (level === '4-5') {
+      // Gerçek mekanik: Kuti Tohum Yetiştiriyor — tohumun büyümesi için gerekli adımları sırayla seç
+      const title = document.createElement('p');
+      title.style.cssText = 'text-align:center; font-size:0.85rem; font-weight:700; color:#004D40; margin-bottom:0.5rem;';
+      title.textContent = '🌱 Kuti Tohum Yetiştiriyor — Adımları Doğru Sırayla Dokun';
+      wrapper.appendChild(title);
+      const row = document.createElement('div');
+      wrapper.appendChild(row);
+      initTapOrderGame(row, [
+        { id: 'pot', html: '🪴<br><span style="font-size:0.6rem;">Saksı/Toprak</span>' },
+        { id: 'seed', html: '🌰<br><span style="font-size:0.6rem;">Tohum</span>' },
+        { id: 'water', html: '💧<br><span style="font-size:0.6rem;">Su</span>' },
+        { id: 'sun', html: '☀️<br><span style="font-size:0.6rem;">Güneş</span>' },
+        { id: 'flower', html: '🌸<br><span style="font-size:0.6rem;">Çiçek</span>' }
+      ], '🎉 Kuti tohumunu harika bir şekilde yetiştirdi!');
     } else {
-      // 3 ve 4-5 Yaş: mevcut çalışan sürükle mekaniği (su/güneşi saksıya sürükle, bitki büyür)
+      // 3 Yaş: mevcut çalışan sürükle mekaniği (su/güneşi saksıya sürükle, bitki büyür)
       wrapper.innerHTML = `
         <p style="text-align:center; font-size:0.85rem; font-weight:700; color:#004D40; margin-bottom:0.5rem;">🌱 Suyu ve Güneşi Saksıya Sürükle</p>
         <div style="display:flex; gap:1.2rem; justify-content:center; align-items:center;">
@@ -843,10 +1122,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const ageConfig = {
     '3': {
       badge: '3 Yaş (Minik Keşifçiler)',
-      duyguDesc: 'Kuti’nin duygusunu ve duygulu balonları seç.',
-      beceriDesc: 'Renkleri eşleştir ve büyük-küçüğü seç.',
-      ozbakimDesc: 'Kuti ellerini yıkıyor (Sabunla, durula).',
-      dogaDesc: 'Bitkiyi bul ve doğada olanı seç.',
+      duyguDesc: 'Kuti’nin Duygu Yüzleri — doğru duyguyu seç.',
+      beceriDesc: 'Kuti’nin Renk Yolu — söylenen renge dokun.',
+      ozbakimDesc: 'Kuti ellerini yıkıyor ve Giyinmeye Hazırlanıyor.',
+      dogaDesc: 'Kuti’nin Hava Durumu — gökyüzüne uygun ikonu seç.',
       emotions: [
         { label: 'Mutlu', name: 'Mutlu', image: 'kuti_mutlu.png' },
         { label: 'Üzgün', name: 'Üzgün', image: 'kuti_uzgun.png' },
@@ -861,10 +1140,10 @@ document.addEventListener('DOMContentLoaded', () => {
     },
     '4-5': {
       badge: '4-5 Yaş (Meraklı Filizler)',
-      duyguDesc: 'Kuti ne hissediyor ve neden?',
-      beceriDesc: '6 parça yapboz ve örüntüyü tamamla.',
-      ozbakimDesc: 'Hava durumuna göre giydir ve sağlıklı besinleri seç.',
-      dogaDesc: 'Mevsimi seç ve doğayı koruyan resmi bul.',
+      duyguDesc: 'Kuti’nin Duygu Hikâyesi — hisset ve çözüm bul.',
+      beceriDesc: 'Bahçeyi tamamla ve 4 parça yapbozu çöz.',
+      ozbakimDesc: 'Kuti’nin Sabah Sırası ve hava durumuna göre giydirme.',
+      dogaDesc: 'Kuti’nin Mevsimini Bul ve tohum yetiştir.',
       emotions: [
         { label: 'Mutlu', name: 'Mutlu', image: 'kuti_mutlu.png' },
         { label: 'Üzgün', name: 'Üzgün', image: 'kuti_uzgun.png' },
@@ -880,10 +1159,10 @@ document.addEventListener('DOMContentLoaded', () => {
     },
     '6+': {
       badge: '6+ Yaş (Bilge Çiçekler)',
-      duyguDesc: "Duygumu seçiyorum ve yönetiyorum.",
-      beceriDesc: "12 parça yapboz ve gölgeyi bul.",
-      ozbakimDesc: 'Günlük rutini sırala ve odanı düzenle.',
-      dogaDesc: 'Bitkinin yaşam döngüsü ve geri dönüşüm.',
+      duyguDesc: "Kuti’nin Duygu Hikâyesini Kur — hikâyeyi tamamla.",
+      beceriDesc: "Örüntü bahçesi, 9 parça yapboz ve hafıza oyunu.",
+      ozbakimDesc: 'Kuti’nin Bir Günü — sabahtan geceye rutin.',
+      dogaDesc: 'Bahçesini Temizliyorum — doğal/çöp ayırt et.',
       emotions: [
         { label: 'Mutlu', name: 'Mutlu', image: 'kuti_mutlu.png' },
         { label: 'Üzgün', name: 'Üzgün', image: 'kuti_uzgun.png' },
@@ -912,56 +1191,10 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('ozbakim-desc').textContent = cfg.ozbakimDesc;
     document.getElementById('doga-desc').textContent = cfg.dogaDesc;
 
-    pickRandomTargetEmotion(cfg);
-
-    const emotionBox = document.getElementById('duygu-mirror-options');
-    if (emotionBox) {
-      const shuffledEmotions = [...cfg.emotions].sort(() => Math.random() - 0.5);
-      emotionBox.innerHTML = shuffledEmotions.map(e => 
-        `<button class="btn-icon-pill emo-opt-btn" data-name="${e.name}" style="padding: 0.4rem 0.8rem;">${e.label}</button>`
-      ).join('');
-
-      emotionBox.querySelectorAll('.emo-opt-btn').forEach((btn) => {
-        btn.addEventListener('click', () => {
-          const selectedName = btn.dataset.name;
-          const isCorrect = selectedName === targetEmotion.name;
-          if (isCorrect) {
-            if (soundEnabled) AudioEngine.playSuccess();
-            showVisualFeedback(`Evet, Kuti ${targetEmotion.label.toLowerCase()}`, "success");
-            pickRandomTargetEmotion(cfg);
-          } else {
-            if (soundEnabled) AudioEngine.playTone(300, 0.2);
-            showVisualFeedback("Tekrar deneyelim.", "error");
-          }
-        });
-      });
-    }
-
-    const scenarioText = document.getElementById('duygu-scenario-text');
-    const scenarioChoices = document.getElementById('duygu-scenario-choices');
-    if (scenarioText && scenarioChoices) {
-      scenarioText.textContent = cfg.scenario;
-      const randomizedChoices = [...cfg.scenarioChoices].sort(() => Math.random() - 0.5);
-      scenarioChoices.innerHTML = randomizedChoices.map(c => 
-        `<button class="btn-icon-pill scenario-opt-btn" data-correct="${c.correct}" style="justify-content: flex-start; text-align: left; padding: 0.45rem 0.8rem;">${c.label}</button>`
-      ).join('');
-
-      scenarioChoices.querySelectorAll('.scenario-opt-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const isCorrect = btn.dataset.correct === 'true';
-          if (isCorrect) {
-            if (soundEnabled) AudioEngine.playSuccess();
-            showVisualFeedback("Harika empati ve yönetim!", "success");
-          } else {
-            if (soundEnabled) AudioEngine.playTone(300, 0.2);
-            showVisualFeedback("Farklı bir yol deneyelim.", "error");
-          }
-        });
-      });
-    }
-
+    initDuyguGame(level);
     initBeceriGame(level);
     initRealImagePuzzle(level);
+    initBeceriExtraGame(level);
     initOzbakimOralGame(level);
     initOzbakimDressGame(level, cfg);
     initDogaMevsimGame(level);

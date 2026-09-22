@@ -1437,6 +1437,65 @@ div.parent-modal-box .modal-close-btn:hover {
   opacity: 0.9;
 }
 
+/* ==========================================================================
+   YENİ KÖŞE OYUNLARI (2. GÜNCELLEME) — Hafıza Eşleştirme / Hikâye Kurma
+   (Beceri "Hafıza Bahçesi", Duygu "Duygu Hikâyesini Kur")
+   ========================================================================== */
+
+.memory-match-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+.memory-card-btn {
+  aspect-ratio: 1 / 1;
+  font-size: 1.5rem;
+  min-width: 0;
+  padding: 0;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.memory-card-btn.memory-card-open {
+  background: #FFF8E1;
+  border-color: #FFB74D;
+  transform: scale(1.05);
+}
+
+.memory-card-btn.memory-card-matched {
+  background: #C8E6C9 !important;
+  border-color: #4CAF50 !important;
+  opacity: 0.75;
+  cursor: default;
+}
+
+.story-slot {
+  width: 64px;
+  height: 64px;
+  border: 3px dashed #FFB4A9;
+  border-radius: 16px;
+  background: #FFF3F1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  position: relative;
+}
+
+.story-slot::after {
+  content: attr(data-label);
+  position: absolute;
+  bottom: -1.15rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
 /* EBEVEYN PANELİ SEKME BUTONLARI — Kuti tasarım diliyle uyumlu */
 .tab-btn {
   background: #F5F5F5;
