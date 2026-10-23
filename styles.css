@@ -2044,3 +2044,6 @@ div.parent-modal-box .modal-close-btn:hover {
 @media (max-width: 768px) {
   .how-card-img { width: 72px; height: 72px; }
 }
+
+/* Ebeveyn paneli açıkken sağ üst köşe ✕ yok; "Oyuna Dön" butonu kapatır */
+.parent-modal-box.parent-dashboard-active > .modal-close-btn { display: none !important; }

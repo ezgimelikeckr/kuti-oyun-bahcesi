@@ -411,7 +411,7 @@
       </div>
 
       <div id="parent-dashboard-view" style="display: none; flex-direction: column; width: 100%; height: auto; min-height: 350px; max-height: 72vh; box-sizing: border-box;">
-        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.6rem; margin-top: 2.8rem; flex-shrink: 0; gap: 0.5rem;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.6rem; margin-top: 0.2rem; flex-shrink: 0; gap: 0.5rem;">
           <div style="display: flex; align-items: center; gap: 0.6rem; min-width: 0;">
             <button type="button" id="parent-back-btn" class="parent-panel-back-btn" data-parent-back style="display: none; margin-bottom: 0;">← Geri</button>
             <h3 id="parent-panel-title" style="margin: 0; font-size: 0.95rem; color: #5E35B1; font-family: var(--font-heading); font-weight: 800; white-space: nowrap;">Ebeveyn Köşesi</h3>
@@ -592,6 +592,19 @@
             </div>
 
           </div>
+        
+          <div style="padding: 0.6rem; background: #EDE7F6; border: 2px solid #D1C4E9; border-radius: 12px; margin-top: 0.6rem;">
+              <h5 style="color: #5E35B1; font-size: 0.82rem; margin-bottom: 0.3rem;">
+                👨‍👩‍👧 Ebeveyn Kitapları
+              </h5>
+              <div style="display: flex; flex-direction: column; gap: 0.3rem; font-size: 0.7rem;">
+                <div><b>💬 İletişim & Beyin Gelişimi:</b> <i>Bütün Beyinli Çocuk (Daniel J. Siegel)</i>, <i>Geliştiren Anne Baba (Doğan Cüceloğlu)</i>, <i>Koşulsuz Ebeveynlik (Alfie Kohn)</i>.</div>
+                <div><b>❤️ Duygu Uyumlu Çocuklar:</b> <i>Duygusal Zeka Aşılamak (John Gottman)</i>, <i>Patlamaya Hazır Çocuk (Ross W. Greene)</i>, <i>Sakin Ebeveynlik (Laura Markham)</i>.</div>
+                <div><b>🧩 Sınırlar & Bağımsızlık:</b> <i>Aşırı Korumadan Kurtulma (Julie Lythcott-Haims)</i>, <i>0-6 Yaş 100 Temel Kural</i>.</div>
+                <div><b>🪥 Öz Bakım:</b> <i>Aletha J. Solter'in doğal ebeveynlik yaklaşımı eserleri</i>.</div>
+                <div><b>🦋 Doğa & Serbest Oyun:</b> <i>Doğadaki Son Çocuk (Richard Louv)</i>.</div>
+              </div>
+            </div>
         </div>
 
         <!-- ===== PANEL-NASIL: BİRLİKTE OYNA ===== -->
@@ -662,31 +675,12 @@
 
         <!-- ===== PANEL-KITAPLIK ===== -->
         <div class="parent-panel-detail" id="parent-panel-kitaplik" data-parent-panel-detail="kitaplik">
-          <div class="kb-header">
-            <img src="kuti_mascot.jpg" alt="Kuti" class="kb-avatar">
-            <div>
-              <h4 class="kb-title">Kuti'nin Kitaplığı</h4>
-              <p class="kb-sub">Birlikte okuyun, birlikte keşfedin.</p>
-            </div>
-          </div>
+          <div class="parent-tab-banner parent-tab-banner-kitaplik"></div>
           <p class="kb-ask">Bugün çocuğunuzla hangi dünyayı keşfetmek istersiniz?</p>
           <h5 class="kb-filter-title">Kitapları filtrele</h5>
           <div class="kb-chips" id="kb-chips"></div>
           <div class="kb-list" id="kb-list"></div>
-          <div class="parent-scroll-list">
-            <div style="padding: 0.6rem; background: #EDE7F6; border: 2px solid #D1C4E9; border-radius: 12px;">
-              <h5 style="color: #5E35B1; font-size: 0.82rem; margin-bottom: 0.3rem;">
-                👨‍👩‍👧 Ebeveyn Kitapları
-              </h5>
-              <div style="display: flex; flex-direction: column; gap: 0.3rem; font-size: 0.7rem;">
-                <div><b>💬 İletişim & Beyin Gelişimi:</b> <i>Bütün Beyinli Çocuk (Daniel J. Siegel)</i>, <i>Geliştiren Anne Baba (Doğan Cüceloğlu)</i>, <i>Koşulsuz Ebeveynlik (Alfie Kohn)</i>.</div>
-                <div><b>❤️ Duygu Uyumlu Çocuklar:</b> <i>Duygusal Zeka Aşılamak (John Gottman)</i>, <i>Patlamaya Hazır Çocuk (Ross W. Greene)</i>, <i>Sakin Ebeveynlik (Laura Markham)</i>.</div>
-                <div><b>🧩 Sınırlar & Bağımsızlık:</b> <i>Aşırı Korumadan Kurtulma (Julie Lythcott-Haims)</i>, <i>0-6 Yaş 100 Temel Kural</i>.</div>
-                <div><b>🪥 Öz Bakım:</b> <i>Aletha J. Solter'in doğal ebeveynlik yaklaşımı eserleri</i>.</div>
-                <div><b>🦋 Doğa & Serbest Oyun:</b> <i>Doğadaki Son Çocuk (Richard Louv)</i>.</div>
-              </div>
-            </div>
-          </div>
+          
         </div>
 
         </div>
