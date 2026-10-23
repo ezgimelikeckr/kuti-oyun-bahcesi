@@ -156,39 +156,71 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  function loadDailyChildrenBooks() {
-    const duyguBooks = [
-      "Unutulan Araba / Duygularımı Fark Ediyorum 3 (Tuğba Akbey İnan)",
-      "Öykülerle Duygusal Zeka Eğitimi: Tali Kendine Güveniyor (Berrin Göncü Işıkoğlu)",
-      "Eyvah Kalbim Kırıldı (Elif Yemenici)"
-    ];
-    const beceriBooks = [
-      "Nokta (Peter H. Reynolds)",
-      "Bob ve Mavi Sanatı (Marion Deuchars)",
-      "Sol Sağ Kitabım (Şiirsel Taş)"
-    ];
-    const ozbakimBooks = [
-      "Öykülerle Davranış Eğitimi Seti: Tali Ellerini Yıkıyor (Berrin Göncü Işıkoğlu)",
-      "Diş Hekiminde (Anne Civardi)"
-    ];
-    const dogaBooks = [
-      "Minik Tohum (Eric Carle)",
-      "Haydi Sayalım Elmalar (Joan Holub)"
-    ];
+  // ===== KUTİ'NİN KİTAPLIĞI (Ebeveyn Köşesi > Kitaplık) =====
+  const KUTI_BOOKS = [
+    { title: "Utangaç Ayı Monti", author: "Duncan Beedie", publisher: "İş Bankası Yayınları", themes: ["Duygular", "Cesaret ve özgüven"] },
+    { title: "Hayvanat Bahçesinde Diş Fırçalama Günü", author: "Sophie Schoenwald", publisher: "İş Bankası Yayınları", themes: ["Öz bakım"] },
+    { title: "Bana Sarılır mısın", author: "Sophie Schoenwald", publisher: "Beyaz Balina Yayınları", themes: ["Duygular", "Arkadaşlık"] },
+    { title: "Cesaret Hep Yanımda", author: "Saniye Bencik Kangal", publisher: "Turta Kitap", themes: ["Cesaret ve özgüven"] },
+    { title: "Özgüvenim Tam Hata Yapmaktan Korkmam", author: "Saniye Bencik Kangal", publisher: "Turta Kitap", themes: ["Cesaret ve özgüven", "Duygular"] },
+    { title: "Küçük Meşe Palamudu", author: "Melanie Joyce", publisher: "İş Bankası Yayınları", themes: ["Doğa"] },
+    { title: "Sevginin Gücü", author: "Caroline Richards", publisher: "İş Bankası Yayınları", themes: ["Duygular", "Arkadaşlık"] },
+    { title: "Paylaşmak İstemeyen Ayı", author: "Oakley Graham", publisher: "İş Bankası Yayınları", themes: ["Arkadaşlık", "Duygular"] },
+    { title: "Tarçın ve Büyük Tartışma", author: "Andreas König", publisher: "İş Bankası Yayınları", themes: ["Duygular", "Arkadaşlık"] }
+  ];
+  // Filtre çipleri bu sırayla gösterilir; kitabı olmayan tema otomatik gizlenir
+  const KUTI_THEME_ORDER = ["Duygular", "Arkadaşlık", "Öz bakım", "Doğa", "Dikkat ve keşif", "Cesaret ve özgüven"];
+  let kbActiveTheme = "Tümü";
 
-    const today = new Date();
-    const daySeed = today.getDate();
+  function renderKutiLibrary() {
+    const chipsEl = document.getElementById('kb-chips');
+    const listEl = document.getElementById('kb-list');
+    if (!chipsEl || !listEl) return;
 
-    const container = document.getElementById('daily-kids-books-container');
-    if (container) {
-      container.innerHTML = `
-        <div><b>❤️ Duygu Adası Önerisi:</b> <i>${duyguBooks[daySeed % duyguBooks.length]}</i></div>
-        <div><b>🧩 Beceri Adası Önerisi:</b> <i>${beceriBooks[daySeed % beceriBooks.length]}</i></div>
-        <div><b>🪥 Öz Bakım Adası Önerisi:</b> <i>${ozbakimBooks[daySeed % ozbakimBooks.length]}</i></div>
-        <div><b>🦋 Doğa Adası Önerisi:</b> <i>${dogaBooks[daySeed % dogaBooks.length]}</i></div>
-      `;
-    }
+    const usedThemes = KUTI_THEME_ORDER.filter(t => KUTI_BOOKS.some(b => b.themes.includes(t)));
+    if (kbActiveTheme !== "Tümü" && !usedThemes.includes(kbActiveTheme)) kbActiveTheme = "Tümü";
+
+    chipsEl.innerHTML = ["Tümü", ...usedThemes].map(t =>
+      `<button type="button" class="kb-chip${t === kbActiveTheme ? ' active' : ''}" data-theme="${t}">${t}</button>`
+    ).join('');
+
+    const shown = KUTI_BOOKS.filter(b => kbActiveTheme === "Tümü" || b.themes.includes(kbActiveTheme));
+    listEl.innerHTML = shown.map(b => `
+      <div class="kb-row">
+        <button type="button" class="kb-item" aria-expanded="false">
+          <span class="kb-item-icon">📖</span>
+          <span class="kb-item-text">
+            <span class="kb-item-title">${b.title}</span>
+            <span class="kb-item-themes">${b.themes.join(' · ')}</span>
+          </span>
+          <span class="kb-item-chevron">›</span>
+        </button>
+        <div class="kb-item-detail"><b>Yazar:</b> ${b.author} &nbsp;·&nbsp; <b>Yayınevi:</b> ${b.publisher}</div>
+      </div>`).join('');
   }
+
+  (function initKutiLibraryEvents() {
+    const chipsEl = document.getElementById('kb-chips');
+    const listEl = document.getElementById('kb-list');
+    if (chipsEl) {
+      chipsEl.addEventListener('click', (e) => {
+        const chip = e.target.closest('.kb-chip');
+        if (!chip) return;
+        kbActiveTheme = chip.dataset.theme;
+        renderKutiLibrary();
+        if (soundEnabled) AudioEngine.playTone(600, 0.1);
+      });
+    }
+    if (listEl) {
+      listEl.addEventListener('click', (e) => {
+        const item = e.target.closest('.kb-item');
+        if (!item) return;
+        const row = item.closest('.kb-row');
+        const open = row.classList.toggle('open');
+        item.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+    }
+  })();
 
   const appLaunchOverlay = document.getElementById('app-launch-overlay');
   const launchPinError = document.getElementById('launch-pin-error');
@@ -1334,7 +1366,8 @@ document.addEventListener('DOMContentLoaded', () => {
     sure: 'Süre',
     yas: 'Yaş',
     makaleler: 'Makaleler',
-    kitaplik: 'Kitaplık'
+    kitaplik: 'Kitaplık',
+    nasil: 'Nasıl Birlikte Oynanır?'
   };
 
   function showParentPanel(panelKey) {
@@ -1363,7 +1396,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    if (panelKey === 'kitaplik') loadDailyChildrenBooks();
+    if (panelKey === 'kitaplik') renderKutiLibrary();
   }
 
   document.querySelectorAll('.parent-menu-item').forEach(btn => {
@@ -1416,7 +1449,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             if (parentModalBox) parentModalBox.classList.add('parent-dashboard-active'); // tam yükseklik, boşluksuz görünüm
             showParentPanel('main');
-            loadDailyChildrenBooks();
+            renderKutiLibrary();
           } else {
             if (pinErrorMsg) pinErrorMsg.textContent = 'Hatalı Kod! Lütfen gösterilen 4 rakamı girin.';
             setTimeout(() => {
