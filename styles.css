@@ -2052,7 +2052,7 @@ div.parent-modal-box .modal-close-btn:hover {
 /* ==========================================================================
    NASIL BİRLİKTE OYNANIR — sayfa sayfa kılavuz
    ========================================================================== */
-.how-pager { flex: 1; min-height: 0; }
+.how-pager { flex: 0 0 auto; width: 100%; }
 .how-page { display: none; flex-direction: column; }
 .how-page.active { display: flex; }
 .how-img-frame { background: var(--how-t, #FFF8E1); border: 2px solid var(--how-c, #FFE082); border-radius: 14px; padding: 0.4rem; display: flex; justify-content: center; align-items: center; margin-bottom: 0.6rem; }
@@ -2079,3 +2079,6 @@ div.parent-modal-box .modal-close-btn:hover {
 }
 
 .how-page .how-try { color: var(--how-c, #5E35B1); margin-top: 0.5rem; }
+
+/* Gezinme çubuğu: içeriğin üstüne binmesin, her zaman altta görünsün */
+.how-nav { position: sticky; bottom: 0; z-index: 3; background: #fff; margin-top: 0.8rem; padding: 0.6rem 0 0.4rem; }
