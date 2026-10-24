@@ -388,25 +388,7 @@
           Güvenlik Kodu: 4 - 8 - 2 - 1
         </div>
 
-        <div style="display: flex; justify-content: center; gap: 0.5rem; margin-bottom: 0.75rem;">
-          <div style="width: 14px; height: 14px; border-radius: 50%; background: #DDD;" id="p-dot-1"></div>
-          <div style="width: 14px; height: 14px; border-radius: 50%; background: #DDD;" id="p-dot-2"></div>
-          <div style="width: 14px; height: 14px; border-radius: 50%; background: #DDD;" id="p-dot-3"></div>
-          <div style="width: 14px; height: 14px; border-radius: 50%; background: #DDD;" id="p-dot-4"></div>
-        </div>
-
-        <div class="keypad-grid">
-          <button class="keypad-btn">1</button>
-          <button class="keypad-btn">2</button>
-          <button class="keypad-btn">3</button>
-          <button class="keypad-btn">4</button>
-          <button class="keypad-btn">5</button>
-          <button class="keypad-btn">6</button>
-          <button class="keypad-btn">7</button>
-          <button class="keypad-btn">8</button>
-          <button class="keypad-btn">9</button>
-          <button class="keypad-btn" style="grid-column: span 3;">0</button>
-        </div>
+        <input type="tel" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off" id="parent-pin-input" class="pin-star-box" placeholder="• • • •" aria-label="Güvenlik kodu" style="width: 170px; letter-spacing: 0.5rem; font-size: 1.4rem; text-align: center; margin-bottom: 0.5rem;">
         <p id="pin-error-msg" style="text-align: center; color: #E53935; font-weight: 700; margin-top: 0.4rem; min-height: 20px; font-size: 0.82rem;"></p>
       </div>
 
@@ -611,24 +593,30 @@
         <div class="parent-panel-detail" id="parent-panel-nasil" data-parent-panel-detail="nasil">
           <div class="how-pager" id="how-pager">
 
-          <div class="how-page active" data-page="0">
+          <div class="how-page active" data-page="0" style="--how-c:#E65100; --how-t:#FFF3E0;">
+            <div class="how-img-frame"><img src="kuti_birlikte_oyna.jpg" alt="Kuti ve ailesi bahçede kart eşleştirme oynuyor" class="how-img"></div>
+            <h4 class="how-page-title">🦊 Kuti'nin Bahçesine Hoş Geldiniz</h4>
+            <p class="how-where">Kuti, bahçenin meraklı küçük tilkisi. Çocuğunuzla birlikte duyguları tanır, yeni beceriler dener, kendine bakmayı öğrenir ve doğayı keşfeder.</p>
+            <p class="how-where">Bahçede dört köşe var: <b>❤️ Duygu</b>, <b>🧩 Beceri</b>, <b>🪥 Öz Bakım</b> ve <b>🌿 Doğa</b>. Oyun süresi dolunca güneş batar ve Kuti <b>🌙 uykuya</b> geçer.</p>
+            <p class="how-hint">Sonraki sayfalarda her köşeyi ve uyku modunu tek tek anlatıyoruz. ›</p>
+          </div>
+
+          <div class="how-page" data-page="1">
             <div class="how-intro">
               <img src="kuti_mascot.jpg" alt="Kuti" class="how-intro-avatar">
               <div>
-                <h4 class="how-title">🤝 Nasıl Birlikte Oynanır?</h4>
-                <p class="how-sub">Kuti'nin bahçesini çocuğunuzla yan yana keşfedin. Siz yol gösterin, kararları çocuğunuz versin.</p>
+                <h4 class="how-title">🤝 Başlamadan Önce</h4>
+                <p class="how-sub">Siz yol gösterin, kararları çocuğunuz versin.</p>
               </div>
             </div>
-            <p class="how-try">Başlamadan önce</p>
             <div class="how-steps">
               <div class="how-step"><span class="how-step-num">1</span><div><b>🌱 Yaşı seçin</b><p>Yaş panelinden çocuğunuzun seviyesini seçin; oyunlar buna göre uyarlanır.</p></div></div>
               <div class="how-step"><span class="how-step-num">2</span><div><b>☀️ Süreyi ayarlayın</b><p>Süre panelinden oyun süresini seçin. Güneş batınca Kuti uykuya geçer.</p></div></div>
               <div class="how-step"><span class="how-step-num">3</span><div><b>👀 Yan yana oturun</b><p>Ekranı çocuk yönetsin, siz merak uyandıran sorular sorun.</p></div></div>
             </div>
-            <p class="how-hint">Sonraki sayfalarda her köşeyi ve uyku modunu tek tek anlatıyoruz. ›</p>
           </div>
 
-          <div class="how-page" data-page="1" style="--how-c:#D32F2F; --how-t:#FFEBEE;">
+          <div class="how-page" data-page="2" style="--how-c:#D32F2F; --how-t:#FFEBEE;">
             <div class="how-img-frame"><img src="kuti_corner_duygu.jpg" alt="Duygu Köşesi" class="how-img"></div>
             <h4 class="how-page-title">❤️ Duygu Köşesi</h4>
             <p class="how-where"><b>Bu köşede:</b> Duygu Aynası ve Kuti'nin Günü etkinlikleri.</p>
@@ -639,7 +627,7 @@
             </ul>
           </div>
 
-          <div class="how-page" data-page="2" style="--how-c:#2E7D32; --how-t:#E8F5E9;">
+          <div class="how-page" data-page="3" style="--how-c:#2E7D32; --how-t:#E8F5E9;">
             <div class="how-img-frame"><img src="kuti_corner_beceri.jpg" alt="Beceri Köşesi" class="how-img"></div>
             <h4 class="how-page-title">🧩 Beceri Köşesi</h4>
             <p class="how-where"><b>Bu köşede:</b> Sırala Bul oyunu ve Kuti yapbozu.</p>
@@ -650,7 +638,7 @@
             </ul>
           </div>
 
-          <div class="how-page" data-page="3" style="--how-c:#E65100; --how-t:#FFF3E0;">
+          <div class="how-page" data-page="4" style="--how-c:#E65100; --how-t:#FFF3E0;">
             <div class="how-img-frame"><img src="kuti_corner_ozbakim.jpg" alt="Öz Bakım Köşesi" class="how-img"></div>
             <h4 class="how-page-title">🪥 Öz Bakım Köşesi</h4>
             <p class="how-where"><b>Bu köşede:</b> Sürükle-bırak diş fırçalama ve hava durumuna göre Kuti'yi giydirme.</p>
@@ -661,7 +649,7 @@
             </ul>
           </div>
 
-          <div class="how-page" data-page="4" style="--how-c:#00796B; --how-t:#E0F2F1;">
+          <div class="how-page" data-page="5" style="--how-c:#00796B; --how-t:#E0F2F1;">
             <div class="how-img-frame"><img src="kuti_corner_doga.jpg" alt="Doğa Köşesi" class="how-img"></div>
             <h4 class="how-page-title">🌿 Doğa Köşesi</h4>
             <p class="how-where"><b>Bu köşede:</b> Hangi Mevsim? ipucu oyunu ve sürükle-bırak bahçe sulama.</p>
@@ -672,9 +660,9 @@
             </ul>
           </div>
 
-          <div class="how-page" data-page="5" style="--how-c:#5E35B1; --how-t:#EDE7F6;">
+          <div class="how-page" data-page="6" style="--how-c:#5E35B1; --how-t:#EDE7F6;">
             <div class="how-img-frame">
-              <img src="kuti_corner_uyku.jpg" alt="Uyku Köşesi" class="how-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+              <img src="kuti_uyku.jpg" alt="Kuti uyuyor" class="how-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
               <div class="how-sleep-scene"><span>🌙 ✨</span><span style="font-size:2rem;">😴</span></div>
             </div>
             <h4 class="how-page-title">🌙 Uyku Köşesi</h4>

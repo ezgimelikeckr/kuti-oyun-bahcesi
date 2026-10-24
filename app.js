@@ -1464,38 +1464,45 @@ document.addEventListener('DOMContentLoaded', () => {
       showParentPanel('main'); // Ebeveyn köşesi her açıldığında ana panelden başla
       parentModal.classList.add('active');
       if (soundEnabled) AudioEngine.playTone(500);
+      if (parentPinInput) { parentPinInput.value = ''; setTimeout(() => parentPinInput.focus(), 80); }
     });
   }
 
-  document.querySelectorAll('#modal-parent-corner .keypad-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      if (enteredPin.length < 4) {
-        enteredPin += btn.textContent.trim();
-        updatePinDots();
-        if (soundEnabled) AudioEngine.playTone(600, 0.1);
+  // Ebeveyn güvenlik kodu: rakamlar klavyeden yazılır
+  const parentPinInput = document.getElementById('parent-pin-input');
+  if (parentPinInput) {
+    parentPinInput.addEventListener('input', () => {
+      parentPinInput.value = parentPinInput.value.replace(/\D/g, '').slice(0, 4);
+      enteredPin = parentPinInput.value;
+      updatePinDots();
+      if (soundEnabled && enteredPin.length) AudioEngine.playTone(600, 0.1);
 
-        if (enteredPin.length === 4) {
-          if (enteredPin === currentDynamicPin) {
-            if (soundEnabled) AudioEngine.playSuccess();
-            if (pinView) pinView.style.display = 'none';
-            if (parentDashboardView) {
-              parentDashboardView.style.display = 'flex';
-              parentDashboardView.style.flexDirection = 'column';
-            }
-            if (parentModalBox) parentModalBox.classList.add('parent-dashboard-active'); // tam yükseklik, boşluksuz görünüm
-            showParentPanel('main');
-            renderKutiLibrary();
-          } else {
-            if (pinErrorMsg) pinErrorMsg.textContent = 'Hatalı Kod! Lütfen gösterilen 4 rakamı girin.';
-            setTimeout(() => {
-              enteredPin = '';
-              updatePinDots();
-            }, 800);
+      if (enteredPin.length === 4) {
+        if (enteredPin === currentDynamicPin) {
+          if (soundEnabled) AudioEngine.playSuccess();
+          parentPinInput.blur();
+          if (pinView) pinView.style.display = 'none';
+          if (parentDashboardView) {
+            parentDashboardView.style.display = 'flex';
+            parentDashboardView.style.flexDirection = 'column';
           }
+          if (parentModalBox) parentModalBox.classList.add('parent-dashboard-active'); // tam yükseklik, boşluksuz görünüm
+          showParentPanel('main');
+          renderKutiLibrary();
+        } else {
+          if (pinErrorMsg) pinErrorMsg.textContent = 'Hatalı Kod! Lütfen gösterilen 4 rakamı girin.';
+          parentPinInput.classList.add('pin-error-shake');
+          setTimeout(() => {
+            enteredPin = '';
+            parentPinInput.value = '';
+            parentPinInput.classList.remove('pin-error-shake');
+            updatePinDots();
+            parentPinInput.focus();
+          }, 800);
         }
       }
     });
-  });
+  }
 
   // Genel Modal Kapatma Dinamik Dinleyicisi
   document.addEventListener('click', (e) => {
