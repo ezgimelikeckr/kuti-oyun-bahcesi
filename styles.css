@@ -2047,3 +2047,33 @@ div.parent-modal-box .modal-close-btn:hover {
 
 /* Ebeveyn paneli açıkken sağ üst köşe ✕ yok; "Oyuna Dön" butonu kapatır */
 .parent-modal-box.parent-dashboard-active > .modal-close-btn { display: none !important; }
+
+
+/* ==========================================================================
+   NASIL BİRLİKTE OYNANIR — sayfa sayfa kılavuz
+   ========================================================================== */
+.how-pager { flex: 1; min-height: 0; }
+.how-page { display: none; flex-direction: column; }
+.how-page.active { display: flex; }
+.how-img-frame { background: var(--how-t, #FFF8E1); border: 2px solid var(--how-c, #FFE082); border-radius: 14px; padding: 0.4rem; display: flex; justify-content: center; align-items: center; margin-bottom: 0.6rem; }
+.how-img { display: block; width: 100%; max-height: 300px; object-fit: contain; border-radius: 10px; }
+.how-sleep-scene { display: none; width: 100%; height: 220px; border-radius: 10px; background: linear-gradient(160deg, #311B92, #5E35B1 60%, #7E57C2); align-items: center; justify-content: center; flex-direction: column; gap: 0.4rem; color: #FFE082; font-size: 3rem; }
+.how-page-title { font-family: var(--font-heading); font-size: 1.1rem; font-weight: 800; color: var(--how-c, #5E35B1); margin: 0 0 0.3rem; }
+.how-where { font-size: 0.8rem; color: var(--text-dark); margin: 0 0 0.5rem; line-height: 1.4; }
+.how-try { font-family: var(--font-heading); font-size: 0.85rem; font-weight: 700; color: var(--text-dark); margin: 0.2rem 0 0.3rem; }
+.how-list { margin: 0; padding-left: 1.1rem; font-size: 0.8rem; color: var(--text-dark); line-height: 1.45; }
+.how-list li { margin-bottom: 0.35rem; }
+.how-hint { font-size: 0.74rem; color: var(--text-muted); font-style: italic; margin: 0.5rem 0 0; }
+.how-nav { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; margin-top: 0.8rem; padding-top: 0.6rem; border-top: 1px solid rgba(0,0,0,0.07); flex-shrink: 0; }
+.how-nav-btn { background: #EDE7F6; color: #5E35B1; border: 2px solid #D1C4E9; border-radius: var(--radius-pill); padding: 0.45rem 0.95rem; font-family: var(--font-heading); font-weight: 700; font-size: 0.8rem; cursor: pointer; transition: all 0.2s ease; }
+.how-nav-btn:hover:not(:disabled) { background: #D1C4E9; color: #311B92; }
+.how-nav-btn:disabled { opacity: 0.4; cursor: default; }
+.how-nav-mid { display: flex; flex-direction: column; align-items: center; gap: 0.25rem; }
+.how-dots { display: flex; gap: 0.35rem; }
+.how-dot { width: 9px; height: 9px; border-radius: 50%; border: 0; padding: 0; background: #D1C4E9; cursor: pointer; }
+.how-dot.active { background: #5E35B1; transform: scale(1.25); }
+.how-counter { font-size: 0.7rem; color: var(--text-muted); font-weight: 700; }
+@media (max-width: 768px) {
+  .how-img { max-height: 200px; }
+  .how-sleep-scene { height: 160px; }
+}

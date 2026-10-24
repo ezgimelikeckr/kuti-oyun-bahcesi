@@ -222,6 +222,40 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   })();
 
+  // ===== NASIL BİRLİKTE OYNANIR — SAYFA SAYFA KILAVUZ =====
+  let howPage = 0;
+  function howGoTo(n) {
+    const pages = document.querySelectorAll('#how-pager .how-page');
+    if (!pages.length) return;
+    howPage = Math.max(0, Math.min(pages.length - 1, n));
+    pages.forEach((p, i) => p.classList.toggle('active', i === howPage));
+    const dots = document.getElementById('how-dots');
+    if (dots) {
+      dots.innerHTML = Array.from(pages).map((_, i) =>
+        `<button type="button" class="how-dot${i === howPage ? ' active' : ''}" data-i="${i}" aria-label="Sayfa ${i + 1}"></button>`
+      ).join('');
+    }
+    const counter = document.getElementById('how-counter');
+    if (counter) counter.textContent = `${howPage + 1} / ${pages.length}`;
+    const prev = document.getElementById('how-prev');
+    const next = document.getElementById('how-next');
+    if (prev) prev.disabled = howPage === 0;
+    if (next) next.disabled = howPage === pages.length - 1;
+    const body = document.getElementById('parent-panel-scroll-body');
+    if (body) body.scrollTop = 0;
+  }
+  (function initHowPager() {
+    const prev = document.getElementById('how-prev');
+    const next = document.getElementById('how-next');
+    const dots = document.getElementById('how-dots');
+    if (prev) prev.addEventListener('click', () => { howGoTo(howPage - 1); if (soundEnabled) AudioEngine.playTone(500, 0.1); });
+    if (next) next.addEventListener('click', () => { howGoTo(howPage + 1); if (soundEnabled) AudioEngine.playTone(600, 0.1); });
+    if (dots) dots.addEventListener('click', (e) => {
+      const d = e.target.closest('.how-dot');
+      if (d) howGoTo(parseInt(d.dataset.i, 10));
+    });
+  })();
+
   const appLaunchOverlay = document.getElementById('app-launch-overlay');
   const launchPinError = document.getElementById('launch-pin-error');
   const launchPinDisplay = document.getElementById('launch-pin-display');
@@ -1397,6 +1431,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     if (panelKey === 'kitaplik') renderKutiLibrary();
+    if (panelKey === 'nasil') howGoTo(0);
   }
 
   document.querySelectorAll('.parent-menu-item').forEach(btn => {
