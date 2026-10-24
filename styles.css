@@ -2077,3 +2077,5 @@ div.parent-modal-box .modal-close-btn:hover {
   .how-img { max-height: 200px; }
   .how-sleep-scene { height: 160px; }
 }
+
+.how-page .how-try { color: var(--how-c, #5E35B1); margin-top: 0.5rem; }
