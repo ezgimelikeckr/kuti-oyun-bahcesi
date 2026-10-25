@@ -932,9 +932,10 @@ document.addEventListener('DOMContentLoaded', () => {
   // --- ÖZ BAKIM KÖŞESİ — OYUN 1: TEMİZLİK/RUTİN (her yaş için ayrı gerçek mekanik) ---
   // Not: Kap her seferinde tamamen yeniden kuruluyor, böylece bir yaştan diğerine geçerken
   // önceki DOM elemanları kaybolsa bile fonksiyon her zaman doğru elemanları bulur.
-  // --- ÖZ BAKIM — 3 YAŞ: ELLERİ YIKAMA (Kuti sahneli, sırayla dokun) ---
-  // Kuti'nin sahnesi her doğru adımda değişir: başlangıç → ıslat → sabunla → kurula → temiz eller.
-  // Görsel dosyası bulunamazsa emojiye düşer; dosyalar sonradan eklenince otomatik devreye girer.
+  // --- ÖZ BAKIM — 3 YAŞ: ELLERİ YIKAMA (nesneyi doğru sahneye sürükle-bırak) ---
+  // Sıra yok: damla / sabun / havlu nesneleri kendi sahnelerine eşleştirilir.
+  // Dokunmatik uyumlu (pointer events) ve sürüklemeyi başaramayan çocuk için "dokun, sonra yere dokun" yolu da var.
+  // Görsel dosyası bulunamazsa emojiye düşer.
   function setImgWithFallback(img, srcList, onAllFail) {
     let i = 0;
     img.onerror = () => {
@@ -947,89 +948,190 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function initHandWashGame(wrapper) {
     const steps = [
-      { id: 'wet',  label: 'Islat',   emoji: '💧', icon: ['ikon_damla.png', 'icon_damla.png'], scene: ['kuti_el_islat.jpg'] },
-      { id: 'soap', label: 'Sabunla', emoji: '🧼', icon: ['ikon_sabun.png', 'icon_sabun.png'], scene: ['kuti_el_sabun.jpg'] },
-      { id: 'dry',  label: 'Kurula',  emoji: '🧣', icon: ['icon_havlu.png', 'ikon_havlu.png'], scene: ['kuti_el_kurula.jpg'] }
+      { id: 'wet',  name: 'Damla',  emoji: '💧', icon: ['ikon_damla.png', 'icon_damla.png'], scene: ['kuti_el_islat.jpg'],  color: '#90CAF9', tint: '#E3F2FD' },
+      { id: 'soap', name: 'Sabun',  emoji: '🧼', icon: ['ikon_sabun.png', 'icon_sabun.png'], scene: ['kuti_el_sabun.jpg'],  color: '#F48FB1', tint: '#FCE4EC' },
+      { id: 'dry',  name: 'Havlu',  emoji: '🧣', icon: ['icon_havlu.png', 'ikon_havlu.png'], scene: ['kuti_el_kurula.jpg'], color: '#A5D6A7', tint: '#E8F5E9' }
     ];
-    const startScene = ['kuti_el_baslangic.jpg'];
-    const doneScene = ['kuti_el_temiz.jpg', 'kuti_el_kurula.jpg'];
 
-    const stage = document.createElement('div');
-    stage.className = 'handwash-stage';
-    const sceneImg = document.createElement('img');
-    sceneImg.alt = 'Kuti ellerini yıkıyor';
-    sceneImg.className = 'handwash-img';
-    const sceneFallback = document.createElement('div');
-    sceneFallback.className = 'handwash-fallback';
-    stage.appendChild(sceneImg);
-    stage.appendChild(sceneFallback);
-    wrapper.appendChild(stage);
+    const board = document.createElement('div');
+    board.className = 'hw-board';
+    const bank = document.createElement('div');
+    bank.className = 'hw-bank';
+    const hint = document.createElement('p');
+    hint.className = 'hw-hint';
+    hint.textContent = 'İpucu: Aşağıdaki nesneleri ilgili bölgelere sürükleyip bırak!';
+    wrapper.appendChild(board);
+    wrapper.appendChild(bank);
+    wrapper.appendChild(hint);
 
-    function showScene(list, emoji) {
-      sceneFallback.style.display = 'none';
-      sceneImg.style.display = 'block';
-      setImgWithFallback(sceneImg, list, () => {
-        sceneImg.style.display = 'none';
-        sceneFallback.textContent = emoji;
-        sceneFallback.style.display = 'flex';
-      });
-    }
-    showScene(startScene, '🦊');
-
-    const row = document.createElement('div');
-    row.className = 'tap-order-row';
-    wrapper.appendChild(row);
-
-    let nextIndex = 0;
-    steps.slice().sort(() => Math.random() - 0.5).forEach(step => {
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = 'btn-icon-pill tap-order-btn handwash-btn';
-      btn.setAttribute('aria-label', step.label);
-
-      const icon = document.createElement('img');
-      icon.className = 'handwash-icon';
-      icon.alt = '';
-      setImgWithFallback(icon, step.icon, () => {
+    function makeIcon(step) {
+      const img = document.createElement('img');
+      img.className = 'hw-icon';
+      img.alt = '';
+      img.draggable = false;
+      setImgWithFallback(img, step.icon, () => {
         const span = document.createElement('span');
-        span.className = 'handwash-icon-emoji';
+        span.className = 'hw-icon-emoji';
         span.textContent = step.emoji;
-        icon.replaceWith(span);
+        img.replaceWith(span);
       });
-      const label = document.createElement('span');
-      label.className = 'handwash-label';
-      label.textContent = step.label;
-      btn.appendChild(icon);
-      btn.appendChild(label);
+      return img;
+    }
 
-      btn.addEventListener('click', () => {
-        if (btn.disabled) return;
-        if (step.id === steps[nextIndex].id) {
-          btn.disabled = true;
-          btn.classList.add('tap-order-correct');
-          if (soundEnabled) AudioEngine.playSuccess();
-          showScene(step.scene, step.emoji);
-          nextIndex++;
-          if (nextIndex === steps.length) {
-            setTimeout(() => {
-              showScene(doneScene, '✨');
-              showVisualFeedback("✨ Eller sabunlandı, durulandı ve tertemiz oldu!", "success");
-            }, 900);
-            // 3 yaş oyunları gibi kendini yeniler; yaş değiştiyse yenilemez
-            setTimeout(() => {
-              if (document.body.contains(stage) && currentAgeLevel === '3') initOzbakimOralGame('3');
-            }, 5000);
-          } else {
-            showVisualFeedback("Harika, sırada devam edelim!", "info");
-          }
-        } else {
-          if (soundEnabled) AudioEngine.playTone(300, 0.2);
-          btn.classList.add('tap-order-shake');
-          setTimeout(() => btn.classList.remove('tap-order-shake'), 400);
-          showVisualFeedback("Tekrar deneyelim, doğru sırayı bul.", "error");
-        }
+    // Sahneler (sabit sırada) + bırakma bölgeleri
+    steps.forEach(step => {
+      const col = document.createElement('div');
+      col.className = 'hw-col';
+      col.dataset.zone = step.id;
+      col.tabIndex = 0;
+      col.style.setProperty('--hw-c', step.color);
+      col.style.setProperty('--hw-t', step.tint);
+
+      const frame = document.createElement('div');
+      frame.className = 'hw-scene-frame';
+      const img = document.createElement('img');
+      img.className = 'hw-scene';
+      img.alt = 'Kuti ellerini yıkıyor';
+      img.draggable = false;
+      setImgWithFallback(img, step.scene, () => {
+        const fb = document.createElement('div');
+        fb.className = 'hw-scene-fallback';
+        fb.textContent = step.emoji;
+        img.replaceWith(fb);
       });
-      row.appendChild(btn);
+      frame.appendChild(img);
+
+      const zone = document.createElement('div');
+      zone.className = 'hw-zone';
+      col.appendChild(frame);
+      col.appendChild(zone);
+      board.appendChild(col);
+    });
+
+    // Nesneler (karışık)
+    let matched = 0;
+    let selected = null;
+
+    function finishIfDone() {
+      if (matched === steps.length) {
+        setTimeout(() => showVisualFeedback("✨ Harika! Kuti'nin elleri tertemiz oldu!", "success"), 300);
+        setTimeout(() => {
+          if (document.body.contains(board) && currentAgeLevel === '3') initOzbakimOralGame('3');
+        }, 5000);
+      }
+    }
+
+    function tryDrop(tile, col) {
+      if (!tile || !col || tile.classList.contains('placed')) return;
+      if (tile.dataset.step === col.dataset.zone) {
+        const zone = col.querySelector('.hw-zone');
+        zone.appendChild(tile);
+        tile.classList.remove('hw-selected');
+        tile.classList.add('placed');
+        zone.classList.add('filled');
+        if (soundEnabled) AudioEngine.playSuccess();
+        matched++;
+        if (matched < steps.length) showVisualFeedback("Harika, doğru yere koydun!", "info");
+        finishIfDone();
+      } else {
+        if (soundEnabled) AudioEngine.playTone(300, 0.2);
+        tile.classList.add('hw-shake');
+        setTimeout(() => tile.classList.remove('hw-shake'), 400);
+        showVisualFeedback("Bu nesne buraya uymuyor, başka yere dene.", "error");
+      }
+    }
+
+    function colFromPoint(x, y) {
+      const el = document.elementFromPoint ? document.elementFromPoint(x, y) : null;
+      return el ? el.closest('.hw-col') : null;
+    }
+
+    function setSelected(tile) {
+      if (selected) selected.classList.remove('hw-selected');
+      selected = tile;
+      if (selected) selected.classList.add('hw-selected');
+    }
+
+    steps.slice().sort(() => Math.random() - 0.5).forEach(step => {
+      const tile = document.createElement('div');
+      tile.className = 'hw-tile';
+      tile.dataset.step = step.id;
+      tile.tabIndex = 0;
+      tile.setAttribute('role', 'button');
+      tile.setAttribute('aria-label', step.name);
+      tile.appendChild(makeIcon(step));
+      bank.appendChild(tile);
+
+      tile.addEventListener('pointerdown', (e) => {
+        if (tile.classList.contains('placed')) return;
+        e.preventDefault();
+        if (tile.setPointerCapture && e.pointerId !== undefined) { try { tile.setPointerCapture(e.pointerId); } catch (_) {} }
+        const startX = e.clientX, startY = e.clientY;
+        const rect = tile.getBoundingClientRect();
+        const offX = startX - rect.left, offY = startY - rect.top;
+        let ghost = null;
+        let overCol = null;
+
+        const onMove = (ev) => {
+          if (!ghost && Math.hypot(ev.clientX - startX, ev.clientY - startY) > 8) {
+            ghost = tile.cloneNode(true);
+            ghost.classList.add('hw-ghost');
+            ghost.style.width = rect.width + 'px';
+            ghost.style.height = rect.height + 'px';
+            document.body.appendChild(ghost);
+            tile.classList.add('hw-dragging');
+            setSelected(null);
+          }
+          if (ghost) {
+            ghost.style.left = Math.round(ev.clientX - offX) + 'px';
+            ghost.style.top = Math.round(ev.clientY - offY) + 'px';
+            const col = colFromPoint(ev.clientX, ev.clientY);
+            if (col !== overCol) {
+              if (overCol) overCol.classList.remove('hw-over');
+              overCol = col;
+              if (overCol) overCol.classList.add('hw-over');
+            }
+          }
+        };
+        const onUp = (ev) => {
+          tile.removeEventListener('pointermove', onMove);
+          tile.removeEventListener('pointerup', onUp);
+          tile.removeEventListener('pointercancel', onUp);
+          if (overCol) overCol.classList.remove('hw-over');
+          if (ghost) {
+            const col = colFromPoint(ev.clientX, ev.clientY);
+            ghost.remove();
+            tile.classList.remove('hw-dragging');
+            if (col) tryDrop(tile, col);
+          } else if (ev.type === 'pointerup') {
+            setSelected(selected === tile ? null : tile); // dokun-seç
+          }
+        };
+        tile.addEventListener('pointermove', onMove);
+        tile.addEventListener('pointerup', onUp);
+        tile.addEventListener('pointercancel', onUp);
+      });
+
+      tile.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setSelected(selected === tile ? null : tile); }
+      });
+    });
+
+    // Seçili nesne varken bir sahneye dokunmak = oraya bırakmak
+    board.addEventListener('click', (e) => {
+      const col = e.target.closest('.hw-col');
+      if (!col || !selected) return;
+      const t = selected;
+      setSelected(null);
+      tryDrop(t, col);
+    });
+    board.addEventListener('keydown', (e) => {
+      const col = e.target.closest ? e.target.closest('.hw-col') : null;
+      if (!col || !selected || (e.key !== 'Enter' && e.key !== ' ')) return;
+      e.preventDefault();
+      const t = selected;
+      setSelected(null);
+      tryDrop(t, col);
     });
   }
 
@@ -1042,7 +1144,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // Gerçek mekanik: Elleri doğru sırayla yıkama — Islat → Sabunla → Kurula
       const title = document.createElement('p');
       title.style.cssText = 'text-align:center; font-size:0.85rem; font-weight:700; color:#00796B; margin-bottom:0.5rem;';
-      title.textContent = "🧼 Kuti'nin ellerini doğru sırayla yıka";
+      title.textContent = "🧼 Kuti ellerini yıkıyor — nesneleri doğru yere bırak";
       wrapper.appendChild(title);
       initHandWashGame(wrapper);
     } else if (level === '6+') {
