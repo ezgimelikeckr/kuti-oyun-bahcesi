@@ -1188,6 +1188,13 @@ document.addEventListener('DOMContentLoaded', () => {
     cold: { clue: '❄️ Soğuk bir gün', matchLabel: 'Mont' }
   };
 
+  // Giydirme: 3 yaşta Kuti'nin kıyafetli görselleri, diğer yaşlarda emoji butonlar
+  const DRESS_CARDS_3 = {
+    'T-shirt':   { label: 'T-shirt',   emoji: '👕', img: ['kuti_tisort.jpg'],    msg: 'Kuti T-shirtünü giydi, hava için tam uygun! 🎉' },
+    'Yağmurluk': { label: 'Yağmurluk', emoji: '🧥', img: ['kuti_yagmurluk.jpg'], msg: 'Kuti yağmurluğunu giydi, hava için tam uygun! 🎉' }
+  };
+  let lastDressWeather = null;
+
   function initOzbakimDressGame(level, cfg) {
     const clueEl = document.getElementById('ozbakim-weather-clue');
     const dressContainer = document.getElementById('dress-options-grid');
@@ -1195,11 +1202,78 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const hasMont = cfg.weatherOptions.some(o => o.includes('Mont'));
     const availableWeathers = hasMont ? ['sunny', 'rainy', 'cold'] : ['sunny', 'rainy'];
-    const weatherKey = availableWeathers[Math.floor(Math.random() * availableWeathers.length)];
+    let pool = availableWeathers.filter(k => k !== lastDressWeather);
+    if (!pool.length) pool = availableWeathers;
+    const weatherKey = pool[Math.floor(Math.random() * pool.length)];
+    lastDressWeather = weatherKey;
     const weather = WEATHER_CLOTHING_MAP[weatherKey];
 
     if (clueEl) clueEl.textContent = weather.clue;
 
+    // --- 3 YAŞ: Kuti'nin kıyafetli görsellerinden doğru olanı seç ---
+    if (level === '3') {
+      dressContainer.innerHTML = '';
+      let locked = false;
+      const options = cfg.weatherOptions
+        .map(o => Object.keys(DRESS_CARDS_3).find(k => o.includes(k)))
+        .filter(Boolean)
+        .sort(() => Math.random() - 0.5);
+
+      options.forEach(key => {
+        const info = DRESS_CARDS_3[key];
+        const card = document.createElement('div');
+        card.className = 'dress-card';
+        card.tabIndex = 0;
+        card.setAttribute('role', 'button');
+        card.setAttribute('aria-label', info.label);
+
+        const frame = document.createElement('div');
+        frame.className = 'dress-card-frame';
+        const img = document.createElement('img');
+        img.className = 'dress-card-img';
+        img.alt = 'Kuti ' + info.label + ' giymiş';
+        img.draggable = false;
+        setImgWithFallback(img, info.img, () => {
+          const fb = document.createElement('div');
+          fb.className = 'dress-card-fallback';
+          fb.textContent = info.emoji;
+          img.replaceWith(fb);
+        });
+        frame.appendChild(img);
+        const label = document.createElement('div');
+        label.className = 'dress-card-label';
+        label.textContent = info.label;
+        card.appendChild(frame);
+        card.appendChild(label);
+
+        const choose = () => {
+          if (locked) return;
+          if (weather.matchLabel === key) {
+            locked = true;
+            card.classList.add('correct');
+            dressContainer.querySelectorAll('.dress-card').forEach(o => { if (o !== card) o.classList.add('dim'); });
+            if (soundEnabled) AudioEngine.playSuccess();
+            showVisualFeedback(info.msg, "success");
+            setTimeout(() => {
+              if (currentAgeLevel === '3') initOzbakimDressGame('3', cfg);
+            }, 3000);
+          } else {
+            if (soundEnabled) AudioEngine.playTone(300, 0.2);
+            card.classList.add('dress-shake');
+            setTimeout(() => card.classList.remove('dress-shake'), 400);
+            showVisualFeedback("Bu hava için doğru kıyafet değil, tekrar dene.", "error");
+          }
+        };
+        card.addEventListener('click', choose);
+        card.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); choose(); }
+        });
+        dressContainer.appendChild(card);
+      });
+      return;
+    }
+
+    // --- 4-5 ve 6+ YAŞ: emoji butonlar ---
     dressContainer.innerHTML = cfg.weatherOptions.map(opt =>
       `<button class="btn-icon-pill dress-opt-btn" data-match="${opt.includes(weather.matchLabel)}">${opt}</button>`
     ).join('');
