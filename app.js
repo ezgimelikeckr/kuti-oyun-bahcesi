@@ -932,6 +932,107 @@ document.addEventListener('DOMContentLoaded', () => {
   // --- ÖZ BAKIM KÖŞESİ — OYUN 1: TEMİZLİK/RUTİN (her yaş için ayrı gerçek mekanik) ---
   // Not: Kap her seferinde tamamen yeniden kuruluyor, böylece bir yaştan diğerine geçerken
   // önceki DOM elemanları kaybolsa bile fonksiyon her zaman doğru elemanları bulur.
+  // --- ÖZ BAKIM — 3 YAŞ: ELLERİ YIKAMA (Kuti sahneli, sırayla dokun) ---
+  // Kuti'nin sahnesi her doğru adımda değişir: başlangıç → ıslat → sabunla → kurula → temiz eller.
+  // Görsel dosyası bulunamazsa emojiye düşer; dosyalar sonradan eklenince otomatik devreye girer.
+  function setImgWithFallback(img, srcList, onAllFail) {
+    let i = 0;
+    img.onerror = () => {
+      i++;
+      if (i < srcList.length) { img.src = srcList[i]; }
+      else { img.onerror = null; if (onAllFail) onAllFail(); }
+    };
+    img.src = srcList[0];
+  }
+
+  function initHandWashGame(wrapper) {
+    const steps = [
+      { id: 'wet',  label: 'Islat',   emoji: '💧', icon: ['ikon_damla.png', 'icon_damla.png'], scene: ['kuti_el_islat.jpg'] },
+      { id: 'soap', label: 'Sabunla', emoji: '🧼', icon: ['ikon_sabun.png', 'icon_sabun.png'], scene: ['kuti_el_sabun.jpg'] },
+      { id: 'dry',  label: 'Kurula',  emoji: '🧣', icon: ['icon_havlu.png', 'ikon_havlu.png'], scene: ['kuti_el_kurula.jpg'] }
+    ];
+    const startScene = ['kuti_el_baslangic.jpg'];
+    const doneScene = ['kuti_el_temiz.jpg', 'kuti_el_kurula.jpg'];
+
+    const stage = document.createElement('div');
+    stage.className = 'handwash-stage';
+    const sceneImg = document.createElement('img');
+    sceneImg.alt = 'Kuti ellerini yıkıyor';
+    sceneImg.className = 'handwash-img';
+    const sceneFallback = document.createElement('div');
+    sceneFallback.className = 'handwash-fallback';
+    stage.appendChild(sceneImg);
+    stage.appendChild(sceneFallback);
+    wrapper.appendChild(stage);
+
+    function showScene(list, emoji) {
+      sceneFallback.style.display = 'none';
+      sceneImg.style.display = 'block';
+      setImgWithFallback(sceneImg, list, () => {
+        sceneImg.style.display = 'none';
+        sceneFallback.textContent = emoji;
+        sceneFallback.style.display = 'flex';
+      });
+    }
+    showScene(startScene, '🦊');
+
+    const row = document.createElement('div');
+    row.className = 'tap-order-row';
+    wrapper.appendChild(row);
+
+    let nextIndex = 0;
+    steps.slice().sort(() => Math.random() - 0.5).forEach(step => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'btn-icon-pill tap-order-btn handwash-btn';
+      btn.setAttribute('aria-label', step.label);
+
+      const icon = document.createElement('img');
+      icon.className = 'handwash-icon';
+      icon.alt = '';
+      setImgWithFallback(icon, step.icon, () => {
+        const span = document.createElement('span');
+        span.className = 'handwash-icon-emoji';
+        span.textContent = step.emoji;
+        icon.replaceWith(span);
+      });
+      const label = document.createElement('span');
+      label.className = 'handwash-label';
+      label.textContent = step.label;
+      btn.appendChild(icon);
+      btn.appendChild(label);
+
+      btn.addEventListener('click', () => {
+        if (btn.disabled) return;
+        if (step.id === steps[nextIndex].id) {
+          btn.disabled = true;
+          btn.classList.add('tap-order-correct');
+          if (soundEnabled) AudioEngine.playSuccess();
+          showScene(step.scene, step.emoji);
+          nextIndex++;
+          if (nextIndex === steps.length) {
+            setTimeout(() => {
+              showScene(doneScene, '✨');
+              showVisualFeedback("✨ Eller sabunlandı, durulandı ve tertemiz oldu!", "success");
+            }, 900);
+            // 3 yaş oyunları gibi kendini yeniler; yaş değiştiyse yenilemez
+            setTimeout(() => {
+              if (document.body.contains(stage) && currentAgeLevel === '3') initOzbakimOralGame('3');
+            }, 5000);
+          } else {
+            showVisualFeedback("Harika, sırada devam edelim!", "info");
+          }
+        } else {
+          if (soundEnabled) AudioEngine.playTone(300, 0.2);
+          btn.classList.add('tap-order-shake');
+          setTimeout(() => btn.classList.remove('tap-order-shake'), 400);
+          showVisualFeedback("Tekrar deneyelim, doğru sırayı bul.", "error");
+        }
+      });
+      row.appendChild(btn);
+    });
+  }
+
   function initOzbakimOralGame(level) {
     const wrapper = document.getElementById('ozbakim-oral-wrapper');
     if (!wrapper) return;
@@ -943,13 +1044,7 @@ document.addEventListener('DOMContentLoaded', () => {
       title.style.cssText = 'text-align:center; font-size:0.85rem; font-weight:700; color:#00796B; margin-bottom:0.5rem;';
       title.textContent = "🧼 Kuti'nin ellerini doğru sırayla yıka";
       wrapper.appendChild(title);
-      const row = document.createElement('div');
-      wrapper.appendChild(row);
-      initTapOrderGame(row, [
-        { id: 'wet', html: '💧<br><span style="font-size:0.62rem;">Islat</span>' },
-        { id: 'soap', html: '🧼<br><span style="font-size:0.62rem;">Sabunla</span>' },
-        { id: 'dry', html: '🌬️<br><span style="font-size:0.62rem;">Kurula</span>' }
-      ], "✨ Eller sabunlandı, durulandı ve tertemiz oldu!");
+      initHandWashGame(wrapper);
     } else if (level === '6+') {
       // Gerçek mekanik: Kuti'nin Bir Günü — sabah ve gece rutinini 7 adımlık tam gün akışında sırala
       const title = document.createElement('p');
