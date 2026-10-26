@@ -1,4 +1,4 @@
-# Kuti'nin Oyun Bahçesi 
+# Kuti'nin Oyun Bahçesi 🦊
 
 <img width="378" height="397" alt="piko_mutlu" src="https://github.com/user-attachments/assets/79cbb74e-29fd-49e3-b0d8-cbe5fe65e7c7" />
 
