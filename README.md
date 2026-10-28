@@ -60,10 +60,3 @@ hedefiyle geliştirilmeye devam eden bir projedir.
 Gelecek geliştirmelerde erişilebilirlik, yaşa uygun etkileşimler,
 ebeveyn rehberliği ve mobil kullanım deneyiminin iyileştirilmesi
 hedeflenmektedir.
-
-## 👩‍💻 Geliştirici Hakkında
-
-Bu proje, çocuk gelişimi ve teknoloji alanlarını bir araya
-getirme ilgisiyle geliştirilmiştir.
-
-**Geliştirici:** Ezgi Melike Çakır
