@@ -1162,14 +1162,37 @@ document.addEventListener('DOMContentLoaded', () => {
   // Sıra yok: damla / sabun / havlu nesneleri kendi sahnelerine eşleştirilir.
   // Dokunmatik uyumlu (pointer events) ve sürüklemeyi başaramayan çocuk için "dokun, sonra yere dokun" yolu da var.
   // Görsel dosyası bulunamazsa emojiye düşer.
+  // Görsel yolu esnekliği: istenen dosya bulunamazsa aynı adı farklı uzantıyla (.jpg/.png/.jpeg/.webp)
+  // ve farklı klasörlerle (kök, gorseller/, images/, img/) dener. Bulduğu yolu hatırlar.
+  const IMG_OK = {};
+  const IMG_ALIAS = { 'kuti_oyuncagini_kaybediyor': ['kuti_oyuncağını_kaybediyor'] };
+  function imgCandidates(src) {
+    if (IMG_OK[src]) return [IMG_OK[src]];
+    const m = src.match(/^(.*\/)?([^\/]+?)(\.[a-zA-Z0-9]+)?$/);
+    const dir = m[1] || '', name = m[2], ext = (m[3] || '').toLowerCase();
+    const names = [name].concat(IMG_ALIAS[name] || []);
+    const exts = [ext, '.jpg', '.png', '.jpeg', '.webp'].filter((e, i, arr) => e && arr.indexOf(e) === i);
+    const dirs = [dir, '', 'gorseller/', 'images/', 'img/'].filter((d, i, arr) => arr.indexOf(d) === i);
+    const out = [];
+    dirs.forEach(d => names.forEach(n => exts.forEach(e => out.push(d + n + e))));
+    return out;
+  }
+
   function setImgWithFallback(img, srcList, onAllFail) {
+    const list = [];
+    srcList.forEach(s => imgCandidates(s).forEach(c => { if (!list.includes(c)) list.push(c); }));
     let i = 0;
+    img.onload = () => { IMG_OK[srcList[0]] = list[i]; };
     img.onerror = () => {
       i++;
-      if (i < srcList.length) { img.src = srcList[i]; }
-      else { img.onerror = null; if (onAllFail) onAllFail(); }
+      if (i < list.length) { img.src = list[i]; }
+      else {
+        img.onerror = null;
+        console.warn('[Kuti] Görsel bulunamadı: ' + srcList[0] + ' (denenen ilk yollar: ' + list.slice(0, 5).join(', ') + ')');
+        if (onAllFail) onAllFail();
+      }
     };
-    img.src = srcList[0];
+    img.src = list[0];
   }
 
   function initHandWashGame(wrapper) {
