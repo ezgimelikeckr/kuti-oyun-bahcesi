@@ -2116,3 +2116,75 @@ div.parent-modal-box .modal-close-btn:hover {
 .dress-card-img { display: block; width: 100%; height: auto; image-rendering: auto; -webkit-user-drag: none; pointer-events: none; }
 .dress-card-fallback { display: flex; align-items: center; justify-content: center; aspect-ratio: 4 / 5; font-size: 3.5rem; }
 .dress-card-label { text-align: center; font-weight: 800; font-size: 0.8rem; color: #E65100; padding: 0.35rem 0.3rem 0.45rem; background: #fff; }
+
+/* ==========================================================================
+   OYUN GÖRSELLERİ (gorseller/ klasörü) — ortak sürükle-bırak, kartlar, sahneler
+   ========================================================================== */
+.img-fallback-emoji { font-size: 2.4rem; line-height: 1; }
+.dnd-tile { touch-action: none; user-select: none; -webkit-user-select: none; cursor: grab; }
+.dnd-tile.dnd-selected { outline: 3px solid #FFB74D; outline-offset: 2px; }
+.dnd-tile.dnd-dragging { opacity: 0.35; }
+.dnd-ghost { position: fixed; z-index: 100000; pointer-events: none; margin: 0; box-shadow: 0 6px 16px rgba(0,0,0,0.25); border-radius: 14px; }
+.dnd-over { outline: 3px dashed #4CAF50; outline-offset: 2px; }
+.dnd-shake { animation: tap-order-shake-anim 0.4s ease; }
+
+/* Görselli sırala kartları (Öz Bakım, Doğa tohum) */
+.tap-order-row.pic-row { gap: 0.55rem; align-items: stretch; }
+.tap-order-btn.pic-card { width: min(46%, 190px); height: auto; min-height: 0; padding: 0.25rem; border-radius: 14px; flex-direction: column; gap: 0.2rem; background: #fff; }
+.pic-row-many .tap-order-btn.pic-card { width: min(31%, 150px); }
+.pic-card-img { display: block; width: 100%; height: auto; border-radius: 10px; image-rendering: auto; pointer-events: none; }
+.pic-card-label { font-size: 0.68rem; font-weight: 800; line-height: 1.15; padding: 0.1rem 0.1rem 0.2rem; }
+.tap-order-btn.pic-card.tap-order-correct { opacity: 1; transform: none; outline: 3px solid #4CAF50; }
+
+/* Duygu hikâyeleri */
+.story-pic { display: flex; justify-content: center; margin: 0 auto 0.6rem; }
+.story-pic-img { display: block; width: 100%; max-width: 340px; height: auto; border-radius: 14px; box-shadow: 0 3px 10px rgba(0,0,0,0.12); }
+.story-slot-img { width: 100%; height: 100%; object-fit: cover; border-radius: inherit; display: block; }
+
+/* Beceri */
+.color-row { display: flex; gap: 0.6rem; justify-content: center; }
+.color-card { flex: 1 1 0; max-width: 130px; padding: 0; border: 3px solid transparent; border-radius: 14px; background: none; cursor: pointer; overflow: hidden; touch-action: manipulation; }
+.color-card:hover { border-color: #FFB74D; }
+.color-card-img { display: block; width: 100%; height: auto; border-radius: 10px; pointer-events: none; }
+.garden-stage { width: 100%; max-width: 420px; margin: 0 auto 0.5rem; border-radius: 14px; overflow: hidden; background: #E3F2FD; box-shadow: 0 3px 10px rgba(0,0,0,0.12); }
+.garden-img { display: block; width: 100%; height: auto; }
+.garden-hint { text-align: center; font-size: 0.78rem; font-weight: 800; color: #2E7D32; margin: 0 0 0.5rem; min-height: 1.1em; }
+.garden-bank { display: flex; flex-wrap: wrap; gap: 0.6rem; justify-content: center; }
+.garden-tile { width: 70px; height: 70px; border-radius: 16px; background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.14); display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.garden-tile-icon { font-size: 1.9rem; line-height: 1; }
+.garden-tile-label { font-size: 0.6rem; font-weight: 800; color: #2E7D32; }
+.pat-row { display: flex; align-items: flex-end; justify-content: center; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.8rem; }
+.pat-strip { display: block; width: 100%; max-width: 300px; height: auto; border-radius: 10px; }
+.pat-fil { display: block; width: auto; border-radius: 8px; }
+.pat-q { width: 56px; height: 56px; border: 3px dashed #A5D6A7; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; opacity: 0.8; }
+.pat-choices { display: flex; gap: 0.7rem; justify-content: center; align-items: flex-end; flex-wrap: wrap; }
+.pat-opt { padding: 0.3rem; border: 3px solid #C8E6C9; border-radius: 14px; background: #fff; cursor: pointer; }
+.pat-opt:hover { border-color: #4CAF50; }
+.pat-opt-img { display: block; width: auto; height: 72px; border-radius: 8px; pointer-events: none; }
+.memory-card-img { display: block; width: 100%; height: 100%; object-fit: contain; border-radius: 8px; pointer-events: none; }
+
+/* Doğa */
+.weather-scene { flex: 1 1 100%; display: flex; justify-content: center; margin-bottom: 0.4rem; }
+.weather-scene-img { display: block; width: 100%; max-width: 240px; height: auto; border-radius: 14px; box-shadow: 0 3px 10px rgba(0,0,0,0.12); }
+.weather-row { flex: 1 1 100%; display: flex; gap: 0.5rem; justify-content: center; }
+.weather-card { flex: 1 1 0; max-width: 130px; display: flex; flex-direction: column; align-items: center; gap: 0.2rem; padding: 0.35rem; border: 3px solid #B2DFDB; border-radius: 14px; background: #fff; cursor: pointer; }
+.weather-card:hover { border-color: #26A69A; }
+.weather-card.correct, .season-card.correct { border-color: #4CAF50; background: #E8F5E9; }
+.weather-card-img { display: block; width: 100%; height: 64px; object-fit: contain; pointer-events: none; }
+.weather-card-label, .season-card-label { font-size: 0.72rem; font-weight: 800; color: #00695C; }
+.season-grid { flex: 1 1 100%; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.5rem; max-width: 380px; margin: 0 auto; }
+.season-card { display: flex; flex-direction: column; align-items: center; gap: 0.2rem; padding: 0.3rem; border: 3px solid #B2DFDB; border-radius: 14px; background: #fff; cursor: pointer; }
+.season-card:hover { border-color: #26A69A; }
+.season-card-img { display: block; width: 100%; height: auto; border-radius: 10px; pointer-events: none; }
+.plant-stage { width: 100%; max-width: 240px; margin: 0 auto 0.5rem; border-radius: 14px; overflow: hidden; background: #fff; box-shadow: 0 3px 10px rgba(0,0,0,0.12); }
+.plant-img { display: block; width: 100%; height: auto; }
+.plant-tile { width: 84px; height: 84px; border-radius: 16px; background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.14); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.plant-tile-img { display: block; width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
+.dnd-zone { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 0.3rem; padding: 0.4rem; border: 3px dashed #80CBC4; border-radius: 16px; background: #fff; }
+.dnd-zone-img { display: block; width: 100%; max-width: 150px; height: 100px; object-fit: contain; border-radius: 10px; pointer-events: none; }
+.dnd-zone-label { font-size: 0.75rem; font-weight: 800; color: #00695C; }
+.dnd-zone-items { display: flex; flex-wrap: wrap; gap: 0.25rem; justify-content: center; min-height: 40px; }
+.dnd-zone-items .dnd-item { width: 44px; height: 44px; box-shadow: none; background: transparent; }
+.dnd-item { width: 78px; height: 78px; border-radius: 16px; background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.14); display: flex; align-items: center; justify-content: center; font-size: 2rem; touch-action: none; user-select: none; -webkit-user-select: none; overflow: hidden; }
+.dnd-item-img { display: block; width: 88%; height: 88%; object-fit: contain; pointer-events: none; }
+.dress-card.dress-card--white, .dress-card.dress-card--white .dress-card-frame { background: #fff; }
