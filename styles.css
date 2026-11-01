@@ -2217,3 +2217,27 @@ div.parent-modal-box .modal-close-btn:hover {
 .garden-tile-img { display: block; width: 44px; height: 44px; object-fit: contain; pointer-events: none; }
 .garden-tile { gap: 2px; }
 .dnd-item { width: var(--pic); height: var(--pic); max-width: 96px; max-height: 96px; }
+
+/* Duygu: hikâye sıralama (tamamen görsel) */
+.story-order-slots { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.4rem; max-width: 420px; margin: 0 auto 0.7rem; }
+.story-order-slot { position: relative; aspect-ratio: 4 / 3; border: 3px dashed #EF9A9A; border-radius: 12px; background: #FFF5F5; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+.story-order-slot.filled { border-style: solid; border-color: #66BB6A; background: #fff; }
+.story-order-num { font-family: var(--font-heading); font-size: 1.4rem; font-weight: 800; color: #E57373; }
+.story-order-cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.5rem; max-width: 340px; margin: 0 auto; }
+.story-order-card { padding: 0.25rem; border: 3px solid #FFCDD2; border-radius: 14px; background: #fff; cursor: pointer; touch-action: manipulation; }
+.story-order-card:hover:not(:disabled) { border-color: #E57373; }
+.story-order-card.used { visibility: hidden; }
+.story-order-img { display: block; width: 100%; height: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 9px; pointer-events: none; }
+
+/* Renk yolu */
+.color-card { min-height: 150px; display: flex; align-items: center; justify-content: center; }
+
+/* 6+ Doğa: bahçedeki çöpleri çöp kutusuna at */
+.litter-stage { position: relative; width: 100%; max-width: 420px; aspect-ratio: 4 / 3; margin: 0 auto 0.6rem; border-radius: 14px; overflow: hidden; background: #A5D6A7; box-shadow: 0 3px 10px rgba(0,0,0,0.12); }
+.litter-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+.litter-item { position: absolute; width: 22%; aspect-ratio: 1 / 1; display: flex; align-items: center; justify-content: center; touch-action: none; cursor: grab; }
+.litter-item-img { display: block; width: 100%; height: 100%; object-fit: contain; pointer-events: none; filter: drop-shadow(0 3px 3px rgba(0,0,0,0.25)); }
+.litter-bin { width: 130px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 0.15rem; padding: 0.3rem; border: 3px dashed #80CBC4; border-radius: 16px; background: #fff; transition: transform 0.2s ease; }
+.litter-bin.litter-bin-pop { transform: scale(1.08); }
+.litter-bin-img { display: block; width: 90px; height: 90px; object-fit: contain; pointer-events: none; }
+.litter-bin-label { font-size: 0.75rem; font-weight: 800; color: #00695C; }
