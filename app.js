@@ -454,8 +454,8 @@ document.addEventListener('DOMContentLoaded', () => {
           eventLabel: '🎭 Kuti sahnede repliklerini unuttu.',
           pics: [G('6_yas/duygu/kuti_unutuyor.jpg'), null, null],
           emotionOptions: [
-            { label: '😨 Endişeli', correct: true },
-            { label: '😴 Uykulu', correct: false },
+            { label: '😢 Üzgün', correct: true },
+            { label: '🤔 Meraklı', correct: false },
             { label: '😊 Mutlu', correct: false }
           ],
           solutionOptions: [
@@ -481,13 +481,31 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
+  // Kuti'nin duygu yüzleri (kök klasördeki kuti_*.png dosyaları)
+  const EMO_FACES = {
+    'Mutlu':    { img: 'kuti_mutlu.png',   emoji: '😊' },
+    'Üzgün':    { img: 'kuti_uzgun.png',   emoji: '😢' },
+    'Kızgın':   { img: 'kuti_ofkeli.png',  emoji: '😠' },
+    'Meraklı':  { img: 'kuti_merakli.png', emoji: '🤔' },
+    'Şaşırmış': { img: 'kuti_sasirmis.png', emoji: '😲' }
+  };
+  function emoName(opt) { return opt.face || opt.name || (opt.label || '').replace(/^[^\p{L}]+/u, '').trim(); }
+
   function renderDuyguChoiceRow(container, options, onPick) {
     container.innerHTML = '';
     options.slice().sort(() => Math.random() - 0.5).forEach(opt => {
       const btn = document.createElement('button');
-      btn.className = 'btn-icon-pill scenario-opt-btn';
-      btn.style.cssText = 'justify-content:flex-start; text-align:left; padding:0.45rem 0.8rem;';
-      btn.textContent = opt.label;
+      const emo = EMO_FACES[emoName(opt)];
+      if (emo) {
+        // Duygu seçenekleri: Kuti'nin o duyguyu gösteren yüzü (yazı/emoji yok)
+        btn.className = 'emo-face-btn';
+        btn.setAttribute('aria-label', emoName(opt));
+        btn.appendChild(makeImg(emo.img, emoName(opt), emo.emoji, 'emo-face-img'));
+      } else {
+        btn.className = 'btn-icon-pill scenario-opt-btn';
+        btn.style.cssText = 'justify-content:flex-start; text-align:left; padding:0.45rem 0.8rem;';
+        btn.textContent = opt.label;
+      }
       btn.addEventListener('click', () => {
         if (btn.disabled) return;
         if (opt.correct) {
@@ -531,8 +549,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const optBox = document.getElementById('duygu3-options');
       data.pool.slice().sort(() => Math.random() - 0.5).forEach(opt => {
         const btn = document.createElement('button');
-        btn.className = 'btn-icon-pill emo-opt-btn';
-        btn.textContent = opt.label;
+        btn.className = 'emo-face-btn';
+        btn.setAttribute('aria-label', opt.name);
+        btn.appendChild(makeImg(opt.image, opt.name, (EMO_FACES[opt.name] || {}).emoji, 'emo-face-img'));
         btn.addEventListener('click', () => {
           if (opt.name === target.name) {
             if (soundEnabled) AudioEngine.playSuccess();
@@ -553,7 +572,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <div id="duygu-pic" class="story-pic"></div>
           <p style="font-size:0.82rem; font-weight:700; color:#B71C1C; margin-bottom:0.55rem;">${scene.text}</p>
           <p style="font-size:0.72rem; color:var(--text-muted); margin-bottom:0.3rem;">1️⃣ Kuti ne hissediyor?</p>
-          <div id="duygu45-step1" style="display:flex; flex-direction:column; gap:0.4rem; align-items:center; margin-bottom:0.6rem;"></div>
+          <div id="duygu45-step1" style="display:flex; flex-wrap:wrap; gap:0.6rem; justify-content:center; margin-bottom:0.6rem;"></div>
           <div id="duygu45-step2" style="display:flex; flex-direction:column; gap:0.4rem; align-items:center;"></div>
         </div>`;
       document.getElementById('duygu-pic').appendChild(makeImg(scene.img, scene.text, '🦊', 'story-pic-img'));
@@ -584,14 +603,15 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="story-slot" id="story-slot-3" data-label="Son">❓</div>
           </div>
           <p style="font-size:0.72rem; color:var(--text-muted); margin-bottom:0.3rem;">1️⃣ Kuti bunu hissediyor olabilir mi?</p>
-          <div id="duygu6-step1" style="display:flex; flex-direction:column; gap:0.4rem; align-items:center; margin-bottom:0.6rem;"></div>
+          <div id="duygu6-step1" style="display:flex; flex-wrap:wrap; gap:0.6rem; justify-content:center; margin-bottom:0.6rem;"></div>
           <div id="duygu6-step2" style="display:flex; flex-direction:column; gap:0.4rem; align-items:center;"></div>
         </div>`;
       const picBox = document.getElementById('duygu-pic');
       const showPic = (src) => { if (!src) return; picBox.innerHTML = ''; picBox.appendChild(makeImg(src, 'Kuti hikâyesi', '🦊', 'story-pic-img')); };
       showPic(scene.pics[0]);
       const slot1 = document.getElementById('story-slot-1');
-      if (scene.startImg) { slot1.textContent = ''; slot1.appendChild(makeImg(scene.startImg, 'Başlangıç', '🎬', 'story-slot-img')); }
+      const slot1Src = scene.startImg || scene.pics[0];
+      if (slot1Src) { slot1.textContent = ''; slot1.appendChild(makeImg(slot1Src, 'Başlangıç', scene.eventLabel.split(' ')[0], 'story-slot-img')); }
       else slot1.textContent = scene.eventLabel.split(' ')[0];
       const step1 = document.getElementById('duygu6-step1');
       const step2 = document.getElementById('duygu6-step2');
@@ -600,7 +620,11 @@ document.addEventListener('DOMContentLoaded', () => {
       p0.textContent = scene.eventLabel;
       step1.parentElement.insertBefore(p0, step1);
       renderDuyguChoiceRow(step1, scene.emotionOptions, (picked) => {
-        document.getElementById('story-slot-2').textContent = picked.label.split(' ')[0];
+        const slot2 = document.getElementById('story-slot-2');
+        const face = EMO_FACES[emoName(picked)];
+        slot2.textContent = '';
+        if (face) slot2.appendChild(makeImg(face.img, emoName(picked), face.emoji, 'story-slot-img'));
+        else slot2.textContent = picked.label.split(' ')[0];
         showPic(scene.pics[1]);
         const p = document.createElement('p');
         p.style.cssText = 'font-size:0.72rem; color:var(--text-muted); margin:0.3rem 0;';
@@ -610,7 +634,10 @@ document.addEventListener('DOMContentLoaded', () => {
         choiceRow.style.cssText = 'display:flex; flex-direction:column; gap:0.4rem; align-items:center;';
         step2.appendChild(choiceRow);
         renderDuyguChoiceRow(choiceRow, scene.solutionOptions, (picked2) => {
-          document.getElementById('story-slot-3').textContent = picked2.label.split(' ')[0];
+          const slot3 = document.getElementById('story-slot-3');
+          slot3.textContent = '';
+          if (scene.pics[2]) slot3.appendChild(makeImg(scene.pics[2], 'Son', picked2.label.split(' ')[0], 'story-slot-img'));
+          else slot3.textContent = picked2.label.split(' ')[0];
           showPic(scene.pics[2]);
           showVisualFeedback('🎉 Hikâyeni harika bir şekilde kurdun!', 'success');
           setTimeout(() => { if (currentAgeLevel === '6+') initDuyguGame('6+'); }, 2600);
@@ -722,7 +749,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // --- GENEL YENİDEN KULLANILABİLİR: HAFIZA/EŞLEŞTİRME OYUNU ---
   // pairs: [{id, icon}] — her biri 2 kart olarak karışık dizilir, çocuk aynı ikona sahip
   // 2 kartı art arda bulmalıdır. Kuti'nin Hafıza Bahçesi gibi oyunlarda kullanılır.
-  function initMemoryMatchGame(container, pairs, successMsg) {
+  function initMemoryMatchGame(container, pairs, successMsg, onDone) {
     if (!container) return;
     container.innerHTML = '';
     const grid = document.createElement('div');
@@ -760,6 +787,7 @@ document.addEventListener('DOMContentLoaded', () => {
             lockBoard = false;
             if (matchedCount === pairs.length) {
               setTimeout(() => showVisualFeedback(successMsg, 'success'), 250);
+              if (typeof onDone === 'function') onDone();
             } else {
               showVisualFeedback('Harika eşleşme!', 'success');
             }
@@ -785,7 +813,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // --- GENEL YENİDEN KULLANILABİLİR OYUN MEKANİKLERİ ---
   // "Sırayla Dokun": items DOĞRU sırayla verilir, ekranda karışık gösterilir.
   // Çocuk doğru sırayla tıkladıkça buton yeşile döner; yanlış tıklarsa sallanır ve hata sesi çalar.
-  function initTapOrderGame(container, items, successMsg) {
+  function initTapOrderGame(container, items, successMsg, onDone) {
     if (!container) return;
     container.innerHTML = '';
     const row = document.createElement('div');
@@ -817,6 +845,7 @@ document.addEventListener('DOMContentLoaded', () => {
           nextIndex++;
           if (nextIndex === items.length) {
             setTimeout(() => showVisualFeedback(successMsg, "success"), 250);
+            if (typeof onDone === 'function') onDone();
           } else {
             showVisualFeedback("Harika, sırada devam edelim!", "info");
           }
@@ -834,7 +863,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // "Bölgeye Sürükle": items bir zoneId'ye sahiptir, zones hedef kutulardır (görselli olabilir).
   // Doğru bölgeye bırakılan eleman bölgenin içine yerleşir; yanlışta sallanıp yerine döner.
-  function initZoneDragGame(bankEl, zonesEl, items, zones, successMsg) {
+  function initZoneDragGame(bankEl, zonesEl, items, zones, successMsg, onDone) {
     if (!bankEl || !zonesEl) return;
     bankEl.innerHTML = '';
     zonesEl.innerHTML = '';
@@ -873,7 +902,7 @@ document.addEventListener('DOMContentLoaded', () => {
           t.classList.add('placed');
           target.querySelector('.dnd-zone-items').appendChild(t);
           remaining--;
-          if (remaining === 0) setTimeout(() => showVisualFeedback(successMsg, "success"), 250);
+          if (remaining === 0) { setTimeout(() => showVisualFeedback(successMsg, "success"), 250); if (typeof onDone === 'function') onDone(); }
           else showVisualFeedback("Doğru yere yerleşti!", "success");
         } else {
           if (soundEnabled) AudioEngine.playTone(300, 0.2);
@@ -891,11 +920,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // 4-5 yaş: Kuti'nin Bahçesini Tamamlıyorum (bahçeye uygun nesneleri yerleştir - sürükle-bırak)
   // 6 yaş: Kuti'nin Örüntü Bahçesi (renk/şekil/boyut örüntüsünü tamamla - çoklu kriter)
   const GARDEN_STEPS = [
-    { id: 'sun',    icon: '☀️', name: 'Güneş', scene: 'gunesli_bahce' },
-    { id: 'tree',   icon: '🌳', name: 'Ağaç',  scene: 'agacli_bahce' },
-    { id: 'bench',  icon: '🪑', name: 'Bank',  scene: 'bankli_bahce' },
-    { id: 'grass',  icon: '🌱', name: 'Çimen', scene: 'cimenli_bahce' },
-    { id: 'flower', icon: '🌸', name: 'Çiçek', scene: 'cicekli_bahce' }
+    { id: 'sun',    icon: '☀️', name: 'Güneş', scene: 'gunesli_bahce', img: G('4_5_yas/doga/kuti_sevimli_gunes.png') },
+    { id: 'tree',   icon: '🌳', name: 'Ağaç',  scene: 'agacli_bahce',  img: G('4_5_yas/beceri/kuti_agac.png') },
+    { id: 'bench',  icon: '🪑', name: 'Bank',  scene: 'bankli_bahce',  img: G('4_5_yas/beceri/kuti_bank.png') },
+    { id: 'grass',  icon: '🌱', name: 'Çimen', scene: 'cimenli_bahce', img: G('4_5_yas/beceri/kuti_cimen.png') },
+    { id: 'flower', icon: '🌸', name: 'Çiçek', scene: 'cicekli_bahce', img: G('4_5_yas/doga/kuti_cicek.jpg') }
   ];
 
   // 4-5 yaş: bahçe sahnesi adım adım tamamlanır (görseller bu sırayla hazırlandığı için sıra sabit)
@@ -928,7 +957,11 @@ document.addEventListener('DOMContentLoaded', () => {
       tile.className = 'garden-tile';
       tile.setAttribute('role', 'button');
       tile.setAttribute('aria-label', s.name);
-      tile.innerHTML = `<span class="garden-tile-icon">${s.icon}</span><span class="garden-tile-label">${s.name}</span>`;
+      tile.appendChild(makeImg(s.img, s.name, s.icon, 'garden-tile-img'));
+      const tl = document.createElement('span');
+      tl.className = 'garden-tile-label';
+      tl.textContent = s.name;
+      tile.appendChild(tl);
       dnd.attach(tile, (t) => {
         if (s.id === GARDEN_STEPS[step].id) {
           if (soundEnabled) AudioEngine.playSuccess();
@@ -940,6 +973,7 @@ document.addEventListener('DOMContentLoaded', () => {
           setHint();
           if (step === GARDEN_STEPS.length) {
             setTimeout(() => showVisualFeedback('🎉 Bahçeyi harika bir şekilde tamamladın!', 'success'), 300);
+            gameDone('beceri', 3500);
             setTimeout(() => { if (currentAgeLevel === '4-5') initBeceriGame('4-5'); }, 5000);
           } else {
             showVisualFeedback('Harika, bahçe güzelleşiyor!', 'info');
@@ -994,6 +1028,7 @@ document.addEventListener('DOMContentLoaded', () => {
           if (c.id === target.id) {
             if (soundEnabled) AudioEngine.playSuccess();
             showVisualFeedback('🎉 Doğru renge dokundun!', 'success');
+            gameDone('beceri', 1800);
             initBeceriGame('3');
           } else {
             if (soundEnabled) AudioEngine.playTone(300, 0.2);
@@ -1045,6 +1080,7 @@ document.addEventListener('DOMContentLoaded', () => {
           if (opt === p.next) {
             if (soundEnabled) AudioEngine.playSuccess();
             showVisualFeedback('🎉 Örüntü başarıyla tamamlandı!', 'success');
+            gameDone('beceri', 1800);
             setTimeout(() => { if (currentAgeLevel === '6+') initBeceriGame('6+'); }, 1200);
           } else {
             if (soundEnabled) AudioEngine.playTone(300, 0.2);
@@ -1123,6 +1159,7 @@ document.addEventListener('DOMContentLoaded', () => {
           if (soundEnabled) AudioEngine.playSuccess();
           if (puzzleBank.children.length === 0) {
             setTimeout(() => showVisualFeedback("🎉 Harika! Kuti Yapbozunu Tamamladın!", "success"), 300);
+            gameDone('beceri', 2800);
           }
         }
       });
@@ -1139,7 +1176,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (level !== '6+') return;
 
     const title = document.createElement('p');
-    title.style.cssText = 'text-align:center; font-size:0.82rem; font-weight:700; color:#2E7D32; margin-bottom:0.5rem; border-top:2px dashed #C8E6C9; padding-top:0.8rem;';
+    title.style.cssText = 'text-align:center; font-size:0.82rem; font-weight:700; color:#2E7D32; margin-bottom:0.5rem; ';
     title.textContent = "🧠 Kuti'nin Hafıza Bahçesi";
     wrapper.appendChild(title);
     const grid = document.createElement('div');
@@ -1152,7 +1189,7 @@ document.addEventListener('DOMContentLoaded', () => {
       { id: 'flower', icon: '🌸', img: G('6_yas/beceri/cicek_oruntu.jpg') },
       { id: 'tulip',  icon: '🌷', img: G('6_yas/beceri/lale_oruntu.jpg') },
       { id: 'sunfl',  icon: '🌻', img: G('6_yas/beceri/aycicegi_oruntu.jpg') }
-    ], '🎉 Harika hafıza! Bütün çiftleri buldun!');
+    ], '🎉 Harika hafıza! Bütün çiftleri buldun!', () => gameDone('beceri', 2800));
   }
 
   // --- ÖZ BAKIM KÖŞESİ — OYUN 1: TEMİZLİK/RUTİN (her yaş için ayrı gerçek mekanik) ---
@@ -1264,6 +1301,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function finishIfDone() {
       if (matched === steps.length) {
         setTimeout(() => showVisualFeedback("✨ Harika! Kuti'nin elleri tertemiz oldu!", "success"), 300);
+        gameDone('ozbakim', 3200);
         setTimeout(() => {
           if (document.body.contains(board) && currentAgeLevel === '3') initOzbakimOralGame('3');
         }, 5000);
@@ -1412,7 +1450,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: 'go',     label: 'Dışarı Hazırlanma', emoji: '🎒', img: G('6_yas/oz_bakim/kuti_disari_cikma.jpg') },
         { id: 'pajama', label: 'Pijama',            emoji: '🩳', img: G('6_yas/oz_bakim/kuti_pijama.jpg') },
         { id: 'sleep',  label: 'Uyuma',             emoji: '🌙', img: G('6_yas/oz_bakim/kuti_uyuma.jpg') }
-      ], "🎉 Kuti'nin bütün günü doğru sıraya kondu!");
+      ], "🎉 Kuti'nin bütün günü doğru sıraya kondu!", () => gameDone('ozbakim', 2800));
     } else {
       // 4-5 Yaş: Kuti'nin Sabah Sırası — görselli kartlarla sabah rutini
       const title = document.createElement('p');
@@ -1426,7 +1464,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: 'wash',  label: 'Yüz Yıkama',    emoji: '🚿', img: G('4_5_yas/oz_bakim/kuti_yuz_yikama.jpg') },
         { id: 'brush', label: 'Diş Fırçalama', emoji: '🪥', img: G('4_5_yas/oz_bakim/kuti_dis_fircalama.jpg') },
         { id: 'dress', label: 'Giyinme',       emoji: '👕', img: G('4_5_yas/oz_bakim/kuti_giyinme.jpg') }
-      ], "🎉 Sabah rutini doğru sıraya kondu!");
+      ], "🎉 Sabah rutini doğru sıraya kondu!", () => gameDone('ozbakim', 2800));
     }
   }
 
@@ -1496,6 +1534,7 @@ document.addEventListener('DOMContentLoaded', () => {
           dressContainer.querySelectorAll('.dress-card').forEach(o => { if (o !== card) o.classList.add('dim'); });
           if (soundEnabled) AudioEngine.playSuccess();
           showVisualFeedback(info.msg, 'success');
+          gameDone('ozbakim', 2600);
           setTimeout(() => { if (currentAgeLevel === level) initOzbakimDressGame(level, cfg); }, 3000);
         } else {
           if (soundEnabled) AudioEngine.playTone(300, 0.2);
@@ -1570,6 +1609,7 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.classList.add('correct');
             if (soundEnabled) AudioEngine.playSuccess();
             showVisualFeedback('🎉 Doğru hava durumunu buldun!', 'success');
+            gameDone('doga', 1800);
             setTimeout(() => { if (currentAgeLevel === '3') initDogaMevsimGame('3'); }, 1800);
           } else {
             if (soundEnabled) AudioEngine.playTone(300, 0.2);
@@ -1610,6 +1650,7 @@ document.addEventListener('DOMContentLoaded', () => {
           btn.classList.add('correct');
           if (soundEnabled) AudioEngine.playSuccess();
           showVisualFeedback(`${s.emoji} ${s.label} doğru cevap, harikasın!`, 'success');
+          gameDone('doga', 2200);
           setTimeout(() => { if (currentAgeLevel === level) initDogaMevsimGame(level); }, 2200);
         } else {
           if (soundEnabled) AudioEngine.playTone(300, 0.2);
@@ -1631,18 +1672,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (level === '6+') {
       wrapper.innerHTML = `
-        <p style="text-align:center; font-size:0.85rem; font-weight:700; color:#004D40; margin-bottom:0.4rem;">🌿 Bitkinin Yaşam Döngüsünü Sırala</p>
-        <div id="doga-lifecycle-row" style="margin-bottom:1rem;"></div>
-        <p style="text-align:center; font-size:0.85rem; font-weight:700; color:#004D40; margin-bottom:0.4rem;">🧹 Kuti'nin Bahçesini Temizliyorum</p>
-        <div id="doga-recycle-bank" class="zone-item-bank"></div>
-        <div id="doga-recycle-zones" class="zone-drop-grid"></div>`;
+        <div id="doga-lifecycle-block">
+          <p style="text-align:center; font-size:0.85rem; font-weight:700; color:#004D40; margin-bottom:0.4rem;">🌿 Bitkinin Yaşam Döngüsünü Sırala</p>
+          <div id="doga-lifecycle-row"></div>
+        </div>
+        <div id="doga-recycle-block">
+          <p style="text-align:center; font-size:0.85rem; font-weight:700; color:#004D40; margin-bottom:0.4rem;">🧹 Kuti'nin Bahçesini Temizliyorum</p>
+          <div id="doga-recycle-bank" class="zone-item-bank"></div>
+          <div id="doga-recycle-zones" class="zone-drop-grid"></div>
+        </div>`;
 
       initTapOrderGame(document.getElementById('doga-lifecycle-row'), [
-        { id: 'seed', html: '🌰<br><span style="font-size:0.6rem;">Tohum</span>' },
-        { id: 'sprout', html: '🌱<br><span style="font-size:0.6rem;">Filiz</span>' },
-        { id: 'sapling', html: '🌿<br><span style="font-size:0.6rem;">Fidan</span>' },
-        { id: 'tree', html: '🌳<br><span style="font-size:0.6rem;">Ağaç</span>' }
-      ], "🎉 Bitkinin büyüme sırası doğru kuruldu!");
+        { id: 'seed',    label: 'Tohum', emoji: '🌰', img: G('4_5_yas/doga/kuti_tohum.jpg') },
+        { id: 'sprout',  label: 'Filiz', emoji: '🌱', img: G('4_5_yas/doga/kuti_filiz.jpg') },
+        { id: 'sapling', label: 'Fidan', emoji: '🌿', img: G('6_yas/doga/kuti_fidan.jpg') },
+        { id: 'tree',    label: 'Ağaç',  emoji: '🌳', img: G('6_yas/doga/kuti_agac.jpg') }
+      ], "🎉 Bitkinin büyüme sırası doğru kuruldu!", () => gameDone('doga', 2800));
 
       initZoneDragGame(
         document.getElementById('doga-recycle-bank'),
@@ -1658,7 +1703,8 @@ document.addEventListener('DOMContentLoaded', () => {
           { id: 'nature', icon: '🌳', label: 'Doğa Alanı', img: G('6_yas/doga/bos_bahce.jpg') },
           { id: 'trash',  icon: '🗑️', label: 'Çöp Kutusu', img: G('6_yas/doga/cop_kutusu.png') }
         ],
-        '🎉 Bahçe tertemiz oldu, doğa korundu!'
+        '🎉 Bahçe tertemiz oldu, doğa korundu!',
+        () => gameDone('doga', 2800)
       );
     } else if (level === '4-5') {
       // Kuti Tohum Yetiştiriyor — görselli kartlarla doğru sırayı bul
@@ -1674,7 +1720,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: 'water',  label: 'Su',           emoji: '💧', img: G('4_5_yas/doga/kuti_su_damlasi.jpg') },
         { id: 'sun',    label: 'Güneş',        emoji: '☀️', img: G('4_5_yas/doga/kuti_sevimli_gunes.png') },
         { id: 'flower', label: 'Çiçek',        emoji: '🌸', img: G('4_5_yas/doga/kuti_cicek.jpg') }
-      ], '🎉 Kuti tohumunu harika bir şekilde yetiştirdi!');
+      ], '🎉 Kuti tohumunu harika bir şekilde yetiştirdi!', () => gameDone('doga', 2800));
     } else {
       // 3 Yaş: suyu, sonra güneşi saksıya sürükle — saksı filiz, sonra çiçek olur
       const title = document.createElement('p');
@@ -1720,6 +1766,7 @@ document.addEventListener('DOMContentLoaded', () => {
             setHint();
             if (step === order.length) {
               setTimeout(() => showVisualFeedback('🎉 Tebrikler! Bitkini besleyerek koca bir çiçek yaptın!', 'success'), 400);
+              gameDone('doga', 3200);
               setTimeout(() => { if (currentAgeLevel === '3') initDogaGardenGame('3'); }, 5000);
             } else {
               showVisualFeedback('Harika, bitki filizlendi!', 'info');
@@ -1795,6 +1842,56 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
+  // ===== OYUN SAYFALARI: köşedeki oyunlar alt alta değil, sırayla ayrı sayfalarda =====
+  const PAGE_DEFS = {
+    beceri:  (lvl) => lvl === '6+' ? [['#sirala-grid'], ['.puzzle-game-container'], ['#beceri-extra-wrapper']] : [['#sirala-grid'], ['.puzzle-game-container']],
+    ozbakim: () => [['#ozbakim-oral-wrapper'], ['#ozbakim-dress-block']],
+    doga:    (lvl) => lvl === '6+' ? [['#doga-mevsim-block'], ['#doga-garden-wrapper', '#doga-lifecycle-block'], ['#doga-garden-wrapper', '#doga-recycle-block']] : [['#doga-mevsim-block'], ['#doga-garden-wrapper']]
+  };
+  const gamePage = { beceri: 0, ozbakim: 0, doga: 0 };
+  const gameAdvanceTimer = {};
+
+  function renderGamePages(corner) {
+    const stage = document.querySelector('#' + corner + '-game-stage > div');
+    if (!stage || !PAGE_DEFS[corner]) return;
+    const pages = PAGE_DEFS[corner](currentAgeLevel);
+    const all = new Set();
+    pages.forEach(p => p.forEach(s => all.add(s)));
+    if (corner === 'beceri') all.add('#beceri-extra-wrapper');
+    if (corner === 'doga') { all.add('#doga-lifecycle-block'); all.add('#doga-recycle-block'); }
+    all.forEach(sel => { const el = stage.querySelector(sel); if (el) el.style.display = 'none'; });
+    const cur = Math.min(gamePage[corner], pages.length - 1);
+    pages[cur].forEach(sel => { const el = stage.querySelector(sel); if (el) el.style.display = ''; });
+
+    let bar = stage.querySelector('.game-pager');
+    if (!bar) {
+      bar = document.createElement('div');
+      bar.className = 'game-pager';
+      stage.insertBefore(bar, stage.firstChild);
+      bar.addEventListener('click', (e) => {
+        const d = e.target.closest('.game-pager-dot');
+        if (d) { gamePage[corner] = parseInt(d.dataset.i, 10); renderGamePages(corner); }
+      });
+    }
+    bar.innerHTML = `<span class="game-pager-label">Oyun ${cur + 1} / ${pages.length}</span>` +
+      pages.map((_, i) => `<button type="button" class="game-pager-dot${i === cur ? ' active' : ''}" data-i="${i}" aria-label="Oyun ${i + 1}"></button>`).join('');
+  }
+
+  // Bir oyun bitince kısa bir süre sonra sıradaki oyunun sayfasına geçilir (son oyundan sonra başa döner)
+  function gameDone(corner, delay) {
+    if (!PAGE_DEFS[corner]) return;
+    clearTimeout(gameAdvanceTimer[corner]);
+    gameAdvanceTimer[corner] = setTimeout(() => {
+      const n = PAGE_DEFS[corner](currentAgeLevel).length;
+      gamePage[corner] = (gamePage[corner] + 1) % n;
+      renderGamePages(corner);
+    }, delay || 2200);
+  }
+
+  function resetGamePages() {
+    Object.keys(PAGE_DEFS).forEach(k => { clearTimeout(gameAdvanceTimer[k]); gamePage[k] = 0; renderGamePages(k); });
+  }
+
   function updateAgeSystem(level) {
     currentAgeLevel = level;
     const cfg = ageConfig[level];
@@ -1816,6 +1913,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initOzbakimDressGame(level, cfg);
     initDogaMevsimGame(level);
     initDogaGardenGame(level);
+    resetGamePages();
   }
 
   document.querySelectorAll('input[name="age-group"]').forEach(radio => {

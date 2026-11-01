@@ -2188,3 +2188,32 @@ div.parent-modal-box .modal-close-btn:hover {
 .dnd-item { width: 78px; height: 78px; border-radius: 16px; background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.14); display: flex; align-items: center; justify-content: center; font-size: 2rem; touch-action: none; user-select: none; -webkit-user-select: none; overflow: hidden; }
 .dnd-item-img { display: block; width: 88%; height: 88%; object-fit: contain; pointer-events: none; }
 .dress-card.dress-card--white, .dress-card.dress-card--white .dress-card-frame { background: #fff; }
+
+/* Duygu yüzü seçenekleri */
+.emo-face-btn { width: 92px; height: 92px; padding: 0.2rem; border: 3px solid #FFCDD2; border-radius: 18px; background: #fff; cursor: pointer; touch-action: manipulation; display: flex; align-items: center; justify-content: center; }
+.emo-face-btn:hover { border-color: #E57373; }
+.emo-face-btn:disabled { cursor: default; }
+.emo-face-img { display: block; width: 100%; height: 100%; object-fit: contain; border-radius: 12px; pointer-events: none; }
+
+/* Oyun sayfaları göstergesi */
+.game-pager { display: flex; align-items: center; justify-content: center; gap: 0.4rem; margin-bottom: 0.6rem; }
+.game-pager-label { font-size: 0.72rem; font-weight: 800; color: var(--corner-color, #5E35B1); margin-right: 0.3rem; }
+.game-pager-dot { width: 10px; height: 10px; border-radius: 50%; border: 0; padding: 0; background: rgba(0,0,0,0.18); cursor: pointer; }
+.game-pager-dot.active { background: var(--corner-color, #5E35B1); transform: scale(1.25); }
+
+/* Görsellerin aynı ortalama boyutta olması (Öz Bakım, Doğa, Beceri) */
+:root { --pic: clamp(96px, 27vw, 150px); }
+.tap-order-row.pic-row { max-width: calc(var(--pic) * 2 + 1.2rem); margin: 0 auto; justify-content: center; }
+.tap-order-row.pic-row.pic-row-many { max-width: calc(var(--pic) * 3 + 1.8rem); }
+.tap-order-btn.pic-card { width: var(--pic); }
+.pic-row-many .tap-order-btn.pic-card { width: var(--pic); }
+.pic-card-img { aspect-ratio: 1 / 1; object-fit: cover; }
+.hw-board { max-width: calc(var(--pic) * 3 + 1.5rem); }
+.hw-scene { aspect-ratio: 1 / 1; object-fit: cover; }
+.dress-card { flex: 0 0 var(--pic); width: var(--pic); max-width: var(--pic); }
+.dress-card-frame { aspect-ratio: 4 / 5; display: flex; align-items: center; justify-content: center; }
+.dress-card-img { width: 100%; height: 100%; object-fit: contain; }
+.season-card-img { aspect-ratio: 1 / 1; object-fit: cover; }
+.garden-tile-img { display: block; width: 44px; height: 44px; object-fit: contain; pointer-events: none; }
+.garden-tile { gap: 2px; }
+.dnd-item { width: var(--pic); height: var(--pic); max-width: 96px; max-height: 96px; }
