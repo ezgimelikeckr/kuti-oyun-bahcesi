@@ -409,7 +409,7 @@ document.addEventListener('DOMContentLoaded', () => {
       title: "💭 Kuti Ne Hissediyor?",
       scenes: [
         { img: G('kuti_oyuncagini_kaybediyor.jpg'), answer: 'Üzgün',  others: ['Mutlu', 'Kızgın'] },
-        { img: G('kuti_kule_dusuyor.jpg'),          answer: 'Kızgın', others: ['Mutlu', 'Meraklı'] }
+        { img: G('kuti_kule_dusuyor.jpg'),          answer: 'Şaşırmış', others: ['Mutlu', 'Kızgın'] }
       ]
     },
     '6+': {
@@ -561,23 +561,27 @@ document.addEventListener('DOMContentLoaded', () => {
       wrapper.innerHTML = `
         <div style="text-align:center;">
           <p style="font-size:0.85rem; font-weight:700; color:var(--corner-color); margin-bottom:0.5rem;">${data.title}</p>
-          <img src="${target.image}" alt="Kuti" class="mirror-face-img" id="duygu3-face-img">
+          <div class="duygu3-face-frame" id="duygu3-face-frame"></div>
           <p style="font-size:0.8rem; font-weight:700; color:#B71C1C; margin:0.5rem 0;">${data.instruction}</p>
-          <div id="duygu3-options" style="display:flex; gap:0.5rem; justify-content:center; flex-wrap:wrap;"></div>
+          <div id="duygu3-options" class="emo-emoji-row"></div>
         </div>`;
+      document.getElementById('duygu3-face-frame').appendChild(makeImg(target.image, 'Kuti', (EMO_FACES[target.name] || {}).emoji, 'duygu3-face-img'));
       const optBox = document.getElementById('duygu3-options');
       data.pool.slice().sort(() => Math.random() - 0.5).forEach(opt => {
         const btn = document.createElement('button');
-        btn.className = 'emo-face-btn';
+        btn.type = 'button';
+        btn.className = 'emo-emoji-btn';
         btn.setAttribute('aria-label', opt.name);
-        btn.appendChild(makeImg(opt.image, opt.name, (EMO_FACES[opt.name] || {}).emoji, 'emo-face-img'));
+        btn.textContent = (EMO_FACES[opt.name] || {}).emoji || opt.label;
         btn.addEventListener('click', () => {
           if (opt.name === target.name) {
             if (soundEnabled) AudioEngine.playSuccess();
             showVisualFeedback(`Evet, Kuti ${opt.name.toLowerCase()}! 🎉`, 'success');
-            initDuyguGame('3');
+            setTimeout(() => { if (currentAgeLevel === '3') initDuyguGame('3'); }, 900);
           } else {
             if (soundEnabled) AudioEngine.playTone(300, 0.2);
+            btn.classList.add('dnd-shake');
+            setTimeout(() => btn.classList.remove('dnd-shake'), 400);
             showVisualFeedback('Tekrar deneyelim.', 'error');
           }
         });
@@ -883,20 +887,26 @@ document.addEventListener('DOMContentLoaded', () => {
     const stage = document.createElement('div');
     stage.className = 'garden-stage';
     stage.dataset.drop = 'garden';
+    const progress = document.createElement('div');
+    progress.className = 'garden-progress';
     const hint = document.createElement('p');
     hint.className = 'garden-hint';
     const bank = document.createElement('div');
     bank.className = 'garden-bank';
     container.appendChild(title);
     container.appendChild(stage);
+    container.appendChild(progress);
     container.appendChild(hint);
     container.appendChild(bank);
 
     const sceneImg = (file) => makeImg(G(file + '.jpg'), 'Kuti\'nin bahçesi', '🏡', 'garden-img');
     stage.appendChild(sceneImg('bulutlu_bahce'));
     let step = 0;
-    const setHint = () => { hint.textContent = step < GARDEN_STEPS.length ? `Sıradaki: ${GARDEN_STEPS[step].icon} ${GARDEN_STEPS[step].name} — bahçeye sürükle!` : ''; };
-    setHint();
+    const refresh = () => {
+      progress.innerHTML = GARDEN_STEPS.map((s, i) => `<span class="garden-dot${i < step ? ' done' : (i === step ? ' next' : '')}">${s.icon}</span>`).join('');
+      hint.textContent = step < GARDEN_STEPS.length ? `Sıradaki: ${GARDEN_STEPS[step].name} — bahçeye sürükle!` : '';
+    };
+    refresh();
 
     const dnd = createDnD(container);
     GARDEN_STEPS.slice().sort(() => Math.random() - 0.5).forEach(s => {
@@ -917,7 +927,7 @@ document.addEventListener('DOMContentLoaded', () => {
           stage.innerHTML = '';
           stage.appendChild(sceneImg(s.scene));
           step++;
-          setHint();
+          refresh();
           if (step === GARDEN_STEPS.length) {
             setTimeout(() => showVisualFeedback('🎉 Bahçeyi harika bir şekilde tamamladın!', 'success'), 300);
             gameDone('beceri', 3500);
@@ -929,7 +939,7 @@ document.addEventListener('DOMContentLoaded', () => {
           if (soundEnabled) AudioEngine.playTone(300, 0.2);
           t.classList.add('dnd-shake');
           setTimeout(() => t.classList.remove('dnd-shake'), 400);
-          showVisualFeedback(`Önce ${GARDEN_STEPS[step].icon} ${GARDEN_STEPS[step].name} lazım, onu dene.`, 'error');
+          showVisualFeedback(`Önce ${GARDEN_STEPS[step].name} lazım, onu dene.`, 'error');
         }
       });
       bank.appendChild(tile);
@@ -990,56 +1000,66 @@ document.addEventListener('DOMContentLoaded', () => {
     } else if (level === '4-5') {
       initGardenBuildGame(beceriContainer);
     } else {
-      let pi = Math.floor(Math.random() * BECERI6_PATTERNS.length);
-      if (pi === lastBeceri6) pi = (pi + 1) % BECERI6_PATTERNS.length;
-      lastBeceri6 = pi;
-      const p = BECERI6_PATTERNS[pi];
-      beceriContainer.innerHTML = `
-        <div style="text-align:center;">
-          <p style="font-size:0.82rem; font-weight:700; color:#2E7D32; margin-bottom:0.3rem;">🪴 Kuti'nin Örüntü Bahçesi</p>
-          <p style="font-size:0.72rem; color:var(--text-muted); margin-bottom:0.5rem;">Sıradaki hangisi olmalı?</p>
-          <div id="beceri-pattern-row" class="pat-row"></div>
-          <div id="beceri-pattern-choices" class="pat-choices"></div>
-        </div>`;
-      const row = document.getElementById('beceri-pattern-row');
-      if (p.kind === 'strip') {
-        row.appendChild(makeImg(G(p.strip + '.jpg'), 'Örüntü', '🔁', 'pat-strip'));
-      } else {
-        p.seq.forEach(f => {
-          const im = makeImg(G(f + '.jpg'), 'Fil', '🐘', 'pat-fil');
-          im.style.height = FIL_HEIGHT[f] + 'px';
-          row.appendChild(im);
-        });
-      }
-      const q = document.createElement('div');
-      q.className = 'pat-q';
-      q.textContent = '❓';
-      row.appendChild(q);
-
-      const choicesBox = document.getElementById('beceri-pattern-choices');
-      [p.next, p.wrong].sort(() => Math.random() - 0.5).forEach(opt => {
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = 'pat-opt';
-        const im = makeImg(G(opt.f + '.jpg'), 'Seçenek', opt.e, 'pat-opt-img');
-        if (p.kind === 'size') im.style.height = Math.round(FIL_HEIGHT[opt.f] * 0.75) + 'px';
-        btn.appendChild(im);
-        btn.addEventListener('click', () => {
-          if (opt === p.next) {
-            if (soundEnabled) AudioEngine.playSuccess();
-            showVisualFeedback('🎉 Örüntü başarıyla tamamlandı!', 'success');
-            gameDone('beceri', 1800);
-            setTimeout(() => { if (currentAgeLevel === '6+') initBeceriGame('6+'); }, 1200);
-          } else {
-            if (soundEnabled) AudioEngine.playTone(300, 0.2);
-            btn.classList.add('dnd-shake');
-            setTimeout(() => btn.classList.remove('dnd-shake'), 400);
-            showVisualFeedback('Örüntüye tekrar bak, sırada ne gelmeli?', 'error');
-          }
-        });
-        choicesBox.appendChild(btn);
-      });
+      initSizeSortGame(beceriContainer);
     }
+  }
+
+  // 6 yaş: fillerini küçükten büyüğe ya da büyükten küçüğe sırala
+  const FIL_ORDER = ['en_kucuk_fil', 'kucuk_fil', 'ortanca_fil', 'buyuk_fil', 'en_buyuk_fil'];
+  function initSizeSortGame(container) {
+    const asc = Math.random() < 0.5;
+    const target = asc ? FIL_ORDER.slice() : FIL_ORDER.slice().reverse();
+    container.innerHTML = `
+      <div style="text-align:center;">
+        <p style="font-size:0.85rem; font-weight:700; color:#2E7D32; margin-bottom:0.3rem;">🐘 Kuti'nin Filleri</p>
+        <p style="font-size:0.8rem; font-weight:700; color:#1B5E20; margin-bottom:0.5rem;">${asc ? 'Küçükten büyüğe doğru sırala!' : 'Büyükten küçüğe doğru sırala!'}</p>
+        <div id="size-slots" class="size-slots"></div>
+        <div id="size-cards" class="size-cards"></div>
+      </div>`;
+    const slotsEl = document.getElementById('size-slots');
+    const cardsEl = document.getElementById('size-cards');
+    target.forEach((f, i) => {
+      const slot = document.createElement('div');
+      slot.className = 'size-slot';
+      slot.dataset.i = i;
+      slot.innerHTML = `<span class="size-slot-num">${i + 1}</span>`;
+      slotsEl.appendChild(slot);
+    });
+    let next = 0;
+    const sized = (f, scale) => { const im = makeImg(G(f + '.jpg'), 'Fil', '🐘', 'size-img'); im.style.height = Math.round(FIL_HEIGHT[f] * scale) + 'px'; return im; };
+    FIL_ORDER.slice().sort(() => Math.random() - 0.5).forEach(f => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'size-card';
+      btn.setAttribute('aria-label', 'Fil');
+      btn.appendChild(sized(f, 0.8));
+      btn.addEventListener('click', () => {
+        if (btn.disabled) return;
+        if (f === target[next]) {
+          btn.disabled = true;
+          btn.classList.add('used');
+          if (soundEnabled) AudioEngine.playSuccess();
+          const slot = slotsEl.querySelector(`[data-i="${next}"]`);
+          slot.innerHTML = '';
+          slot.classList.add('filled');
+          slot.appendChild(sized(f, 0.8));
+          next++;
+          if (next === target.length) {
+            showVisualFeedback('🎉 Filleri doğru sıraya dizdin!', 'success');
+            gameDone('beceri', 2200);
+            setTimeout(() => { if (currentAgeLevel === '6+') initBeceriGame('6+'); }, 3200);
+          } else {
+            showVisualFeedback('Harika, sıradaki hangisi?', 'info');
+          }
+        } else {
+          if (soundEnabled) AudioEngine.playTone(300, 0.2);
+          btn.classList.add('dnd-shake');
+          setTimeout(() => btn.classList.remove('dnd-shake'), 400);
+          showVisualFeedback(asc ? 'Önce en küçük olanı bul.' : 'Önce en büyük olanı bul.', 'error');
+        }
+      });
+      cardsEl.appendChild(btn);
+    });
   }
 
   function initRealImagePuzzle(level) {
@@ -1153,17 +1173,28 @@ document.addEventListener('DOMContentLoaded', () => {
   const IMG_ALIAS = { 'kuti_oyuncagini_kaybediyor': ['kuti_oyuncağını_kaybediyor'] };
   const IMG_EXTRA_DIRS = ['gorseller/', '', 'images/', 'img/'];
   ['3_yas', '4_5_yas', '6_yas'].forEach(a => ['beceri', 'doga', 'duygu', 'oz_bakim'].forEach(c => IMG_EXTRA_DIRS.push('gorseller/' + a + '/' + c + '/')));
+  // zip'ten çıkan ham klasör adları (kuti_oyun/3 yas_grubu/beceri_kosesi/ ...)
+  ['3 yas_grubu', '4_5_yas_grubu', '6_yas_grubu'].forEach(a => ['beceri_kosesi', 'doga_kosesi', 'duygu_kosesi', 'oz_bakim_kosesi'].forEach(c => { IMG_EXTRA_DIRS.push(a + '/' + c + '/'); IMG_EXTRA_DIRS.push('kuti_oyun/' + a + '/' + c + '/'); }));
+
+  // Dosya adı anahtarı: küçük harf, Türkçe karakter ve uzantı yok (gorsel_tara.py ile aynı kural)
+  function imgKey(name) {
+    return name.replace(/\.[a-zA-Z0-9]+$/, '').normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      .replace(/ı/g, 'i').replace(/İ/g, 'i').toLowerCase().replace(/\s+/g, '_');
+  }
+
   function imgCandidates(src) {
     if (IMG_OK[src]) return [IMG_OK[src]];
     const m = src.match(/^(.*\/)?([^\/]+?)(\.[a-zA-Z0-9]+)?$/);
     const dir = m[1] || '', name = m[2], ext = (m[3] || '').toLowerCase();
+    // gorsel_listesi.js varsa (python gorsel_tara.py), dosyanın projedeki gerçek yeri önce oradan denenir
+    const list = (typeof window !== 'undefined' && window.GORSEL_LISTESI) || null;
+    const listed = list ? (list[imgKey(name)] || (IMG_ALIAS[name] || []).map(a => list[imgKey(a)]).filter(Boolean)[0] || []) : [];
     const names = [name].concat(IMG_ALIAS[name] || []);
     const dirs = [dir].concat(IMG_EXTRA_DIRS).filter((d, i, arr) => arr.indexOf(d) === i);
     const exts = [ext, '.jpg', '.png', '.jpeg', '.webp'].filter((e, i, arr) => e && arr.indexOf(e) === i);
     const out = [];
-    // önce asıl uzantı tüm klasörlerde, sonra diğer uzantılar
     exts.forEach(e => dirs.forEach(d => names.forEach(n => out.push(d + n + e))));
-    return out;
+    return listed.concat(out.filter(p => !listed.includes(p)));
   }
 
   function setImgWithFallback(img, srcList, onAllFail) {
@@ -1668,6 +1699,87 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Bitki büyütme: 3 yaşta 1 su + 1 güneş, 4-5 yaşta tohum + 2 su + 2 güneş (aynı oyun, farklı sayılar)
+  const PLANT_ITEMS = {
+    seed:  { name: 'Tohum', emoji: '🌰', img: G('kuti_tohum.jpg') },
+    water: { name: 'Su',    emoji: '💧', img: G('kuti_su_damlasi.jpg') },
+    sun:   { name: 'Güneş', emoji: '☀️', img: G('kuti_sevimli_gunes.png') }
+  };
+  const PLANT_CFG = {
+    '3':   { title: '🌱 Suyu ve Güneşi Saksıya Sürükle', sequence: ['water', 'sun'],
+             stages: ['kuti_saksi.jpg', 'kuti_filiz.jpg', 'kuti_cicek.jpg'],
+             done: '🎉 Tebrikler! Bitkini besleyerek koca bir çiçek yaptın!' },
+    '4-5': { title: '🌱 Kuti Tohum Yetiştiriyor', sequence: ['seed', 'water', 'sun', 'water', 'sun'],
+             stages: ['kuti_saksi.jpg', 'kuti_saksi.jpg', 'kuti_saksi.jpg', 'kuti_filiz.jpg', 'kuti_filiz.jpg', 'kuti_cicek.jpg'],
+             done: '🎉 Kuti tohumunu harika bir şekilde yetiştirdi!' }
+  };
+
+  function initPlantGrowGame(wrapper, cfg, level) {
+    wrapper.innerHTML = '';
+    const title = document.createElement('p');
+    title.style.cssText = 'text-align:center; font-size:0.85rem; font-weight:700; color:#004D40; margin-bottom:0.5rem;';
+    title.textContent = cfg.title;
+    const stage = document.createElement('div');
+    stage.className = 'plant-stage';
+    stage.dataset.drop = 'pot';
+    const progress = document.createElement('div');
+    progress.className = 'plant-progress';
+    const hint = document.createElement('p');
+    hint.className = 'garden-hint';
+    const bank = document.createElement('div');
+    bank.className = 'garden-bank';
+    [title, stage, progress, hint, bank].forEach(el => wrapper.appendChild(el));
+
+    const seq = cfg.sequence;
+    let step = 0;
+    const setStage = () => { stage.innerHTML = ''; stage.appendChild(makeImg(G(cfg.stages[step]), 'Kuti\'nin bitkisi', '🌱', 'plant-img')); };
+    const refresh = () => {
+      setStage();
+      progress.innerHTML = '';
+      seq.forEach((id, i) => {
+        const dot = document.createElement('span');
+        dot.className = 'plant-dot' + (i < step ? ' done' : (i === step ? ' next' : ''));
+        dot.appendChild(makeImg(PLANT_ITEMS[id].img, PLANT_ITEMS[id].name, PLANT_ITEMS[id].emoji, 'plant-dot-img'));
+        progress.appendChild(dot);
+      });
+      hint.textContent = step < seq.length ? `Sıradaki: ${PLANT_ITEMS[seq[step]].name} — saksıya sürükle! (${step + 1}/${seq.length})` : '';
+    };
+    refresh();
+
+    const dnd = createDnD(wrapper);
+    seq.map((id, i) => ({ id, i })).sort(() => Math.random() - 0.5).forEach(({ id }) => {
+      const it = PLANT_ITEMS[id];
+      const tile = document.createElement('div');
+      tile.className = 'plant-tile';
+      tile.dataset.item = id;
+      tile.setAttribute('role', 'button');
+      tile.setAttribute('aria-label', it.name);
+      tile.appendChild(makeImg(it.img, it.name, it.emoji, 'plant-tile-img'));
+      dnd.attach(tile, (t) => {
+        if (id === seq[step]) {
+          if (soundEnabled) AudioEngine.playSuccess();
+          t.classList.add('placed');
+          t.style.display = 'none';
+          step++;
+          refresh();
+          if (step === seq.length) {
+            setTimeout(() => showVisualFeedback(cfg.done, 'success'), 400);
+            gameDone('doga', 3200);
+            setTimeout(() => { if (currentAgeLevel === level) initDogaGardenGame(level); }, 5000);
+          } else {
+            showVisualFeedback('Harika, devam edelim!', 'info');
+          }
+        } else {
+          if (soundEnabled) AudioEngine.playTone(300, 0.2);
+          t.classList.add('dnd-shake');
+          setTimeout(() => t.classList.remove('dnd-shake'), 400);
+          showVisualFeedback(`Şimdi ${PLANT_ITEMS[seq[step]].name} zamanı!`, 'error');
+        }
+      });
+      bank.appendChild(tile);
+    });
+  }
+
   // --- DOĞA KÖŞESİ — OYUN 2: BAHÇE / BİTKİ BÜYÜTME ---
   function initDogaGardenGame(level) {
     const wrapper = document.getElementById('doga-garden-wrapper');
@@ -1694,79 +1806,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
       initLitterGame(document.getElementById('doga-litter-area'));
     } else if (level === '4-5') {
-      // Kuti Tohum Yetiştiriyor — görselli kartlarla doğru sırayı bul
-      const title = document.createElement('p');
-      title.style.cssText = 'text-align:center; font-size:0.85rem; font-weight:700; color:#004D40; margin-bottom:0.5rem;';
-      title.textContent = '🌱 Kuti Tohum Yetiştiriyor — Adımları Doğru Sırayla Dokun';
-      wrapper.appendChild(title);
-      const row = document.createElement('div');
-      wrapper.appendChild(row);
-      initTapOrderGame(row, [
-        { id: 'pot',    label: 'Saksı/Toprak', emoji: '🪴', img: G('kuti_saksi.jpg') },
-        { id: 'seed',   label: 'Tohum',        emoji: '🌰', img: G('kuti_tohum.jpg') },
-        { id: 'water',  label: 'Su',           emoji: '💧', img: G('kuti_su_damlasi.jpg') },
-        { id: 'sun',    label: 'Güneş',        emoji: '☀️', img: G('kuti_sevimli_gunes.png') },
-        { id: 'flower', label: 'Çiçek',        emoji: '🌸', img: G('kuti_cicek.jpg') }
-      ], '🎉 Kuti tohumunu harika bir şekilde yetiştirdi!', () => gameDone('doga', 2800));
+      initPlantGrowGame(wrapper, PLANT_CFG['4-5'], '4-5');
     } else {
-      // 3 Yaş: suyu, sonra güneşi saksıya sürükle — saksı filiz, sonra çiçek olur
-      const title = document.createElement('p');
-      title.style.cssText = 'text-align:center; font-size:0.85rem; font-weight:700; color:#004D40; margin-bottom:0.5rem;';
-      title.textContent = '🌱 Suyu ve Güneşi Saksıya Sürükle';
-      const stage = document.createElement('div');
-      stage.className = 'plant-stage';
-      stage.dataset.drop = 'pot';
-      const hint = document.createElement('p');
-      hint.className = 'garden-hint';
-      const bank = document.createElement('div');
-      bank.className = 'garden-bank';
-      wrapper.appendChild(title);
-      wrapper.appendChild(stage);
-      wrapper.appendChild(hint);
-      wrapper.appendChild(bank);
-
-      const stages = ['kuti_saksi.jpg', 'kuti_filiz.jpg', 'kuti_cicek.jpg'];
-      const order = ['water', 'sun'];
-      const setStage = (i) => { stage.innerHTML = ''; stage.appendChild(makeImg(G(stages[i]), 'Kuti\'nin bitkisi', '🌱', 'plant-img')); };
-      let step = 0;
-      setStage(0);
-      const setHint = () => { hint.textContent = step === 0 ? '💧 Önce suyu saksıya sürükle!' : step === 1 ? '☀️ Şimdi güneşi saksıya sürükle!' : ''; };
-      setHint();
-
-      const dnd = createDnD(wrapper);
-      [
-        { id: 'water', name: 'Su',    emoji: '💧', img: G('kuti_su_damlasi.jpg') },
-        { id: 'sun',   name: 'Güneş', emoji: '☀️', img: G('kuti_sevimli_gunes.png') }
-      ].forEach(it => {
-        const tile = document.createElement('div');
-        tile.className = 'plant-tile';
-        tile.setAttribute('role', 'button');
-        tile.setAttribute('aria-label', it.name);
-        tile.appendChild(makeImg(it.img, it.name, it.emoji, 'plant-tile-img'));
-        dnd.attach(tile, (t) => {
-          if (it.id === order[step]) {
-            if (soundEnabled) AudioEngine.playSuccess();
-            t.classList.add('placed');
-            t.style.display = 'none';
-            step++;
-            setStage(step);
-            setHint();
-            if (step === order.length) {
-              setTimeout(() => showVisualFeedback('🎉 Tebrikler! Bitkini besleyerek koca bir çiçek yaptın!', 'success'), 400);
-              gameDone('doga', 3200);
-              setTimeout(() => { if (currentAgeLevel === '3') initDogaGardenGame('3'); }, 5000);
-            } else {
-              showVisualFeedback('Harika, bitki filizlendi!', 'info');
-            }
-          } else {
-            if (soundEnabled) AudioEngine.playTone(300, 0.2);
-            t.classList.add('dnd-shake');
-            setTimeout(() => t.classList.remove('dnd-shake'), 400);
-            showVisualFeedback(step === 0 ? 'Önce su lazım 💧' : 'Şimdi güneş zamanı ☀️', 'error');
-          }
-        });
-        bank.appendChild(tile);
-      });
+      initPlantGrowGame(wrapper, PLANT_CFG['3'], '3');
     }
   }
 
